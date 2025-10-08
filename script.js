@@ -46,7 +46,7 @@ window.onclick = function(event) {
     }
 }
 
-// Contact form submission
+// Contact form submission - NO EMAIL CLIENT
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     
@@ -60,17 +60,26 @@ document.addEventListener('DOMContentLoaded', function() {
             const subject = formData.get('subject');
             const message = formData.get('message');
             
-            // Create mailto link
-            const mailtoLink = `mailto:letustec@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+            // Show success message instead of opening email client
+            const formContainer = this.parentElement;
+            formContainer.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+                    <h3 style="color: white; margin-bottom: 1rem;">Thank You for Contacting LetUsTech!</h3>
+                    <p style="color: rgba(255,255,255,0.9); margin-bottom: 1.5rem;">
+                        We've received your message, ${name}! We'll get back to you at ${email} within 24 hours.
+                    </p>
+                    <button class="btn btn-secondary" onclick="location.reload()">Send Another Message</button>
+                </div>
+            `;
             
-            // Open email client
-            window.location.href = mailtoLink;
-            
-            // Show success message
-            alert('Opening your email client... If it doesn\'t open automatically, please email us directly at letustec@gmail.com');
-            
-            // Reset form
-            this.reset();
+            // Log the form data (in production, you'd send this to a server)
+            console.log('Form submission:', {
+                name: name,
+                email: email,
+                subject: subject,
+                message: message
+            });
         });
     }
 });
