@@ -1,52 +1,54 @@
 // Modal Functions
-function showDownloadModal(programName, fileName) {
-    document.getElementById('modalProgramName').textContent = programName + ' - Download';
-    
-    // Set the download link
+function showDownloadModal(programName, fileUrl) {
+    document.getElementById('modalProgramName').textContent = programName;
     const downloadLink = document.getElementById('downloadLink');
-    downloadLink.href = 'downloads/' + fileName; // Files should be in a 'downloads' folder
-    downloadLink.download = fileName;
     
-    document.getElementById('downloadModal').classList.add('active');
+    // If it's an external URL (starts with http), open in new tab
+    if (fileUrl.startsWith('http://') || fileUrl.startsWith('https://')) {
+        downloadLink.href = fileUrl;
+        downloadLink.setAttribute('target', '_blank');
+        downloadLink.removeAttribute('download');
+    } else {
+        // For local files
+        downloadLink.href = fileUrl;
+        downloadLink.setAttribute('download', '');
+        downloadLink.removeAttribute('target');
+    }
+    
+    document.getElementById('downloadModal').style.display = 'flex';
 }
 
 function showBankDetailsModal() {
-    document.getElementById('bankDetailsModal').classList.add('active');
-}
-
-function showContactModal() {
-    document.getElementById('contactModal').classList.add('active');
+    document.getElementById('bankDetailsModal').style.display = 'flex';
 }
 
 function closeModal(modalId) {
-    document.getElementById(modalId).classList.remove('active');
+    document.getElementById(modalId).style.display = 'none';
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
 }
 
 // Copy bank details to clipboard
 function copyBankDetails() {
-    const bankDetails = 'Sort Code: 04-00-04\nAccount Number: 49376025';
+    const bankDetails = `Sort Code: 04-00-04\nAccount Number: 49376025`;
     
-    // Try to copy to clipboard
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(bankDetails).then(function() {
-            alert('✅ Bank details copied to clipboard!');
-        }).catch(function() {
-            alert('Bank Details:\nSort Code: 04-00-04\nAccount Number: 49376025');
-        });
-    } else {
-        // Fallback for older browsers
-        alert('Bank Details:\nSort Code: 04-00-04\nAccount Number: 49376025');
-    }
+    navigator.clipboard.writeText(bankDetails).then(() => {
+        alert('Bank details copied to clipboard!');
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+        alert('Failed to copy. Please copy manually.');
+    });
 }
 
-// Close modal when clicking outside
-window.onclick = function(event) {
-    if (event.target.classList.contains('modal')) {
-        event.target.classList.remove('active');
-    }
-}
-
-// Contact form submission - NO EMAIL CLIENT
+// Contact Form Submission
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     
@@ -54,43 +56,38 @@ document.addEventListener('DOMContentLoaded', function() {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const formData = new FormData(this);
+            const formData = new FormData(contactForm);
             const name = formData.get('name');
             const email = formData.get('email');
             const subject = formData.get('subject');
             const message = formData.get('message');
             
-            // Show success message instead of opening email client
-            const formContainer = this.parentElement;
-            formContainer.innerHTML = `
-                <div style="text-align: center; padding: 2rem;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
-                    <h3 style="color: white; margin-bottom: 1rem;">Thank You for Contacting LetUsTech!</h3>
-                    <p style="color: rgba(255,255,255,0.9); margin-bottom: 1.5rem;">
-                        We've received your message, ${name}! We'll get back to you at ${email} within 24 hours.
-                    </p>
-                    <button class="btn btn-secondary" onclick="location.reload()">Send Another Message</button>
-                </div>
-            `;
+            // Create mailto link
+            const mailtoLink = `mailto:letustec@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
             
-            // Log the form data (in production, you'd send this to a server)
-            console.log('Form submission:', {
-                name: name,
-                email: email,
-                subject: subject,
-                message: message
-            });
+            window.location.href = mailtoLink;
+            
+            // Reset form
+            contactForm.reset();
         });
     }
 });
 
-// Smooth scrolling for navigation links
+// Smooth scrolling for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href !== '#' && href !== '#donate' && href !== '#contact' && href !== '#programs' && href !== '#about') {
+            return;
+        }
+        
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const target = document.querySelector(href);
         if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
         }
     });
 });
