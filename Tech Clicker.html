@@ -19,7 +19,7 @@
     <script type="text/babel">
         const { useState, useEffect, useCallback } = React;
         
-        // Lucide React Icons (simplified inline versions)
+        // Lucide React Icons
         const Cpu = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
@@ -164,6 +164,16 @@
                 <path d="M18 9a9 9 0 0 1-9 9"></path>
             </svg>
         );
+        
+        const Palette = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="13.5" cy="6.5" r=".5"></circle>
+                <circle cx="17.5" cy="10.5" r=".5"></circle>
+                <circle cx="8.5" cy="7.5" r=".5"></circle>
+                <circle cx="6.5" cy="12.5" r=".5"></circle>
+                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path>
+            </svg>
+        );
 
         const UPGRADES = [
           { id: 'click', name: 'Code Optimization', icon: Zap, baseCost: 15, power: 1, color: 'blue', desc: 'Improve your coding efficiency' },
@@ -180,19 +190,60 @@
           { id: 'agi', name: 'AGI Singularity', icon: Sparkles, baseCost: 500000000, cps: 5000000, color: 'yellow', desc: 'The ultimate tech achievement' },
         ];
 
+        const SKINS = [
+          { id: 'default', name: 'Classic CPU', icon: '💻', gradient: 'from-cyan-500 via-blue-600 to-indigo-700', rarity: 'Common', unlockReq: 0, desc: 'The original tech icon' },
+          { id: 'neon', name: 'Neon Circuit', icon: '⚡', gradient: 'from-pink-500 via-purple-600 to-indigo-700', rarity: 'Common', unlockReq: 1000, desc: 'Electric vibes' },
+          { id: 'matrix', name: 'Matrix Code', icon: '🟢', gradient: 'from-green-600 via-emerald-700 to-teal-800', rarity: 'Rare', unlockReq: 10000, desc: 'Enter the Matrix' },
+          { id: 'fire', name: 'Firewall', icon: '🔥', gradient: 'from-orange-500 via-red-600 to-rose-700', rarity: 'Rare', unlockReq: 50000, desc: 'Blazing hot security' },
+          { id: 'ice', name: 'Cryo Core', icon: '❄️', gradient: 'from-cyan-400 via-sky-500 to-blue-600', rarity: 'Rare', unlockReq: 100000, desc: 'Keep your cool' },
+          { id: 'golden', name: 'Golden Chip', icon: '🏆', gradient: 'from-yellow-400 via-amber-500 to-orange-600', rarity: 'Epic', unlockReq: 500000, desc: 'Worth its weight in gold' },
+          { id: 'galaxy', name: 'Galaxy Node', icon: '🌌', gradient: 'from-purple-600 via-indigo-700 to-blue-800', rarity: 'Epic', unlockReq: 1000000, desc: 'Cosmic computing power' },
+          { id: 'rainbow', name: 'RGB Overdrive', icon: '🌈', gradient: 'from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500', rarity: 'Epic', unlockReq: 5000000, desc: 'All the colors!' },
+          { id: 'plasma', name: 'Plasma Core', icon: '⚛️', gradient: 'from-fuchsia-500 via-pink-600 to-rose-700', rarity: 'Legendary', unlockReq: 10000000, desc: 'Pure energy' },
+          { id: 'quantum', name: 'Quantum Flux', icon: '✨', gradient: 'from-violet-600 via-purple-700 to-fuchsia-800', rarity: 'Legendary', unlockReq: 50000000, desc: 'Superposition state' },
+          { id: 'dark', name: 'Dark Matter', icon: '🕳️', gradient: 'from-slate-800 via-gray-900 to-black', rarity: 'Legendary', unlockReq: 100000000, desc: 'Invisible power' },
+          { id: 'hologram', name: 'Holographic', icon: '💎', gradient: 'from-cyan-300 via-blue-400 to-purple-500', rarity: 'Mythic', unlockReq: 'prestige1', desc: 'Requires 1 Prestige' },
+          { id: 'infinity', name: 'Infinity Stone', icon: '♾️', gradient: 'from-indigo-600 via-purple-600 to-pink-600', rarity: 'Mythic', unlockReq: 'prestige3', desc: 'Requires 3 Prestiges' },
+          { id: 'void', name: 'The Void', icon: '🌑', gradient: 'from-purple-900 via-black to-indigo-900', rarity: 'Mythic', unlockReq: 'prestige5', desc: 'Requires 5 Prestiges' },
+        ];
+
         const ACHIEVEMENTS = [
-          { id: 'first_click', name: 'Hello World', desc: 'Write your first line of code', req: 1 },
-          { id: 'hundred', name: 'Getting Started', desc: 'Reach 100 lines', req: 100 },
-          { id: 'thousand', name: 'Solid Foundation', desc: 'Reach 1,000 lines', req: 1000 },
-          { id: 'first_hire', name: 'Team Player', desc: 'Hire your first team member', req: 'hire' },
-          { id: 'ten_k', name: 'Serious Developer', desc: 'Reach 10,000 lines', req: 10000 },
-          { id: 'hundred_k', name: 'Production Ready', desc: 'Reach 100,000 lines', req: 100000 },
-          { id: 'ai_unlock', name: 'AI Revolution', desc: 'Unlock AI Assistant', req: 'ai' },
-          { id: 'quantum_unlock', name: 'Quantum Leap', desc: 'Build a quantum computer', req: 'quantum' },
-          { id: 'million', name: 'Tech Unicorn', desc: 'Reach 1,000,000 lines', req: 1000000 },
-          { id: 'ten_million', name: 'Tech Giant', desc: 'Reach 10,000,000 lines', req: 10000000 },
-          { id: 'first_prestige', name: 'New Horizons', desc: 'Complete your first prestige', req: 'prestige1' },
-          { id: 'five_prestige', name: 'Serial Innovator', desc: 'Complete 5 prestiges', req: 'prestige5' },
+          { id: 'first_click', name: 'Hello World', desc: 'Write your first line of code', req: 1, icon: '👋' },
+          { id: 'hundred', name: 'Getting Started', desc: 'Reach 100 lines', req: 100, icon: '📝' },
+          { id: 'thousand', name: 'Solid Foundation', desc: 'Reach 1,000 lines', req: 1000, icon: '🏗️' },
+          { id: 'ten_k', name: 'Serious Developer', desc: 'Reach 10,000 lines', req: 10000, icon: '💼' },
+          { id: 'hundred_k', name: 'Production Ready', desc: 'Reach 100,000 lines', req: 100000, icon: '🚀' },
+          { id: 'million', name: 'Tech Unicorn', desc: 'Reach 1,000,000 lines', req: 1000000, icon: '🦄' },
+          { id: 'ten_million', name: 'Tech Giant', desc: 'Reach 10,000,000 lines', req: 10000000, icon: '🏢' },
+          { id: 'hundred_million', name: 'Global Empire', desc: 'Reach 100,000,000 lines', req: 100000000, icon: '🌍' },
+          { id: 'billion', name: 'Tech Titan', desc: 'Reach 1,000,000,000 lines', req: 1000000000, icon: '👑' },
+          
+          { id: 'first_hire', name: 'Team Player', desc: 'Hire your first team member', req: 'hire', icon: '👥' },
+          { id: 'ten_hires', name: 'Growing Team', desc: 'Have 10 total employees', req: 'hires10', icon: '👨‍💼' },
+          { id: 'fifty_hires', name: 'Tech Company', desc: 'Have 50 total employees', req: 'hires50', icon: '🏭' },
+          { id: 'hundred_hires', name: 'Corporate', desc: 'Have 100 total employees', req: 'hires100', icon: '🏢' },
+          
+          { id: 'ai_unlock', name: 'AI Revolution', desc: 'Unlock AI Assistant', req: 'ai', icon: '🤖' },
+          { id: 'quantum_unlock', name: 'Quantum Leap', desc: 'Build a quantum computer', req: 'quantum', icon: '⚛️' },
+          { id: 'agi_unlock', name: 'Singularity', desc: 'Achieve AGI', req: 'agi', icon: '✨' },
+          
+          { id: 'click_100', name: 'Clicking Away', desc: 'Click 100 times', req: 'clicks100', icon: '👆' },
+          { id: 'click_1000', name: 'Click Master', desc: 'Click 1,000 times', req: 'clicks1000', icon: '👆' },
+          { id: 'click_10000', name: 'Click Legend', desc: 'Click 10,000 times', req: 'clicks10000', icon: '🖱️' },
+          
+          { id: 'first_prestige', name: 'New Horizons', desc: 'Complete your first prestige', req: 'prestige1', icon: '🌟' },
+          { id: 'three_prestige', name: 'Veteran', desc: 'Complete 3 prestiges', req: 'prestige3', icon: '⭐' },
+          { id: 'five_prestige', name: 'Serial Innovator', desc: 'Complete 5 prestiges', req: 'prestige5', icon: '💫' },
+          { id: 'ten_prestige', name: 'Prestige Master', desc: 'Complete 10 prestiges', req: 'prestige10', icon: '👑' },
+          
+          { id: 'cps_100', name: 'Auto Pilot', desc: 'Reach 100 code/sec', req: 'cps100', icon: '⚙️' },
+          { id: 'cps_1000', name: 'Fast Track', desc: 'Reach 1,000 code/sec', req: 'cps1000', icon: '⚡' },
+          { id: 'cps_10000', name: 'Speed Demon', desc: 'Reach 10,000 code/sec', req: 'cps10000', icon: '🔥' },
+          { id: 'cps_100000', name: 'Hyperspeed', desc: 'Reach 100,000 code/sec', req: 'cps100000', icon: '💨' },
+          
+          { id: 'skin_collector', name: 'Style Icon', desc: 'Unlock 5 skins', req: 'skins5', icon: '🎨' },
+          { id: 'skin_master', name: 'Fashionista', desc: 'Unlock 10 skins', req: 'skins10', icon: '👗' },
+          { id: 'all_skins', name: 'Complete Collection', desc: 'Unlock all skins', req: 'skinsAll', icon: '🏆' },
         ];
 
         function LetUsTech() {
@@ -202,6 +253,8 @@
           const [clickPower, setClickPower] = useState(1);
           const [upgrades, setUpgrades] = useState({});
           const [achievements, setAchievements] = useState(new Set());
+          const [unlockedSkins, setUnlockedSkins] = useState(new Set(['default']));
+          const [selectedSkin, setSelectedSkin] = useState('default');
           const [floatingNumbers, setFloatingNumbers] = useState([]);
           const [isAnimating, setIsAnimating] = useState(false);
           const [showAchievement, setShowAchievement] = useState(null);
@@ -228,6 +281,8 @@
                 setClickPower(data.clickPower || 1);
                 setUpgrades(data.upgrades || init);
                 setAchievements(new Set(data.achievements || []));
+                setUnlockedSkins(new Set(data.unlockedSkins || ['default']));
+                setSelectedSkin(data.selectedSkin || 'default');
                 setMultiplier(data.multiplier || 1);
                 setPrestige(data.prestige || 0);
                 setClickCount(data.clickCount || 0);
@@ -246,6 +301,8 @@
                 clickPower,
                 upgrades,
                 achievements: Array.from(achievements),
+                unlockedSkins: Array.from(unlockedSkins),
+                selectedSkin,
                 multiplier,
                 prestige,
                 clickCount
@@ -253,7 +310,7 @@
               localStorage.setItem('letustech_save', JSON.stringify(saveData));
             }, 5000);
             return () => clearInterval(interval);
-          }, [code, totalCode, lifetimeCode, clickPower, upgrades, achievements, multiplier, prestige, clickCount]);
+          }, [code, totalCode, lifetimeCode, clickPower, upgrades, achievements, unlockedSkins, selectedSkin, multiplier, prestige, clickCount]);
 
           const calculateCPS = useCallback(() => {
             let total = 0;
@@ -264,6 +321,16 @@
             });
             return total * multiplier;
           }, [upgrades, multiplier]);
+
+          const getTotalHires = useCallback(() => {
+            let total = 0;
+            UPGRADES.forEach(upgrade => {
+              if (upgrade.cps && upgrades[upgrade.id]) {
+                total += upgrades[upgrade.id].count;
+              }
+            });
+            return total;
+          }, [upgrades]);
 
           useEffect(() => {
             const cps = calculateCPS();
@@ -278,21 +345,81 @@
             }
           }, [calculateCPS]);
 
+          // Check for skin unlocks
           useEffect(() => {
+            SKINS.forEach(skin => {
+              if (!unlockedSkins.has(skin.id)) {
+                let unlock = false;
+                if (typeof skin.unlockReq === 'number' && lifetimeCode >= skin.unlockReq) {
+                  unlock = true;
+                } else if (skin.unlockReq === 'prestige1' && prestige >= 1) {
+                  unlock = true;
+                } else if (skin.unlockReq === 'prestige3' && prestige >= 3) {
+                  unlock = true;
+                } else if (skin.unlockReq === 'prestige5' && prestige >= 5) {
+                  unlock = true;
+                }
+                
+                if (unlock) {
+                  setUnlockedSkins(prev => new Set([...prev, skin.id]));
+                  setShowAchievement({ name: `Skin Unlocked: ${skin.name}`, desc: skin.desc, icon: skin.icon });
+                  setTimeout(() => setShowAchievement(null), 4000);
+                }
+              }
+            });
+          }, [lifetimeCode, prestige, unlockedSkins]);
+
+          // Check achievements
+          useEffect(() => {
+            const cps = calculateCPS();
+            const totalHires = getTotalHires();
+            
             ACHIEVEMENTS.forEach(ach => {
               if (!achievements.has(ach.id)) {
                 let unlocked = false;
                 if (typeof ach.req === 'number' && totalCode >= ach.req) {
                   unlocked = true;
-                } else if (ach.req === 'hire' && Object.values(upgrades).some(u => u.count > 0)) {
+                } else if (ach.req === 'hire' && totalHires > 0) {
+                  unlocked = true;
+                } else if (ach.req === 'hires10' && totalHires >= 10) {
+                  unlocked = true;
+                } else if (ach.req === 'hires50' && totalHires >= 50) {
+                  unlocked = true;
+                } else if (ach.req === 'hires100' && totalHires >= 100) {
                   unlocked = true;
                 } else if (ach.req === 'ai' && upgrades.ai?.count > 0) {
                   unlocked = true;
                 } else if (ach.req === 'quantum' && upgrades.quantum?.count > 0) {
                   unlocked = true;
+                } else if (ach.req === 'agi' && upgrades.agi?.count > 0) {
+                  unlocked = true;
+                } else if (ach.req === 'clicks100' && clickCount >= 100) {
+                  unlocked = true;
+                } else if (ach.req === 'clicks1000' && clickCount >= 1000) {
+                  unlocked = true;
+                } else if (ach.req === 'clicks10000' && clickCount >= 10000) {
+                  unlocked = true;
                 } else if (ach.req === 'prestige1' && prestige >= 1) {
                   unlocked = true;
+                } else if (ach.req === 'prestige3' && prestige >= 3) {
+                  unlocked = true;
                 } else if (ach.req === 'prestige5' && prestige >= 5) {
+                  unlocked = true;
+                } else if (ach.req === 'prestige10' && prestige >= 10) {
+                  unlocked = true;
+                } else if (ach.req === 'cps100' && cps >= 100) {
+                  unlocked = true;
+                } else if (ach.req === 'cps1000' && cps >= 1000) {
+                  unlocked = true;
+                } else if (ach.req === 'cps10000' && cps >= 10000) {
+                  unlocked = true;
+                } else if (ach.req === 'cps100000' && cps >= 100000) {
+                  unlocked = true;
+                } else if (ach.req === 'skins5' && unlockedSkins.size >= 5) {
+                  unlocked = true;
+                } else if (ach.req === 'skins10' && unlockedSkins.size >= 10) {
+                  unlocked = true;
+                } else if (ach.req === 'skinsAll' && unlockedSkins.size >= SKINS.length) {
                   unlocked = true;
                 }
                 
@@ -303,7 +430,7 @@
                 }
               }
             });
-          }, [totalCode, upgrades, achievements, prestige]);
+          }, [totalCode, upgrades, achievements, prestige, clickCount, calculateCPS, getTotalHires, unlockedSkins]);
 
           const handleClick = (e) => {
             const power = clickPower * multiplier;
@@ -367,6 +494,7 @@
             }
           };
 
+          const currentSkin = SKINS.find(s => s.id === selectedSkin) || SKINS[0];
           const cps = calculateCPS();
           const canPrestige = totalCode >= 1000000;
 
@@ -403,9 +531,9 @@
               {showAchievement && (
                 <div className="fixed top-24 right-4 z-50 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white p-4 rounded-xl shadow-2xl animate-bounce border-4 border-yellow-300">
                   <div className="flex items-center gap-3">
-                    <Trophy className="w-10 h-10" />
+                    <div className="text-4xl">{showAchievement.icon || '🎉'}</div>
                     <div>
-                      <div className="font-bold text-lg">🎉 Achievement Unlocked!</div>
+                      <div className="font-bold text-lg">{showAchievement.icon ? 'Achievement' : 'New'} Unlocked!</div>
                       <div className="text-sm font-semibold">{showAchievement.name}</div>
                       <div className="text-xs opacity-90">{showAchievement.desc}</div>
                     </div>
@@ -459,12 +587,12 @@
                         <div className="relative flex justify-center items-center h-64 mb-6">
                           <button
                             onClick={handleClick}
-                            className={`relative w-52 h-52 rounded-2xl bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-700 shadow-2xl hover:shadow-cyan-500/50 transition-all duration-100 cursor-pointer border-4 border-cyan-300 overflow-hidden ${
+                            className={`relative w-52 h-52 rounded-2xl bg-gradient-to-br ${currentSkin.gradient} shadow-2xl hover:shadow-cyan-500/50 transition-all duration-100 cursor-pointer border-4 border-cyan-300 overflow-hidden ${
                               isAnimating ? 'scale-90' : 'scale-100 hover:scale-105'
                             }`}
                           >
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <Cpu className="w-28 h-28 text-white drop-shadow-2xl" />
+                            <div className="absolute inset-0 flex items-center justify-center text-8xl">
+                              {currentSkin.icon}
                             </div>
                             <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent"></div>
                             <div className="absolute inset-0 bg-white/10 rounded-2xl animate-pulse"></div>
@@ -505,6 +633,10 @@
                           <div className="flex justify-between text-gray-300">
                             <span>Achievements:</span>
                             <span className="text-yellow-400 font-bold">{achievements.size}/{ACHIEVEMENTS.length}</span>
+                          </div>
+                          <div className="flex justify-between text-gray-300">
+                            <span>Skins Unlocked:</span>
+                            <span className="text-pink-400 font-bold">{unlockedSkins.size}/{SKINS.length}</span>
                           </div>
                         </div>
 
@@ -552,6 +684,10 @@
                               <span className="text-pink-400">{multiplier}x</span>
                             </div>
                             <div className="flex justify-between text-gray-400">
+                              <span>Current Skin:</span>
+                              <span className="text-cyan-400">{currentSkin.name}</span>
+                            </div>
+                            <div className="flex justify-between text-gray-400">
                               <span>Auto-save:</span>
                               <span className="text-green-400">Every 5s</span>
                             </div>
@@ -581,6 +717,17 @@
                           Upgrades
                         </button>
                         <button
+                          onClick={() => setSelectedTab('skins')}
+                          className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
+                            selectedTab === 'skins'
+                              ? 'bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg shadow-pink-500/30'
+                              : 'bg-slate-800 text-gray-400 hover:bg-slate-700 border border-slate-700'
+                          }`}
+                        >
+                          <Palette className="w-5 h-5 inline mr-2" />
+                          Skins ({unlockedSkins.size})
+                        </button>
+                        <button
                           onClick={() => setSelectedTab('achievements')}
                           className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
                             selectedTab === 'achievements'
@@ -589,7 +736,7 @@
                           }`}
                         >
                           <Trophy className="w-5 h-5 inline mr-2" />
-                          Achievements ({achievements.size})
+                          Goals ({achievements.size})
                         </button>
                       </div>
 
@@ -665,6 +812,81 @@
                         </div>
                       )}
 
+                      {selectedTab === 'skins' && (
+                        <div className="space-y-4 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar">
+                          <div className="bg-gradient-to-r from-pink-600 to-purple-600 text-white p-4 rounded-xl">
+                            <h3 className="font-bold text-lg mb-2">🎨 Skin Collection</h3>
+                            <p className="text-sm opacity-90">Unlock unique button skins by reaching milestones! Customize your clicking experience.</p>
+                          </div>
+                          
+                          <div className="grid md:grid-cols-2 gap-4">
+                            {SKINS.map(skin => {
+                              const isUnlocked = unlockedSkins.has(skin.id);
+                              const isSelected = selectedSkin === skin.id;
+                              const rarityColors = {
+                                'Common': 'text-gray-400',
+                                'Rare': 'text-blue-400',
+                                'Epic': 'text-purple-400',
+                                'Legendary': 'text-orange-400',
+                                'Mythic': 'text-pink-400'
+                              };
+
+                              return (
+                                <div
+                                  key={skin.id}
+                                  className={`rounded-xl p-4 border-2 transition-all ${
+                                    isUnlocked
+                                      ? isSelected
+                                        ? 'bg-gradient-to-br from-pink-500/20 to-purple-500/20 border-pink-500 shadow-lg'
+                                        : 'bg-slate-800 border-slate-600 hover:border-slate-500'
+                                      : 'bg-slate-800/50 border-slate-700 opacity-60'
+                                  }`}
+                                >
+                                  <div className="flex items-start gap-3">
+                                    <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${skin.gradient} flex items-center justify-center text-4xl shadow-lg ${!isUnlocked && 'opacity-50'}`}>
+                                      {isUnlocked ? skin.icon : '🔒'}
+                                    </div>
+                                    <div className="flex-1">
+                                      <div className="flex items-center gap-2 mb-1">
+                                        <h3 className={`font-bold ${isUnlocked ? 'text-white' : 'text-gray-500'}`}>
+                                          {skin.name}
+                                        </h3>
+                                        {isSelected && (
+                                          <span className="bg-pink-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">
+                                            Active
+                                          </span>
+                                        )}
+                                      </div>
+                                      <p className={`text-xs mb-2 ${rarityColors[skin.rarity]}`}>
+                                        {skin.rarity}
+                                      </p>
+                                      <p className="text-xs text-gray-400 mb-2">{skin.desc}</p>
+                                      {!isUnlocked && (
+                                        <p className="text-xs text-yellow-400">
+                                          🔒 {typeof skin.unlockReq === 'number' 
+                                            ? `Reach ${skin.unlockReq.toLocaleString()} lifetime code`
+                                            : skin.unlockReq === 'prestige1' ? 'Prestige once'
+                                            : skin.unlockReq === 'prestige3' ? 'Prestige 3 times'
+                                            : 'Prestige 5 times'}
+                                        </p>
+                                      )}
+                                      {isUnlocked && !isSelected && (
+                                        <button
+                                          onClick={() => setSelectedSkin(skin.id)}
+                                          className="mt-2 w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white text-xs font-bold py-2 rounded-lg transition-all"
+                                        >
+                                          Equip
+                                        </button>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
                       {selectedTab === 'achievements' && (
                         <div className="grid md:grid-cols-2 gap-4 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar">
                           {ACHIEVEMENTS.map(ach => {
@@ -679,7 +901,7 @@
                                 }`}
                               >
                                 <div className="flex items-start gap-4">
-                                  <Trophy className={`w-12 h-12 flex-shrink-0 ${unlocked ? 'text-yellow-400' : 'text-gray-600'}`} />
+                                  <div className="text-4xl">{unlocked ? ach.icon : '🔒'}</div>
                                   <div>
                                     <h3 className={`font-bold text-lg mb-1 ${unlocked ? 'text-white' : 'text-gray-500'}`}>
                                       {ach.name}
