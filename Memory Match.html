@@ -26,6 +26,15 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
+
+        // Set favicon from GitHub repository
+            const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+            link.type = 'image/png';
+            link.rel = 'shortcut icon';
+            link.href = 'https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/Favicon.png';
+            document.getElementsByTagName('head')[0].appendChild(link);
+                
+
         // Simple icon components
         const Icon = ({ name, size = 24, ...props }) => {
             const icons = {
