@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LetUsTech - Wired For Your World</title>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" href="/favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5830581574523106"
      crossorigin="anonymous"></script>
@@ -20,6 +17,7 @@
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#programs">Programs</a></li>
+                <li><a href="math-quest.html">🎮 Math Quest</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="#donate" class="donate-link">💝 Donate</a></li>
             </ul>
@@ -32,7 +30,7 @@
             <p>Wired For Your World - Free Python Programs & Solutions</p>
             <div class="cta-buttons">
                 <a href="#programs" class="btn btn-primary">Browse Programs</a>
-                <a href="#donate" class="btn btn-secondary">Support Us</a>
+                <a href="math-quest.html" class="btn btn-secondary">🎮 Play Math Quest</a>
             </div>
         </div>
     </section>
@@ -66,7 +64,7 @@
                     <h3 style="margin-top: 2rem;">What Makes Us Different?</h3>
                     <p>Unlike commercial software companies, we don't lock features behind paywalls or subscription models. We don't collect your data. We don't force you to create accounts. We simply create great tools and make them available to everyone.</p>
                     
-                    <p>Our programs are built with Python - a language known for its simplicity and power. This means our tools are cross-platform, easy to modify if you have programming knowledge, and backed by one of the world's largest programming communities.</p>
+                    <p>Our programs are built with Python and HTML - a language known for its simplicity and power. This means our tools are cross-platform, easy to modify if you have programming knowledge, and backed by one of the world's largest programming communities.</p>
                     
                     <h3 style="margin-top: 2rem;">Why Choose Us?</h3>
                     <div class="features-grid">
@@ -151,6 +149,12 @@
                         <li><strong>Donate:</strong> Support our mission to keep everything free for everyone</li>
                         <li><strong>Provide Feedback:</strong> Your experience matters - good or bad, we want to hear about it</li>
                     </ul>
+                    
+                    <div class="cta-box">
+                        <h4>Ready to Get Started?</h4>
+                        <p>Browse our collection of free Python programs and start automating your tasks today!</p>
+                        <a href="#programs" class="btn btn-primary" style="text-decoration: none;">View Programs</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -158,6 +162,8 @@
 
     <section id="programs" class="programs-section">
         <div class="container">
+            <h2 class="section-title">Available Programs</h2>
+            
             <!-- Ad Space for Free Users -->
             <div class="ad-space">
                 <!-- AdSense Ad Unit 1 -->
@@ -171,15 +177,21 @@
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
             </div>
-            
-            <h2 class="section-title">Available Programs</h2>
 
             <div class="programs-grid">
+                <!-- NEW: Math Quest Game Card -->
+                <div class="program-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <span class="program-badge" style="background: #ffd700; color: #333;">🎮 Game</span>
+                    <h3>Math Quest Game</h3>
+                    <p>Test your math skills in this fun, interactive browser game! Earn coins, unlock levels, and compete for high scores.</p>
+                    <a href="math-quest.html" class="btn" style="background: white; color: #667eea; text-decoration: none; display: inline-block; padding: 0.75rem 1.5rem; border-radius: 4px; font-weight: 600;">Play Now</a>
+                </div>
+
                 <div class="program-card">
                     <span class="program-badge">Free</span>
                     <h3>Data Analyzer Pro</h3>
                     <p>Analyze CSV files with advanced statistical insights and visualization capabilities.</p>
-                    <button class="btn btn-primary" onclick="showDownloadModal('Data Analyzer Pro', 'https://github.com/letustec-oss/LetUsTech/releases/download/v1.0/DataAnalyzer.zip')">Download</button>
+                    <button class="btn btn-primary" onclick="showDownloadModal('Data Analyzer Pro', 'data-analyzer-pro.zip')">Download</button>
                 </div>
 
                 <div class="program-card">
@@ -199,7 +211,7 @@
                 <div class="program-card">
                     <span class="program-badge">Free</span>
                     <h3>Email Automation Bot</h3>
-                    <p>Automate your email workflows with smart templates and scheduling features.</p>
+                    <h3>Automate your email workflows with smart templates and scheduling features.</p>
                     <button class="btn btn-primary" onclick="showDownloadModal('Email Automation Bot', 'email-automation-bot.zip')">Download</button>
                 </div>
 
@@ -366,11 +378,6 @@
             </form>
         </div>
     </div>
-
-    <!-- Back to Top Button -->
-    <button id="backToTopBtn" class="back-to-top" onclick="scrollToTop()" title="Go to top">
-        ↑
-    </button>
 
     <script src="script.js"></script>
 </body>
