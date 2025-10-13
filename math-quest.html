@@ -446,17 +446,19 @@
             };
 
             return (
-                <div className="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 p-4">
+                <div className="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 p-2 sm:p-4">
                     {/* Loading Screen */}
                     {isLoading && (
                         <div className="fixed inset-0 bg-gradient-to-br from-purple-600 to-pink-600 z-50 flex items-center justify-center">
                             <div className="text-center">
                                 <div className="mb-4 animate-bounce">
-                                    <img 
-                                        src="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.PNG" 
-                                        alt="LetUsTech Logo"
-                                        className="h-24 w-24 rounded-2xl shadow-2xl mx-auto"
-                                    />
+                                    <div className="h-40 w-40 mx-auto bg-white rounded-2xl shadow-2xl p-4 flex items-center justify-center">
+                                        <img 
+                                            src="LetUsTech.png" 
+                                            alt="LetUsTech Logo"
+                                            className="max-h-full max-w-full object-contain"
+                                        />
+                                    </div>
                                 </div>
                                 <h1 className="text-5xl font-bold text-white mb-2">LetUsTech</h1>
                                 <p className="text-xl text-white/80 mb-1">Math Quest</p>
@@ -476,13 +478,18 @@
                         <div className="max-w-6xl mx-auto mb-4">
                             <div className="bg-white/10 backdrop-blur rounded-lg p-3 relative group">
                                 <div className="text-xs text-white/50 mb-2">ADVERTISEMENT</div>
-                                <ins className="adsbygoogle"
-                                     style={{display: 'block'}}
-                                     data-ad-client="ca-pub-5830581574523106"
-                                     data-ad-slot="1234567890"
-                                     data-ad-format="auto"
-                                     data-full-width-responsive="true">
-                                </ins>
+                                <div className="min-h-[100px] flex items-center justify-center">
+                                    <ins className="adsbygoogle"
+                                         style={{display: 'block', minHeight: '100px'}}
+                                         data-ad-client="ca-pub-5830581574523106"
+                                         data-ad-slot="1234567890"
+                                         data-ad-format="auto"
+                                         data-full-width-responsive="true">
+                                    </ins>
+                                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                        <p className="text-white/40 text-sm">Ad space - No ad available</p>
+                                    </div>
+                                </div>
                                 <button
                                     onClick={() => setShowBannerAd(false)}
                                     className="absolute top-1 right-1 text-white/70 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
@@ -495,34 +502,41 @@
 
                     {/* Top Navigation Header */}
                     <div className="max-w-6xl mx-auto mb-4">
-                        <div className="bg-white rounded-lg shadow-lg p-4">
+                        <div className="bg-white rounded-lg shadow-lg p-3 sm:p-4">
                             <div className="flex items-center justify-between">
-                                <a href="index.html" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                                    <img 
-                                        src="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.PNG" 
-                                        alt="LetUsTech Logo"
-                                        className="h-10 w-10 rounded-lg"
-                                    />
+                                <a href="index.html" className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
+                                    <div className="h-10 w-10 sm:h-14 sm:w-14 bg-white border-2 border-purple-200 rounded-lg flex items-center justify-center p-1.5 sm:p-2">
+                                        <img 
+                                            src="LetUsTech.png" 
+                                            alt="LetUsTech Logo"
+                                            className="max-h-full max-w-full object-contain"
+                                        />
+                                    </div>
                                     <div>
-                                        <h1 className="text-xl font-bold text-gray-800">LetUsTech</h1>
-                                        <p className="text-xs text-gray-500 italic">Wired For Your World</p>
+                                        <h1 className="text-base sm:text-xl font-bold text-gray-800">LetUsTech</h1>
+                                        <p className="text-xs text-gray-500 italic hidden sm:block">Wired For Your World</p>
                                     </div>
                                 </a>
                                 
-                                <nav className="flex items-center gap-6">
-                                    <a href="index.html#about" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">
+                                <nav className="hidden md:flex items-center gap-4 lg:gap-6">
+                                    <a href="index.html#about" className="text-gray-700 hover:text-purple-600 transition-colors font-medium text-sm lg:text-base">
                                         About
                                     </a>
-                                    <a href="index.html#programs" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">
+                                    <a href="index.html#programs" className="text-gray-700 hover:text-purple-600 transition-colors font-medium text-sm lg:text-base">
                                         Programs
                                     </a>
-                                    <a href="index.html#contact" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">
+                                    <a href="index.html#contact" className="text-gray-700 hover:text-purple-600 transition-colors font-medium text-sm lg:text-base">
                                         Contact
                                     </a>
-                                    <a href="index.html#donate" className="text-purple-600 hover:text-purple-700 transition-colors font-medium flex items-center gap-1">
+                                    <a href="index.html#donate" className="text-purple-600 hover:text-purple-700 transition-colors font-medium flex items-center gap-1 text-sm lg:text-base">
                                         💝 Donate
                                     </a>
                                 </nav>
+                                
+                                {/* Mobile Menu Button */}
+                                <a href="index.html" className="md:hidden bg-purple-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium">
+                                    Menu
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -530,8 +544,8 @@
                     <div className="max-w-4xl mx-auto relative">
 
                         {/* Header */}
-                        <div className="bg-white rounded-lg shadow-lg p-4 mb-4 flex justify-between items-center">
-                            <div className="flex items-center gap-4">
+                        <div className="bg-white rounded-lg shadow-lg p-3 sm:p-4 mb-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+                            <div className="flex items-center gap-2 sm:gap-4 flex-wrap justify-center sm:justify-start">
                                 {screen !== 'menu' && (
                                     <button
                                         onClick={() => {
@@ -544,41 +558,42 @@
                                                 setScreen('menu');
                                             }
                                         }}
-                                        className="flex items-center gap-2 bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700"
+                                        className="flex items-center gap-1 sm:gap-2 bg-gray-600 text-white px-3 py-2 rounded-lg hover:bg-gray-700 text-sm"
                                     >
-                                        <ArrowLeft size={20} />
-                                        Back
+                                        <ArrowLeft size={16} />
+                                        <span className="hidden sm:inline">Back</span>
                                     </button>
                                 )}
                                 <div className="flex items-center gap-2">
-                                    <Star className="text-yellow-500" />
-                                    <span className="font-bold">Level {level}</span>
+                                    <Star className="text-yellow-500" size={20} />
+                                    <span className="font-bold text-sm sm:text-base">Level {level}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <Trophy className="text-yellow-600" />
-                                    <span className="font-bold">{coins} Coins</span>
+                                    <Trophy className="text-yellow-600" size={20} />
+                                    <span className="font-bold text-sm sm:text-base">{coins} Coins</span>
                                 </div>
                             </div>
                             <button
                                 onClick={() => setScreen('achievements')}
-                                className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700"
+                                className="flex items-center gap-2 bg-purple-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-purple-700 text-sm"
                             >
                                 <Trophy size={20} />
-                                Achievements
+                                <span className="hidden sm:inline">Achievements</span>
+                                <span className="sm:hidden">🏆</span>
                             </button>
                         </div>
 
                         {/* Menu Screen */}
                         {screen === 'menu' && (
-                            <div className="bg-white rounded-lg shadow-2xl p-8 text-center">
-                                <h1 className="text-5xl font-bold text-purple-600 mb-2">Math Quest</h1>
-                                <p className="text-gray-600 mb-1">Test your math skills and earn coins!</p>
+                            <div className="bg-white rounded-lg shadow-2xl p-4 sm:p-8 text-center">
+                                <h1 className="text-3xl sm:text-5xl font-bold text-purple-600 mb-2">Math Quest</h1>
+                                <p className="text-sm sm:text-base text-gray-600 mb-1">Test your math skills and earn coins!</p>
                                 <p className="text-xs text-gray-500 italic mb-4">Powered by LetUsTech - Wired For Your World</p>
                                 
                                 {/* Watch Ad for Rewards Section */}
-                                <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-orange-300 rounded-lg p-4 mb-4">
-                                    <h3 className="font-bold text-orange-700 mb-3">🎬 Watch Ads for Rewards!</h3>
-                                    <div className="mb-3">
+                                <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-orange-300 rounded-lg p-3 sm:p-4 mb-4">
+                                    <h3 className="font-bold text-orange-700 mb-2 sm:mb-3 text-sm sm:text-base">🎬 Watch Ads for Rewards!</h3>
+                                    <div className="mb-3 min-h-[90px] bg-white/50 rounded relative">
                                         <ins className="adsbygoogle"
                                              style={{display: 'block'}}
                                              data-ad-client="ca-pub-5830581574523106"
@@ -586,6 +601,9 @@
                                              data-ad-format="auto"
                                              data-full-width-responsive="true">
                                         </ins>
+                                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                            <p className="text-gray-400 text-xs">Ad unavailable at this time</p>
+                                        </div>
                                     </div>
                                     <div className="grid grid-cols-3 gap-2">
                                         <button
@@ -619,44 +637,44 @@
                                 </div>
                                 
                                 {/* Stats Display */}
-                                <div className="grid grid-cols-3 gap-4 mb-6">
-                                    <div className="bg-purple-50 p-3 rounded-lg">
-                                        <p className="text-2xl font-bold text-purple-600">{totalGamesPlayed}</p>
+                                <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
+                                    <div className="bg-purple-50 p-2 sm:p-3 rounded-lg">
+                                        <p className="text-xl sm:text-2xl font-bold text-purple-600">{totalGamesPlayed}</p>
                                         <p className="text-xs text-gray-600">Games Played</p>
                                     </div>
-                                    <div className="bg-yellow-50 p-3 rounded-lg">
-                                        <p className="text-2xl font-bold text-yellow-600">{bestStreak}</p>
+                                    <div className="bg-yellow-50 p-2 sm:p-3 rounded-lg">
+                                        <p className="text-xl sm:text-2xl font-bold text-yellow-600">{bestStreak}</p>
                                         <p className="text-xs text-gray-600">Best Streak</p>
                                     </div>
-                                    <div className="bg-green-50 p-3 rounded-lg">
-                                        <p className="text-2xl font-bold text-green-600">{dailyStreak}</p>
+                                    <div className="bg-green-50 p-2 sm:p-3 rounded-lg">
+                                        <p className="text-xl sm:text-2xl font-bold text-green-600">{dailyStreak}</p>
                                         <p className="text-xs text-gray-600">Daily Streak 🔥</p>
                                     </div>
                                 </div>
                                 
-                                <div className="space-y-4">
+                                <div className="space-y-3 sm:space-y-4">
                                     <button
                                         onClick={startGame}
-                                        className="w-full bg-purple-600 text-white py-4 rounded-lg text-xl font-bold hover:bg-purple-700 transition"
+                                        className="w-full bg-purple-600 text-white py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-bold hover:bg-purple-700 transition"
                                     >
                                         Start Game
                                     </button>
                                     <button
                                         onClick={() => setScreen('shop')}
-                                        className="w-full bg-green-600 text-white py-4 rounded-lg text-xl font-bold hover:bg-green-700 transition flex items-center justify-center gap-2"
+                                        className="w-full bg-green-600 text-white py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-bold hover:bg-green-700 transition flex items-center justify-center gap-2"
                                     >
                                         <ShoppingBag /> Shop
                                     </button>
-                                    <div className="bg-purple-50 p-4 rounded-lg">
-                                        <h3 className="font-bold mb-3">Level Selection</h3>
-                                        <p className="text-sm text-gray-600 mb-3">Score 50+ points to unlock next level!</p>
+                                    <div className="bg-purple-50 p-3 sm:p-4 rounded-lg">
+                                        <h3 className="font-bold mb-3 text-sm sm:text-base">Level Selection</h3>
+                                        <p className="text-xs sm:text-sm text-gray-600 mb-3">Score 50+ points to unlock next level!</p>
                                         <div className="flex gap-2 justify-center flex-wrap">
                                             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(l => (
                                                 <button
                                                     key={l}
                                                     onClick={() => l <= unlockedLevels && setLevel(l)}
                                                     disabled={l > unlockedLevels}
-                                                    className={`px-4 py-2 rounded transition ${
+                                                    className={`px-3 sm:px-4 py-2 rounded transition text-sm sm:text-base ${
                                                         level === l 
                                                             ? 'bg-purple-600 text-white' 
                                                             : l <= unlockedLevels 
@@ -677,30 +695,30 @@
 
                         {/* Game Screen */}
                         {screen === 'game' && question && (
-                            <div className="bg-white rounded-lg shadow-2xl p-8">
-                                <div className="flex justify-between mb-6">
-                                    <div className="flex items-center gap-2 bg-red-50 border-2 border-red-300 px-4 py-2 rounded-lg">
-                                        <Heart className="text-red-500" size={24} />
-                                        <span className="font-bold text-xl text-red-600">{lives}</span>
-                                        <span className="text-red-600 font-semibold">Lives</span>
+                            <div className="bg-white rounded-lg shadow-2xl p-4 sm:p-8">
+                                <div className="flex flex-wrap justify-between gap-3 mb-6">
+                                    <div className="flex items-center gap-2 bg-red-50 border-2 border-red-300 px-3 sm:px-4 py-2 rounded-lg">
+                                        <Heart className="text-red-500" size={20} />
+                                        <span className="font-bold text-lg sm:text-xl text-red-600">{lives}</span>
+                                        <span className="text-red-600 font-semibold text-sm sm:text-base">Lives</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <Clock className="text-blue-500" />
-                                        <span className="font-bold">{timeLeft}s</span>
+                                        <Clock className="text-blue-500" size={20} />
+                                        <span className="font-bold text-sm sm:text-base">{timeLeft}s</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <Brain className="text-purple-500" />
-                                        <span className="font-bold">Score: {score}</span>
+                                        <Brain className="text-purple-500" size={20} />
+                                        <span className="font-bold text-sm sm:text-base">Score: {score}</span>
                                     </div>
                                 </div>
 
                                 {/* In-game Ad for Extra Life */}
                                 {lives === 1 && canWatchAd && (
-                                    <div className="bg-red-50 border-2 border-red-300 rounded-lg p-3 mb-4 text-center">
-                                        <p className="text-red-700 font-bold mb-2">⚠️ Low on Lives!</p>
+                                    <div className="bg-red-50 border-2 border-red-300 rounded-lg p-2 sm:p-3 mb-4 text-center">
+                                        <p className="text-red-700 font-bold mb-2 text-sm sm:text-base">⚠️ Low on Lives!</p>
                                         <button
                                             onClick={() => showRewardedAd('life')}
-                                            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                                            className="bg-red-500 text-white px-3 sm:px-4 py-2 rounded hover:bg-red-600 text-sm sm:text-base"
                                         >
                                             <Play className="inline mr-2" size={16} />
                                             Watch Ad for +1 Life
@@ -709,24 +727,24 @@
                                 )}
 
                                 {activePowerUps.doublePoints && (
-                                    <div className="bg-yellow-100 border-2 border-yellow-400 rounded-lg p-2 mb-4 text-center">
+                                    <div className="bg-yellow-100 border-2 border-yellow-400 rounded-lg p-2 mb-4 text-center text-sm sm:text-base">
                                         <Zap className="inline text-yellow-600" /> Double Points Active!
                                     </div>
                                 )}
 
                                 {showComboAnimation && comboMultiplier > 1 && (
-                                    <div className="bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold text-2xl p-3 rounded-lg mb-4 text-center animate-pulse">
+                                    <div className="bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold text-xl sm:text-2xl p-2 sm:p-3 rounded-lg mb-4 text-center animate-pulse">
                                         🔥 {comboMultiplier}x COMBO! 🔥
                                     </div>
                                 )}
 
                                 <div className="text-center mb-6">
-                                    <div className="text-6xl font-bold text-purple-600 mb-4">
+                                    <div className="text-4xl sm:text-6xl font-bold text-purple-600 mb-4 break-words">
                                         {question.num1} {question.op} {question.num2} = ?
                                     </div>
                                     {streak > 0 && (
                                         <div className="mb-3">
-                                            <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm font-bold">
+                                            <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs sm:text-sm font-bold">
                                                 🔥 Streak: {streak} | Multiplier: x{comboMultiplier}
                                             </span>
                                         </div>
@@ -736,7 +754,7 @@
                                         value={answer}
                                         onChange={(e) => setAnswer(e.target.value)}
                                         onKeyPress={(e) => e.key === 'Enter' && checkAnswer()}
-                                        className="text-4xl text-center border-4 border-purple-300 rounded-lg p-4 w-48"
+                                        className="text-3xl sm:text-4xl text-center border-4 border-purple-300 rounded-lg p-3 sm:p-4 w-36 sm:w-48"
                                         placeholder="?"
                                         autoFocus
                                     />
@@ -744,43 +762,43 @@
 
                                 <button
                                     onClick={checkAnswer}
-                                    className="w-full bg-purple-600 text-white py-4 rounded-lg text-xl font-bold hover:bg-purple-700 transition mb-4"
+                                    className="w-full bg-purple-600 text-white py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-bold hover:bg-purple-700 transition mb-4"
                                 >
                                     Submit Answer
                                 </button>
 
-                                <div className="grid grid-cols-4 gap-2">
+                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                                     <button
                                         onClick={() => usePowerUp('timeFreeze')}
                                         disabled={powerUps.timeFreeze === 0}
-                                        className="bg-blue-500 text-white p-2 rounded disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center"
+                                        className="bg-blue-500 text-white p-2 rounded disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center text-xs sm:text-sm"
                                     >
-                                        <Clock size={20} />
-                                        <span className="text-xs">+15s ({powerUps.timeFreeze})</span>
+                                        <Clock size={18} />
+                                        <span className="mt-1">+15s ({powerUps.timeFreeze})</span>
                                     </button>
                                     <button
                                         onClick={() => usePowerUp('extraLife')}
                                         disabled={powerUps.extraLife === 0}
-                                        className="bg-red-500 text-white p-2 rounded disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center"
+                                        className="bg-red-500 text-white p-2 rounded disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center text-xs sm:text-sm"
                                     >
-                                        <Heart size={20} />
-                                        <span className="text-xs">+1 Life ({powerUps.extraLife})</span>
+                                        <Heart size={18} />
+                                        <span className="mt-1">+1 Life ({powerUps.extraLife})</span>
                                     </button>
                                     <button
                                         onClick={() => usePowerUp('doublePoints')}
                                         disabled={powerUps.doublePoints === 0}
-                                        className="bg-yellow-500 text-white p-2 rounded disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center"
+                                        className="bg-yellow-500 text-white p-2 rounded disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center text-xs sm:text-sm"
                                     >
-                                        <Zap size={20} />
-                                        <span className="text-xs">2x Points ({powerUps.doublePoints})</span>
+                                        <Zap size={18} />
+                                        <span className="mt-1">2x Points ({powerUps.doublePoints})</span>
                                     </button>
                                     <button
                                         onClick={() => usePowerUp('skipQuestion')}
                                         disabled={powerUps.skipQuestion === 0}
-                                        className="bg-green-500 text-white p-2 rounded disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center"
+                                        className="bg-green-500 text-white p-2 rounded disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center text-xs sm:text-sm"
                                     >
-                                        <Brain size={20} />
-                                        <span className="text-xs">Skip ({powerUps.skipQuestion})</span>
+                                        <Brain size={18} />
+                                        <span className="mt-1">Skip ({powerUps.skipQuestion})</span>
                                     </button>
                                 </div>
                             </div>
@@ -788,13 +806,13 @@
 
                         {/* Shop Screen */}
                         {screen === 'shop' && (
-                            <div className="bg-white rounded-lg shadow-2xl p-8">
-                                <h2 className="text-3xl font-bold text-purple-600 mb-6">Power-Up Shop</h2>
+                            <div className="bg-white rounded-lg shadow-2xl p-4 sm:p-8">
+                                <h2 className="text-2xl sm:text-3xl font-bold text-purple-600 mb-4 sm:mb-6">Power-Up Shop</h2>
                                 
                                 {/* Ad for bonus coins */}
-                                <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-orange-300 rounded-lg p-4 mb-6 text-center">
-                                    <h3 className="font-bold text-orange-700 mb-3">💰 Need More Coins?</h3>
-                                    <div className="mb-3">
+                                <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-orange-300 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 text-center">
+                                    <h3 className="font-bold text-orange-700 mb-2 sm:mb-3 text-sm sm:text-base">💰 Need More Coins?</h3>
+                                    <div className="mb-3 min-h-[90px] bg-white/50 rounded relative">
                                         <ins className="adsbygoogle"
                                              style={{display: 'block'}}
                                              data-ad-client="ca-pub-5830581574523106"
@@ -802,17 +820,20 @@
                                              data-ad-format="auto"
                                              data-full-width-responsive="true">
                                         </ins>
+                                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                            <p className="text-gray-400 text-xs">Ad unavailable at this time</p>
+                                        </div>
                                     </div>
                                     <button
                                         onClick={() => showRewardedAd('coins')}
                                         disabled={!canWatchAd}
-                                        className="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                                        className="bg-orange-500 text-white px-4 sm:px-6 py-2 rounded hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-sm sm:text-base"
                                     >
                                         Watch Ad for +25 Coins
                                     </button>
                                 </div>
                                 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
                                     <div className="border-2 border-blue-300 rounded-lg p-4">
                                         <div className="flex items-center gap-2 mb-2">
                                             <Clock className="text-blue-500" />
@@ -872,7 +893,7 @@
                                 
                                 <button
                                     onClick={() => setScreen('menu')}
-                                    className="w-full bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700"
+                                    className="w-full bg-gray-600 text-white py-2 sm:py-3 rounded-lg hover:bg-gray-700 text-sm sm:text-base"
                                 >
                                     Back to Menu
                                 </button>
@@ -881,10 +902,10 @@
 
                         {/* Achievements Screen */}
                         {screen === 'achievements' && (
-                            <div className="bg-white rounded-lg shadow-2xl p-8">
-                                <h2 className="text-3xl font-bold text-purple-600 mb-6">Achievements</h2>
-                                <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mb-4">
-                                    <p className="text-blue-700 font-bold">📺 Total Ads Watched: {totalAdsWatched}</p>
+                            <div className="bg-white rounded-lg shadow-2xl p-4 sm:p-8">
+                                <h2 className="text-2xl sm:text-3xl font-bold text-purple-600 mb-4 sm:mb-6">Achievements</h2>
+                                <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-3 sm:p-4 mb-4">
+                                    <p className="text-blue-700 font-bold text-sm sm:text-base">📺 Total Ads Watched: {totalAdsWatched}</p>
                                 </div>
                                 <div className="space-y-3 mb-6">
                                     <div className={`p-4 rounded-lg ${achievements.firstWin ? 'bg-green-100 border-2 border-green-400' : 'bg-gray-100'}`}>
@@ -939,7 +960,7 @@
                                 </div>
                                 <button
                                     onClick={() => setScreen('menu')}
-                                    className="w-full bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700"
+                                    className="w-full bg-gray-600 text-white py-2 sm:py-3 rounded-lg hover:bg-gray-700 text-sm sm:text-base"
                                 >
                                     Back to Menu
                                 </button>
@@ -948,53 +969,53 @@
 
                         {/* Game Over Screen */}
                         {screen === 'gameOver' && (
-                            <div className="bg-white rounded-lg shadow-2xl p-8 text-center">
+                            <div className="bg-white rounded-lg shadow-2xl p-4 sm:p-8 text-center">
                                 {isCheating ? (
                                     <>
-                                        <h2 className="text-4xl font-bold text-red-600 mb-4">Cheating Detected!</h2>
-                                        <p className="text-xl mb-4">Suspicious activity was detected during gameplay.</p>
-                                        <p className="text-gray-600 mb-6">No coins will be awarded.</p>
+                                        <h2 className="text-3xl sm:text-4xl font-bold text-red-600 mb-4">Cheating Detected!</h2>
+                                        <p className="text-lg sm:text-xl mb-4">Suspicious activity was detected during gameplay.</p>
+                                        <p className="text-sm sm:text-base text-gray-600 mb-6">No coins will be awarded.</p>
                                         <button
                                             onClick={() => {
                                                 setScreen('menu');
                                             }}
-                                            className="w-full bg-red-600 text-white py-4 rounded-lg text-xl font-bold hover:bg-red-700 transition"
+                                            className="w-full bg-red-600 text-white py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-bold hover:bg-red-700 transition"
                                         >
                                             Return to Menu
                                         </button>
                                     </>
                                 ) : (
                                     <>
-                                        <h2 className="text-4xl font-bold text-purple-600 mb-4">Game Over!</h2>
-                                        <div className="text-2xl mb-6">
+                                        <h2 className="text-3xl sm:text-4xl font-bold text-purple-600 mb-4">Game Over!</h2>
+                                        <div className="text-xl sm:text-2xl mb-6">
                                             <p className="mb-2">Final Score: <span className="font-bold text-purple-600">{score}</span></p>
                                             <p className="mb-2">Best Streak: <span className="font-bold text-orange-600">{streak}</span></p>
                                             <p className="mb-4">Coins Earned: <span className="font-bold text-yellow-600">+{Math.floor(score / 2)}</span></p>
                                             
                                             {score >= 50 && level === unlockedLevels - 1 && (
-                                                <div className="bg-green-100 border-2 border-green-400 rounded-lg p-4 mb-4">
-                                                    <p className="text-green-700 font-bold text-xl">🎉 Level {unlockedLevels} Unlocked! 🎉</p>
+                                                <div className="bg-green-100 border-2 border-green-400 rounded-lg p-3 sm:p-4 mb-4">
+                                                    <p className="text-green-700 font-bold text-lg sm:text-xl">🎉 Level {unlockedLevels} Unlocked! 🎉</p>
                                                 </div>
                                             )}
                                             
                                             {score < 50 && level === unlockedLevels && unlockedLevels < 10 && (
-                                                <div className="bg-orange-100 border-2 border-orange-400 rounded-lg p-4 mb-4">
-                                                    <p className="text-orange-700 font-semibold">Score 50+ to unlock Level {unlockedLevels + 1}!</p>
-                                                    <p className="text-sm text-orange-600">You scored {score} points</p>
+                                                <div className="bg-orange-100 border-2 border-orange-400 rounded-lg p-3 sm:p-4 mb-4">
+                                                    <p className="text-orange-700 font-semibold text-sm sm:text-base">Score 50+ to unlock Level {unlockedLevels + 1}!</p>
+                                                    <p className="text-xs sm:text-sm text-orange-600">You scored {score} points</p>
                                                 </div>
                                             )}
                                         </div>
 
                                         {/* Bonus coins ad offer */}
-                                        <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-orange-300 rounded-lg p-4 mb-4">
-                                            <p className="text-orange-700 font-bold mb-2">💎 Double Your Coins!</p>
+                                        <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-orange-300 rounded-lg p-3 sm:p-4 mb-4">
+                                            <p className="text-orange-700 font-bold mb-2 text-sm sm:text-base">💎 Double Your Coins!</p>
                                             <button
                                                 onClick={() => {
                                                     showRewardedAd('coins');
                                                     setCoins(coins + Math.floor(score));
                                                 }}
                                                 disabled={!canWatchAd}
-                                                className="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                                                className="bg-orange-500 text-white px-4 sm:px-6 py-2 rounded hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-sm sm:text-base"
                                             >
                                                 Watch Ad to Double Coins
                                             </button>
@@ -1005,7 +1026,7 @@
                                                 setCoins(coins + Math.floor(score / 2));
                                                 setScreen('menu');
                                             }}
-                                            className="w-full bg-purple-600 text-white py-4 rounded-lg text-xl font-bold hover:bg-purple-700 transition"
+                                            className="w-full bg-purple-600 text-white py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-bold hover:bg-purple-700 transition"
                                         >
                                             Continue
                                         </button>
@@ -1017,12 +1038,12 @@
                         {/* Ad Modal Overlay */}
                         {showAd && (
                             <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
-                                <div className="bg-white rounded-lg max-w-md w-full p-6 relative">
+                                <div className="bg-white rounded-lg max-w-md w-full p-4 sm:p-6 relative max-h-[90vh] overflow-y-auto">
                                     {adType === 'interstitial' ? (
                                         <>
                                             <div className="text-center">
                                                 <div className="text-xs text-gray-500 mb-2">ADVERTISEMENT</div>
-                                                <div className="mb-4">
+                                                <div className="mb-4 min-h-[200px] bg-gray-100 rounded relative">
                                                     <ins className="adsbygoogle"
                                                          style={{display: 'block'}}
                                                          data-ad-client="ca-pub-5830581574523106"
@@ -1030,6 +1051,9 @@
                                                          data-ad-format="auto"
                                                          data-full-width-responsive="true">
                                                     </ins>
+                                                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                                        <p className="text-gray-400 text-sm">No ad available at this time</p>
+                                                    </div>
                                                 </div>
                                                 <p className="text-gray-600 mb-2">Continue in {adTimeLeft} seconds...</p>
                                                 {adTimeLeft === 0 && (
@@ -1052,11 +1076,14 @@
                                                 >
                                                     {adMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
                                                 </button>
-                                                <div className="bg-gradient-to-r from-green-400 to-blue-500 rounded-lg p-8 mb-4 relative overflow-hidden">
+                                                <div className="bg-gradient-to-r from-green-400 to-blue-500 rounded-lg p-6 sm:p-8 mb-4 relative overflow-hidden">
                                                     <div className="absolute inset-0 bg-white/10 animate-pulse"></div>
                                                     <Play className="text-white mx-auto mb-2" size={48} />
-                                                    <p className="text-white text-2xl font-bold mb-2">Watching Video...</p>
-                                                    <p className="text-white text-lg">{10 - adTimeLeft}/10 seconds</p>
+                                                    <p className="text-white text-xl sm:text-2xl font-bold mb-2">Watching Video...</p>
+                                                    <p className="text-white text-base sm:text-lg">{10 - adTimeLeft}/10 seconds</p>
+                                                    {adTimeLeft > 5 && (
+                                                        <p className="text-white/80 text-xs sm:text-sm mt-2">(Ad may not be available)</p>
+                                                    )}
                                                     <div className="mt-4 bg-white/20 rounded-full h-2">
                                                         <div 
                                                             className="bg-white rounded-full h-2 transition-all duration-1000"
@@ -1064,7 +1091,7 @@
                                                         ></div>
                                                     </div>
                                                 </div>
-                                                <p className="text-gray-600 mb-2">
+                                                <p className="text-gray-600 mb-2 text-sm sm:text-base">
                                                     {adTimeLeft > 0 ? `Watch for ${adTimeLeft} more seconds...` : 'Reward ready!'}
                                                 </p>
                                                 {adTimeLeft === 0 && (
@@ -1085,18 +1112,20 @@
 
                     {/* Footer with LetUsTech Branding */}
                     <footer className="max-w-6xl mx-auto mt-8 mb-4">
-                        <div className="bg-white/10 backdrop-blur rounded-lg p-4 text-center">
+                        <div className="bg-white/10 backdrop-blur rounded-lg p-3 sm:p-4 text-center">
                             <div className="flex items-center justify-center gap-2 mb-3">
-                                <img 
-                                    src="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.PNG" 
-                                    alt="LetUsTech"
-                                    className="h-6 w-6 rounded"
-                                />
-                                <span className="text-white font-semibold">LetUsTech</span>
-                                <span className="text-white/70 text-sm italic">- Wired For Your World</span>
+                                <div className="h-8 w-8 sm:h-10 sm:w-10 bg-white rounded flex items-center justify-center p-1 sm:p-1.5">
+                                    <img 
+                                        src="LetUsTech.png" 
+                                        alt="LetUsTech"
+                                        className="max-h-full max-w-full object-contain"
+                                    />
+                                </div>
+                                <span className="text-white font-semibold text-sm sm:text-base">LetUsTech</span>
+                                <span className="text-white/70 text-xs sm:text-sm italic hidden sm:inline">- Wired For Your World</span>
                             </div>
                             
-                            <div className="flex justify-center gap-4 text-white/70 text-sm mb-2">
+                            <div className="flex justify-center gap-4 text-white/70 text-xs sm:text-sm mb-2">
                                 <a 
                                     href="https://discord.gg/dkebMS5eCX" 
                                     target="_blank" 
@@ -1107,7 +1136,7 @@
                                 </a>
                             </div>
 
-                            <p className="text-white/80 text-sm mb-1">
+                            <p className="text-white/80 text-xs sm:text-sm mb-1">
                                 © 2024 LetUsTech - Educational Gaming Solutions
                             </p>
                             <p className="text-white/50 text-xs">
