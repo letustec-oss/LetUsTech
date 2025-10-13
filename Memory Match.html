@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Memory Match Game by LetUsTech - Wired For Your World. Test your memory skills, earn coins, and unlock levels!">
+    <title>Memory Match - LetUsTech | Wired For Your World</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React and ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5830581574523106"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Simple icon components
+        const Icon = ({ name, size = 24, ...props }) => {
+            const icons = {
+                coins: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>,
+                lock: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
+                move: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/></svg>,
+                timer: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg>,
+                shoppingBag: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>,
+                rotateCcw: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>,
+                eye: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>,
+                zap: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>,
+                pause: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>,
+                star: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+                menu: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>,
+                x: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>,
+                helpCircle: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            };
+            return icons[name] || null;
+        };
+
+        const emojis = {
+            easy: ['🐶', '🐱', '🐭', '🐹'],
+            medium: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍'],
+            hard: ['😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂', '🙂', '🙃', '😉', '😊'],
+            expert: ['🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔', '🌙', '🌚', '🌛', '🌜', '⭐', '✨']
+        };
+
+        const LEVELS = [
+            { id: 'easy', name: 'Easy', pairs: 4, reward: 40, color: 'from-green-500 to-green-600' },
+            { id: 'medium', name: 'Medium', pairs: 8, reward: 80, color: 'from-yellow-500 to-orange-500' },
+            { id: 'hard', name: 'Hard', pairs: 12, reward: 130, color: 'from-red-500 to-red-600' },
+            { id: 'expert', name: 'Expert', pairs: 14, reward: 180, color: 'from-purple-500 to-pink-600' }
+        ];
+
+        const POWERUPS = {
+            revealPair: { name: 'Reveal Pair', icon: 'eye', cost: 150, description: 'Reveals one matching pair' },
+            peekAll: { name: 'Peek All', icon: 'zap', cost: 200, description: 'Show all cards for 2 seconds' },
+            freezeTime: { name: 'Freeze Time', icon: 'pause', cost: 100, description: 'Pause timer for 30 seconds' }
+        };
+
+        const MemoryMatchGame = () => {
+            const [difficulty, setDifficulty] = useState('easy');
+            const [unlockedLevels, setUnlockedLevels] = useState(['easy']);
+            const [cards, setCards] = useState([]);
+            const [flippedIndices, setFlippedIndices] = useState([]);
+            const [matchedPairs, setMatchedPairs] = useState([]);
+            const [moves, setMoves] = useState(0);
+            const [time, setTime] = useState(0);
+            const [isPlaying, setIsPlaying] = useState(false);
+            const [gameWon, setGameWon] = useState(false);
+            const [coins, setCoins] = useState(50);
+            const [showShop, setShowShop] = useState(false);
+            const [showHelp, setShowHelp] = useState(false);
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const [inventory, setInventory] = useState({
+                revealPair: 0,
+                peekAll: 0,
+                freezeTime: 0
+            });
+            const [isPeeking, setIsPeeking] = useState(false);
+            const [isTimeFrozen, setIsTimeFrozen] = useState(false);
+            const [freezeTimeLeft, setFreezeTimeLeft] = useState(0);
+
+            useEffect(() => {
+                initializeGame();
+            }, [difficulty]);
+
+            useEffect(() => {
+                let interval;
+                if (isPlaying && !gameWon && !isTimeFrozen) {
+                    interval = setInterval(() => {
+                        setTime(t => t + 1);
+                    }, 1000);
+                }
+                return () => clearInterval(interval);
+            }, [isPlaying, gameWon, isTimeFrozen]);
+
+            useEffect(() => {
+                let interval;
+                if (isTimeFrozen && freezeTimeLeft > 0) {
+                    interval = setInterval(() => {
+                        setFreezeTimeLeft(t => {
+                            if (t <= 1) {
+                                setIsTimeFrozen(false);
+                                return 0;
+                            }
+                            return t - 1;
+                        });
+                    }, 1000);
+                }
+                return () => clearInterval(interval);
+            }, [isTimeFrozen, freezeTimeLeft]);
+
+            useEffect(() => {
+                if (matchedPairs.length === emojis[difficulty].length && matchedPairs.length > 0) {
+                    setGameWon(true);
+                    setIsPlaying(false);
+                    
+                    const levelInfo = LEVELS.find(l => l.id === difficulty);
+                    const baseReward = levelInfo.reward;
+                    const timeBonus = Math.max(0, Math.floor((100 - time) / 10));
+                    const moveBonus = Math.max(0, Math.floor((50 - moves) / 2));
+                    const totalReward = baseReward + timeBonus + moveBonus;
+                    
+                    setCoins(c => c + totalReward);
+                    
+                    const currentLevelIndex = LEVELS.findIndex(l => l.id === difficulty);
+                    if (currentLevelIndex < LEVELS.length - 1) {
+                        const nextLevel = LEVELS[currentLevelIndex + 1].id;
+                        if (!unlockedLevels.includes(nextLevel)) {
+                            setUnlockedLevels([...unlockedLevels, nextLevel]);
+                        }
+                    }
+                }
+            }, [matchedPairs, difficulty]);
+
+            const initializeGame = () => {
+                const selectedEmojis = emojis[difficulty];
+                const shuffledCards = [...selectedEmojis, ...selectedEmojis]
+                    .sort(() => Math.random() - 0.5)
+                    .map((emoji, index) => ({ id: index, emoji, isFlipped: false }));
+                
+                setCards(shuffledCards);
+                setFlippedIndices([]);
+                setMatchedPairs([]);
+                setMoves(0);
+                setTime(0);
+                setIsPlaying(false);
+                setGameWon(false);
+                setIsTimeFrozen(false);
+                setFreezeTimeLeft(0);
+            };
+
+            const handleCardClick = (index) => {
+                if (!isPlaying) setIsPlaying(true);
+                
+                if (flippedIndices.length === 2) return;
+                if (flippedIndices.includes(index)) return;
+                if (matchedPairs.includes(cards[index].emoji)) return;
+
+                const newFlippedIndices = [...flippedIndices, index];
+                setFlippedIndices(newFlippedIndices);
+
+                if (newFlippedIndices.length === 2) {
+                    setMoves(m => m + 1);
+                    const [firstIndex, secondIndex] = newFlippedIndices;
+                    
+                    if (cards[firstIndex].emoji === cards[secondIndex].emoji) {
+                        setMatchedPairs([...matchedPairs, cards[firstIndex].emoji]);
+                        setFlippedIndices([]);
+                    } else {
+                        setTimeout(() => {
+                            setFlippedIndices([]);
+                        }, 1000);
+                    }
+                }
+            };
+
+            const buyPowerup = (powerupId) => {
+                const powerup = POWERUPS[powerupId];
+                if (coins >= powerup.cost) {
+                    setCoins(c => c - powerup.cost);
+                    setInventory(inv => ({ ...inv, [powerupId]: inv[powerupId] + 1 }));
+                }
+            };
+
+            const usePowerup = (powerupId) => {
+                if (inventory[powerupId] <= 0) return;
+                
+                setInventory(inv => ({ ...inv, [powerupId]: inv[powerupId] - 1 }));
+                
+                if (powerupId === 'revealPair') {
+                    const unmatchedCards = cards.filter(card => !matchedPairs.includes(card.emoji));
+                    if (unmatchedCards.length > 0) {
+                        const randomEmoji = unmatchedCards[0].emoji;
+                        setMatchedPairs([...matchedPairs, randomEmoji]);
+                    }
+                } else if (powerupId === 'peekAll') {
+                    setIsPeeking(true);
+                    setTimeout(() => setIsPeeking(false), 2000);
+                } else if (powerupId === 'freezeTime') {
+                    setIsTimeFrozen(true);
+                    setFreezeTimeLeft(30);
+                }
+            };
+
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            };
+
+            const getGridCols = () => {
+                if (difficulty === 'easy') return 'grid-cols-4';
+                if (difficulty === 'medium') return 'grid-cols-4';
+                if (difficulty === 'hard') return 'grid-cols-4 md:grid-cols-6';
+                return 'grid-cols-4 md:grid-cols-7';
+            };
+
+            const changeDifficulty = (newDifficulty) => {
+                if (unlockedLevels.includes(newDifficulty)) {
+                    setDifficulty(newDifficulty);
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex flex-col">
+                    <nav className="bg-white shadow-sm">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex justify-between items-center h-16 md:h-20">
+                                <div className="flex items-center gap-2 md:gap-3">
+                                    <img 
+                                        src="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.PNG" 
+                                        alt="LetUsTech" 
+                                        className="h-8 md:h-10 w-auto"
+                                        onError={(e) => e.target.style.display = 'none'}
+                                    />
+                                    <div className="flex flex-col">
+                                        <span className="text-base md:text-xl font-medium text-gray-900">LetUsTech</span>
+                                        <span className="text-xs text-gray-500 hidden sm:block">Wired for your world</span>
+                                    </div>
+                                </div>
+                                
+                                <ul className="hidden md:flex items-center gap-8 lg:gap-12">
+                                    <li><a href="#about" className="text-gray-900 hover:text-gray-600 transition-colors">About</a></li>
+                                    <li><a href="#programs" className="text-gray-900 hover:text-gray-600 transition-colors">Programs</a></li>
+                                    <li><a href="#contact" className="text-gray-900 hover:text-gray-600 transition-colors">Contact</a></li>
+                                    <li><a href="#donate" className="text-blue-600 hover:text-blue-700 transition-colors">💝 Donate</a></li>
+                                </ul>
+
+                                <button
+                                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                                    className="md:hidden p-2 rounded-lg hover:bg-gray-100"
+                                >
+                                    <Icon name={mobileMenuOpen ? 'x' : 'menu'} size={24} />
+                                </button>
+                            </div>
+
+                            {mobileMenuOpen && (
+                                <div className="md:hidden border-t border-gray-200 py-4">
+                                    <ul className="space-y-4">
+                                        <li><a href="#about" className="block text-gray-900 hover:text-gray-600 transition-colors">About</a></li>
+                                        <li><a href="#programs" className="block text-gray-900 hover:text-gray-600 transition-colors">Programs</a></li>
+                                        <li><a href="#contact" className="block text-gray-900 hover:text-gray-600 transition-colors">Contact</a></li>
+                                        <li><a href="#donate" className="block text-blue-600 hover:text-blue-700 transition-colors">💝 Donate</a></li>
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                    </nav>
+
+                    <div className="flex-1 p-3 sm:p-4 md:p-8">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
+                                <div className="lg:col-span-9">
+                                    <div className="text-center mb-4 md:mb-6">
+                                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
+                                            Memory Match Pro
+                                        </h1>
+                                        <div className="flex items-center justify-center gap-2 text-white text-xl md:text-2xl font-bold">
+                                            <Icon name="coins" className="text-yellow-300" size={24} />
+                                            <span>{coins}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-white/95 backdrop-blur rounded-2xl md:rounded-3xl shadow-2xl p-3 sm:p-4 md:p-8 mb-4 md:mb-6">
+                                        <div className="flex justify-between items-center mb-4">
+                                            <h3 className="text-base md:text-lg font-bold text-gray-700">Select Level:</h3>
+                                            <button
+                                                onClick={() => setShowHelp(true)}
+                                                className="flex items-center gap-1 text-blue-600 hover:text-blue-700 text-sm"
+                                            >
+                                                <Icon name="helpCircle" size={18} />
+                                                <span className="hidden sm:inline">How to Play</span>
+                                            </button>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-4 md:mb-6">
+                                            {LEVELS.map((level) => {
+                                                const isLocked = !unlockedLevels.includes(level.id);
+                                                const isActive = difficulty === level.id;
+                                                
+                                                return (
+                                                    <button
+                                                        key={level.id}
+                                                        onClick={() => changeDifficulty(level.id)}
+                                                        disabled={isLocked}
+                                                        className={`relative px-3 py-2 md:px-4 md:py-3 rounded-lg md:rounded-xl font-bold transition-all ${
+                                                            isActive
+                                                                ? `bg-gradient-to-r ${level.color} text-white shadow-lg transform scale-105`
+                                                                : isLocked
+                                                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300 hover:scale-105'
+                                                        }`}
+                                                    >
+                                                        {isLocked && (
+                                                            <Icon name="lock" size={14} className="absolute top-1 right-1 md:top-2 md:right-2" />
+                                                        )}
+                                                        <div className="text-xs md:text-sm">{level.name}</div>
+                                                        <div className="text-xs opacity-75">{level.pairs} pairs</div>
+                                                        {!isLocked && (
+                                                            <div className="flex items-center justify-center gap-1 text-xs mt-1">
+                                                                <Icon name="coins" size={10} />
+                                                                <span>+{level.reward}</span>
+                                                            </div>
+                                                        )}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+
+                                        <div className="flex justify-between items-start mb-4 md:mb-6 flex-wrap gap-3">
+                                            <div className="flex gap-2 md:gap-3 flex-wrap">
+                                                <div className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 md:px-4 py-2 rounded-lg md:rounded-xl shadow-lg text-sm">
+                                                    <Icon name="move" size={18} />
+                                                    <span className="font-bold">{moves}</span>
+                                                </div>
+                                                <div className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-3 md:px-4 py-2 rounded-lg md:rounded-xl shadow-lg text-sm">
+                                                    <Icon name="timer" size={18} />
+                                                    <span className="font-bold">{formatTime(time)}</span>
+                                                    {isTimeFrozen && <span className="text-xs">❄️</span>}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex gap-2 md:gap-3">
+                                                <button
+                                                    onClick={() => setShowShop(!showShop)}
+                                                    className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 md:px-6 py-2 rounded-lg md:rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all font-bold text-sm"
+                                                >
+                                                    <Icon name="shoppingBag" size={18} />
+                                                    <span className="hidden sm:inline">Shop</span>
+                                                </button>
+                                                <button
+                                                    onClick={initializeGame}
+                                                    className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 md:px-6 py-2 rounded-lg md:rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all font-bold text-sm"
+                                                >
+                                                    <Icon name="rotateCcw" size={18} />
+                                                    <span className="hidden sm:inline">Reset</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {showShop && (
+                                            <div className="mb-4 md:mb-6 p-4 md:p-6 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-xl md:rounded-2xl border-2 md:border-4 border-indigo-300">
+                                                <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3 md:mb-4 flex items-center gap-2">
+                                                    <Icon name="shoppingBag" size={20} />
+                                                    Power-Up Shop
+                                                </h3>
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                                                    {Object.entries(POWERUPS).map(([id, powerup]) => (
+                                                        <div key={id} className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-lg">
+                                                            <div className="flex items-start justify-between mb-2">
+                                                                <div className="flex items-center gap-2">
+                                                                    <Icon name={powerup.icon} size={20} className="text-purple-600" />
+                                                                    <h4 className="font-bold text-gray-800 text-sm md:text-base">{powerup.name}</h4>
+                                                                </div>
+                                                                <div className="flex items-center gap-1 text-yellow-600 font-bold text-sm">
+                                                                    <Icon name="coins" size={14} />
+                                                                    {powerup.cost}
+                                                                </div>
+                                                            </div>
+                                                            <p className="text-xs md:text-sm text-gray-600 mb-3">{powerup.description}</p>
+                                                            <button
+                                                                onClick={() => buyPowerup(id)}
+                                                                disabled={coins < powerup.cost}
+                                                                className={`w-full py-2 rounded-lg font-bold transition-all text-sm ${
+                                                                    coins >= powerup.cost
+                                                                        ? 'bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg'
+                                                                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                                                }`}
+                                                            >
+                                                                Buy
+                                                            </button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        <div className="mb-4 md:mb-6 flex gap-2 md:gap-3 flex-wrap">
+                                            {Object.entries(POWERUPS).map(([id, powerup]) => {
+                                                const count = inventory[id];
+                                                return (
+                                                    <button
+                                                        key={id}
+                                                        onClick={() => usePowerup(id)}
+                                                        disabled={count <= 0}
+                                                        className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg md:rounded-xl font-bold transition-all text-sm ${
+                                                            count > 0
+                                                                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-lg transform hover:scale-105'
+                                                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                                        }`}
+                                                    >
+                                                        <Icon name={powerup.icon} size={18} />
+                                                        <span className="hidden sm:inline">{powerup.name}</span>
+                                                        <span className="bg-white/30 px-2 py-1 rounded-full text-xs">{count}</span>
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+
+                                        <div className={`grid ${getGridCols()} gap-2 md:gap-3`}>
+                                            {cards.map((card, index) => {
+                                                const isFlipped = flippedIndices.includes(index) || matchedPairs.includes(card.emoji) || isPeeking;
+                                                const isMatched = matchedPairs.includes(card.emoji);
+                                                
+                                                return (
+                                                    <div
+                                                        key={card.id}
+                                                        onClick={() => handleCardClick(index)}
+                                                        className="aspect-square cursor-pointer"
+                                                        style={{ perspective: '1000px' }}
+                                                    >
+                                                        <div
+                                                            className="relative w-full h-full transition-all duration-500 transform-gpu"
+                                                            style={{
+                                                                transformStyle: 'preserve-3d',
+                                                                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+                                                            }}
+                                                        >
+                                                            <div
+                                                                className="absolute w-full h-full rounded-lg md:rounded-xl shadow-lg flex items-center justify-center font-bold bg-gradient-to-br from-indigo-500 to-purple-600"
+                                                                style={{ backfaceVisibility: 'hidden' }}
+                                                            >
+                                                                <span className="text-white text-xl sm:text-2xl md:text-4xl">?</span>
+                                                            </div>
+                                                            
+                                                            <div
+                                                                className={`absolute w-full h-full rounded-lg md:rounded-xl shadow-lg flex items-center justify-center text-2xl sm:text-3xl md:text-5xl ${
+                                                                    isMatched ? 'bg-gradient-to-br from-green-400 to-emerald-500' : 'bg-white'
+                                                                }`}
+                                                                style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+                                                            >
+                                                                {card.emoji}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="lg:col-span-3 order-first lg:order-last">
+                                    <div className="lg:sticky lg:top-4 space-y-4">
+                                        <div className="bg-white rounded-lg shadow-lg p-4 lg:hidden">
+                                            <h3 className="font-bold text-gray-800 mb-3">Game Stats</h3>
+                                            <div className="grid grid-cols-3 gap-4 text-sm">
+                                                <div className="text-center">
+                                                    <div className="text-gray-600 text-xs mb-1">Level</div>
+                                                    <div className="font-semibold text-purple-600">{difficulty}</div>
+                                                </div>
+                                                <div className="text-center">
+                                                    <div className="text-gray-600 text-xs mb-1">Unlocked</div>
+                                                    <div className="font-semibold">{unlockedLevels.length}/4</div>
+                                                </div>
+                                                <div className="text-center">
+                                                    <div className="text-gray-600 text-xs mb-1">Coins</div>
+                                                    <div className="font-semibold text-yellow-600">{coins}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="hidden lg:block bg-white rounded-lg shadow-lg p-4">
+                                            <div className="bg-gray-50 border border-dashed border-gray-300 rounded p-4 text-center text-sm text-gray-500 min-h-[250px] flex flex-col items-center justify-center">
+                                                <div>AdSense</div>
+                                                <div className="text-xs mt-2">300x250</div>
+                                            </div>
+                                        </div>
+
+                                        <div className="hidden lg:block bg-white rounded-lg shadow-lg p-4">
+                                            <h3 className="font-bold text-gray-800 mb-3">Game Stats</h3>
+                                            <div className="space-y-2 text-sm">
+                                                <div className="flex justify-between">
+                                                    <span className="text-gray-600">Current Level:</span>
+                                                    <span className="font-semibold text-purple-600">{difficulty}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span className="text-gray-600">Unlocked:</span>
+                                                    <span className="font-semibold">{unlockedLevels.length}/4</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span className="text-gray-600">Coins:</span>
+                                                    <span className="font-semibold text-yellow-600">{coins}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {showHelp && (
+                                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                                    <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <h2 className="text-2xl md:text-3xl font-bold text-gray-800">How to Play</h2>
+                                            <button onClick={() => setShowHelp(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+                                                <Icon name="x" size={24} />
+                                            </button>
+                                        </div>
+                                        <div className="space-y-4 text-gray-700 text-sm">
+                                            <div>
+                                                <h3 className="font-bold mb-2">🎯 Objective</h3>
+                                                <p>Match all pairs of cards to complete the level!</p>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold mb-2">🎮 How to Play</h3>
+                                                <ol className="list-decimal list-inside space-y-1">
+                                                    <li>Click any card to flip it over</li>
+                                                    <li>Click a second card to find its match</li>
+                                                    <li>If they match, they stay flipped!</li>
+                                                    <li>If not, they flip back after 1 second</li>
+                                                </ol>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold mb-2">💰 Earning Coins</h3>
+                                                <p>Complete levels to earn coins. Faster times and fewer moves = more coins!</p>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold mb-2">⚡ Power-Ups</h3>
+                                                <p><strong>Reveal Pair:</strong> Instantly match one pair<br/>
+                                                <strong>Peek All:</strong> See all cards for 2 seconds<br/>
+                                                <strong>Freeze Time:</strong> Pause timer for 30 seconds</p>
+                                            </div>
+                                        </div>
+                                        <button
+                                            onClick={() => setShowHelp(false)}
+                                            className="w-full mt-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-xl font-bold"
+                                        >
+                                            Got it!
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            {gameWon && (
+                                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                                    <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl">
+                                        <div className="text-center">
+                                            <div className="text-5xl md:text-6xl mb-4">🎉</div>
+                                            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Level Complete!</h2>
+                                            <p className="text-gray-600 mb-2 text-sm md:text-base">
+                                                Completed in <span className="font-bold text-purple-600">{moves} moves</span> and{' '}
+                                                <span className="font-bold text-purple-600">{formatTime(time)}</span>
+                                            </p>
+                                            <div className="flex items-center justify-center gap-2 text-xl md:text-2xl font-bold text-yellow-600 mb-4">
+                                                <Icon name="star" className="fill-yellow-400" />
+                                                <span>+{LEVELS.find(l => l.id === difficulty).reward + Math.max(0, Math.floor((100 - time) / 10)) + Math.max(0, Math.floor((50 - moves) / 2))} coins!</span>
+                                            </div>
+                                            {LEVELS.findIndex(l => l.id === difficulty) < LEVELS.length - 1 && 
+                                             !unlockedLevels.includes(LEVELS[LEVELS.findIndex(l => l.id === difficulty) + 1].id) && (
+                                                <div className="mb-4 p-3 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-xl">
+                                                    <p className="text-white font-bold">🔓 New level unlocked!</p>
+                                                </div>
+                                            )}
+                                            <button
+                                                onClick={initializeGame}
+                                                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-xl font-bold"
+                                            >
+                                                Play Again
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="bg-gray-100 py-4 hidden md:block">
+                        <div className="max-w-7xl mx-auto px-4">
+                            <div className="flex justify-center">
+                                <div className="bg-white border border-dashed border-gray-300 rounded p-4 text-center text-sm text-gray-500">
+                                    AdSense Banner (728x90)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer className="bg-white border-t border-gray-200 py-4">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+                            <p className="text-xs sm:text-sm text-gray-600">© Copyrighted by LetUsTech</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<MemoryMatchGame />);
+    </script>
+</body>
+</html>
