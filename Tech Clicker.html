@@ -3,598 +3,737 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LetUsTech - Wired for your world!</title>
+    <title>Tech Empire Clicker - LetUsTech</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5830581574523106" crossorigin="anonymous"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+    </style>
 </head>
 <body>
     <div id="root"></div>
     
     <script type="text/babel">
-        import { useState, useEffect, useCallback } from 'react';
-import { Cpu, Server, Zap, Trophy, TrendingUp, Box, Sparkles, Brain, Atom, Rocket, Save, BarChart3, Settings, Code2, Wifi, Database, Cloud, GitBranch } from 'lucide-react';
-
-const UPGRADES = [
-  { id: 'click', name: 'Code Optimization', icon: Zap, baseCost: 15, power: 1, color: 'blue', desc: 'Improve your coding efficiency' },
-  { id: 'intern', name: 'Intern', icon: Box, baseCost: 100, cps: 1, color: 'green', desc: 'Fresh graduate eager to learn' },
-  { id: 'junior', name: 'Junior Developer', icon: Code2, baseCost: 500, cps: 5, color: 'cyan', desc: 'Competent coder with 1-2 years exp' },
-  { id: 'senior', name: 'Senior Developer', icon: Cpu, baseCost: 2500, cps: 25, color: 'purple', desc: 'Expert problem solver' },
-  { id: 'architect', name: 'Tech Architect', icon: GitBranch, baseCost: 10000, cps: 100, color: 'indigo', desc: 'Designs entire systems' },
-  { id: 'ai', name: 'AI Assistant', icon: Brain, baseCost: 50000, cps: 500, color: 'pink', desc: 'Smart coding companion' },
-  { id: 'server', name: 'Server Farm', icon: Server, baseCost: 250000, cps: 2500, color: 'red', desc: 'Distributed computing power' },
-  { id: 'cloud', name: 'Cloud Infrastructure', icon: Cloud, baseCost: 1000000, cps: 10000, color: 'sky', desc: 'Infinite scalability' },
-  { id: 'datacenter', name: 'Data Center', icon: Database, baseCost: 5000000, cps: 50000, color: 'violet', desc: 'Enterprise-level processing' },
-  { id: 'quantum', name: 'Quantum Computer', icon: Atom, baseCost: 25000000, cps: 250000, color: 'fuchsia', desc: 'Reality-bending computation' },
-  { id: 'network', name: 'Neural Network', icon: Wifi, baseCost: 100000000, cps: 1000000, color: 'emerald', desc: 'Self-improving AI system' },
-  { id: 'agi', name: 'AGI Singularity', icon: Sparkles, baseCost: 500000000, cps: 5000000, color: 'yellow', desc: 'The ultimate tech achievement' },
-];
-
-const ACHIEVEMENTS = [
-  { id: 'first_click', name: 'Hello World', desc: 'Write your first line of code', req: 1 },
-  { id: 'hundred', name: 'Getting Started', desc: 'Reach 100 lines', req: 100 },
-  { id: 'thousand', name: 'Solid Foundation', desc: 'Reach 1,000 lines', req: 1000 },
-  { id: 'first_hire', name: 'Team Player', desc: 'Hire your first team member', req: 'hire' },
-  { id: 'ten_k', name: 'Serious Developer', desc: 'Reach 10,000 lines', req: 10000 },
-  { id: 'hundred_k', name: 'Production Ready', desc: 'Reach 100,000 lines', req: 100000 },
-  { id: 'ai_unlock', name: 'AI Revolution', desc: 'Unlock AI Assistant', req: 'ai' },
-  { id: 'quantum_unlock', name: 'Quantum Leap', desc: 'Build a quantum computer', req: 'quantum' },
-  { id: 'million', name: 'Tech Unicorn', desc: 'Reach 1,000,000 lines', req: 1000000 },
-  { id: 'ten_million', name: 'Tech Giant', desc: 'Reach 10,000,000 lines', req: 10000000 },
-  { id: 'first_prestige', name: 'New Horizons', desc: 'Complete your first prestige', req: 'prestige1' },
-  { id: 'five_prestige', name: 'Serial Innovator', desc: 'Complete 5 prestiges', req: 'prestige5' },
-];
-
-export default function LetUsTech() {
-  const [code, setCode] = useState(0);
-  const [totalCode, setTotalCode] = useState(0);
-  const [lifetimeCode, setLifetimeCode] = useState(0);
-  const [clickPower, setClickPower] = useState(1);
-  const [upgrades, setUpgrades] = useState({});
-  const [achievements, setAchievements] = useState(new Set());
-  const [floatingNumbers, setFloatingNumbers] = useState([]);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [showAchievement, setShowAchievement] = useState(null);
-  const [selectedTab, setSelectedTab] = useState('upgrades');
-  const [multiplier, setMultiplier] = useState(1);
-  const [prestige, setPrestige] = useState(0);
-  const [showStats, setShowStats] = useState(false);
-  const [clickCount, setClickCount] = useState(0);
-
-  // Initialize
-  useEffect(() => {
-    const init = {};
-    UPGRADES.forEach(u => {
-      init[u.id] = { count: 0, cost: u.baseCost };
-    });
-    setUpgrades(init);
-    
-    // Load saved game
-    const saved = localStorage.getItem('letustech_save');
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        setCode(data.code || 0);
-        setTotalCode(data.totalCode || 0);
-        setLifetimeCode(data.lifetimeCode || 0);
-        setClickPower(data.clickPower || 1);
-        setUpgrades(data.upgrades || init);
-        setAchievements(new Set(data.achievements || []));
-        setMultiplier(data.multiplier || 1);
-        setPrestige(data.prestige || 0);
-        setClickCount(data.clickCount || 0);
-      } catch (e) {
-        console.error('Failed to load save');
-      }
-    }
-  }, []);
-
-  // Auto-save
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const saveData = {
-        code,
-        totalCode,
-        lifetimeCode,
-        clickPower,
-        upgrades,
-        achievements: Array.from(achievements),
-        multiplier,
-        prestige,
-        clickCount
-      };
-      localStorage.setItem('letustech_save', JSON.stringify(saveData));
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [code, totalCode, lifetimeCode, clickPower, upgrades, achievements, multiplier, prestige, clickCount]);
-
-  const calculateCPS = useCallback(() => {
-    let total = 0;
-    UPGRADES.forEach(upgrade => {
-      if (upgrade.cps && upgrades[upgrade.id]) {
-        total += upgrade.cps * upgrades[upgrade.id].count;
-      }
-    });
-    return total * multiplier;
-  }, [upgrades, multiplier]);
-
-  // Auto-generate
-  useEffect(() => {
-    const cps = calculateCPS();
-    if (cps > 0) {
-      const interval = setInterval(() => {
-        const amount = cps / 10;
-        setCode(prev => prev + amount);
-        setTotalCode(prev => prev + amount);
-        setLifetimeCode(prev => prev + amount);
-      }, 100);
-      return () => clearInterval(interval);
-    }
-  }, [calculateCPS]);
-
-  // Check achievements
-  useEffect(() => {
-    ACHIEVEMENTS.forEach(ach => {
-      if (!achievements.has(ach.id)) {
-        let unlocked = false;
-        if (typeof ach.req === 'number' && totalCode >= ach.req) {
-          unlocked = true;
-        } else if (ach.req === 'hire' && Object.values(upgrades).some(u => u.count > 0)) {
-          unlocked = true;
-        } else if (ach.req === 'ai' && upgrades.ai?.count > 0) {
-          unlocked = true;
-        } else if (ach.req === 'quantum' && upgrades.quantum?.count > 0) {
-          unlocked = true;
-        } else if (ach.req === 'prestige1' && prestige >= 1) {
-          unlocked = true;
-        } else if (ach.req === 'prestige5' && prestige >= 5) {
-          unlocked = true;
-        }
+        const { useState, useEffect, useCallback } = React;
         
-        if (unlocked) {
-          setAchievements(prev => new Set([...prev, ach.id]));
-          setShowAchievement(ach);
-          setTimeout(() => setShowAchievement(null), 4000);
-        }
-      }
-    });
-  }, [totalCode, upgrades, achievements, prestige]);
+        // Lucide React Icons (simplified inline versions)
+        const Cpu = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                <rect x="9" y="9" width="6" height="6"></rect>
+                <line x1="9" y1="1" x2="9" y2="4"></line>
+                <line x1="15" y1="1" x2="15" y2="4"></line>
+                <line x1="9" y1="20" x2="9" y2="23"></line>
+                <line x1="15" y1="20" x2="15" y2="23"></line>
+                <line x1="20" y1="9" x2="23" y2="9"></line>
+                <line x1="20" y1="14" x2="23" y2="14"></line>
+                <line x1="1" y1="9" x2="4" y2="9"></line>
+                <line x1="1" y1="14" x2="4" y2="14"></line>
+            </svg>
+        );
+        
+        const Server = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+        );
+        
+        const Zap = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+        );
+        
+        const Trophy = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                <path d="M4 22h16"></path>
+                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+            </svg>
+        );
+        
+        const TrendingUp = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+            </svg>
+        );
+        
+        const Box = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+        );
+        
+        const Sparkles = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
+                <path d="M5 3v4"></path>
+                <path d="M19 17v4"></path>
+                <path d="M3 5h4"></path>
+                <path d="M17 19h4"></path>
+            </svg>
+        );
+        
+        const Brain = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"></path>
+                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"></path>
+            </svg>
+        );
+        
+        const Atom = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="1"></circle>
+                <path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"></path>
+                <path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"></path>
+            </svg>
+        );
+        
+        const Rocket = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
+                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+            </svg>
+        );
+        
+        const BarChart3 = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 3v18h18"></path>
+                <path d="M18 17V9"></path>
+                <path d="M13 17V5"></path>
+                <path d="M8 17v-3"></path>
+            </svg>
+        );
+        
+        const Settings = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+        );
+        
+        const Code2 = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+        );
+        
+        const Wifi = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                <line x1="12" y1="20" x2="12.01" y2="20"></line>
+            </svg>
+        );
+        
+        const Database = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+            </svg>
+        );
+        
+        const Cloud = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+            </svg>
+        );
+        
+        const GitBranch = (props) => (
+            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="6" y1="3" x2="6" y2="15"></line>
+                <circle cx="18" cy="6" r="3"></circle>
+                <circle cx="6" cy="18" r="3"></circle>
+                <path d="M18 9a9 9 0 0 1-9 9"></path>
+            </svg>
+        );
 
-  const handleClick = (e) => {
-    const power = clickPower * multiplier;
-    setCode(prev => prev + power);
-    setTotalCode(prev => prev + power);
-    setLifetimeCode(prev => prev + power);
-    setClickCount(prev => prev + 1);
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 100);
+        const UPGRADES = [
+          { id: 'click', name: 'Code Optimization', icon: Zap, baseCost: 15, power: 1, color: 'blue', desc: 'Improve your coding efficiency' },
+          { id: 'intern', name: 'Intern', icon: Box, baseCost: 100, cps: 1, color: 'green', desc: 'Fresh graduate eager to learn' },
+          { id: 'junior', name: 'Junior Developer', icon: Code2, baseCost: 500, cps: 5, color: 'cyan', desc: 'Competent coder with 1-2 years exp' },
+          { id: 'senior', name: 'Senior Developer', icon: Cpu, baseCost: 2500, cps: 25, color: 'purple', desc: 'Expert problem solver' },
+          { id: 'architect', name: 'Tech Architect', icon: GitBranch, baseCost: 10000, cps: 100, color: 'indigo', desc: 'Designs entire systems' },
+          { id: 'ai', name: 'AI Assistant', icon: Brain, baseCost: 50000, cps: 500, color: 'pink', desc: 'Smart coding companion' },
+          { id: 'server', name: 'Server Farm', icon: Server, baseCost: 250000, cps: 2500, color: 'red', desc: 'Distributed computing power' },
+          { id: 'cloud', name: 'Cloud Infrastructure', icon: Cloud, baseCost: 1000000, cps: 10000, color: 'sky', desc: 'Infinite scalability' },
+          { id: 'datacenter', name: 'Data Center', icon: Database, baseCost: 5000000, cps: 50000, color: 'violet', desc: 'Enterprise-level processing' },
+          { id: 'quantum', name: 'Quantum Computer', icon: Atom, baseCost: 25000000, cps: 250000, color: 'fuchsia', desc: 'Reality-bending computation' },
+          { id: 'network', name: 'Neural Network', icon: Wifi, baseCost: 100000000, cps: 1000000, color: 'emerald', desc: 'Self-improving AI system' },
+          { id: 'agi', name: 'AGI Singularity', icon: Sparkles, baseCost: 500000000, cps: 5000000, color: 'yellow', desc: 'The ultimate tech achievement' },
+        ];
 
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const id = Date.now() + Math.random();
-    setFloatingNumbers(prev => [...prev, { id, x, y, value: power }]);
-    setTimeout(() => {
-      setFloatingNumbers(prev => prev.filter(num => num.id !== id));
-    }, 1000);
-  };
+        const ACHIEVEMENTS = [
+          { id: 'first_click', name: 'Hello World', desc: 'Write your first line of code', req: 1 },
+          { id: 'hundred', name: 'Getting Started', desc: 'Reach 100 lines', req: 100 },
+          { id: 'thousand', name: 'Solid Foundation', desc: 'Reach 1,000 lines', req: 1000 },
+          { id: 'first_hire', name: 'Team Player', desc: 'Hire your first team member', req: 'hire' },
+          { id: 'ten_k', name: 'Serious Developer', desc: 'Reach 10,000 lines', req: 10000 },
+          { id: 'hundred_k', name: 'Production Ready', desc: 'Reach 100,000 lines', req: 100000 },
+          { id: 'ai_unlock', name: 'AI Revolution', desc: 'Unlock AI Assistant', req: 'ai' },
+          { id: 'quantum_unlock', name: 'Quantum Leap', desc: 'Build a quantum computer', req: 'quantum' },
+          { id: 'million', name: 'Tech Unicorn', desc: 'Reach 1,000,000 lines', req: 1000000 },
+          { id: 'ten_million', name: 'Tech Giant', desc: 'Reach 10,000,000 lines', req: 10000000 },
+          { id: 'first_prestige', name: 'New Horizons', desc: 'Complete your first prestige', req: 'prestige1' },
+          { id: 'five_prestige', name: 'Serial Innovator', desc: 'Complete 5 prestiges', req: 'prestige5' },
+        ];
 
-  const buyUpgrade = (upgradeId) => {
-    const upgrade = UPGRADES.find(u => u.id === upgradeId);
-    const current = upgrades[upgradeId];
-    
-    if (code >= current.cost) {
-      setCode(prev => prev - current.cost);
-      setUpgrades(prev => ({
-        ...prev,
-        [upgradeId]: {
-          count: current.count + 1,
-          cost: Math.floor(current.cost * 1.15)
-        }
-      }));
-      
-      if (upgrade.power) {
-        setClickPower(prev => prev + upgrade.power);
-      }
-    }
-  };
+        function LetUsTech() {
+          const [code, setCode] = useState(0);
+          const [totalCode, setTotalCode] = useState(0);
+          const [lifetimeCode, setLifetimeCode] = useState(0);
+          const [clickPower, setClickPower] = useState(1);
+          const [upgrades, setUpgrades] = useState({});
+          const [achievements, setAchievements] = useState(new Set());
+          const [floatingNumbers, setFloatingNumbers] = useState([]);
+          const [isAnimating, setIsAnimating] = useState(false);
+          const [showAchievement, setShowAchievement] = useState(null);
+          const [selectedTab, setSelectedTab] = useState('upgrades');
+          const [multiplier, setMultiplier] = useState(1);
+          const [prestige, setPrestige] = useState(0);
+          const [showStats, setShowStats] = useState(false);
+          const [clickCount, setClickCount] = useState(0);
 
-  const doPrestige = () => {
-    if (totalCode >= 1000000) {
-      const newPrestige = prestige + 1;
-      setPrestige(newPrestige);
-      setMultiplier(1 + (newPrestige * 0.5));
-      setCode(0);
-      setTotalCode(0);
-      setClickPower(1);
-      const init = {};
-      UPGRADES.forEach(u => {
-        init[u.id] = { count: 0, cost: u.baseCost };
-      });
-      setUpgrades(init);
-    }
-  };
+          useEffect(() => {
+            const init = {};
+            UPGRADES.forEach(u => {
+              init[u.id] = { count: 0, cost: u.baseCost };
+            });
+            setUpgrades(init);
+            
+            const saved = localStorage.getItem('letustech_save');
+            if (saved) {
+              try {
+                const data = JSON.parse(saved);
+                setCode(data.code || 0);
+                setTotalCode(data.totalCode || 0);
+                setLifetimeCode(data.lifetimeCode || 0);
+                setClickPower(data.clickPower || 1);
+                setUpgrades(data.upgrades || init);
+                setAchievements(new Set(data.achievements || []));
+                setMultiplier(data.multiplier || 1);
+                setPrestige(data.prestige || 0);
+                setClickCount(data.clickCount || 0);
+              } catch (e) {
+                console.error('Failed to load save');
+              }
+            }
+          }, []);
 
-  const resetGame = () => {
-    if (confirm('Are you sure? This will delete all progress!')) {
-      localStorage.removeItem('letustech_save');
-      window.location.reload();
-    }
-  };
+          useEffect(() => {
+            const interval = setInterval(() => {
+              const saveData = {
+                code,
+                totalCode,
+                lifetimeCode,
+                clickPower,
+                upgrades,
+                achievements: Array.from(achievements),
+                multiplier,
+                prestige,
+                clickCount
+              };
+              localStorage.setItem('letustech_save', JSON.stringify(saveData));
+            }, 5000);
+            return () => clearInterval(interval);
+          }, [code, totalCode, lifetimeCode, clickPower, upgrades, achievements, multiplier, prestige, clickCount]);
 
-  const cps = calculateCPS();
-  const canPrestige = totalCode >= 1000000;
+          const calculateCPS = useCallback(() => {
+            let total = 0;
+            UPGRADES.forEach(upgrade => {
+              if (upgrade.cps && upgrades[upgrade.id]) {
+                total += upgrade.cps * upgrades[upgrade.id].count;
+              }
+            });
+            return total * multiplier;
+          }, [upgrades, multiplier]);
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-zinc-900 flex flex-col">
-      {/* Header */}
-      <header className="bg-slate-800/50 backdrop-blur-lg border-b border-slate-700 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <img src="LetUsTech.png" alt="LetUsTech Logo" className="w-10 h-10 rounded-lg" />
-              <div>
-                <h1 className="text-2xl font-bold text-white">LetUsTech</h1>
-                <p className="text-xs text-gray-400">Wired for your world</p>
-              </div>
-            </div>
-            <nav className="flex items-center gap-6">
-              <a href="index.html" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
-                About
-              </a>
-              <a href="index.html" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
-                Programs
-              </a>
-              <a href="index.html" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
-                Contact
-              </a>
-              <a href="index.html" className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all">
-                💙 Donate
-              </a>
-            </nav>
-          </div>
-        </div>
-      </header>
+          useEffect(() => {
+            const cps = calculateCPS();
+            if (cps > 0) {
+              const interval = setInterval(() => {
+                const amount = cps / 10;
+                setCode(prev => prev + amount);
+                setTotalCode(prev => prev + amount);
+                setLifetimeCode(prev => prev + amount);
+              }, 100);
+              return () => clearInterval(interval);
+            }
+          }, [calculateCPS]);
 
-      {/* Achievement Notification */}
-      {showAchievement && (
-        <div className="fixed top-24 right-4 z-50 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white p-4 rounded-xl shadow-2xl animate-bounce border-4 border-yellow-300">
-          <div className="flex items-center gap-3">
-            <Trophy className="w-10 h-10" />
-            <div>
-              <div className="font-bold text-lg">🎉 Achievement Unlocked!</div>
-              <div className="text-sm font-semibold">{showAchievement.name}</div>
-              <div className="text-xs opacity-90">{showAchievement.desc}</div>
-            </div>
-          </div>
-        </div>
-      )}
+          useEffect(() => {
+            ACHIEVEMENTS.forEach(ach => {
+              if (!achievements.has(ach.id)) {
+                let unlocked = false;
+                if (typeof ach.req === 'number' && totalCode >= ach.req) {
+                  unlocked = true;
+                } else if (ach.req === 'hire' && Object.values(upgrades).some(u => u.count > 0)) {
+                  unlocked = true;
+                } else if (ach.req === 'ai' && upgrades.ai?.count > 0) {
+                  unlocked = true;
+                } else if (ach.req === 'quantum' && upgrades.quantum?.count > 0) {
+                  unlocked = true;
+                } else if (ach.req === 'prestige1' && prestige >= 1) {
+                  unlocked = true;
+                } else if (ach.req === 'prestige5' && prestige >= 5) {
+                  unlocked = true;
+                }
+                
+                if (unlocked) {
+                  setAchievements(prev => new Set([...prev, ach.id]));
+                  setShowAchievement(ach);
+                  setTimeout(() => setShowAchievement(null), 4000);
+                }
+              }
+            });
+          }, [totalCode, upgrades, achievements, prestige]);
 
-      {/* Main Content */}
-      <main className="flex-1 p-6">
-        <div className="max-w-7xl mx-auto">
-          {/* AdSense - Top Banner */}
-          <div className="mb-6 bg-slate-800/50 rounded-xl border border-slate-700 p-4 text-center">
-            <div className="text-gray-500 text-sm mb-2">Advertisement</div>
-            <div className="bg-slate-700/30 h-24 rounded flex items-center justify-center text-gray-600">
-              {/* Google AdSense code goes here */}
-              <span className="text-xs">728x90 AdSense Banner</span>
-            </div>
-          </div>
-          {/* Prestige Banner */}
-          {prestige > 0 && (
-            <div className="mb-6 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 text-white p-4 rounded-xl shadow-lg border-2 border-purple-400">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Rocket className="w-8 h-8" />
-                  <div>
-                    <div className="font-bold text-lg">Prestige Level {prestige}</div>
-                    <div className="text-sm opacity-90">All production multiplied by {multiplier}x</div>
+          const handleClick = (e) => {
+            const power = clickPower * multiplier;
+            setCode(prev => prev + power);
+            setTotalCode(prev => prev + power);
+            setLifetimeCode(prev => prev + power);
+            setClickCount(prev => prev + 1);
+            setIsAnimating(true);
+            setTimeout(() => setIsAnimating(false), 100);
+
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const id = Date.now() + Math.random();
+            setFloatingNumbers(prev => [...prev, { id, x, y, value: power }]);
+            setTimeout(() => {
+              setFloatingNumbers(prev => prev.filter(num => num.id !== id));
+            }, 1000);
+          };
+
+          const buyUpgrade = (upgradeId) => {
+            const upgrade = UPGRADES.find(u => u.id === upgradeId);
+            const current = upgrades[upgradeId];
+            
+            if (code >= current.cost) {
+              setCode(prev => prev - current.cost);
+              setUpgrades(prev => ({
+                ...prev,
+                [upgradeId]: {
+                  count: current.count + 1,
+                  cost: Math.floor(current.cost * 1.15)
+                }
+              }));
+              
+              if (upgrade.power) {
+                setClickPower(prev => prev + upgrade.power);
+              }
+            }
+          };
+
+          const doPrestige = () => {
+            if (totalCode >= 1000000) {
+              const newPrestige = prestige + 1;
+              setPrestige(newPrestige);
+              setMultiplier(1 + (newPrestige * 0.5));
+              setCode(0);
+              setTotalCode(0);
+              setClickPower(1);
+              const init = {};
+              UPGRADES.forEach(u => {
+                init[u.id] = { count: 0, cost: u.baseCost };
+              });
+              setUpgrades(init);
+            }
+          };
+
+          const resetGame = () => {
+            if (confirm('Are you sure? This will delete all progress!')) {
+              localStorage.removeItem('letustech_save');
+              window.location.reload();
+            }
+          };
+
+          const cps = calculateCPS();
+          const canPrestige = totalCode >= 1000000;
+
+          return (
+            <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-zinc-900 flex flex-col">
+              <header className="bg-slate-800/50 backdrop-blur-lg border-b border-slate-700 sticky top-0 z-40">
+                <div className="max-w-7xl mx-auto px-6 py-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <img src="LetUsTech.png" alt="LetUsTech Logo" className="w-10 h-10 rounded-lg" />
+                      <div>
+                        <h1 className="text-2xl font-bold text-white">LetUsTech</h1>
+                        <p className="text-xs text-gray-400">Wired for your world</p>
+                      </div>
+                    </div>
+                    <nav className="flex items-center gap-6">
+                      <a href="index.html" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
+                        About
+                      </a>
+                      <a href="index.html" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
+                        Programs
+                      </a>
+                      <a href="index.html" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
+                        Contact
+                      </a>
+                      <a href="index.html" className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all">
+                        💙 Donate
+                      </a>
+                    </nav>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold">{(multiplier * 100 - 100).toFixed(0)}%</div>
-                  <div className="text-xs opacity-90">Bonus</div>
-                </div>
-              </div>
-            </div>
-          )}
+              </header>
 
-          <div className="grid lg:grid-cols-3 gap-6">
-            {/* Main Clicker */}
-            <div className="lg:col-span-1">
-              <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 shadow-2xl border border-slate-700">
-                <div className="text-center mb-4">
-                  <div className="text-6xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-1">
-                    {Math.floor(code).toLocaleString()}
-                  </div>
-                  <div className="text-gray-400 text-sm mb-2">Lines of Code</div>
-                  {cps > 0 && (
-                    <div className="inline-block bg-green-500/20 border border-green-500 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">
-                      <TrendingUp className="w-4 h-4 inline mr-1" />
-                      +{cps >= 1000 ? (cps/1000).toFixed(1) + 'K' : cps.toFixed(1)}/sec
+              {showAchievement && (
+                <div className="fixed top-24 right-4 z-50 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white p-4 rounded-xl shadow-2xl animate-bounce border-4 border-yellow-300">
+                  <div className="flex items-center gap-3">
+                    <Trophy className="w-10 h-10" />
+                    <div>
+                      <div className="font-bold text-lg">🎉 Achievement Unlocked!</div>
+                      <div className="text-sm font-semibold">{showAchievement.name}</div>
+                      <div className="text-xs opacity-90">{showAchievement.desc}</div>
                     </div>
-                  )}
-                </div>
-
-                <div className="relative flex justify-center items-center h-64 mb-6">
-                  <button
-                    onClick={handleClick}
-                    className={`relative w-52 h-52 rounded-2xl bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-700 shadow-2xl hover:shadow-cyan-500/50 transition-all duration-100 cursor-pointer border-4 border-cyan-300 overflow-hidden ${
-                      isAnimating ? 'scale-90' : 'scale-100 hover:scale-105'
-                    }`}
-                  >
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Cpu className="w-28 h-28 text-white drop-shadow-2xl" />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent"></div>
-                    <div className="absolute inset-0 bg-white/10 rounded-2xl animate-pulse"></div>
-                  </button>
-
-                  {floatingNumbers.map(num => (
-                    <div
-                      key={num.id}
-                      className="absolute text-3xl font-bold text-cyan-400 pointer-events-none drop-shadow-lg"
-                      style={{
-                        left: num.x,
-                        top: num.y,
-                        animation: 'float 1s ease-out forwards'
-                      }}
-                    >
-                      +{num.value >= 1000 ? (num.value/1000).toFixed(1) + 'K' : num.value}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Stats */}
-                <div className="bg-slate-800/80 rounded-xl p-4 space-y-2 text-sm mb-4">
-                  <div className="flex justify-between text-gray-300">
-                    <span>Click Power:</span>
-                    <span className="text-cyan-400 font-bold">{(clickPower * multiplier).toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between text-gray-300">
-                    <span>Per Second:</span>
-                    <span className="text-green-400 font-bold">{cps >= 1000 ? (cps/1000).toFixed(1) + 'K' : cps.toFixed(1)}</span>
-                  </div>
-                  <div className="flex justify-between text-gray-300">
-                    <span>Total Lines:</span>
-                    <span className="text-blue-400 font-bold">{Math.floor(totalCode).toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between text-gray-300">
-                    <span>Lifetime:</span>
-                    <span className="text-purple-400 font-bold">{Math.floor(lifetimeCode).toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between text-gray-300">
-                    <span>Achievements:</span>
-                    <span className="text-yellow-400 font-bold">{achievements.size}/{ACHIEVEMENTS.length}</span>
                   </div>
                 </div>
+              )}
 
-                {/* Action Buttons */}
-                <div className="space-y-2">
-                  {canPrestige && (
-                    <button
-                      onClick={doPrestige}
-                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg hover:shadow-purple-500/50"
-                    >
-                      <Rocket className="w-5 h-5 inline mr-2" />
-                      Prestige for +50% Multiplier
-                    </button>
-                  )}
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      onClick={() => setShowStats(!showStats)}
-                      className="bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-lg text-sm font-semibold transition-all"
-                    >
-                      <BarChart3 className="w-4 h-4 inline mr-1" />
-                      Stats
-                    </button>
-                    <button
-                      onClick={resetGame}
-                      className="bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg text-sm font-semibold transition-all"
-                    >
-                      <Settings className="w-4 h-4 inline mr-1" />
-                      Reset
-                    </button>
-                  </div>
-                </div>
-
-                {/* Extended Stats */}
-                {showStats && (
-                  <div className="mt-4 bg-slate-800/80 rounded-xl p-4 space-y-2 text-xs">
-                    <h4 className="font-bold text-white mb-2">Extended Statistics</h4>
-                    <div className="flex justify-between text-gray-400">
-                      <span>Total Clicks:</span>
-                      <span className="text-white">{clickCount.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between text-gray-400">
-                      <span>Prestige Level:</span>
-                      <span className="text-purple-400">{prestige}</span>
-                    </div>
-                    <div className="flex justify-between text-gray-400">
-                      <span>Multiplier:</span>
-                      <span className="text-pink-400">{multiplier}x</span>
-                    </div>
-                    <div className="flex justify-between text-gray-400">
-                      <span>Auto-save:</span>
-                      <span className="text-green-400">Every 5s</span>
+              <main className="flex-1 p-6">
+                <div className="max-w-7xl mx-auto">
+                  <div className="mb-6 bg-slate-800/50 rounded-xl border border-slate-700 p-4 text-center">
+                    <div className="text-gray-500 text-sm mb-2">Advertisement</div>
+                    <div className="bg-slate-700/30 h-24 rounded flex items-center justify-center text-gray-600">
+                      <span className="text-xs">728x90 AdSense Banner</span>
                     </div>
                   </div>
-                )}
-              </div>
-            </div>
 
-            {/* Right Panel */}
-            <div className="lg:col-span-2">
-              {/* Tabs */}
-              <div className="flex gap-2 mb-4">
-                <button
-                  onClick={() => setSelectedTab('upgrades')}
-                  className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
-                    selectedTab === 'upgrades'
-                      ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-cyan-500/30'
-                      : 'bg-slate-800 text-gray-400 hover:bg-slate-700 border border-slate-700'
-                  }`}
-                >
-                  <TrendingUp className="w-5 h-5 inline mr-2" />
-                  Upgrades
-                </button>
-                <button
-                  onClick={() => setSelectedTab('achievements')}
-                  className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
-                    selectedTab === 'achievements'
-                      ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white shadow-lg shadow-yellow-500/30'
-                      : 'bg-slate-800 text-gray-400 hover:bg-slate-700 border border-slate-700'
-                  }`}
-                >
-                  <Trophy className="w-5 h-5 inline mr-2" />
-                  Achievements ({achievements.size})
-                </button>
-              </div>
-
-              {/* AdSense - Content Area */}
-              <div className="bg-slate-800/50 rounded-xl border border-slate-700 p-3 text-center mb-4">
-                <div className="text-gray-500 text-xs mb-2">Advertisement</div>
-                <div className="bg-slate-700/30 h-20 rounded flex items-center justify-center text-gray-600">
-                  {/* Google AdSense code goes here */}
-                  <span className="text-xs">728x90 or 468x60 AdSense</span>
-                </div>
-              </div>
-
-              {/* Upgrades Tab */}
-              {selectedTab === 'upgrades' && (
-                <div className="space-y-3 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar">
-                  {UPGRADES.map(upgrade => {
-                    const current = upgrades[upgrade.id] || { count: 0, cost: upgrade.baseCost };
-                    const canBuy = code >= current.cost;
-                    const Icon = upgrade.icon;
-                    const totalProduction = upgrade.cps ? upgrade.cps * current.count * multiplier : 0;
-
-                    return (
-                      <div
-                        key={upgrade.id}
-                        className={`bg-gradient-to-r from-slate-800 to-slate-900 rounded-xl p-4 border-2 transition-all hover:scale-[1.02] ${
-                          canBuy ? 'border-cyan-500 shadow-lg shadow-cyan-500/20' : 'border-slate-700'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-4 flex-1">
-                            <div className={`w-16 h-16 rounded-xl bg-gradient-to-br from-${upgrade.color}-500 to-${upgrade.color}-700 flex items-center justify-center shadow-xl relative`}>
-                              <Icon className="w-9 h-9 text-white" />
-                              {current.count > 0 && (
-                                <div className="absolute -top-2 -right-2 bg-cyan-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 border-slate-900">
-                                  {current.count > 99 ? '99+' : current.count}
-                                </div>
-                              )}
-                            </div>
-                            <div className="flex-1">
-                              <h3 className="text-xl font-bold text-white mb-1">{upgrade.name}</h3>
-                              <p className="text-gray-400 text-sm mb-2">{upgrade.desc}</p>
-                              <div className="flex flex-wrap gap-2 text-xs">
-                                {upgrade.power && (
-                                  <span className="bg-blue-500/20 text-blue-400 px-2 py-1 rounded border border-blue-500">
-                                    +{upgrade.power * multiplier} per click
-                                  </span>
-                                )}
-                                {upgrade.cps && current.count > 0 && (
-                                  <span className="bg-green-500/20 text-green-400 px-2 py-1 rounded border border-green-500">
-                                    {totalProduction >= 1000 ? (totalProduction/1000).toFixed(1) + 'K' : totalProduction.toFixed(1)}/sec total
-                                  </span>
-                                )}
-                              </div>
-                            </div>
+                  {prestige > 0 && (
+                    <div className="mb-6 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 text-white p-4 rounded-xl shadow-lg border-2 border-purple-400">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <Rocket className="w-8 h-8" />
+                          <div>
+                            <div className="font-bold text-lg">Prestige Level {prestige}</div>
+                            <div className="text-sm opacity-90">All production multiplied by {multiplier}x</div>
                           </div>
-                          <div className="text-right ml-4">
-                            <div className={`text-2xl font-bold mb-2 ${canBuy ? 'text-yellow-400' : 'text-gray-500'}`}>
-                              {current.cost >= 1000000 ? (current.cost/1000000).toFixed(2) + 'M' : current.cost >= 1000 ? (current.cost/1000).toFixed(1) + 'K' : current.cost.toLocaleString()}
+                        </div>
+                        <div className="text-right">
+                          <div className="text-2xl font-bold">{(multiplier * 100 - 100).toFixed(0)}%</div>
+                          <div className="text-xs opacity-90">Bonus</div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="grid lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-1">
+                      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 shadow-2xl border border-slate-700">
+                        <div className="text-center mb-4">
+                          <div className="text-6xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-1">
+                            {Math.floor(code).toLocaleString()}
+                          </div>
+                          <div className="text-gray-400 text-sm mb-2">Lines of Code</div>
+                          {cps > 0 && (
+                            <div className="inline-block bg-green-500/20 border border-green-500 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">
+                              <TrendingUp className="w-4 h-4 inline mr-1" />
+                              +{cps >= 1000 ? (cps/1000).toFixed(1) + 'K' : cps.toFixed(1)}/sec
                             </div>
-                            <button
-                              onClick={() => buyUpgrade(upgrade.id)}
-                              disabled={!canBuy}
-                              className={`px-8 py-2.5 rounded-lg font-bold transition-all ${
-                                canBuy
-                                  ? 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white shadow-lg hover:shadow-cyan-500/30'
-                                  : 'bg-gray-700 text-gray-500 cursor-not-allowed'
-                              }`}
+                          )}
+                        </div>
+
+                        <div className="relative flex justify-center items-center h-64 mb-6">
+                          <button
+                            onClick={handleClick}
+                            className={`relative w-52 h-52 rounded-2xl bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-700 shadow-2xl hover:shadow-cyan-500/50 transition-all duration-100 cursor-pointer border-4 border-cyan-300 overflow-hidden ${
+                              isAnimating ? 'scale-90' : 'scale-100 hover:scale-105'
+                            }`}
+                          >
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <Cpu className="w-28 h-28 text-white drop-shadow-2xl" />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent"></div>
+                            <div className="absolute inset-0 bg-white/10 rounded-2xl animate-pulse"></div>
+                          </button>
+
+                          {floatingNumbers.map(num => (
+                            <div
+                              key={num.id}
+                              className="absolute text-3xl font-bold text-cyan-400 pointer-events-none drop-shadow-lg"
+                              style={{
+                                left: num.x,
+                                top: num.y,
+                                animation: 'float 1s ease-out forwards'
+                              }}
                             >
-                              Buy
+                              +{num.value >= 1000 ? (num.value/1000).toFixed(1) + 'K' : num.value}
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="bg-slate-800/80 rounded-xl p-4 space-y-2 text-sm mb-4">
+                          <div className="flex justify-between text-gray-300">
+                            <span>Click Power:</span>
+                            <span className="text-cyan-400 font-bold">{(clickPower * multiplier).toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between text-gray-300">
+                            <span>Per Second:</span>
+                            <span className="text-green-400 font-bold">{cps >= 1000 ? (cps/1000).toFixed(1) + 'K' : cps.toFixed(1)}</span>
+                          </div>
+                          <div className="flex justify-between text-gray-300">
+                            <span>Total Lines:</span>
+                            <span className="text-blue-400 font-bold">{Math.floor(totalCode).toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between text-gray-300">
+                            <span>Lifetime:</span>
+                            <span className="text-purple-400 font-bold">{Math.floor(lifetimeCode).toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between text-gray-300">
+                            <span>Achievements:</span>
+                            <span className="text-yellow-400 font-bold">{achievements.size}/{ACHIEVEMENTS.length}</span>
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          {canPrestige && (
+                            <button
+                              onClick={doPrestige}
+                              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg hover:shadow-purple-500/50"
+                            >
+                              <Rocket className="w-5 h-5 inline mr-2" />
+                              Prestige for +50% Multiplier
+                            </button>
+                          )}
+                          <div className="grid grid-cols-2 gap-2">
+                            <button
+                              onClick={() => setShowStats(!showStats)}
+                              className="bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-lg text-sm font-semibold transition-all"
+                            >
+                              <BarChart3 className="w-4 h-4 inline mr-1" />
+                              Stats
+                            </button>
+                            <button
+                              onClick={resetGame}
+                              className="bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg text-sm font-semibold transition-all"
+                            >
+                              <Settings className="w-4 h-4 inline mr-1" />
+                              Reset
                             </button>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
 
-              {/* Achievements Tab */}
-              {selectedTab === 'achievements' && (
-                <div className="grid md:grid-cols-2 gap-4 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar">
-                  {ACHIEVEMENTS.map(ach => {
-                    const unlocked = achievements.has(ach.id);
-                    return (
-                      <div
-                        key={ach.id}
-                        className={`rounded-xl p-5 border-2 transition-all ${
-                          unlocked
-                            ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500 shadow-lg shadow-yellow-500/20'
-                            : 'bg-slate-800 border-slate-700 opacity-60'
-                        }`}
-                      >
-                        <div className="flex items-start gap-4">
-                          <Trophy className={`w-12 h-12 flex-shrink-0 ${unlocked ? 'text-yellow-400' : 'text-gray-600'}`} />
-                          <div>
-                            <h3 className={`font-bold text-lg mb-1 ${unlocked ? 'text-white' : 'text-gray-500'}`}>
-                              {ach.name}
-                            </h3>
-                            <p className="text-sm text-gray-400">{ach.desc}</p>
-                            {unlocked && (
-                              <div className="mt-2 text-xs text-yellow-400 font-semibold">
-                                ✓ Unlocked
-                              </div>
-                            )}
+                        {showStats && (
+                          <div className="mt-4 bg-slate-800/80 rounded-xl p-4 space-y-2 text-xs">
+                            <h4 className="font-bold text-white mb-2">Extended Statistics</h4>
+                            <div className="flex justify-between text-gray-400">
+                              <span>Total Clicks:</span>
+                              <span className="text-white">{clickCount.toLocaleString()}</span>
+                            </div>
+                            <div className="flex justify-between text-gray-400">
+                              <span>Prestige Level:</span>
+                              <span className="text-purple-400">{prestige}</span>
+                            </div>
+                            <div className="flex justify-between text-gray-400">
+                              <span>Multiplier:</span>
+                              <span className="text-pink-400">{multiplier}x</span>
+                            </div>
+                            <div className="flex justify-between text-gray-400">
+                              <span>Auto-save:</span>
+                              <span className="text-green-400">Every 5s</span>
+                            </div>
                           </div>
+                        )}
+                      </div>
+
+                      <div className="bg-slate-800/50 rounded-xl border border-slate-700 p-4 text-center mt-4">
+                        <div className="text-gray-500 text-xs mb-2">Advertisement</div>
+                        <div className="bg-slate-700/30 h-64 rounded flex items-center justify-center text-gray-600">
+                          <span className="text-xs">300x250 AdSense</span>
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </main>
+                    </div>
 
-      <style jsx>{`
-        @keyframes float {
-          0% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-          100% {
-            opacity: 0;
-            transform: translateY(-100px);
-          }
+                    <div className="lg:col-span-2">
+                      <div className="flex gap-2 mb-4">
+                        <button
+                          onClick={() => setSelectedTab('upgrades')}
+                          className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
+                            selectedTab === 'upgrades'
+                              ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-cyan-500/30'
+                              : 'bg-slate-800 text-gray-400 hover:bg-slate-700 border border-slate-700'
+                          }`}
+                        >
+                          <TrendingUp className="w-5 h-5 inline mr-2" />
+                          Upgrades
+                        </button>
+                        <button
+                          onClick={() => setSelectedTab('achievements')}
+                          className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
+                            selectedTab === 'achievements'
+                              ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white shadow-lg shadow-yellow-500/30'
+                              : 'bg-slate-800 text-gray-400 hover:bg-slate-700 border border-slate-700'
+                          }`}
+                        >
+                          <Trophy className="w-5 h-5 inline mr-2" />
+                          Achievements ({achievements.size})
+                        </button>
+                      </div>
+
+                      <div className="bg-slate-800/50 rounded-xl border border-slate-700 p-3 text-center mb-4">
+                        <div className="text-gray-500 text-xs mb-2">Advertisement</div>
+                        <div className="bg-slate-700/30 h-20 rounded flex items-center justify-center text-gray-600">
+                          <span className="text-xs">728x90 or 468x60 AdSense</span>
+                        </div>
+                      </div>
+
+                      {selectedTab === 'upgrades' && (
+                        <div className="space-y-3 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar">
+                          {UPGRADES.map(upgrade => {
+                            const current = upgrades[upgrade.id] || { count: 0, cost: upgrade.baseCost };
+                            const canBuy = code >= current.cost;
+                            const Icon = upgrade.icon;
+                            const totalProduction = upgrade.cps ? upgrade.cps * current.count * multiplier : 0;
+
+                            return (
+                              <div
+                                key={upgrade.id}
+                                className={`bg-gradient-to-r from-slate-800 to-slate-900 rounded-xl p-4 border-2 transition-all hover:scale-[1.02] ${
+                                  canBuy ? 'border-cyan-500 shadow-lg shadow-cyan-500/20' : 'border-slate-700'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-4 flex-1">
+                                    <div className={`w-16 h-16 rounded-xl bg-gradient-to-br from-${upgrade.color}-500 to-${upgrade.color}-700 flex items-center justify-center shadow-xl relative`}>
+                                      <Icon className="w-9 h-9 text-white" />
+                                      {current.count > 0 && (
+                                        <div className="absolute -top-2 -right-2 bg-cyan-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 border-slate-900">
+                                          {current.count > 99 ? '99+' : current.count}
+                                        </div>
+                                      )}
+                                    </div>
+                                    <div className="flex-1">
+                                      <h3 className="text-xl font-bold text-white mb-1">{upgrade.name}</h3>
+                                      <p className="text-gray-400 text-sm mb-2">{upgrade.desc}</p>
+                                      <div className="flex flex-wrap gap-2 text-xs">
+                                        {upgrade.power && (
+                                          <span className="bg-blue-500/20 text-blue-400 px-2 py-1 rounded border border-blue-500">
+                                            +{upgrade.power * multiplier} per click
+                                          </span>
+                                        )}
+                                        {upgrade.cps && current.count > 0 && (
+                                          <span className="bg-green-500/20 text-green-400 px-2 py-1 rounded border border-green-500">
+                                            {totalProduction >= 1000 ? (totalProduction/1000).toFixed(1) + 'K' : totalProduction.toFixed(1)}/sec total
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="text-right ml-4">
+                                    <div className={`text-2xl font-bold mb-2 ${canBuy ? 'text-yellow-400' : 'text-gray-500'}`}>
+                                      {current.cost >= 1000000 ? (current.cost/1000000).toFixed(2) + 'M' : current.cost >= 1000 ? (current.cost/1000).toFixed(1) + 'K' : current.cost.toLocaleString()}
+                                    </div>
+                                    <button
+                                      onClick={() => buyUpgrade(upgrade.id)}
+                                      disabled={!canBuy}
+                                      className={`px-8 py-2.5 rounded-lg font-bold transition-all ${
+                                        canBuy
+                                          ? 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white shadow-lg hover:shadow-cyan-500/30'
+                                          : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                                      }`}
+                                    >
+                                      Buy
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      {selectedTab === 'achievements' && (
+                        <div className="grid md:grid-cols-2 gap-4 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar">
+                          {ACHIEVEMENTS.map(ach => {
+                            const unlocked = achievements.has(ach.id);
+                            return (
+                              <div
+                                key={ach.id}
+                                className={`rounded-xl p-5 border-2 transition-all ${
+                                  unlocked
+                                    ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500 shadow-lg shadow-yellow-500/20'
+                                    : 'bg-slate-800 border-slate-700 opacity-60'
+                                }`}
+                              >
+                                <div className="flex items-start gap-4">
+                                  <Trophy className={`w-12 h-12 flex-shrink-0 ${unlocked ? 'text-yellow-400' : 'text-gray-600'}`} />
+                                  <div>
+                                    <h3 className={`font-bold text-lg mb-1 ${unlocked ? 'text-white' : 'text-gray-500'}`}>
+                                      {ach.name}
+                                    </h3>
+                                    <p className="text-sm text-gray-400">{ach.desc}</p>
+                                    {unlocked && (
+                                      <div className="mt-2 text-xs text-yellow-400 font-semibold">
+                                        ✓ Unlocked
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </main>
+
+              <style>{`
+                @keyframes float {
+                  0% {
+                    opacity: 1;
+                    transform: translateY(0);
+                  }
+                  100% {
+                    opacity: 0;
+                    transform: translateY(-100px);
+                  }
+                }
+                .custom-scrollbar::-webkit-scrollbar {
+                  width: 8px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                  background: rgba(51, 65, 85, 0.3);
+                  border-radius: 4px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                  background: rgba(6, 182, 212, 0.5);
+                  border-radius: 4px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                  background: rgba(6, 182, 212, 0.7);
+                }
+              `}</style>
+            </div>
+          );
         }
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(51, 65, 85, 0.3);
-          border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(6, 182, 212, 0.5);
-          border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(6, 182, 212, 0.7);
-        }
-      `}</style>
-    </div>
-  );
-}
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<LetUsTech />);
     </script>
 </body>
 </html>
