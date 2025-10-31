@@ -3,15 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zombie Survival</title>
-    <!-- Tailwind output CSS -->
-    <link rel="stylesheet" href="dist/output.css">
+    <title>Zombie Survival - LetUsTech</title>
+
+    <!-- Tailwind CSS CDN - REPLACE YOUR LINK TAG WITH THIS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Optional: Configure Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'game-dark': '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="bg-gray-900">
-    <!-- React root -->
     <div id="root"></div>
-
-    <!-- React bundle -->
     <script src="dist/bundle.js"></script>
 </body>
 </html>
