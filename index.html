@@ -4,9 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LetUsTech - Wired For Your World</title>
-    <link rel="stylesheet" href="styles.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5830581574523106"
-     crossorigin="anonymous"></script>
+            crossorigin="anonymous"></script>
+
+    <!-- NUCLEAR CSS FIX - This WILL make clicks work -->
+    <style>
+        /* CRITICAL: Remove ALL blocking overlays */
+        * {
+            pointer-events: auto !important;
+        }
+
+        body::before, body::after,
+        html::before, html::after,
+        div::before, div::after,
+        section::before, section::after {
+            display: none !important;
+            pointer-events: none !important;
+        }
+
+        /* Force modals hidden */
+        .modal {
+            display: none !important;
+            pointer-events: none !important;
+        }
+
+            .modal.show {
+                display: block !important;
+                pointer-events: auto !important;
+            }
+
+        /* Make everything clickable */
+        a, button, input, select, textarea {
+            pointer-events: auto !important;
+            cursor: pointer !important;
+        }
+    </style>
+
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
@@ -17,7 +51,7 @@
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#programs">Programs</a></li>
-                <li><a href="#games"> Games</a></li>
+                <li><a href="#games">Games</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="#donate" class="donate-link">💝 Donate</a></li>
             </ul>
@@ -42,14 +76,14 @@
                 <div class="about-text">
                     <h3>Who We Are</h3>
                     <p>Welcome to LetUsTech - your trusted source for free, high-quality Python automation tools and solutions. Founded by passionate developers who believe in the power of open-source and accessible technology, we've made it our mission to create professional-grade software that anyone can use, regardless of their budget or technical background.</p>
-                    
+
                     <p>What started as a small project to help friends automate tedious tasks has grown into a platform serving thousands of users worldwide. Every program we create is born from real-world needs and refined based on community feedback.</p>
-                    
+
                     <h3 style="margin-top: 2rem;">Our Story</h3>
                     <p>LetUsTech began in 2024 when we realized that powerful automation tools were either too expensive or too complicated for everyday users. We asked ourselves: "Why should only big companies have access to automation?" That question sparked our journey.</p>
-                    
+
                     <p>Today, we're proud to offer a growing library of Python programs that have collectively saved our users thousands of hours. From data analysis to web scraping, from PDF processing to email automation - we're building tools that make your life easier.</p>
-                    
+
                     <h3 style="margin-top: 2rem;">Our Mission</h3>
                     <p>We believe that everyone deserves access to professional-grade software tools. That's why all our programs are 100% free, forever. We're committed to:</p>
                     <ul class="about-list">
@@ -60,12 +94,12 @@
                         <li>Maintaining transparency in our code and development process</li>
                         <li>Keeping our programs lightweight, fast, and resource-efficient</li>
                     </ul>
-                    
+
                     <h3 style="margin-top: 2rem;">What Makes Us Different?</h3>
                     <p>Unlike commercial software companies, we don't lock features behind paywalls or subscription models. We don't collect your data. We don't force you to create accounts. We simply create great tools and make them available to everyone.</p>
-                    
+
                     <p>Our programs are built with Python and HTML - a language known for its simplicity and power. This means our tools are cross-platform, easy to modify if you have programming knowledge, and backed by one of the world's largest programming communities.</p>
-                    
+
                     <h3 style="margin-top: 2rem;">Why Choose Us?</h3>
                     <div class="features-grid">
                         <div class="feature-box">
@@ -109,7 +143,7 @@
                             <p>Transparent development and willingness to share knowledge</p>
                         </div>
                     </div>
-                    
+
                     <h3 style="margin-top: 3rem;">Our Values</h3>
                     <div class="values-section">
                         <div class="value-item">
@@ -128,7 +162,7 @@
                             <strong>Innovation:</strong> We're always exploring new ways to make tasks easier and faster.
                         </div>
                     </div>
-                    
+
                     <h3 style="margin-top: 3rem;">How We Sustain Ourselves</h3>
                     <p>You might wonder: "How do you keep this going if everything is free?" Great question! We operate on a donation-based model supported by users who love what we do. Some users view ads on our site, while others choose to donate directly. Every contribution, no matter how small, helps us:</p>
                     <ul class="about-list">
@@ -137,9 +171,9 @@
                         <li>Maintain and update existing tools</li>
                         <li>Provide support to our user community</li>
                     </ul>
-                    
+
                     <p style="margin-top: 2rem;">If our programs have saved you time or made your life easier, please consider <a href="#donate" style="color: #667eea; text-decoration: underline; font-weight: 600;">supporting us</a>. Your contribution keeps these tools free for everyone.</p>
-                    
+
                     <h3 style="margin-top: 3rem;">Get Involved</h3>
                     <p>LetUsTech isn't just about downloading programs - it's about being part of a community. Here's how you can get involved:</p>
                     <ul class="about-list">
@@ -149,7 +183,7 @@
                         <li><strong>Donate:</strong> Support our mission to keep everything free for everyone</li>
                         <li><strong>Provide Feedback:</strong> Your experience matters - good or bad, we want to hear about it</li>
                     </ul>
-                    
+
                     <div class="cta-box">
                         <h4>Ready to Get Started?</h4>
                         <p>Browse our collection of free Python programs and start automating your tasks today!</p>
@@ -163,10 +197,8 @@
     <section id="programs" class="programs-section">
         <div class="container">
             <h2 class="section-title">Available Programs</h2>
-            
-            <!-- Ad Space for Free Users -->
+
             <div class="ad-space">
-                <!-- AdSense Ad Unit 1 -->
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-5830581574523106"
@@ -174,7 +206,7 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
+                    (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
             </div>
 
@@ -183,48 +215,46 @@
                     <span class="program-badge">Free</span>
                     <h3>Data Analyzer Pro</h3>
                     <p>Analyze CSV files with advanced statistical insights and visualization capabilities.</p>
-                    <button class="btn btn-primary" onclick="showDownloadModal('Data Analyzer Pro', 'data-analyzer-pro.zip')">Download</button>
+                    <button class="btn btn-primary" onclick="showModal('Data Analyzer Pro', 'data-analyzer-pro.zip')">Download</button>
                 </div>
 
                 <div class="program-card">
                     <span class="program-badge">Free</span>
                     <h3>Web Scraper Suite</h3>
                     <p>Extract data from any website with our powerful and ethical web scraping toolkit.</p>
-                    <button class="btn btn-primary" onclick="showDownloadModal('Web Scraper Suite', 'web-scraper-suite.zip')">Download</button>
+                    <button class="btn btn-primary" onclick="showModal('Web Scraper Suite', 'web-scraper-suite.zip')">Download</button>
                 </div>
 
                 <div class="program-card">
                     <span class="program-badge">Free</span>
                     <h3>PDF Processor</h3>
                     <p>Merge, split, and manipulate PDF files with ease using this automation tool.</p>
-                    <button class="btn btn-primary" onclick="showDownloadModal('PDF Processor', 'pdf-processor.zip')">Download</button>
+                    <button class="btn btn-primary" onclick="showModal('PDF Processor', 'pdf-processor.zip')">Download</button>
                 </div>
 
                 <div class="program-card">
                     <span class="program-badge">Free</span>
                     <h3>Email Automation Bot</h3>
                     <p>Automate your email workflows with smart templates and scheduling features.</p>
-                    <button class="btn btn-primary" onclick="showDownloadModal('Email Automation Bot', 'email-automation-bot.zip')">Download</button>
+                    <button class="btn btn-primary" onclick="showModal('Email Automation Bot', 'email-automation-bot.zip')">Download</button>
                 </div>
 
                 <div class="program-card">
                     <span class="program-badge">Free</span>
                     <h3>Image Optimizer</h3>
                     <p>Batch resize, compress, and convert images while maintaining quality.</p>
-                    <button class="btn btn-primary" onclick="showDownloadModal('Image Optimizer', 'image-optimizer.zip')">Download</button>
+                    <button class="btn btn-primary" onclick="showModal('Image Optimizer', 'image-optimizer.zip')">Download</button>
                 </div>
 
                 <div class="program-card">
                     <span class="program-badge">Free</span>
                     <h3>API Integration Tool</h3>
                     <p>Connect multiple APIs and automate data flow between your favorite services.</p>
-                    <button class="btn btn-primary" onclick="showDownloadModal('API Integration Tool', 'api-integration-tool.zip')">Download</button>
+                    <button class="btn btn-primary" onclick="showModal('API Integration Tool', 'api-integration-tool.zip')">Download</button>
                 </div>
             </div>
 
-            <!-- Another Ad Space -->
             <div class="ad-space">
-                <!-- AdSense Ad Unit 2 -->
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-5830581574523106"
@@ -232,70 +262,77 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
+                    (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
             </div>
         </div>
     </section>
 
-<section id="games" class="programs-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-    <div class="container">
-        <h2 class="section-title" style="color: white;">Free Games</h2>
-        <p style="text-align: center; color: white; font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.95;">
-            Test your skills and have fun with our collection of browser-based games!
-        </p>
-
-        <div class="programs-grid">
-            <div class="program-card" style="background: white;">
-                <span class="program-badge" style="background: #ffd700; color: #333;">🎮 Featured</span>
-                <h3>Math Quest</h3>
-                <p>Test your math skills in this fun, interactive game! Solve problems, earn coins, unlock levels, and compete for high scores.</p>
-                <a href="math-quest.html" class="btn btn-primary" style="text-decoration: none;">Play Now</a>
-            </div>
-
-            <div class="program-card" style="background: white;">
-                <span class="program-badge" style="background: #4ade80; color: white;">🎮 New!</span>
-                <h3>Memory Match</h3>
-                <p>Train your brain with this classic memory matching game. Multiple difficulty levels, power-ups, and challenging emoji pairs!</p>
-                <a href="Memory Match.html" class="btn btn-primary" style="text-decoration: none;">Play Now</a>
-            </div>
-
-            <div class="program-card" style="background: white;">
-                <span class="program-badge" style="background: #4ade80; color: white;">🎮 New!</span>
-                <h3>Tech Clicker</h3>
-                <p>Build your tech empire! Click to earn coins, buy upgrades, and automate your way to becoming a tech mogul in this addictive idle game.</p>
-                <a href="Tech Clicker.html" class="btn btn-primary" style="text-decoration: none;">Play Now</a>
-            </div>
-
-            <div class="program-card" style="background: white;">
-                <span class="program-badge" style="background: #4ade80; color: white;">🎮 New!</span>
-                <h3>Word Master</h3>
-                <p>Challenge your vocabulary with word puzzles, anagrams, and spelling challenges. Perfect for word game enthusiasts!</p>
-                <a href="Word Master.html" class="btn btn-primary" style="text-decoration: none;">Play Now</a>
-            </div>
-
-            <div class="program-card" style="background: white; opacity: 0.7;">
-                <span class="program-badge" style="background: #ff6b6b; color: white;">Coming Soon</span>
-                <h3>Code Breaker</h3>
-                <p>Crack the code in this logic-based puzzle game. Test your deduction skills and problem-solving abilities.</p>
-                <button class="btn btn-secondary" disabled>Coming Soon</button>
-            </div>
-
-            <div class="program-card" style="background: white; opacity: 0.7;">
-                <span class="program-badge" style="background: #ff6b6b; color: white;">Coming Soon</span>
-                <h3>Speed Typing Challenge</h3>
-                <p>Improve your typing speed and accuracy with timed challenges and competitive leaderboards.</p>
-                <button class="btn btn-secondary" disabled>Coming Soon</button>
-            </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 2rem;">
-            <p style="color: white; font-size: 1rem; opacity: 0.9;">
-                💡 Have an idea for a game? <a href="#contact" style="color: #ffd700; text-decoration: underline; font-weight: 600;">Let us know!</a>
+    <section id="games" class="programs-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Free Games</h2>
+            <p style="text-align: center; color: white; font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.95;">
+                Test your skills and have fun with our collection of browser-based games!
             </p>
+
+            <div class="programs-grid">
+                <div class="program-card" style="background: white;">
+                    <span class="program-badge" style="background: #ffd700; color: #333;">🎮 Featured</span>
+                    <h3>Math Quest</h3>
+                    <p>Test your math skills in this fun, interactive game! Solve problems, earn coins, unlock levels, and compete for high scores.</p>
+                    <a href="math-quest.html" class="btn btn-primary" style="text-decoration: none;">Play Now</a>
+                </div>
+
+                <div class="program-card" style="background: white;">
+                    <span class="program-badge" style="background: #4ade80; color: white;">🎮 New!</span>
+                    <h3>Memory Match</h3>
+                    <p>Train your brain with this classic memory matching game. Multiple difficulty levels, power-ups, and challenging emoji pairs!</p>
+                    <a href="Memory Match.html" class="btn btn-primary" style="text-decoration: none;">Play Now</a>
+                </div>
+
+                <div class="program-card" style="background: white;">
+                    <span class="program-badge" style="background: #4ade80; color: white;">🎮 New!</span>
+                    <h3>Tech Clicker</h3>
+                    <p>Build your tech empire! Click to earn coins, buy upgrades, and automate your way to becoming a tech mogul in this addictive idle game.</p>
+                    <a href="Tech Clicker.html" class="btn btn-primary" style="text-decoration: none;">Play Now</a>
+                </div>
+
+                <div class="program-card" style="background: white;">
+                    <span class="program-badge" style="background: #4ade80; color: white;">🎮 New!</span>
+                    <h3>Word Master</h3>
+                    <p>Challenge your vocabulary with word puzzles, anagrams, and spelling challenges. Perfect for word game enthusiasts!</p>
+                    <a href="Word Master.html" class="btn btn-primary" style="text-decoration: none;">Play Now</a>
+                </div>
+
+                <div class="program-card" style="background: white;">
+                    <span class="program-badge" style="background: #4ade80; color: white;">🎮 New!</span>
+                    <h3>Zombie Survival</h3>
+                    <p>Fight off waves of zombies in this action-packed survival game! Use strategy and quick reflexes to stay alive.</p>
+                    <a href="zombie-survival.html" class="btn btn-primary" style="text-decoration: none;">Play Now</a>
+                </div>
+
+                <div class="program-card" style="background: white; opacity: 0.7;">
+                    <span class="program-badge" style="background: #ff6b6b; color: white;">Coming Soon</span>
+                    <h3>Code Breaker</h3>
+                    <p>Crack the code in this logic-based puzzle game. Test your deduction skills and problem-solving abilities.</p>
+                    <button class="btn btn-secondary" disabled>Coming Soon</button>
+                </div>
+
+                <div class="program-card" style="background: white; opacity: 0.7;">
+                    <span class="program-badge" style="background: #ff6b6b; color: white;">Coming Soon</span>
+                    <h3>Speed Typing Challenge</h3>
+                    <p>Improve your typing speed and accuracy with timed challenges and competitive leaderboards.</p>
+                    <button class="btn btn-secondary" disabled>Coming Soon</button>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <p style="color: white; font-size: 1rem; opacity: 0.9;">
+                    💡 Have an idea for a game? <a href="#contact" style="color: #ffd700; text-decoration: underline; font-weight: 600;">Let us know!</a>
+                </p>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <section id="donate" class="donate-section">
         <div class="container">
@@ -319,7 +356,7 @@
                     <div class="donate-card">
                         <h3>🏦 Bank Transfer</h3>
                         <p>Direct bank transfer (UK)</p>
-                        <button class="btn btn-primary" onclick="showBankDetailsModal()">View Details</button>
+                        <button class="btn btn-primary" onclick="showBankModal()">View Details</button>
                     </div>
                     <div class="donate-card">
                         <h3>💳 PayPal</h3>
@@ -346,7 +383,7 @@
                     </div>
                 </div>
                 <div class="contact-form-container">
-                    <form id="contactForm" class="contact-form">
+                    <form id="contactForm" class="contact-form" onsubmit="handleSubmit(event)">
                         <input type="text" name="name" placeholder="Your Name" required>
                         <input type="email" name="email" placeholder="Your Email" required>
                         <input type="text" name="subject" placeholder="Subject" required>
@@ -363,7 +400,7 @@
             <div style="margin-bottom: 1rem;">
                 <a href="#about" style="color: white; margin: 0 1rem; text-decoration: none;">About</a>
                 <a href="#programs" style="color: white; margin: 0 1rem; text-decoration: none;">Programs</a>
-                <a href="#games" style="color: white; margin: 0 1rem; text-decoration: none;"> Games</a>
+                <a href="#games" style="color: white; margin: 0 1rem; text-decoration: none;">Games</a>
                 <a href="#donate" style="color: white; margin: 0 1rem; text-decoration: none;">Donate</a>
                 <a href="#contact" style="color: white; margin: 0 1rem; text-decoration: none;">Contact</a>
             </div>
@@ -373,39 +410,12 @@
     </footer>
 
     <!-- Modals -->
-    <div id="bankDetailsModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('bankDetailsModal')">&times;</span>
-            <h2>🏦 Bank Transfer Details</h2>
-            <p style="margin-bottom: 2rem;">You can support us directly via UK bank transfer:</p>
-            
-            <div style="background: #f5f7fa; padding: 2rem; border-radius: 8px; margin: 1.5rem 0;">
-                <div style="margin-bottom: 1.5rem;">
-                    <strong style="color: #667eea; font-size: 1.1rem;">Sort Code:</strong>
-                    <p style="font-size: 1.5rem; font-weight: bold; margin-top: 0.5rem; font-family: monospace;">04-00-04</p>
-                </div>
-                
-                <div>
-                    <strong style="color: #667eea; font-size: 1.1rem;">Account Number:</strong>
-                    <p style="font-size: 1.5rem; font-weight: bold; margin-top: 0.5rem; font-family: monospace;">49376025</p>
-                </div>
-            </div>
-            
-            <p style="font-size: 0.9rem; color: #666; margin-top: 1.5rem; text-align: center;">
-                💙 Every contribution helps us keep all programs free for everyone!
-            </p>
-            
-            <button class="btn btn-secondary" style="margin-top: 1.5rem; width: 100%;" onclick="copyBankDetails()">📋 Copy Details</button>
-        </div>
-    </div>
-
     <div id="downloadModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('downloadModal')">&times;</span>
-            <h2 id="modalProgramName">Program Download</h2>
+            <span class="close-modal" onclick="hideModal('downloadModal')">&times;</span>
+            <h2 id="modalTitle">Program Download</h2>
             <p>Thank you for choosing our free programs!</p>
             <div class="ad-space" style="margin: 1.5rem 0;">
-                <!-- AdSense Ad Unit in Modal -->
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-5830581574523106"
@@ -413,30 +423,124 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
+                    (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
             </div>
-            <p id="modalProgramDescription">Click the button below to download your program.</p>
+            <p>Click the button below to download your program.</p>
             <a id="downloadLink" href="#" download class="btn btn-primary" style="margin-top: 1rem; display: block; text-align: center; text-decoration: none;">Download Now</a>
             <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
-                💙 Enjoying our programs? <a href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL" target="_blank" style="color: #667eea; text-decoration: underline;">Donate via PayPal</a> or <a href="#donate" onclick="closeModal('downloadModal')" style="color: #667eea; text-decoration: underline;">view other options</a>
+                💙 Enjoying our programs? <a href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL" target="_blank" style="color: #667eea; text-decoration: underline;">Donate via PayPal</a>
             </p>
         </div>
     </div>
 
-    <div id="contactModal" class="modal">
+    <div id="bankModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('contactModal')">&times;</span>
-            <h2>Contact Us</h2>
-            <p>Have questions or feedback?</p>
-            <form style="margin-top: 1.5rem;">
-                <input type="email" placeholder="Your email" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 4px;">
-                <textarea placeholder="Your message" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; min-height: 100px;"></textarea>
-                <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Send Message</button>
-            </form>
+            <span class="close-modal" onclick="hideModal('bankModal')">&times;</span>
+            <h2>🏦 Bank Transfer Details</h2>
+            <p style="margin-bottom: 2rem;">You can support us directly via UK bank transfer:</p>
+
+            <div style="background: #f5f7fa; padding: 2rem; border-radius: 8px; margin: 1.5rem 0;">
+                <div style="margin-bottom: 1.5rem;">
+                    <strong style="color: #667eea; font-size: 1.1rem;">Sort Code:</strong>
+                    <p style="font-size: 1.5rem; font-weight: bold; margin-top: 0.5rem; font-family: monospace;">04-00-04</p>
+                </div>
+
+                <div>
+                    <strong style="color: #667eea; font-size: 1.1rem;">Account Number:</strong>
+                    <p style="font-size: 1.5rem; font-weight: bold; margin-top: 0.5rem; font-family: monospace;">49376025</p>
+                </div>
+            </div>
+
+            <p style="font-size: 0.9rem; color: #666; margin-top: 1.5rem; text-align: center;">
+                💙 Every contribution helps us keep all programs free for everyone!
+            </p>
+
+            <button class="btn btn-secondary" style="margin-top: 1.5rem; width: 100%;" onclick="copyBank()">📋 Copy Details</button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- JavaScript at the VERY END -->
+    <script>
+        console.log('✅ JavaScript loaded successfully!');
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // Header shadow
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            header.style.boxShadow = window.scrollY > 50 ? '0 2px 10px rgba(0,0,0,0.1)' : 'none';
+        });
+
+        // Show modal
+        function showModal(name, file) {
+            const modal = document.getElementById('downloadModal');
+            document.getElementById('modalTitle').textContent = name;
+            document.getElementById('downloadLink').href = file;
+            document.getElementById('downloadLink').textContent = 'Download ' + name;
+            modal.classList.add('show');
+            modal.style.display = 'block';
+        }
+
+        function showBankModal() {
+            const modal = document.getElementById('bankModal');
+            modal.classList.add('show');
+            modal.style.display = 'block';
+        }
+
+        // Hide modal
+        function hideModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+        }
+
+        // Copy bank details
+        function copyBank() {
+            const text = 'Sort Code: 04-00-04\nAccount Number: 49376025';
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('✅ Bank details copied!');
+                }).catch(() => {
+                    alert('Details:\n\n' + text);
+                });
+            } else {
+                alert('Details:\n\n' + text);
+            }
+        }
+
+        // Contact form
+        function handleSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = new FormData(form);
+            const mailto = `mailto:letustec@gmail.com?subject=${encodeURIComponent(data.get('subject'))}&body=${encodeURIComponent('From: ' + data.get('name') + '\nEmail: ' + data.get('email') + '\n\n' + data.get('message'))}`;
+            window.location.href = mailto;
+            alert('✅ Opening your email client...');
+            form.reset();
+        }
+
+        // Close modal on backdrop click
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('show');
+                e.target.style.display = 'none';
+            }
+        });
+
+        console.log('✅ All functions loaded!');
+    </script>
 </body>
 </html>

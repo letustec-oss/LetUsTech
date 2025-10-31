@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Breaker - LetUsTech</title>
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/favicon.ico">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5830581574523106"
+     crossorigin="anonymous"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #667eea;
+        }
+
+        /* Ad Styles */
+        .ad-container {
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 20px auto;
+            max-width: 728px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .ad-sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            width: 160px;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            max-width: 800px;
+        }
+
+        .game-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .instructions {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .difficulty-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .difficulty-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .difficulty-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .difficulty-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .secret-code {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .code-slot {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            border: 3px solid #333;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .code-slot.revealed {
+            background: #667eea;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .number-selector {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .number-option {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            border: 3px solid #333;
+            background: #667eea;
+            color: white;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .number-option:hover {
+            transform: scale(1.1);
+        }
+
+        .number-option.selected {
+            border: 4px solid gold;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            background: #764ba2;
+        }
+
+        .current-guess {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .guess-slot {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            border: 3px solid #333;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .guess-slot:hover {
+            transform: scale(1.05);
+            background: #f8f9fa;
+        }
+
+        .guess-slot.filled {
+            background: #667eea;
+            color: white;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-bottom: 30px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .history {
+            margin-top: 30px;
+        }
+
+        .history-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .guess-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .guess-slots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .history-slot {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            border: 2px solid #333;
+            background: #667eea;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .feedback {
+            display: flex;
+            gap: 5px;
+            margin-left: auto;
+        }
+
+        .feedback-peg {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 1px solid #333;
+        }
+
+        .correct-position {
+            background: #2ecc71;
+        }
+
+        .correct-number {
+            background: #f39c12;
+        }
+
+        .message {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .win {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .lose {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .new-game-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+
+        .new-game-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .attempts {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: white;
+            padding: 30px 20px;
+            margin-top: 20px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .footer-section a {
+            display: block;
+            color: #333;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1200px) {
+            .ad-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav {
+                justify-content: center;
+            }
+
+            .game-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .code-slot, .guess-slot {
+                width: 45px;
+                height: 45px;
+                font-size: 1.5em;
+            }
+
+            .number-option {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2em;
+            }
+
+            .history-slot {
+                width: 30px;
+                height: 30px;
+                font-size: 1em;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .difficulty-btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 1.2em;
+            }
+
+            nav {
+                gap: 10px;
+                font-size: 0.9em;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .code-slot, .guess-slot {
+                width: 40px;
+                height: 40px;
+                font-size: 1.3em;
+            }
+
+            .number-option {
+                width: 35px;
+                height: 35px;
+                font-size: 1.1em;
+            }
+
+            .secret-code, .current-guess {
+                gap: 6px;
+                padding: 15px;
+            }
+
+            .number-selector {
+                gap: 6px;
+            }
+
+            .difficulty-selector {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .difficulty-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="LetUsTech.png" alt="LetUsTech Logo" onerror="this.style.display='none'">
+                <span class="logo-text">LetUsTech</span>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#programs">Programs</a>
+                <a href="index.html#games">Games</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Left Sidebar Ad (Desktop only) -->
+        <aside class="ad-sidebar">
+            <!-- AdSense ad unit -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-5830581574523106"
+                 data-ad-slot="YYYYYYYYYY"
+                 data-ad-format="vertical"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </aside>
+
+        <div class="content-wrapper">
+            <!-- Top Ad -->
+            <div class="ad-container">
+                <!-- AdSense ad unit -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-5830581574523106"
+                     data-ad-slot="YYYYYYYYYY"
+                     data-ad-format="horizontal"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <div class="game-container">
+                <h1>🔐 Code Breaker</h1>
+                <p class="instructions">Select difficulty and guess the secret code!</p>
+                
+                <div class="difficulty-selector">
+                    <button class="difficulty-btn" onclick="setDifficulty('easy')">Easy</button>
+                    <button class="difficulty-btn active" onclick="setDifficulty('medium')">Medium</button>
+                    <button class="difficulty-btn" onclick="setDifficulty('hard')">Hard</button>
+                </div>
+                
+                <div class="secret-code" id="secretCode"></div>
+                
+                <div class="attempts" id="attempts">Attempts: 0/12</div>
+                
+                <div class="number-selector" id="numberSelector"></div>
+                
+                <div class="current-guess" id="currentGuess"></div>
+                
+                <button class="submit-btn" id="submitBtn" disabled>Submit Guess</button>
+                
+                <div class="history">
+                    <div class="history-title">Previous Guesses:</div>
+                    <div id="historyContainer"></div>
+                </div>
+                
+                <div id="messageContainer"></div>
+            </div>
+
+            <!-- Bottom Ad -->
+            <div class="ad-container">
+                <!-- AdSense ad unit -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-5830581574523106"
+                     data-ad-slot="YYYYYYYYYY"
+                     data-ad-format="horizontal"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+        <!-- Right Sidebar Ad (Desktop only) -->
+        <aside class="ad-sidebar">
+            <!-- AdSense ad unit -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-5830581574523106"
+                 data-ad-slot="YYYYYYYYYY"
+                 data-ad-format="vertical"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </aside>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="https://discord.gg/dkebMS5eCX" target="_blank">Discord Community</a>
+                <a href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL" target="_blank">Donate</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 LetUsTech. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        let secretCode = [];
+        let currentGuess = [];
+        let selectedNumber = null;
+        let attempts = 0;
+        let maxAttempts = 12;
+        let gameOver = false;
+        let codeLength = 4;
+        let currentDifficulty = 'medium';
+
+        const difficulties = {
+            easy: { length: 3, attempts: 12 },
+            medium: { length: 4, attempts: 10 },
+            hard: { length: 5, attempts: 8 }
+        };
+
+        function setDifficulty(difficulty) {
+            if (gameOver && attempts > 0) {
+                if (!confirm('Start a new game with ' + difficulty + ' difficulty?')) return;
+            }
+            
+            currentDifficulty = difficulty;
+            codeLength = difficulties[difficulty].length;
+            maxAttempts = difficulties[difficulty].attempts;
+            
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            initGame();
+        }
+
+        function initGame() {
+            secretCode = [];
+            for (let i = 0; i < codeLength; i++) {
+                secretCode.push(numbers[Math.floor(Math.random() * numbers.length)]);
+            }
+            
+            currentGuess = new Array(codeLength).fill(null);
+            selectedNumber = null;
+            attempts = 0;
+            gameOver = false;
+            
+            renderSecretCode();
+            renderNumberSelector();
+            renderCurrentGuess();
+            updateAttempts();
+            document.getElementById('historyContainer').innerHTML = '';
+            document.getElementById('messageContainer').innerHTML = '';
+        }
+
+        function renderSecretCode() {
+            const container = document.getElementById('secretCode');
+            container.innerHTML = '';
+            for (let i = 0; i < codeLength; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'code-slot';
+                slot.textContent = '?';
+                slot.id = `secret-${i}`;
+                container.appendChild(slot);
+            }
+        }
+
+        function renderNumberSelector() {
+            const container = document.getElementById('numberSelector');
+            container.innerHTML = '';
+            numbers.forEach(num => {
+                const option = document.createElement('div');
+                option.className = 'number-option';
+                option.textContent = num;
+                option.onclick = () => selectNumber(num, option);
+                container.appendChild(option);
+            });
+        }
+
+        function selectNumber(num, element) {
+            if (gameOver) return;
+            
+            document.querySelectorAll('.number-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedNumber = num;
+        }
+
+        function renderCurrentGuess() {
+            const container = document.getElementById('currentGuess');
+            container.innerHTML = '';
+            for (let i = 0; i < codeLength; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'guess-slot';
+                if (currentGuess[i] !== null) {
+                    slot.textContent = currentGuess[i];
+                    slot.classList.add('filled');
+                }
+                slot.onclick = () => setGuessSlot(i);
+                container.appendChild(slot);
+            }
+            updateSubmitButton();
+        }
+
+        function setGuessSlot(index) {
+            if (gameOver || selectedNumber === null) return;
+            currentGuess[index] = selectedNumber;
+            renderCurrentGuess();
+        }
+
+        function updateSubmitButton() {
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = currentGuess.some(n => n === null) || gameOver;
+        }
+
+        function updateAttempts() {
+            document.getElementById('attempts').textContent = `Attempts: ${attempts}/${maxAttempts}`;
+        }
+
+        function submitGuess() {
+            if (gameOver) return;
+            
+            attempts++;
+            updateAttempts();
+            
+            const feedback = getFeedback();
+            addToHistory(currentGuess.slice(), feedback);
+            
+            if (feedback.correctPosition === codeLength) {
+                revealCode();
+                showMessage('🎉 Congratulations! You cracked the code!', 'win');
+                gameOver = true;
+            } else if (attempts >= maxAttempts) {
+                revealCode();
+                showMessage('😞 Game Over! The code has been revealed.', 'lose');
+                gameOver = true;
+            }
+            
+            currentGuess = new Array(codeLength).fill(null);
+            selectedNumber = null;
+            document.querySelectorAll('.number-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            renderCurrentGuess();
+        }
+
+        function getFeedback() {
+            let correctPosition = 0;
+            let correctNumber = 0;
+            const secretCopy = secretCode.slice();
+            const guessCopy = currentGuess.slice();
+            
+            for (let i = 0; i < codeLength; i++) {
+                if (guessCopy[i] === secretCopy[i]) {
+                    correctPosition++;
+                    secretCopy[i] = null;
+                    guessCopy[i] = null;
+                }
+            }
+            
+            for (let i = 0; i < codeLength; i++) {
+                if (guessCopy[i] !== null) {
+                    const index = secretCopy.indexOf(guessCopy[i]);
+                    if (index !== -1) {
+                        correctNumber++;
+                        secretCopy[index] = null;
+                    }
+                }
+            }
+            
+            return { correctPosition, correctNumber };
+        }
+
+        function addToHistory(guess, feedback) {
+            const container = document.getElementById('historyContainer');
+            const row = document.createElement('div');
+            row.className = 'guess-row';
+            
+            const slotsDiv = document.createElement('div');
+            slotsDiv.className = 'guess-slots';
+            guess.forEach(num => {
+                const slot = document.createElement('div');
+                slot.className = 'history-slot';
+                slot.textContent = num;
+                slotsDiv.appendChild(slot);
+            });
+            
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = 'feedback';
+            for (let i = 0; i < feedback.correctPosition; i++) {
+                const peg = document.createElement('div');
+                peg.className = 'feedback-peg correct-position';
+                feedbackDiv.appendChild(peg);
+            }
+            for (let i = 0; i < feedback.correctNumber; i++) {
+                const peg = document.createElement('div');
+                peg.className = 'feedback-peg correct-number';
+                feedbackDiv.appendChild(peg);
+            }
+            
+            row.appendChild(slotsDiv);
+            row.appendChild(feedbackDiv);
+            container.insertBefore(row, container.firstChild);
+        }
+
+        function revealCode() {
+            secretCode.forEach((num, i) => {
+                const slot = document.getElementById(`secret-${i}`);
+                slot.textContent = num;
+                slot.classList.add('revealed');
+            });
+        }
+
+        function showMessage(text, type) {
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = `
+                <div class="message ${type}">${text}</div>
+                <button class="new-game-btn" onclick="initGame()">New Game</button>
+            `;
+        }
+
+        document.getElementById('submitBtn').onclick = submitGuess;
+
+        initGame();
+    </script>
+</body>
+</html>
