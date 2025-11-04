@@ -3,44 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Tutorial | LetUsTech</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Python Programming Tutorial | LetUsTech</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" defer></script>
+
     <style>
-        .article-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            line-height: 1.8;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+            color: #1f2937;
+            line-height: 1.6;
         }
 
-        .article-title {
-            color: #667eea;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        header {
+            background: #1f2937;
+            padding: 1rem 0;
         }
+
+        nav.container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo img {
+            height: 45px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+        }
+
+            .nav-links a {
+                text-decoration: none;
+                color: #e5e7eb;
+                font-weight: 500;
+                transition: color 0.3s ease;
+            }
+
+                .nav-links a:hover {
+                    color: #22c55e;
+                }
+
+        main.blog-article {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            text-decoration: none;
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .blog-article h1 {
+            font-size: 2.4rem;
+            margin-bottom: 0.5rem;
+            color: #111827;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #4b5563;
+            margin-bottom: 2rem;
+        }
+
+        article section {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            transition: transform 0.2s ease;
+        }
+
+            article section:hover {
+                transform: translateY(-2px);
+            }
 
         h2 {
-            color: #667eea;
-            margin-top: 2rem;
+            color: #14532d;
+            border-left: 5px solid #22c55e;
+            padding-left: 10px;
         }
 
-        .code-block {
-            background: #2d3748;
-            color: #e2e8f0;
+        pre {
+            background: #111827;
+            padding: 1rem;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        code {
+            color: #e5e7eb;
+            font-family: Consolas, monospace;
+        }
+
+        .share-section {
+            background: #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+            .share-section a {
+                margin: 0 0.5rem;
+                color: #1f2937;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+                .share-section a:hover {
+                    color: #22c55e;
+                }
+
+        .related-tutorials {
+            background: #d1fae5;
+            border-radius: 12px;
             padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-            font-family: monospace;
+        }
+
+            .related-tutorials h3 {
+                margin-bottom: 1rem;
+            }
+
+            .related-tutorials ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            .related-tutorials li {
+                margin-bottom: 0.5rem;
+            }
+
+            .related-tutorials a {
+                text-decoration: none;
+                color: #065f46;
+                font-weight: 500;
+            }
+
+                .related-tutorials a:hover {
+                    text-decoration: underline;
+                }
+
+        footer {
+            background: #1f2937;
+            color: #9ca3af;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
         }
     </style>
 </head>
+
 <body>
     <header>
         <nav class="container">
             <div class="logo">
-                <a href="index.html">
-                    <img src="LetUsTech.png" alt="LetUsTech Logo">
-                </a>
+                <a href="index.html"><img src="LetUsTech.png" alt="LetUsTech Logo"></a>
             </div>
             <ul class="nav-links">
                 <li><a href="index.html#about">About</a></li>
@@ -53,19 +195,93 @@
             </ul>
         </nav>
     </header>
-    <div class="article-container">
-        <a href="blog.html" style="color: #667eea;">← Back</a>
-        <h1 class="article-title">Python Programming Tutorial</h1>
-        <p>Learn essential Python programming concepts and automation techniques. This comprehensive guide covers everything you need to know.</p>
-        <h2>Getting Started</h2>
-        <p>Python is a versatile programming language perfect for automation, data analysis, web development, and more.</p>
-        <div class="code-block">print("Hello, World!")</div>
-        <h2>Key Concepts</h2>
-        <p>Master these fundamentals to become proficient in Python programming.</p>
-        <h2>Practical Examples</h2>
-        <p>Apply your knowledge with real-world examples and projects.</p>
-        <p style="margin-top: 2rem;"><a href="blog.html" style="color: #667eea;">← Back to Blog</a></p>
-    </div>
-    <footer><div class="container"><p>&copy; 2025 LetUsTech</p></div></footer>
+
+    <main class="blog-article">
+        <a href="blog.html" class="back-link">← Back to Blog</a>
+
+        <article>
+            <h1>Python Programming Tutorial</h1>
+            <p class="subtitle">
+                Dive deep into Python — from the basics to real-world applications. This guide will take you from printing your first line to automating your first project.
+            </p>
+
+            <section id="introduction">
+                <h2>Getting Started with Python</h2>
+                <p>
+                    Python is an open-source language known for its simplicity and flexibility. Whether you're automating repetitive tasks, building web apps, or analyzing data, Python is a skill worth mastering.
+                </p>
+                <pre><code class="language-python">print("Hello, World!")</code></pre>
+                <p>This simple command prints text to the screen — your first step into programming!</p>
+            </section>
+
+            <section id="core-concepts">
+                <h2>Core Concepts</h2>
+                <p>Before building projects, understand the key components of the language:</p>
+                <ul>
+                    <li><strong>Variables:</strong> Used to store values. Example: <code class="language-python">name = "Dean"</code></li>
+                    <li><strong>Data Types:</strong> Numbers, strings, lists, and dictionaries are core Python types.</li>
+                    <li><strong>Control Flow:</strong> Decide what runs with <code>if</code>, <code>else</code>, <code>for</code>, and <code>while</code>.</li>
+                    <li><strong>Functions:</strong> Define reusable logic blocks using <code>def</code>.</li>
+                    <li><strong>Modules:</strong> Organize large codebases and reuse utilities.</li>
+                </ul>
+            </section>
+
+            <section id="practical-examples">
+                <h2>Practical Example: Automating Tasks</h2>
+                <p>Let’s build a simple script that renames files in a folder:</p>
+                <pre><code class="language-python">
+import os
+
+folder = "C:/Users/Dean/Documents/TestFolder"
+
+for count, filename in enumerate(os.listdir(folder)):
+    src = f"{folder}/{filename}"
+    dst = f"{folder}/file_{count}.txt"
+    os.rename(src, dst)
+
+print("✅ All files renamed successfully!")
+                </code></pre>
+                <p>
+                    This example demonstrates automation — one of Python’s strongest suits.
+                    With just a few lines, you can handle hundreds of files in seconds.
+                </p>
+            </section>
+
+            <section id="advanced-topics">
+                <h2>Next Steps and Advanced Topics</h2>
+                <p>Once you're confident with the basics, explore more advanced concepts:</p>
+                <ul>
+                    <li>🧠 <strong>Object-Oriented Programming (OOP)</strong> — Build scalable applications using classes.</li>
+                    <li>🌐 <strong>Web Development</strong> — Learn Flask or Django to create interactive sites.</li>
+                    <li>🤖 <strong>Automation</strong> — Control browsers with <code>selenium</code> or desktop tasks with <code>pyautogui</code>.</li>
+                    <li>📊 <strong>Data Science</strong> — Analyze data using <code>pandas</code> and visualize with <code>matplotlib</code>.</li>
+                    <li>💬 <strong>APIs</strong> — Fetch live data and interact with web services.</li>
+                </ul>
+            </section>
+
+            <section class="share-section">
+                <h2>Share this tutorial</h2>
+                <p>Found this guide helpful? Share it with others!</p>
+                <a href="https://twitter.com/intent/tweet?text=Check+out+this+Python+Tutorial+on+LetUsTech!&url=https://www.letustech.uk/python-tutorial.html" target="_blank">Twitter</a> |
+                <a href="https://www.reddit.com/submit?title=Python+Programming+Tutorial&url=https://www.letustech.uk/python-tutorial.html" target="_blank">Reddit</a> |
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.letustech.uk/python-tutorial.html" target="_blank">LinkedIn</a>
+            </section>
+
+            <section class="related-tutorials">
+                <h3>Related Tutorials</h3>
+                <ul>
+                    <li><a href="javascript-tutorial.html">Learn JavaScript for Beginners</a></li>
+                    <li><a href="html-css-guide.html">Building Websites with HTML & CSS</a></li>
+                    <li><a href="automation-tasks.html">Automate Your PC with Python Scripts</a></li>
+                </ul>
+            </section>
+
+            <a href="blog.html" class="back-link">← Back to Blog</a>
+        </article>
+    </main>
+
+    <footer>
+        <p>© 2025 LetUsTech. All rights reserved.</p>
+    </footer>
 </body>
 </html>
