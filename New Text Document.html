@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduling Python Scripts | LetUsTech</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            line-height: 1.8;
+        }
+
+        .article-title {
+            color: #667eea;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-top: 2rem;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="LetUsTech.png" alt="LetUsTech Logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#programs">Programs</a></li>
+                <li><a href="#games">Games</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#donate" class="donate-link">💝 Donate</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="article-container">
+        <h1 class="article-title">Scheduling Python Scripts: Complete Guide</h1>
+        <p>Learn how to run Python scripts automatically on a schedule using cron, Task Scheduler, and the schedule library.</p>
+
+        <h2>Using the Schedule Library</h2>
+        <div class="code-block">
+            import schedule
+            import time
+
+            def job():
+            print("Running task...")
+
+            # Schedule task
+            schedule.every().day.at("10:00").do(job)
+            schedule.every().hour.do(job)
+            schedule.every(5).minutes.do(job)
+
+            while True:
+            schedule.run_pending()
+            time.sleep(1)
+        </div>
+
+        <h2>Windows Task Scheduler</h2>
+        <p>Use Task Scheduler to run scripts on Windows:</p>
+        <ol>
+            <li>Open Task Scheduler</li>
+            <li>Create Basic Task</li>
+            <li>Set trigger (daily, weekly, etc.)</li>
+            <li>Action: Start a program</li>
+            <li>Program: python.exe</li>
+            <li>Arguments: your_script.py</li>
+        </ol>
+
+        <h2>Linux Cron Jobs</h2>
+        <div class="code-block">
+            # Edit crontab
+            crontab -e
+
+            # Run daily at 2am
+            0 2 * * * /usr/bin/python3 /path/to/script.py
+
+            # Run every hour
+            0 * * * * /usr/bin/python3 /path/to/script.py
+        </div>
+
+        <h2>Mac Launchd</h2>
+        <p>Create a .plist file in ~/Library/LaunchAgents/ to schedule scripts on macOS.</p>
+
+        <p><a href="blog.html" style="color: #667eea;">← Back to Blog</a></p>
+    </div>
+    <footer><div class="container"><p>&copy; 2025 LetUsTech</p></div></footer>
+</body>
+</html>
