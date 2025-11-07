@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -547,7 +547,7 @@
             }
 
                 .info-box-content li::before {
-                    content: '→';
+                    content: '?';
                     position: absolute;
                     left: 0;
                     color: #3b82f6;
@@ -622,20 +622,28 @@
             }
         }
     </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H548VRKNHW');
+</script>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Data Analyzer Pro</h1>
+            <h1>?? Data Analyzer Pro</h1>
             <p>Enterprise-grade statistical analysis and data visualization platform</p>
         </div>
 
         <div class="upload-section">
             <label for="fileInput">
                 <div class="upload-area">
-                    <div class="upload-icon">📁</div>
+                    <div class="upload-icon">??</div>
                     <div class="upload-text">Click or drag to upload your dataset</div>
-                    <div class="upload-subtext">Supports CSV files • Maximum precision analysis</div>
+                    <div class="upload-subtext">Supports CSV files � Maximum precision analysis</div>
                 </div>
             </label>
             <input type="file" id="fileInput" style="display: none;" accept=".csv">
@@ -662,12 +670,12 @@
         const rowsPerPage = 25;
 
         const tabs = [
-            { id: 'overview', icon: '📊', label: 'Overview' },
-            { id: 'statistics', icon: '📈', label: 'Statistics' },
-            { id: 'visualizations', icon: '📉', label: 'Visualizations' },
-            { id: 'correlations', icon: '🔗', label: 'Correlations' },
-            { id: 'outliers', icon: '🎯', label: 'Outliers' },
-            { id: 'data', icon: '📋', label: 'Data Explorer' }
+            { id: 'overview', icon: '??', label: 'Overview' },
+            { id: 'statistics', icon: '??', label: 'Statistics' },
+            { id: 'visualizations', icon: '??', label: 'Visualizations' },
+            { id: 'correlations', icon: '??', label: 'Correlations' },
+            { id: 'outliers', icon: '??', label: 'Outliers' },
+            { id: 'data', icon: '??', label: 'Data Explorer' }
         ];
 
         document.getElementById('fileInput').addEventListener('change', function (e) {
@@ -865,23 +873,23 @@
                     </div>
 
                     <div class="section">
-                        <div class="section-title">📑 Dataset Features</div>
+                        <div class="section-title">?? Dataset Features</div>
                         <div>
                             ${headers.map(header => `<span class="badge">${header}</span>`).join('')}
                         </div>
                     </div>
 
                     <div class="section">
-                        <div class="section-title">💡 Analysis Summary</div>
-                        <div class="insight-item">✓ Dataset contains ${data.length.toLocaleString()} observations across ${headers.length} variables</div>
-                        <div class="insight-item">✓ ${Object.keys(statistics).length} numerical features are available for comprehensive statistical analysis</div>
-                        <div class="insight-item">✓ Correlation analysis computed for ${Object.keys(correlations).length} numeric variables</div>
-                        <div class="insight-item">✓ ${totalOutliers} outliers detected using IQR method across all numeric columns</div>
+                        <div class="section-title">?? Analysis Summary</div>
+                        <div class="insight-item">? Dataset contains ${data.length.toLocaleString()} observations across ${headers.length} variables</div>
+                        <div class="insight-item">? ${Object.keys(statistics).length} numerical features are available for comprehensive statistical analysis</div>
+                        <div class="insight-item">? Correlation analysis computed for ${Object.keys(correlations).length} numeric variables</div>
+                        <div class="insight-item">? ${totalOutliers} outliers detected using IQR method across all numeric columns</div>
                     </div>
 
                     <div style="text-align: right; margin-top: 2rem;">
                         <button onclick="exportResults()" class="btn btn-primary">
-                            <span>📥</span>
+                            <span>??</span>
                             <span>Export Analysis</span>
                         </button>
                     </div>
@@ -922,7 +930,7 @@
                     </div>
 
                     <div class="info-box">
-                        <div class="info-box-title">📊 Statistical Metrics Guide</div>
+                        <div class="info-box-title">?? Statistical Metrics Guide</div>
                         <div class="info-box-content">
                             <ul>
                                 <li><strong>Mean:</strong> Central tendency measure representing the average value</li>
@@ -960,17 +968,17 @@
                     </div>
 
                     <div class="chart-container">
-                        <div class="chart-title">📊 Distribution Histogram</div>
+                        <div class="chart-title">?? Distribution Histogram</div>
                         <div id="histogramChart" style="width:100%;height:450px;"></div>
                     </div>
 
                     <div class="chart-container">
-                        <div class="chart-title">📈 Time Series Trend</div>
+                        <div class="chart-title">?? Time Series Trend</div>
                         <div id="lineChart" style="width:100%;height:450px;"></div>
                     </div>
 
                     <div class="chart-container">
-                        <div class="chart-title">📦 Box Plot Analysis</div>
+                        <div class="chart-title">?? Box Plot Analysis</div>
                         <div id="boxPlot" style="width:100%;height:450px;"></div>
                     </div>
                 `;
@@ -1071,11 +1079,11 @@
                             </div>
                             <div style="display: flex; align-items: center; gap: 0.5rem;">
                                 <div style="width: 16px; height: 16px; background: #f87171; border-radius: 4px;"></div>
-                                <span style="color: #475569;">Moderate (−)</span>
+                                <span style="color: #475569;">Moderate (-)</span>
                             </div>
                             <div style="display: flex; align-items: center; gap: 0.5rem;">
                                 <div style="width: 16px; height: 16px; background: #dc2626; border-radius: 4px;"></div>
-                                <span style="color: #475569;">Strong (−)</span>
+                                <span style="color: #475569;">Strong (-)</span>
                             </div>
                         </div>
 
@@ -1108,14 +1116,14 @@
                     </div>
 
                     <div class="info-box">
-                        <div class="info-box-title">📊 Correlation Interpretation</div>
+                        <div class="info-box-title">?? Correlation Interpretation</div>
                         <div class="info-box-content">
                             <ul>
-                                <li>Values range from −1 (perfect negative) to +1 (perfect positive)</li>
+                                <li>Values range from -1 (perfect negative) to +1 (perfect positive)</li>
                                 <li>|r| > 0.8: Strong linear relationship</li>
                                 <li>0.4 < |r| < 0.8: Moderate linear relationship</li>
                                 <li>|r| < 0.4: Weak linear relationship</li>
-                                <li>r ≈ 0: No linear relationship</li>
+                                <li>r � 0: No linear relationship</li>
                             </ul>
                         </div>
                     </div>
@@ -1126,7 +1134,7 @@
             return `
                     <div class="section" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; border: none; margin-bottom: 2rem;">
                         <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">Outlier Detection Report</div>
-                        <div style="color: #94a3b8; font-size: 0.95rem;">IQR-based anomaly detection (1.5 × IQR threshold)</div>
+                        <div style="color: #94a3b8; font-size: 0.95rem;">IQR-based anomaly detection (1.5 � IQR threshold)</div>
                     </div>
 
                     ${Object.entries(outliers).map(([column, data]) => `
@@ -1175,14 +1183,14 @@
                     `).join('')}
 
                     <div class="info-box">
-                        <div class="info-box-title">ℹ️ Methodology</div>
+                        <div class="info-box-title">?? Methodology</div>
                         <div class="info-box-content">
                             <p style="margin-bottom: 0.5rem;">
                                 This analysis employs the Interquartile Range (IQR) method for robust outlier detection:
                             </p>
                             <ul>
-                                <li>Lower Bound = Q1 − 1.5 × IQR</li>
-                                <li>Upper Bound = Q3 + 1.5 × IQR</li>
+                                <li>Lower Bound = Q1 - 1.5 � IQR</li>
+                                <li>Upper Bound = Q3 + 1.5 � IQR</li>
                                 <li>Values outside these bounds are flagged as outliers</li>
                                 <li>This method is resistant to extreme values and appropriate for non-normal distributions</li>
                             </ul>
@@ -1207,7 +1215,7 @@
                     </div>
 
                     <div class="search-wrapper">
-                        <span class="search-icon">🔍</span>
+                        <span class="search-icon">??</span>
                         <input type="text" id="searchInput" class="search-input"
                             placeholder="Search across all columns..." value="${searchTerm}">
                     </div>
@@ -1237,11 +1245,11 @@
                         </div>
                         <div class="pagination-controls">
                             <button onclick="previousPage()" ${currentPage === 1 ? 'disabled' : ''} class="pagination-btn">
-                                ← Previous
+                                ? Previous
                             </button>
                             <span class="pagination-current">Page ${currentPage} of ${totalPages}</span>
                             <button onclick="nextPage()" ${currentPage === totalPages ? 'disabled' : ''} class="pagination-btn">
-                                Next →
+                                Next ?
                             </button>
                         </div>
                     </div>

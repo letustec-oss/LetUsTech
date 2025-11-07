@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,14 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H548VRKNHW');
+</script>
 </head>
 <body>
     <div id="root"></div>
@@ -211,7 +219,7 @@
               "Transcendental phenomenology interrogates intentionality structures constituting intersubjective lifeworld experiences through eidetic reduction methodologies.",
               "Heuristic algorithms leveraging metaheuristic optimisation frameworks demonstrate superior convergence characteristics for NP-complete computational problems.",
               "Topological invariants characterise manifold structures through algebraic techniques revealing fundamental geometric properties resistant to continuous deformations.",
-              "Stochastic differential equations model random dynamical systems incorporating Brownian motion processes and Itô calculus formulations.",
+              "Stochastic differential equations model random dynamical systems incorporating Brownian motion processes and It� calculus formulations.",
               "Chromatographic separation techniques exploit differential affinities between analytes and stationary phases to achieve compound purification.",
               "Bayesian inference methodologies incorporate prior probability distributions with empirical observations to generate posterior probability estimates.",
               "Metamorphic petrology investigates mineralogical transformations occurring under elevated temperature and pressure regimes within Earth's crust.",
@@ -531,7 +539,7 @@
                           className="w-full p-3 border-2 border-indigo-200 rounded-lg focus:border-indigo-500 focus:outline-none"
                         />
                         {username && (
-                          <p className="text-sm text-green-600 mt-1">✓ Playing as: {username}</p>
+                          <p className="text-sm text-green-600 mt-1">? Playing as: {username}</p>
                         )}
                       </div>
 
@@ -648,7 +656,7 @@
               <div className="max-w-4xl mx-auto">
                 {cheatAttempt && (
                   <div className="fixed top-24 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-bounce">
-                    ⚠️ No cheating! Type it yourself!
+                    ?? No cheating! Type it yourself!
                   </div>
                 )}
 
@@ -768,7 +776,7 @@
                       <div className="text-5xl font-bold text-green-600 mb-2">{stats.wpm}</div>
                       <div className="text-gray-700 font-semibold">Words Per Minute</div>
                       {stats.wpm === allTimeStats.bestWPM && stats.wpm > 0 && (
-                        <div className="mt-2 text-sm text-green-700 font-bold">🎉 New Personal Best!</div>
+                        <div className="mt-2 text-sm text-green-700 font-bold">?? New Personal Best!</div>
                       )}
                     </div>
 
@@ -777,7 +785,7 @@
                       <div className="text-5xl font-bold text-blue-600 mb-2">{stats.accuracy}%</div>
                       <div className="text-gray-700 font-semibold">Accuracy</div>
                       {stats.accuracy === allTimeStats.bestAccuracy && stats.accuracy > 0 && (
-                        <div className="mt-2 text-sm text-blue-700 font-bold">🎯 Perfect!</div>
+                        <div className="mt-2 text-sm text-blue-700 font-bold">?? Perfect!</div>
                       )}
                     </div>
 
@@ -797,11 +805,11 @@
                   <div className="bg-indigo-50 p-6 rounded-xl mb-8">
                     <h3 className="text-xl font-bold text-gray-800 mb-4">Performance Rating</h3>
                     <div className="text-4xl mb-2">
-                      {stats.wpm >= 80 && stats.accuracy >= 95 ? '🏆 Master' :
-                       stats.wpm >= 60 && stats.accuracy >= 90 ? '⭐ Expert' :
-                       stats.wpm >= 40 && stats.accuracy >= 85 ? '🎯 Advanced' :
-                       stats.wpm >= 25 && stats.accuracy >= 80 ? '📈 Intermediate' :
-                       '🌱 Beginner'}
+                      {stats.wpm >= 80 && stats.accuracy >= 95 ? '?? Master' :
+                       stats.wpm >= 60 && stats.accuracy >= 90 ? '? Expert' :
+                       stats.wpm >= 40 && stats.accuracy >= 85 ? '?? Advanced' :
+                       stats.wpm >= 25 && stats.accuracy >= 80 ? '?? Intermediate' :
+                       '?? Beginner'}
                     </div>
                     <p className="text-gray-700">
                       {stats.wpm >= 80 && stats.accuracy >= 95 ? 'Outstanding performance! You\'re a typing master!' :
@@ -876,7 +884,7 @@
                                 {entry.username || 'Anonymous'} - {entry.wpm} WPM
                               </div>
                               <div className="text-sm text-gray-600">
-                                {entry.accuracy}% accuracy • {entry.difficulty} • {entry.mode}
+                                {entry.accuracy}% accuracy � {entry.difficulty} � {entry.mode}
                               </div>
                             </div>
                           </div>
