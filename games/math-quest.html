@@ -51,6 +51,23 @@
   gtag('js', new Date());
   gtag('config', 'G-H548VRKNHW');
 </script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy-dark': '#0a1128',
+                        'navy-primary': '#1e3a5f',
+                        'navy-light': '#2d5f8d',
+                        'green-primary': '#10b981',
+                        'green-light': '#34d399',
+                        'green-dark': '#059669',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body>
     <div id="root"></div>
@@ -457,7 +474,7 @@
                 <div className="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 p-2 sm:p-4">
                     {/* Loading Screen */}
                     {isLoading && (
-                        <div className="fixed inset-0 bg-gradient-to-br from-purple-600 to-pink-600 z-50 flex items-center justify-center">
+                        <div className="fixed inset-0 bg-gradient-to-br from-[#1e3a5f] to-pink-600 z-50 flex items-center justify-center">
                             <div className="text-center">
                                 <div className="mb-4 animate-bounce">
                                     <div className="h-40 w-40 mx-auto bg-white rounded-2xl shadow-2xl p-4 flex items-center justify-center">
@@ -527,22 +544,22 @@
                                 </a>
                                 
                                 <nav className="hidden md:flex items-center gap-4 lg:gap-6">
-                                    <a href="index.html#about" className="text-gray-700 hover:text-purple-600 transition-colors font-medium text-sm lg:text-base">
+                                    <a href="index.html#about" className="text-gray-700 hover:text-[#1e3a5f] transition-colors font-medium text-sm lg:text-base">
                                         About
                                     </a>
-                                    <a href="index.html#programs" className="text-gray-700 hover:text-purple-600 transition-colors font-medium text-sm lg:text-base">
+                                    <a href="index.html#programs" className="text-gray-700 hover:text-[#1e3a5f] transition-colors font-medium text-sm lg:text-base">
                                         Programs
                                     </a>
-                                    <a href="index.html#contact" className="text-gray-700 hover:text-purple-600 transition-colors font-medium text-sm lg:text-base">
+                                    <a href="index.html#contact" className="text-gray-700 hover:text-[#1e3a5f] transition-colors font-medium text-sm lg:text-base">
                                         Contact
                                     </a>
-                                    <a href="index.html#donate" className="text-purple-600 hover:text-purple-700 transition-colors font-medium flex items-center gap-1 text-sm lg:text-base">
+                                    <a href="index.html#donate" className="text-[#1e3a5f] hover:text-purple-700 transition-colors font-medium flex items-center gap-1 text-sm lg:text-base">
                                         💝 Donate
                                     </a>
                                 </nav>
                                 
                                 {/* Mobile Menu Button */}
-                                <a href="index.html" className="md:hidden bg-purple-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium">
+                                <a href="index.html" className="md:hidden bg-[#1e3a5f] text-white px-3 py-1.5 rounded-lg text-sm font-medium">
                                     Menu
                                 </a>
                             </div>
@@ -583,7 +600,7 @@
                             </div>
                             <button
                                 onClick={() => setScreen('achievements')}
-                                className="flex items-center gap-2 bg-purple-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-purple-700 text-sm"
+                                className="flex items-center gap-2 bg-[#1e3a5f] text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-[#2d5f8d] text-sm"
                             >
                                 <Trophy size={20} />
                                 <span className="hidden sm:inline">Achievements</span>
@@ -594,7 +611,7 @@
                         {/* Menu Screen */}
                         {screen === 'menu' && (
                             <div className="bg-white rounded-lg shadow-2xl p-4 sm:p-8 text-center">
-                                <h1 className="text-3xl sm:text-5xl font-bold text-purple-600 mb-2">Math Quest</h1>
+                                <h1 className="text-3xl sm:text-5xl font-bold text-[#1e3a5f] mb-2">Math Quest</h1>
                                 <p className="text-sm sm:text-base text-gray-600 mb-1">Test your math skills and earn coins!</p>
                                 <p className="text-xs text-gray-500 italic mb-4">Powered by LetUsTech - Wired For Your World</p>
                                 
@@ -633,7 +650,7 @@
                                         <button
                                             onClick={() => showRewardedAd('powerup')}
                                             disabled={!canWatchAd}
-                                            className="bg-purple-500 text-white p-2 rounded hover:bg-purple-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center"
+                                            className="bg-purple-500 text-white p-2 rounded hover:bg-[#1e3a5f] disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center"
                                         >
                                             <Zap size={20} />
                                             <span className="text-xs">Random Power</span>
@@ -647,7 +664,7 @@
                                 {/* Stats Display */}
                                 <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
                                     <div className="bg-purple-50 p-2 sm:p-3 rounded-lg">
-                                        <p className="text-xl sm:text-2xl font-bold text-purple-600">{totalGamesPlayed}</p>
+                                        <p className="text-xl sm:text-2xl font-bold text-[#1e3a5f]">{totalGamesPlayed}</p>
                                         <p className="text-xs text-gray-600">Games Played</p>
                                     </div>
                                     <div className="bg-yellow-50 p-2 sm:p-3 rounded-lg">
@@ -663,7 +680,7 @@
                                 <div className="space-y-3 sm:space-y-4">
                                     <button
                                         onClick={startGame}
-                                        className="w-full bg-purple-600 text-white py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-bold hover:bg-purple-700 transition"
+                                        className="w-full bg-[#1e3a5f] text-white py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-bold hover:bg-[#2d5f8d] transition"
                                     >
                                         Start Game
                                     </button>
@@ -684,7 +701,7 @@
                                                     disabled={l > unlockedLevels}
                                                     className={`px-3 sm:px-4 py-2 rounded transition text-sm sm:text-base ${
                                                         level === l 
-                                                            ? 'bg-purple-600 text-white' 
+                                                            ? 'bg-[#1e3a5f] text-white' 
                                                             : l <= unlockedLevels 
                                                                 ? 'bg-gray-200 hover:bg-gray-300' 
                                                                 : 'bg-gray-100 text-gray-400 cursor-not-allowed'
@@ -747,7 +764,7 @@
                                 )}
 
                                 <div className="text-center mb-6">
-                                    <div className="text-4xl sm:text-6xl font-bold text-purple-600 mb-4 break-words">
+                                    <div className="text-4xl sm:text-6xl font-bold text-[#1e3a5f] mb-4 break-words">
                                         {question.num1} {question.op} {question.num2} = ?
                                     </div>
                                     {streak > 0 && (
@@ -770,7 +787,7 @@
 
                                 <button
                                     onClick={checkAnswer}
-                                    className="w-full bg-purple-600 text-white py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-bold hover:bg-purple-700 transition mb-4"
+                                    className="w-full bg-[#1e3a5f] text-white py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-bold hover:bg-[#2d5f8d] transition mb-4"
                                 >
                                     Submit Answer
                                 </button>
@@ -779,7 +796,7 @@
                                     <button
                                         onClick={() => usePowerUp('timeFreeze')}
                                         disabled={powerUps.timeFreeze === 0}
-                                        className="bg-blue-500 text-white p-2 rounded disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center text-xs sm:text-sm"
+                                        className="bg-[#2d5f8d] text-white p-2 rounded disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center text-xs sm:text-sm"
                                     >
                                         <Clock size={18} />
                                         <span className="mt-1">+15s ({powerUps.timeFreeze})</span>
@@ -803,7 +820,7 @@
                                     <button
                                         onClick={() => usePowerUp('skipQuestion')}
                                         disabled={powerUps.skipQuestion === 0}
-                                        className="bg-green-500 text-white p-2 rounded disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center text-xs sm:text-sm"
+                                        className="bg-[#10b981] text-white p-2 rounded disabled:bg-gray-300 disabled:cursor-not-allowed flex flex-col items-center text-xs sm:text-sm"
                                     >
                                         <Brain size={18} />
                                         <span className="mt-1">Skip ({powerUps.skipQuestion})</span>
@@ -815,7 +832,7 @@
                         {/* Shop Screen */}
                         {screen === 'shop' && (
                             <div className="bg-white rounded-lg shadow-2xl p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold text-purple-600 mb-4 sm:mb-6">Power-Up Shop</h2>
+                                <h2 className="text-2xl sm:text-3xl font-bold text-[#1e3a5f] mb-4 sm:mb-6">Power-Up Shop</h2>
                                 
                                 {/* Ad for bonus coins */}
                                 <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-orange-300 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 text-center">
@@ -850,7 +867,7 @@
                                         <p className="text-sm text-gray-600 mb-3">Add 15 seconds to the timer</p>
                                         <button
                                             onClick={() => buyPowerUp('timeFreeze', 10)}
-                                            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+                                            className="w-full bg-[#2d5f8d] text-white py-2 rounded hover:bg-[#1e3a5f]"
                                         >
                                             Buy for 10 coins
                                         </button>
@@ -892,7 +909,7 @@
                                         <p className="text-sm text-gray-600 mb-3">Skip current question</p>
                                         <button
                                             onClick={() => buyPowerUp('skipQuestion', 12)}
-                                            className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+                                            className="w-full bg-[#10b981] text-white py-2 rounded hover:bg-[#059669]"
                                         >
                                             Buy for 12 coins
                                         </button>
@@ -911,7 +928,7 @@
                         {/* Achievements Screen */}
                         {screen === 'achievements' && (
                             <div className="bg-white rounded-lg shadow-2xl p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold text-purple-600 mb-4 sm:mb-6">Achievements</h2>
+                                <h2 className="text-2xl sm:text-3xl font-bold text-[#1e3a5f] mb-4 sm:mb-6">Achievements</h2>
                                 <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-3 sm:p-4 mb-4">
                                     <p className="text-blue-700 font-bold text-sm sm:text-base">📺 Total Ads Watched: {totalAdsWatched}</p>
                                 </div>
@@ -994,9 +1011,9 @@
                                     </>
                                 ) : (
                                     <>
-                                        <h2 className="text-3xl sm:text-4xl font-bold text-purple-600 mb-4">Game Over!</h2>
+                                        <h2 className="text-3xl sm:text-4xl font-bold text-[#1e3a5f] mb-4">Game Over!</h2>
                                         <div className="text-xl sm:text-2xl mb-6">
-                                            <p className="mb-2">Final Score: <span className="font-bold text-purple-600">{score}</span></p>
+                                            <p className="mb-2">Final Score: <span className="font-bold text-[#1e3a5f]">{score}</span></p>
                                             <p className="mb-2">Best Streak: <span className="font-bold text-orange-600">{streak}</span></p>
                                             <p className="mb-4">Coins Earned: <span className="font-bold text-yellow-600">+{Math.floor(score / 2)}</span></p>
                                             
@@ -1034,7 +1051,7 @@
                                                 setCoins(coins + Math.floor(score / 2));
                                                 setScreen('menu');
                                             }}
-                                            className="w-full bg-purple-600 text-white py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-bold hover:bg-purple-700 transition"
+                                            className="w-full bg-[#1e3a5f] text-white py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-bold hover:bg-[#2d5f8d] transition"
                                         >
                                             Continue
                                         </button>

@@ -20,6 +20,23 @@
   gtag('js', new Date());
   gtag('config', 'G-H548VRKNHW');
 </script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy-dark': '#0a1128',
+                        'navy-primary': '#1e3a5f',
+                        'navy-light': '#2d5f8d',
+                        'green-primary': '#10b981',
+                        'green-light': '#34d399',
+                        'green-dark': '#059669',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body>
     <div id="root"></div>
@@ -199,19 +216,19 @@
         ];
 
         const SKINS = [
-          { id: 'default', name: 'Classic CPU', icon: '💻', gradient: 'from-cyan-500 via-blue-600 to-indigo-700', rarity: 'Common', unlockReq: 0, desc: 'The original tech icon' },
-          { id: 'neon', name: 'Neon Circuit', icon: '⚡', gradient: 'from-pink-500 via-purple-600 to-indigo-700', rarity: 'Common', unlockReq: 1000, desc: 'Electric vibes' },
+          { id: 'default', name: 'Classic CPU', icon: '💻', gradient: 'from-cyan-500 via-blue-600 to-[#2d5f8d]', rarity: 'Common', unlockReq: 0, desc: 'The original tech icon' },
+          { id: 'neon', name: 'Neon Circuit', icon: '⚡', gradient: 'from-pink-500 via-purple-600 to-[#2d5f8d]', rarity: 'Common', unlockReq: 1000, desc: 'Electric vibes' },
           { id: 'matrix', name: 'Matrix Code', icon: '🟢', gradient: 'from-green-600 via-emerald-700 to-teal-800', rarity: 'Rare', unlockReq: 10000, desc: 'Enter the Matrix' },
           { id: 'fire', name: 'Firewall', icon: '🔥', gradient: 'from-orange-500 via-red-600 to-rose-700', rarity: 'Rare', unlockReq: 50000, desc: 'Blazing hot security' },
           { id: 'ice', name: 'Cryo Core', icon: '❄️', gradient: 'from-cyan-400 via-sky-500 to-blue-600', rarity: 'Rare', unlockReq: 100000, desc: 'Keep your cool' },
           { id: 'golden', name: 'Golden Chip', icon: '🏆', gradient: 'from-yellow-400 via-amber-500 to-orange-600', rarity: 'Epic', unlockReq: 500000, desc: 'Worth its weight in gold' },
-          { id: 'galaxy', name: 'Galaxy Node', icon: '🌌', gradient: 'from-purple-600 via-indigo-700 to-blue-800', rarity: 'Epic', unlockReq: 1000000, desc: 'Cosmic computing power' },
+          { id: 'galaxy', name: 'Galaxy Node', icon: '🌌', gradient: 'from-[#1e3a5f] via-indigo-700 to-blue-800', rarity: 'Epic', unlockReq: 1000000, desc: 'Cosmic computing power' },
           { id: 'rainbow', name: 'RGB Overdrive', icon: '🌈', gradient: 'from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500', rarity: 'Epic', unlockReq: 5000000, desc: 'All the colors!' },
           { id: 'plasma', name: 'Plasma Core', icon: '⚛️', gradient: 'from-fuchsia-500 via-pink-600 to-rose-700', rarity: 'Legendary', unlockReq: 10000000, desc: 'Pure energy' },
           { id: 'quantum', name: 'Quantum Flux', icon: '✨', gradient: 'from-violet-600 via-purple-700 to-fuchsia-800', rarity: 'Legendary', unlockReq: 50000000, desc: 'Superposition state' },
           { id: 'dark', name: 'Dark Matter', icon: '🕳️', gradient: 'from-slate-800 via-gray-900 to-black', rarity: 'Legendary', unlockReq: 100000000, desc: 'Invisible power' },
           { id: 'hologram', name: 'Holographic', icon: '💎', gradient: 'from-cyan-300 via-blue-400 to-purple-500', rarity: 'Mythic', unlockReq: 'prestige1', desc: 'Requires 1 Prestige' },
-          { id: 'infinity', name: 'Infinity Stone', icon: '♾️', gradient: 'from-indigo-600 via-purple-600 to-pink-600', rarity: 'Mythic', unlockReq: 'prestige3', desc: 'Requires 3 Prestiges' },
+          { id: 'infinity', name: 'Infinity Stone', icon: '♾️', gradient: 'from-[#1e3a5f] via-purple-600 to-pink-600', rarity: 'Mythic', unlockReq: 'prestige3', desc: 'Requires 3 Prestiges' },
           { id: 'void', name: 'The Void', icon: '🌑', gradient: 'from-purple-900 via-black to-indigo-900', rarity: 'Mythic', unlockReq: 'prestige5', desc: 'Requires 5 Prestiges' },
         ];
 
@@ -528,7 +545,7 @@
                       <a href="index.html" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
                         Contact
                       </a>
-                      <a href="index.html" className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all">
+                      <a href="index.html" className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-cyan-700 hover:to-[#2d5f8d] transition-all">
                         💙 Donate
                       </a>
                     </nav>
@@ -559,7 +576,7 @@
                   </div>
 
                   {prestige > 0 && (
-                    <div className="mb-6 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 text-white p-4 rounded-xl shadow-lg border-2 border-purple-400">
+                    <div className="mb-6 bg-gradient-to-r from-[#1e3a5f] via-pink-600 to-red-600 text-white p-4 rounded-xl shadow-lg border-2 border-purple-400">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <Rocket className="w-8 h-8" />
@@ -585,7 +602,7 @@
                           </div>
                           <div className="text-gray-400 text-sm mb-2">Lines of Code</div>
                           {cps > 0 && (
-                            <div className="inline-block bg-green-500/20 border border-green-500 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">
+                            <div className="inline-block bg-[#10b981]/20 border border-green-500 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">
                               <TrendingUp className="w-4 h-4 inline mr-1" />
                               +{cps >= 1000 ? (cps/1000).toFixed(1) + 'K' : cps.toFixed(1)}/sec
                             </div>
@@ -652,7 +669,7 @@
                           {canPrestige && (
                             <button
                               onClick={doPrestige}
-                              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg hover:shadow-purple-500/50"
+                              className="w-full bg-gradient-to-r from-[#1e3a5f] to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg hover:shadow-purple-500/50"
                             >
                               <Rocket className="w-5 h-5 inline mr-2" />
                               Prestige for +50% Multiplier
@@ -785,12 +802,12 @@
                                       <p className="text-gray-400 text-sm mb-2">{upgrade.desc}</p>
                                       <div className="flex flex-wrap gap-2 text-xs">
                                         {upgrade.power && (
-                                          <span className="bg-blue-500/20 text-blue-400 px-2 py-1 rounded border border-blue-500">
+                                          <span className="bg-[#2d5f8d]/20 text-blue-400 px-2 py-1 rounded border border-blue-500">
                                             +{upgrade.power * multiplier} per click
                                           </span>
                                         )}
                                         {upgrade.cps && current.count > 0 && (
-                                          <span className="bg-green-500/20 text-green-400 px-2 py-1 rounded border border-green-500">
+                                          <span className="bg-[#10b981]/20 text-green-400 px-2 py-1 rounded border border-green-500">
                                             {totalProduction >= 1000 ? (totalProduction/1000).toFixed(1) + 'K' : totalProduction.toFixed(1)}/sec total
                                           </span>
                                         )}
@@ -806,7 +823,7 @@
                                       disabled={!canBuy}
                                       className={`px-8 py-2.5 rounded-lg font-bold transition-all ${
                                         canBuy
-                                          ? 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white shadow-lg hover:shadow-cyan-500/30'
+                                          ? 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-[#2d5f8d] text-white shadow-lg hover:shadow-cyan-500/30'
                                           : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                                       }`}
                                     >
@@ -881,7 +898,7 @@
                                       {isUnlocked && !isSelected && (
                                         <button
                                           onClick={() => setSelectedSkin(skin.id)}
-                                          className="mt-2 w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white text-xs font-bold py-2 rounded-lg transition-all"
+                                          className="mt-2 w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-[#2d5f8d] text-white text-xs font-bold py-2 rounded-lg transition-all"
                                         >
                                           Equip
                                         </button>

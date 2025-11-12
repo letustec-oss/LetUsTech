@@ -1,0 +1,208 @@
+/* LetUsTech Games - Standardized Theme */
+/* Navy and Green Brand Colors */
+
+:root {
+    /* Navy Colors */
+    --navy-dark: #0a1128;
+    --navy-primary: #1e3a5f;
+    --navy-light: #2d5f8d;
+    
+    /* Green Colors */
+    --green-primary: #10b981;
+    --green-light: #34d399;
+    --green-dark: #059669;
+    
+    /* Utility Colors */
+    --white: #ffffff;
+    --gray-light: #f8f9fa;
+    --gray-medium: #6b7280;
+    --gray-dark: #374151;
+    --red: #ef4444;
+    --yellow: #fbbf24;
+}
+
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-primary) 100%);
+    min-height: 100vh;
+    color: var(--white);
+}
+
+/* Brand Header */
+.brand-header {
+    text-align: center;
+    padding: 20px;
+}
+
+.brand-text {
+    color: var(--green-light);
+    font-size: 0.9em;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.game-title {
+    background: linear-gradient(135deg, var(--navy-light), var(--green-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, var(--green-primary), var(--green-light));
+    color: var(--white);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--green-dark), var(--green-primary));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-secondary {
+    background: var(--navy-primary);
+    color: var(--white);
+    border: 2px solid var(--navy-light);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+    background: var(--navy-light);
+    transform: translateY(-2px);
+}
+
+.btn-secondary.active {
+    background: var(--green-primary);
+    border-color: var(--green-primary);
+}
+
+/* Cards and Panels */
+.game-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.info-panel {
+    background: linear-gradient(135deg, var(--navy-primary), var(--navy-light));
+    color: var(--white);
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, var(--navy-primary), var(--navy-light));
+    color: var(--white);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--green-light);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+/* Text Colors for Light Backgrounds */
+.text-navy {
+    color: var(--navy-primary);
+}
+
+.text-green {
+    color: var(--green-primary);
+}
+
+.text-gray {
+    color: var(--gray-medium);
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.animate-slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 2em;
+    }
+    
+    .game-card {
+        padding: 16px;
+    }
+    
+    .btn-primary, .btn-secondary {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}

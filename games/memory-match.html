@@ -27,6 +27,23 @@
   gtag('js', new Date());
   gtag('config', 'G-H548VRKNHW');
 </script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy-dark': '#0a1128',
+                        'navy-primary': '#1e3a5f',
+                        'navy-light': '#2d5f8d',
+                        'green-primary': '#10b981',
+                        'green-light': '#34d399',
+                        'green-dark': '#059669',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body>
     <div id="root"></div>
@@ -72,7 +89,7 @@
         };
 
         const LEVELS = [
-            { id: 'easy', name: 'Easy', pairs: 4, reward: 40, color: 'from-green-500 to-green-600' },
+            { id: 'easy', name: 'Easy', pairs: 4, reward: 40, color: 'from-[#10b981] to-[#34d399]' },
             { id: 'medium', name: 'Medium', pairs: 8, reward: 80, color: 'from-yellow-500 to-orange-500' },
             { id: 'hard', name: 'Hard', pairs: 12, reward: 130, color: 'from-red-500 to-red-600' },
             { id: 'expert', name: 'Expert', pairs: 14, reward: 180, color: 'from-purple-500 to-pink-600' }
@@ -250,7 +267,7 @@
             };
 
             return (
-                <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex flex-col">
+                <div className="min-h-screen bg-gradient-to-br from-[#1e3a5f] via-pink-500 to-orange-400 flex flex-col">
                     <nav className="bg-white shadow-sm">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="flex justify-between items-center h-16 md:h-20">
@@ -271,8 +288,8 @@
                                     <li><a href="index.html" className="text-gray-900 hover:text-gray-600 transition-colors flex items-center gap-1"><Icon name="home" size={18} /> Home</a></li>
                                     <li><a href="index.html#about" className="text-gray-900 hover:text-gray-600 transition-colors">About</a></li>
                                     <li><a href="index.html#programs" className="text-gray-900 hover:text-gray-600 transition-colors">Programs</a></li>
-                                    <li><a href="index.html#games" className="text-purple-600 hover:text-purple-700 transition-colors font-semibold">Games</a></li>
-                                    <li><a href="index.html#donate" className="text-blue-600 hover:text-blue-700 transition-colors">💝 Donate</a></li>
+                                    <li><a href="index.html#games" className="text-[#1e3a5f] hover:text-purple-700 transition-colors font-semibold">Games</a></li>
+                                    <li><a href="index.html#donate" className="text-[#1e3a5f] hover:text-blue-700 transition-colors">💝 Donate</a></li>
                                 </ul>
 
                                 <button
@@ -289,8 +306,8 @@
                                         <li><a href="index.html" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-gray-900 hover:text-gray-600 transition-colors"><Icon name="home" size={18} /> Home</a></li>
                                         <li><a href="index.html#about" onClick={() => setMobileMenuOpen(false)} className="block text-gray-900 hover:text-gray-600 transition-colors">About</a></li>
                                         <li><a href="index.html#programs" onClick={() => setMobileMenuOpen(false)} className="block text-gray-900 hover:text-gray-600 transition-colors">Programs</a></li>
-                                        <li><a href="index.html#games" onClick={() => setMobileMenuOpen(false)} className="block text-purple-600 hover:text-purple-700 transition-colors font-semibold">🎮 Games</a></li>
-                                        <li><a href="index.html#donate" onClick={() => setMobileMenuOpen(false)} className="block text-blue-600 hover:text-blue-700 transition-colors">💝 Donate</a></li>
+                                        <li><a href="index.html#games" onClick={() => setMobileMenuOpen(false)} className="block text-[#1e3a5f] hover:text-purple-700 transition-colors font-semibold">🎮 Games</a></li>
+                                        <li><a href="index.html#donate" onClick={() => setMobileMenuOpen(false)} className="block text-[#1e3a5f] hover:text-blue-700 transition-colors">💝 Donate</a></li>
                                     </ul>
                                 </div>
                             )}
@@ -317,7 +334,7 @@
                                             <h3 className="text-base md:text-lg font-bold text-gray-700">Select Level:</h3>
                                             <button
                                                 onClick={() => setShowHelp(true)}
-                                                className="flex items-center gap-1 text-blue-600 hover:text-blue-700 text-sm"
+                                                className="flex items-center gap-1 text-[#1e3a5f] hover:text-blue-700 text-sm"
                                             >
                                                 <Icon name="helpCircle" size={18} />
                                                 <span className="hidden sm:inline">How to Play</span>
@@ -364,7 +381,7 @@
                                                     <Icon name="move" size={18} />
                                                     <span className="font-bold">{moves}</span>
                                                 </div>
-                                                <div className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-3 md:px-4 py-2 rounded-lg md:rounded-xl shadow-lg text-sm">
+                                                <div className="flex items-center gap-2 bg-gradient-to-r from-[#10b981] to-[#34d399] text-white px-3 md:px-4 py-2 rounded-lg md:rounded-xl shadow-lg text-sm">
                                                     <Icon name="timer" size={18} />
                                                     <span className="font-bold">{formatTime(time)}</span>
                                                     {isTimeFrozen && <span className="text-xs">❄️</span>}
@@ -374,14 +391,14 @@
                                             <div className="flex gap-2 md:gap-3">
                                                 <button
                                                     onClick={() => setShowShop(!showShop)}
-                                                    className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 md:px-6 py-2 rounded-lg md:rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all font-bold text-sm"
+                                                    className="flex items-center gap-2 bg-gradient-to-r from-[#1e3a5f] to-purple-600 text-white px-4 md:px-6 py-2 rounded-lg md:rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all font-bold text-sm"
                                                 >
                                                     <Icon name="shoppingBag" size={18} />
                                                     <span className="hidden sm:inline">Shop</span>
                                                 </button>
                                                 <button
                                                     onClick={initializeGame}
-                                                    className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 md:px-6 py-2 rounded-lg md:rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all font-bold text-sm"
+                                                    className="flex items-center gap-2 bg-gradient-to-r from-[#1e3a5f] to-pink-600 text-white px-4 md:px-6 py-2 rounded-lg md:rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all font-bold text-sm"
                                                 >
                                                     <Icon name="rotateCcw" size={18} />
                                                     <span className="hidden sm:inline">Reset</span>
@@ -400,7 +417,7 @@
                                                         <div key={id} className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-lg">
                                                             <div className="flex items-start justify-between mb-2">
                                                                 <div className="flex items-center gap-2">
-                                                                    <Icon name={powerup.icon} size={20} className="text-purple-600" />
+                                                                    <Icon name={powerup.icon} size={20} className="text-[#1e3a5f]" />
                                                                     <h4 className="font-bold text-gray-800 text-sm md:text-base">{powerup.name}</h4>
                                                                 </div>
                                                                 <div className="flex items-center gap-1 text-yellow-600 font-bold text-sm">
@@ -414,7 +431,7 @@
                                                                 disabled={coins < powerup.cost}
                                                                 className={`w-full py-2 rounded-lg font-bold transition-all text-sm ${
                                                                     coins >= powerup.cost
-                                                                        ? 'bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg'
+                                                                        ? 'bg-gradient-to-r from-[#10b981] to-[#34d399] text-white hover:shadow-lg'
                                                                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                                                 }`}
                                                             >
@@ -497,7 +514,7 @@
                                             <div className="grid grid-cols-3 gap-4 text-sm">
                                                 <div className="text-center">
                                                     <div className="text-gray-600 text-xs mb-1">Level</div>
-                                                    <div className="font-semibold text-purple-600">{difficulty}</div>
+                                                    <div className="font-semibold text-[#1e3a5f]">{difficulty}</div>
                                                 </div>
                                                 <div className="text-center">
                                                     <div className="text-gray-600 text-xs mb-1">Unlocked</div>
@@ -522,7 +539,7 @@
                                             <div className="space-y-2 text-sm">
                                                 <div className="flex justify-between">
                                                     <span className="text-gray-600">Current Level:</span>
-                                                    <span className="font-semibold text-purple-600">{difficulty}</span>
+                                                    <span className="font-semibold text-[#1e3a5f]">{difficulty}</span>
                                                 </div>
                                                 <div className="flex justify-between">
                                                     <span className="text-gray-600">Unlocked:</span>
@@ -574,7 +591,7 @@
                                         </div>
                                         <button
                                             onClick={() => setShowHelp(false)}
-                                            className="w-full mt-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-xl font-bold"
+                                            className="w-full mt-6 bg-gradient-to-r from-[#1e3a5f] to-pink-600 text-white py-3 rounded-xl font-bold"
                                         >
                                             Got it!
                                         </button>
@@ -589,8 +606,8 @@
                                             <div className="text-5xl md:text-6xl mb-4">🎉</div>
                                             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Level Complete!</h2>
                                             <p className="text-gray-600 mb-2 text-sm md:text-base">
-                                                Completed in <span className="font-bold text-purple-600">{moves} moves</span> and{' '}
-                                                <span className="font-bold text-purple-600">{formatTime(time)}</span>
+                                                Completed in <span className="font-bold text-[#1e3a5f]">{moves} moves</span> and{' '}
+                                                <span className="font-bold text-[#1e3a5f]">{formatTime(time)}</span>
                                             </p>
                                             <div className="flex items-center justify-center gap-2 text-xl md:text-2xl font-bold text-yellow-600 mb-4">
                                                 <Icon name="star" className="fill-yellow-400" />
@@ -604,7 +621,7 @@
                                             )}
                                             <button
                                                 onClick={initializeGame}
-                                                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-xl font-bold"
+                                                className="w-full bg-gradient-to-r from-[#1e3a5f] to-pink-600 text-white px-8 py-3 rounded-xl font-bold"
                                             >
                                                 Play Again
                                             </button>
