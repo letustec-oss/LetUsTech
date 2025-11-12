@@ -56,7 +56,7 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="index.html#faq">FAQ</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
-                <li><a href="index.html#donate" class="donate-link">?? Donate</a></li>
+                <li><a href="index.html#donate" class="donate-link">💝 Donate</a></li>
             </ul>
         </nav>
     </header>
@@ -65,22 +65,20 @@
         <p>Learn how to run Python scripts automatically on a schedule using cron, Task Scheduler, and the schedule library.</p>
 
         <h2>Using the Schedule Library</h2>
-        <div class="code-block">
-            import schedule
-            import time
+        <div class="code-block">import schedule
+import time
 
-            def job():
-            print("Running task...")
+def job():
+    print("Running task...")
 
-            # Schedule task
-            schedule.every().day.at("10:00").do(job)
-            schedule.every().hour.do(job)
-            schedule.every(5).minutes.do(job)
+# Schedule task
+schedule.every().day.at("10:00").do(job)
+schedule.every().hour.do(job)
+schedule.every(5).minutes.do(job)
 
-            while True:
-            schedule.run_pending()
-            time.sleep(1)
-        </div>
+while True:
+    schedule.run_pending()
+    time.sleep(1)</div>
 
         <h2>Windows Task Scheduler</h2>
         <p>Use Task Scheduler to run scripts on Windows:</p>
@@ -94,21 +92,19 @@
         </ol>
 
         <h2>Linux Cron Jobs</h2>
-        <div class="code-block">
-            # Edit crontab
-            crontab -e
+        <div class="code-block"># Edit crontab
+crontab -e
 
-            # Run daily at 2am
-            0 2 * * * /usr/bin/python3 /path/to/script.py
+# Run daily at 2am
+0 2 * * * /usr/bin/python3 /path/to/script.py
 
-            # Run every hour
-            0 * * * * /usr/bin/python3 /path/to/script.py
-        </div>
+# Run every hour
+0 * * * * /usr/bin/python3 /path/to/script.py</div>
 
         <h2>Mac Launchd</h2>
         <p>Create a .plist file in ~/Library/LaunchAgents/ to schedule scripts on macOS.</p>
 
-        <p><a href="blog.html" style="color: #667eea;">? Back to Blog</a></p>
+        <p><a href="blog.html" style="color: #667eea;">← Back to Blog</a></p>
     </div>
     <footer><div class="container"><p>&copy; 2025 LetUsTech</p></div></footer>
 </body>

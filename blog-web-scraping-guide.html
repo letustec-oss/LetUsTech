@@ -96,16 +96,16 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="index.html#faq">FAQ</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
-                <li><a href="index.html#donate" class="donate-link">?? Donate</a></li>
+                <li><a href="index.html#donate" class="donate-link">💝 Donate</a></li>
             </ul>
         </nav>
     </header>
 
     <div class="article-container">
-        <a href="blog.html" class="back-link">? Back to Blog</a>
+        <a href="blog.html" class="back-link">← Back to Blog</a>
 
         <h1 class="article-title">Web Scraping with Python: A Complete Guide</h1>
-        <div class="article-meta">Published Nov 3, 2025 � 12 min read</div>
+        <div class="article-meta">Published Nov 3, 2025 • 12 min read</div>
 
         <div class="article-content">
             <p>Web scraping is the process of automatically extracting data from websites. Whether you need to collect product prices, gather news articles, or analyze competitor data, web scraping with Python makes it possible to retrieve information at scale.</p>
@@ -115,7 +115,7 @@
 
             <h2>Is Web Scraping Legal?</h2>
             <div class="warning-box">
-                <strong>?? Important:</strong> Web scraping legality depends on how you use it. Always:
+                <strong>⚠️ Important:</strong> Web scraping legality depends on how you use it. Always:
                 <ul>
                     <li>Check the website's robots.txt file</li>
                     <li>Review terms of service</li>
@@ -138,24 +138,22 @@
             <h2>Your First Web Scraper</h2>
             <p>Let's create a simple scraper to extract article titles from a news website:</p>
 
-            <div class="code-block">
-                import requests
-                from bs4 import BeautifulSoup
+            <div class="code-block">import requests
+from bs4 import BeautifulSoup
 
-                # Make request to website
-                url = "https://example.com"
-                response = requests.get(url)
+# Make request to website
+url = "https://example.com"
+response = requests.get(url)
 
-                # Parse HTML content
-                soup = BeautifulSoup(response.content, 'lxml')
+# Parse HTML content
+soup = BeautifulSoup(response.content, 'lxml')
 
-                # Find all article titles
-                titles = soup.find_all('h2', class_='article-title')
+# Find all article titles
+titles = soup.find_all('h2', class_='article-title')
 
-                # Print titles
-                for title in titles:
-                print(title.text.strip())
-            </div>
+# Print titles
+for title in titles:
+    print(title.text.strip())</div>
 
             <h2>Understanding HTML Structure</h2>
             <p>To scrape effectively, you need to understand HTML structure. Use your browser's Developer Tools (F12) to inspect elements and find the right selectors.</p>
@@ -163,27 +161,21 @@
             <h2>Advanced Techniques</h2>
 
             <h3>1. Handling Pagination</h3>
-            <div class="code-block">
-                base_url = "https://example.com/page/"
-                for page in range(1, 11):  # Scrape 10 pages
-                response = requests.get(base_url + str(page))
-                # Process each page...
-            </div>
+            <div class="code-block">base_url = "https://example.com/page/"
+for page in range(1, 11):  # Scrape 10 pages
+    response = requests.get(base_url + str(page))
+    # Process each page...</div>
 
             <h3>2. Adding Delays</h3>
             <p>Be respectful to servers - add delays between requests:</p>
-            <div class="code-block">
-                import time
-                time.sleep(2)  # Wait 2 seconds
-            </div>
+            <div class="code-block">import time
+time.sleep(2)  # Wait 2 seconds</div>
 
             <h3>3. Using User Agents</h3>
-            <div class="code-block">
-                headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
-                }
-                response = requests.get(url, headers=headers)
-            </div>
+            <div class="code-block">headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+}
+response = requests.get(url, headers=headers)</div>
 
             <h2>Best Practices</h2>
             <ul>
@@ -195,7 +187,7 @@
             </ul>
 
             <div class="tip-box">
-                <strong>?? Pro Tip:</strong> Start small and test your scraper on a few pages before scaling up!
+                <strong>💡 Pro Tip:</strong> Start small and test your scraper on a few pages before scaling up!
             </div>
 
             <h2>Common Challenges</h2>
@@ -204,20 +196,18 @@
             <p><strong>IP Blocking:</strong> Rotate IPs or use proxy services</p>
 
             <h2>Storing Scraped Data</h2>
-            <div class="code-block">
-                import csv
+            <div class="code-block">import csv
 
-                # Save to CSV
-                with open('data.csv', 'w', newline='') as file:
-                writer = csv.writer(file)
-                writer.writerow(['Title', 'URL'])
-                writer.writerow([title, url])
-            </div>
+# Save to CSV
+with open('data.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(['Title', 'URL'])
+    writer.writerow([title, url])</div>
 
             <h2>Conclusion</h2>
             <p>Web scraping is a powerful skill for data collection and analysis. Start with simple projects, respect website policies, and gradually tackle more complex scraping tasks. Remember: with great power comes great responsibility!</p>
 
-            <a href="blog.html" class="back-link">? Back to Blog</a>
+            <a href="blog.html" class="back-link">← Back to Blog</a>
         </div>
     </div>
 

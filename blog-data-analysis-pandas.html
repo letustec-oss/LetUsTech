@@ -37,15 +37,15 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="index.html#faq">FAQ</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
-                <li><a href="index.html#donate" class="donate-link">?? Donate</a></li>
+                <li><a href="index.html#donate" class="donate-link">💝 Donate</a></li>
             </ul>
         </nav>
     </header>
     <div class="article-container">
-        <a href="blog.html" style="color: #667eea; text-decoration: none; font-weight: 600;">? Back to Blog</a>
+        <a href="blog.html" style="color: #667eea; text-decoration: none; font-weight: 600;">← Back to Blog</a>
 
         <h1 class="article-title">Data Analysis with Python and Pandas</h1>
-        <p style="color: #999; margin-bottom: 2rem;">Published Nov 2, 2025 � 10 min read</p>
+        <p style="color: #999; margin-bottom: 2rem;">Published Nov 2, 2025 • 10 min read</p>
 
         <p>Pandas is the most popular Python library for data analysis. It makes working with structured data (like CSV files and Excel spreadsheets) incredibly easy and powerful.</p>
 
@@ -57,103 +57,91 @@
 
         <h2>Reading Data</h2>
         <p>Pandas can read data from various formats:</p>
-        <div class="code-block">
-            import pandas as pd
+        <div class="code-block">import pandas as pd
 
-            # Read CSV file
-            df = pd.read_csv('data.csv')
+# Read CSV file
+df = pd.read_csv('data.csv')
 
-            # Read Excel file
-            df = pd.read_excel('data.xlsx')
+# Read Excel file
+df = pd.read_excel('data.xlsx')
 
-            # Read from URL
-            df = pd.read_csv('https://example.com/data.csv')
-        </div>
+# Read from URL
+df = pd.read_csv('https://example.com/data.csv')</div>
 
         <h2>Basic DataFrame Operations</h2>
-        <div class="code-block">
-            # View first rows
-            print(df.head())
+        <div class="code-block"># View first rows
+print(df.head())
 
-            # Get info about dataset
-            print(df.info())
+# Get info about dataset
+print(df.info())
 
-            # Statistical summary
-            print(df.describe())
+# Statistical summary
+print(df.describe())
 
-            # Select columns
-            print(df['column_name'])
+# Select columns
+print(df['column_name'])
 
-            # Filter rows
-            filtered = df[df['age'] > 25]
-        </div>
+# Filter rows
+filtered = df[df['age'] > 25]</div>
 
         <h2>Data Cleaning</h2>
         <p>Clean your data for better analysis:</p>
-        <div class="code-block">
-            # Remove duplicates
-            df = df.drop_duplicates()
+        <div class="code-block"># Remove duplicates
+df = df.drop_duplicates()
 
-            # Handle missing values
-            df = df.fillna(0)  # Fill with 0
-            df = df.dropna()   # Remove rows with NaN
+# Handle missing values
+df = df.fillna(0)  # Fill with 0
+df = df.dropna()   # Remove rows with NaN
 
-            # Rename columns
-            df = df.rename(columns={'old_name': 'new_name'})
-        </div>
+# Rename columns
+df = df.rename(columns={'old_name': 'new_name'})</div>
 
         <h2>Data Analysis</h2>
-        <div class="code-block">
-            # Group by and aggregate
-            grouped = df.groupby('category').mean()
+        <div class="code-block"># Group by and aggregate
+grouped = df.groupby('category').mean()
 
-            # Sort values
-            sorted_df = df.sort_values('price', ascending=False)
+# Sort values
+sorted_df = df.sort_values('price', ascending=False)
 
-            # Calculate statistics
-            average = df['price'].mean()
-            total = df['quantity'].sum()
-            maximum = df['score'].max()
-        </div>
+# Calculate statistics
+average = df['price'].mean()
+total = df['quantity'].sum()
+maximum = df['score'].max()</div>
 
         <h2>Exporting Data</h2>
-        <div class="code-block">
-            # Save to CSV
-            df.to_csv('output.csv', index=False)
+        <div class="code-block"># Save to CSV
+df.to_csv('output.csv', index=False)
 
-            # Save to Excel
-            df.to_excel('output.xlsx', index=False)
-        </div>
+# Save to Excel
+df.to_excel('output.xlsx', index=False)</div>
 
         <div class="tip-box">
-            <strong>?? Pro Tip:</strong> Always use <code>head()</code> to preview your data before performing operations!
+            <strong>💡 Pro Tip:</strong> Always use <code>head()</code> to preview your data before performing operations!
         </div>
 
         <h2>Real-World Example</h2>
         <p>Let's analyze a sales dataset:</p>
-        <div class="code-block">
-            import pandas as pd
+        <div class="code-block">import pandas as pd
 
-            # Load data
-            sales = pd.read_csv('sales.csv')
+# Load data
+sales = pd.read_csv('sales.csv')
 
-            # Calculate total revenue per product
-            revenue = sales.groupby('product')['price'].sum()
+# Calculate total revenue per product
+revenue = sales.groupby('product')['price'].sum()
 
-            # Find top 5 products
-            top_products = revenue.sort_values(ascending=False).head(5)
+# Find top 5 products
+top_products = revenue.sort_values(ascending=False).head(5)
 
-            # Calculate average order value
-            avg_order = sales['price'].mean()
+# Calculate average order value
+avg_order = sales['price'].mean()
 
-            print(f"Top 5 Products:\n{top_products}")
-            print(f"Average Order Value: ${avg_order:.2f}")
-        </div>
+print(f"Top 5 Products:\n{top_products}")
+print(f"Average Order Value: ${avg_order:.2f}")</div>
 
         <h2>Conclusion</h2>
         <p>Pandas is an essential tool for data analysis in Python. Start with simple operations and gradually explore more advanced features like merging, pivoting, and time series analysis.</p>
 
-        <p style="margin-top: 3rem;"><a href="blog.html" style="color: #667eea; text-decoration: none; font-weight: 600;">? Back to Blog</a></p>
+        <p style="margin-top: 3rem;"><a href="blog.html" style="color: #667eea; text-decoration: none; font-weight: 600;">← Back to Blog</a></p>
     </div>
 
     <footer>

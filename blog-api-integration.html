@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Tutorial | LetUsTech</title>
+    <title>Working with APIs in Python | LetUsTech</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         .article-container {
@@ -31,6 +31,14 @@
             border-radius: 8px;
             margin: 1.5rem 0;
             font-family: monospace;
+            overflow-x: auto;
+        }
+
+        .tip-box {
+            background: #e3f2fd;
+            border-left: 4px solid #667eea;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
         }
     </style>
 <!-- Google tag (gtag.js) -->
@@ -57,22 +65,74 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="index.html#faq">FAQ</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
-                <li><a href="index.html#donate" class="donate-link">?? Donate</a></li>
+                <li><a href="index.html#donate" class="donate-link">💝 Donate</a></li>
             </ul>
         </nav>
     </header>
     <div class="article-container">
-        <a href="blog.html" style="color: #667eea;">? Back</a>
-        <h1 class="article-title">Python Programming Tutorial</h1>
-        <p>Learn essential Python programming concepts and automation techniques. This comprehensive guide covers everything you need to know.</p>
-        <h2>Getting Started</h2>
-        <p>Python is a versatile programming language perfect for automation, data analysis, web development, and more.</p>
-        <div class="code-block">print("Hello, World!")</div>
-        <h2>Key Concepts</h2>
-        <p>Master these fundamentals to become proficient in Python programming.</p>
-        <h2>Practical Examples</h2>
-        <p>Apply your knowledge with real-world examples and projects.</p>
-        <p style="margin-top: 2rem;"><a href="blog.html" style="color: #667eea;">? Back to Blog</a></p>
+        <a href="blog.html" style="color: #667eea;">← Back</a>
+        <h1 class="article-title">Working with APIs in Python</h1>
+        <p>Learn how to connect to online services and fetch live data using Python APIs. Perfect for beginners!</p>
+
+        <h2>What is an API?</h2>
+        <p>An API (Application Programming Interface) lets different programs talk to each other. Think of it like a waiter taking your order to the kitchen and bringing back your food.</p>
+
+        <h2>Making Your First API Request</h2>
+        <p>Let's get weather data using Python:</p>
+        <div class="code-block">import requests
+
+# Get weather data (free API)
+response = requests.get('https://api.weatherapi.com/v1/current.json?key=YOUR_KEY&q=London')
+
+data = response.json()
+print(f"Temperature: {data['current']['temp_c']}°C")
+print(f"Condition: {data['current']['condition']['text']}")</div>
+
+        <h2>Popular Free APIs to Try</h2>
+        <ul>
+            <li><strong>OpenWeatherMap:</strong> Get weather data for any city</li>
+            <li><strong>REST Countries:</strong> Information about any country</li>
+            <li><strong>JSONPlaceholder:</strong> Fake data for testing</li>
+            <li><strong>NASA API:</strong> Space photos and data</li>
+        </ul>
+
+        <h2>Handling JSON Data</h2>
+        <p>Most APIs return data in JSON format. Here's how to work with it:</p>
+        <div class="code-block">import requests
+
+response = requests.get('https://api.github.com/users/octocat')
+user_data = response.json()
+
+print(f"Username: {user_data['login']}")
+print(f"Bio: {user_data['bio']}")
+print(f"Public Repos: {user_data['public_repos']}")</div>
+
+        <div class="tip-box">
+            <strong>💡 Pro Tip:</strong> Always check if the API request was successful using <code>response.status_code</code> before processing data!
+        </div>
+
+        <h2>Sending Data to APIs</h2>
+        <p>You can also send data to APIs (POST requests):</p>
+        <div class="code-block">import requests
+
+data = {
+    'title': 'My Post',
+    'body': 'This is my first API post!',
+    'userId': 1
+}
+
+response = requests.post('https://jsonplaceholder.typicode.com/posts', json=data)
+print(response.json())</div>
+
+        <h2>Best Practices</h2>
+        <ul>
+            <li>Store API keys securely (never share them!)</li>
+            <li>Check API rate limits to avoid being blocked</li>
+            <li>Handle errors gracefully</li>
+            <li>Cache data when possible to reduce API calls</li>
+        </ul>
+
+        <p style="margin-top: 2rem;"><a href="blog.html" style="color: #667eea;">← Back to Blog</a></p>
     </div>
     <footer><div class="container"><p>&copy; 2025 LetUsTech</p></div></footer>
 </body>

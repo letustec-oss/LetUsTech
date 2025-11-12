@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Programming Tutorial | LetUsTech</title>
+    <title>PDF Processing with Python | LetUsTech</title>
     <link rel="icon" type="image/png" href="favicon.png">
 
     <!-- Prism.js for syntax highlighting -->
@@ -199,98 +199,126 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="index.html#faq">FAQ</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
-                <li><a href="index.html#donate" class="donate-link">?? Donate</a></li>
+                <li><a href="index.html#donate" class="donate-link">üíù Donate</a></li>
             </ul>
         </nav>
     </header>
 
     <main class="blog-article">
-        <a href="blog.html" class="back-link">? Back to Blog</a>
+        <a href="blog.html" class="back-link">‚Üê Back to Blog</a>
 
         <article>
-            <h1>Python Programming Tutorial</h1>
+            <h1>PDF Processing with Python</h1>
             <p class="subtitle">
-                Dive deep into Python ó from the basics to real-world applications. This guide will take you from printing your first line to automating your first project.
+                Learn how to merge, split, extract text, and manipulate PDFs using Python. Complete guide with practical examples.
             </p>
 
             <section id="introduction">
-                <h2>Getting Started with Python</h2>
+                <h2>Getting Started with PDFs in Python</h2>
                 <p>
-                    Python is an open-source language known for its simplicity and flexibility. Whether you're automating repetitive tasks, building web apps, or analyzing data, Python is a skill worth mastering.
+                    Python makes it easy to work with PDF files. Whether you need to combine multiple PDFs, extract specific pages, or read text from documents, Python has the tools to help.
                 </p>
-                <pre><code class="language-python">print("Hello, World!")</code></pre>
-                <p>This simple command prints text to the screen ó your first step into programming!</p>
+                <pre><code class="language-python">pip install PyPDF2</code></pre>
+                <p>This library provides everything you need to manipulate PDF files programmatically.</p>
             </section>
 
-            <section id="core-concepts">
-                <h2>Core Concepts</h2>
-                <p>Before building projects, understand the key components of the language:</p>
-                <ul>
-                    <li><strong>Variables:</strong> Used to store values. Example: <code class="language-python">name = "Dean"</code></li>
-                    <li><strong>Data Types:</strong> Numbers, strings, lists, and dictionaries are core Python types.</li>
-                    <li><strong>Control Flow:</strong> Decide what runs with <code>if</code>, <code>else</code>, <code>for</code>, and <code>while</code>.</li>
-                    <li><strong>Functions:</strong> Define reusable logic blocks using <code>def</code>.</li>
-                    <li><strong>Modules:</strong> Organize large codebases and reuse utilities.</li>
-                </ul>
-            </section>
+            <section id="merging-pdfs">
+                <h2>Merging Multiple PDFs</h2>
+                <p>Combine several PDF files into one document:</p>
+                <pre><code class="language-python">from PyPDF2 import PdfMerger
 
-            <section id="practical-examples">
-                <h2>Practical Example: Automating Tasks</h2>
-                <p>Letís build a simple script that renames files in a folder:</p>
-                <pre><code class="language-python">
-import os
+# Create merger object
+merger = PdfMerger()
 
-folder = "C:/Users/Dean/Documents/TestFolder"
+# Add PDF files
+merger.append('document1.pdf')
+merger.append('document2.pdf')
+merger.append('document3.pdf')
 
-for count, filename in enumerate(os.listdir(folder)):
-    src = f"{folder}/{filename}"
-    dst = f"{folder}/file_{count}.txt"
-    os.rename(src, dst)
+# Save merged PDF
+merger.write('merged_document.pdf')
+merger.close()
 
-print("? All files renamed successfully!")
+print("‚úÖ PDFs merged successfully!")
                 </code></pre>
-                <p>
-                    This example demonstrates automation ó one of Pythonís strongest suits.
-                    With just a few lines, you can handle hundreds of files in seconds.
-                </p>
+            </section>
+
+            <section id="splitting-pdfs">
+                <h2>Splitting PDFs</h2>
+                <p>Extract specific pages from a PDF:</p>
+                <pre><code class="language-python">from PyPDF2 import PdfReader, PdfWriter
+
+# Read the PDF
+reader = PdfReader('document.pdf')
+
+# Extract pages 1-3
+writer = PdfWriter()
+for page_num in range(0, 3):
+    writer.add_page(reader.pages[page_num])
+
+# Save extracted pages
+with open('extracted_pages.pdf', 'wb') as output_file:
+    writer.write(output_file)
+
+print("üìÑ Pages extracted successfully!")
+                </code></pre>
+            </section>
+
+            <section id="extracting-text">
+                <h2>Extracting Text from PDFs</h2>
+                <p>Read and extract text content from PDF documents:</p>
+                <pre><code class="language-python">from PyPDF2 import PdfReader
+
+# Open PDF
+reader = PdfReader('document.pdf')
+
+# Extract text from all pages
+text = ""
+for page in reader.pages:
+    text += page.extract_text()
+
+print(text)
+
+# Save to text file
+with open('extracted_text.txt', 'w', encoding='utf-8') as f:
+    f.write(text)
+                </code></pre>
             </section>
 
             <section id="advanced-topics">
-                <h2>Next Steps and Advanced Topics</h2>
-                <p>Once you're confident with the basics, explore more advanced concepts:</p>
+                <h2>Advanced PDF Operations</h2>
                 <ul>
-                    <li>?? <strong>Object-Oriented Programming (OOP)</strong> ó Build scalable applications using classes.</li>
-                    <li>?? <strong>Web Development</strong> ó Learn Flask or Django to create interactive sites.</li>
-                    <li>?? <strong>Automation</strong> ó Control browsers with <code>selenium</code> or desktop tasks with <code>pyautogui</code>.</li>
-                    <li>?? <strong>Data Science</strong> ó Analyze data using <code>pandas</code> and visualize with <code>matplotlib</code>.</li>
-                    <li>?? <strong>APIs</strong> ó Fetch live data and interact with web services.</li>
+                    <li>üîí <strong>Password Protection</strong> ‚Äî Add passwords to secure your PDFs</li>
+                    <li>üîÑ <strong>Rotating Pages</strong> ‚Äî Change page orientation programmatically</li>
+                    <li>üíß <strong>Adding Watermarks</strong> ‚Äî Brand your documents automatically</li>
+                    <li>üìä <strong>Extracting Images</strong> ‚Äî Pull images from PDF documents</li>
+                    <li>‚úÇÔ∏è <strong>Cropping Pages</strong> ‚Äî Trim pages to specific dimensions</li>
                 </ul>
             </section>
 
             <section class="share-section">
                 <h2>Share this tutorial</h2>
                 <p>Found this guide helpful? Share it with others!</p>
-                <a href="https://twitter.com/intent/tweet?text=Check+out+this+Python+Tutorial+on+LetUsTech!&url=https://www.letustech.uk/python-tutorial.html" target="_blank">Twitter</a> |
-                <a href="https://www.reddit.com/submit?title=Python+Programming+Tutorial&url=https://www.letustech.uk/python-tutorial.html" target="_blank">Reddit</a> |
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.letustech.uk/python-tutorial.html" target="_blank">LinkedIn</a>
+                <a href="https://twitter.com/intent/tweet?text=Check+out+this+PDF+Processing+Tutorial+on+LetUsTech!&url=https://www.letustech.uk/blog-pdf-processing.html" target="_blank">Twitter</a> |
+                <a href="https://www.reddit.com/submit?title=PDF+Processing+with+Python&url=https://www.letustech.uk/blog-pdf-processing.html" target="_blank">Reddit</a> |
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.letustech.uk/blog-pdf-processing.html" target="_blank">LinkedIn</a>
             </section>
 
             <section class="related-tutorials">
                 <h3>Related Tutorials</h3>
                 <ul>
-                    <li><a href="javascript-tutorial.html">Learn JavaScript for Beginners</a></li>
-                    <li><a href="html-css-guide.html">Building Websites with HTML & CSS</a></li>
-                    <li><a href="automation-tasks.html">Automate Your PC with Python Scripts</a></li>
+                    <li><a href="blog-python-automation-basics.html">Getting Started with Python Automation</a></li>
+                    <li><a href="blog-data-analysis-pandas.html">Data Analysis with Pandas</a></li>
+                    <li><a href="blog-web-scraping-guide.html">Web Scraping with Python</a></li>
                 </ul>
             </section>
 
-            <a href="blog.html" class="back-link">? Back to Blog</a>
+            <a href="blog.html" class="back-link">‚Üê Back to Blog</a>
         </article>
     </main>
 
     <footer>
-        <p>© 2025 LetUsTech. All rights reserved.</p>
+        <p>¬© 2025 LetUsTech. All rights reserved.</p>
     </footer>
 </body>
 </html>
-
