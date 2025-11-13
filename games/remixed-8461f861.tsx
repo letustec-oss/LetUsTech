@@ -1,56 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Zombie Survival Tower Defense Game by LetUsTech - Build defenses, upgrade towers, and survive waves of zombies!">
-    <title>Zombie Survival - LetUsTech | Wired For Your World</title>
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- React and ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-
-    <!-- Babel for JSX -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5830581574523106"
-            crossorigin="anonymous"></script>
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-H548VRKNHW');
-    </script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'navy-dark': '#0a1128',
-                        'navy-primary': '#1e3a5f',
-                        'navy-light': '#2d5f8d',
-                        'green-primary': '#10b981',
-                        'green-light': '#34d399',
-                        'green-dark': '#059669',
-                        'game-dark': '#0f172a',
-                    }
-                }
-            }
-        }
-    </script>
-</head>
-<body>
-    <div id="root"></div>
-
-    <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
 const ZombieWaveGame = () => {
@@ -142,10 +89,10 @@ const ZombieWaveGame = () => {
     script.async = true;
     script.crossOrigin = "anonymous";
     document.head.appendChild(script);
-
+    
     script.onload = () => {
       console.log('✅ AdSense script loaded successfully');
-
+      
       // Initialize display ads after script loads
       setTimeout(() => {
         try {
@@ -161,11 +108,11 @@ const ZombieWaveGame = () => {
         }
       }, 1000);
     };
-
+    
     script.onerror = () => {
       console.log('⚠️ AdSense script failed to load');
     };
-
+    
     return () => {
       document.head.removeChild(script);
     };
@@ -322,7 +269,7 @@ const ZombieWaveGame = () => {
     { id: 'speed', name: 'Movement Speed', desc: '+0.7 speed', icon: '⚡' },
     { id: 'piercing', name: 'Piercing Shots', desc: '+1 pierced enemy', icon: '🎯' },
     { id: 'bulletSpeed', name: 'Bullet Velocity', desc: '+2 bullet speed', icon: '💨' },
-
+    
     // Advanced shooting upgrades
     { id: 'homingShots', name: 'Homing Bullets', desc: 'Bullets track enemies', icon: '🎯' },
     { id: 'poisonShots', name: 'Poison Rounds', desc: 'DoT damage over time', icon: '☠️' },
@@ -333,7 +280,7 @@ const ZombieWaveGame = () => {
     { id: 'clusterBomb', name: 'Cluster Rounds', desc: 'Bullets explode into mini-bullets', icon: '💥' },
     { id: 'lightning', name: 'Lightning Rounds', desc: 'Random lightning strikes', icon: '⚡' },
     { id: 'orbital', name: 'Orbital Bullets', desc: 'Bullets orbit around you', icon: '🌀' },
-
+    
     // Survival upgrades
     { id: 'lifeSteal', name: 'Life Steal', desc: '+5% HP on kill', icon: '🩸' },
     { id: 'critChance', name: 'Critical Hit', desc: '+10% crit chance', icon: '💥' },
@@ -345,7 +292,7 @@ const ZombieWaveGame = () => {
     { id: 'adrenaline', name: 'Adrenaline Rush', desc: 'Speed boost when hit', icon: '💉' },
     { id: 'thorns', name: 'Thorns', desc: 'Reflect 30% damage', icon: '🌵' },
     { id: 'phaseShift', name: 'Phase Shift', desc: 'Invincible while dashing', icon: '👻' },
-
+    
     // Special upgrades
     { id: 'multishot', name: 'Multi Shot', desc: '+2 bullets per shot', icon: '🔱' },
     { id: 'explosive', name: 'Explosive Rounds', desc: 'AoE explosions', icon: '💣' },
@@ -379,9 +326,9 @@ const ZombieWaveGame = () => {
 
   const buildItems = [
     { id: 'base', name: 'Base', desc: '🏠 Main objective! Protect at all costs', cost: 0, icon: '🏠', color: '#f39c12', type: 'base' },
-
+    
     // Turrets - can be placed adjacent to anything
-    { id: 'turret_basic', name: 'Basic Turret', desc: 'Balanced stats (Can place next to walls/base)', cost: 80, icon: '🔫', color: '#3498db', type: 'turret',
+    { id: 'turret_basic', name: 'Basic Turret', desc: 'Balanced stats (Can place next to walls/base)', cost: 80, icon: '🔫', color: '#3498db', type: 'turret', 
       stats: { damage: 2, range: 200, fireRate: 30, special: 'none' } },
     { id: 'turret_sniper', name: 'Sniper Turret', desc: 'Long range, high damage (Adjacent placement OK)', cost: 150, icon: '🎯', color: '#9b59b6', type: 'turret',
       stats: { damage: 5, range: 400, fireRate: 60, special: 'pierce' } },
@@ -391,11 +338,11 @@ const ZombieWaveGame = () => {
       stats: { damage: 3, range: 250, fireRate: 50, special: 'explosive' } },
     { id: 'turret_freeze', name: 'Freeze Turret', desc: 'Slows enemies (Adjacent placement OK)', cost: 120, icon: '❄️', color: '#3498db', type: 'turret',
       stats: { damage: 1, range: 180, fireRate: 25, special: 'slow' } },
-
+    
     // Wall - Single upgradeable type
     { id: 'wall', name: 'Wall', desc: 'Click to upgrade: Wood→Stone→Metal (Press R)', cost: 30, icon: '🪵', color: '#8B4513', type: 'wall',
       stats: { health: 50, maxHealth: 50, armor: 0, tier: 1 } },
-
+    
     { id: 'trap', name: 'Spike Trap', desc: 'Damages zombies', cost: 60, icon: '⚠️', color: '#c0392b', type: 'trap' }
   ];
 
@@ -405,7 +352,7 @@ const ZombieWaveGame = () => {
     const checkMobile = () => {
       const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
       setIsMobile(isMobileDevice);
-
+      
       if (isMobileDevice) {
         setCanvasWidth(Math.min(800, window.innerWidth));
         setCanvasHeight(Math.min(600, window.innerHeight - 100));
@@ -432,12 +379,12 @@ const ZombieWaveGame = () => {
   // Anti-cheat: Validate game state every 5 seconds
   useEffect(() => {
     if (gameState !== 'playing') return;
-
+    
     const validateInterval = setInterval(() => {
       const game = gameRef.current;
-
+      
       // Check for impossible values
-      if (coins < 0 || coins > 999999 ||
+      if (coins < 0 || coins > 999999 || 
           score < 0 || score > 999999 ||
           game.player.damage > 100 ||
           game.player.health > game.player.maxHealth + 50) {
@@ -448,7 +395,7 @@ const ZombieWaveGame = () => {
         game.player.health = Math.min(game.player.health, game.player.maxHealth);
       }
     }, 5000);
-
+    
     return () => clearInterval(validateInterval);
   }, [gameState, coins, score]);
 
@@ -477,7 +424,7 @@ const ZombieWaveGame = () => {
         });
       }
     };
-
+    
     const addScreenShake = (intensity) => {
       setScreenShake({
         x: (Math.random() - 0.5) * intensity * 0.5,
@@ -489,56 +436,56 @@ const ZombieWaveGame = () => {
 
     const checkCollision = (x, y, size, isBullet = false, isTurretBullet = false, isPlayer = false) => {
       const game = gameRef.current;
-
+      
       for (let obs of game.obstacles) {
         if (x + size > obs.x && x - size < obs.x + obs.width &&
             y + size > obs.y && y - size < obs.y + obs.height) {
           return true;
         }
       }
-
+      
       // Both player and turret bullets can shoot over walls
       if (isTurretBullet || isBullet) {
         return false;
       }
-
+      
       // Player can pass through walls
       if (isPlayer) {
         return false;
       }
-
+      
       for (let wall of game.walls) {
         if (x + size > wall.x && x - size < wall.x + wall.width &&
             y + size > wall.y && y - size < wall.y + wall.height) {
           return true;
         }
       }
-
+      
       return false;
     };
 
     const startWave = (waveNum) => {
       const game = gameRef.current;
-
+      
       // Don't start wave during initial countdown
       if (game.initialCountdownActive) {
         console.log('⚠️ Cannot start wave during initial countdown');
         return;
       }
-
+      
       console.log(`🌊 WAVE ${waveNum} STARTING!`);
-
+      
       // Clear any existing wave timer
       if (game.nextWaveTimer) {
         clearTimeout(game.nextWaveTimer);
         game.nextWaveTimer = null;
       }
-
+      
       game.waveActive = true;
-
+      
       // REBALANCED difficulty scaling - easier early, harder late
       let baseZombieCount;
-
+      
       // Waves 1-5: Very easy introduction
       if (waveNum <= 5) {
         baseZombieCount = 3 + waveNum * 1.5; // 4.5, 6, 7.5, 9, 10.5
@@ -559,17 +506,17 @@ const ZombieWaveGame = () => {
       else {
         baseZombieCount = 123 + ((waveNum - 30) * 10); // 133, 143, 153...
       }
-
+      
       // Bonus zombies every 5 waves (reduced for balance)
       if (waveNum % 5 === 0) {
         baseZombieCount += Math.floor(waveNum * 1.2);
       }
-
+      
       baseZombieCount = Math.floor(baseZombieCount);
       game.zombiesLeftToSpawn = baseZombieCount;
-
+      
       console.log(`🌊 Wave ${waveNum} spawning ${baseZombieCount} zombies!`);
-
+      
       // Generate next wave preview
       const nextWaveNum = waveNum + 1;
       let nextZombieCount = 5 + nextWaveNum * 3;
@@ -579,35 +526,35 @@ const ZombieWaveGame = () => {
       if (nextWaveNum > 10 && nextWaveNum % 5 === 0) {
         nextZombieCount += 10;
       }
-
+      
       const nextWaveTypes = ['normal', 'normal', 'fast', 'tank'];
       if (nextWaveNum >= 3) nextWaveTypes.push('exploder');
       if (nextWaveNum >= 5) nextWaveTypes.push('boss');
       if (nextWaveNum >= 15) nextWaveTypes.push('megaboss');
-
+      
       let difficulty = 'Easy';
       if (waveNum >= 15) difficulty = 'Extreme';
       else if (waveNum >= 10) difficulty = 'Hard';
       else if (waveNum >= 5) difficulty = 'Medium';
-
+      
       const nextDifficulty = nextWaveNum >= 15 ? 'Extreme' : nextWaveNum >= 10 ? 'Hard' : nextWaveNum >= 5 ? 'Medium' : 'Easy';
-
+      
       game.wavePreview = {
         zombieCount: nextZombieCount,
         types: nextWaveTypes,
         difficulty: nextDifficulty
       };
-
+      
       const isValidSpawnPoint = (x, y, size) => {
         // Check if too close to base - larger safe zone
         for (let base of game.bases) {
           const dist = Math.sqrt(
-            Math.pow(base.x + base.size/2 - x, 2) +
+            Math.pow(base.x + base.size/2 - x, 2) + 
             Math.pow(base.y + base.size/2 - y, 2)
           );
           if (dist < 400) return false; // 400 unit safe zone around base
         }
-
+        
         // Check if inside walls
         for (let wall of game.walls) {
           if (x + size > wall.x && x - size < wall.x + wall.width &&
@@ -615,7 +562,7 @@ const ZombieWaveGame = () => {
             return false;
           }
         }
-
+        
         // Check if inside turrets
         for (let turret of game.turrets) {
           if (x + size > turret.x && x - size < turret.x + turret.size &&
@@ -623,17 +570,17 @@ const ZombieWaveGame = () => {
             return false;
           }
         }
-
+        
         // Don't spawn too close to player
         const distToPlayer = Math.sqrt(
-          Math.pow(x - game.player.x, 2) +
+          Math.pow(x - game.player.x, 2) + 
           Math.pow(y - game.player.y, 2)
         );
         if (distToPlayer < 250) return false; // Increased from 150
-
+        
         return true;
       };
-
+      
       const spawnInterval = setInterval(() => {
         if (game.zombiesLeftToSpawn > 0 && gameState === 'playing') {
           // More variety in zombie types as waves progress
@@ -654,7 +601,7 @@ const ZombieWaveGame = () => {
           if (waveNum >= 18) {
             types.push('juggernaut', 'vampire'); // NEW: Late game zombies
           }
-
+          
           // Boss waves
           if (waveNum % 5 === 0) {
             types.push('boss', 'boss', 'necromancer');
@@ -662,14 +609,14 @@ const ZombieWaveGame = () => {
           if (waveNum % 10 === 0 && waveNum >= 10) {
             types.push('megaboss', 'boss');
           }
-
+          
           const type = types[Math.floor(Math.random() * types.length)];
-
+          
           // Try to find valid spawn position
           let spawnX, spawnY;
           let attempts = 0;
           const zombieSize = zombieTypes[type].size;
-
+          
           do {
             const edge = Math.floor(Math.random() * 4);
             switch(edge) {
@@ -692,10 +639,10 @@ const ZombieWaveGame = () => {
             }
             attempts++;
           } while (!isValidSpawnPoint(spawnX, spawnY, zombieSize) && attempts < 20); // Increased from 10 to 20 attempts
-
+          
           // REBALANCED HP scaling - easier early, harder late
           let difficultyMultiplier;
-
+          
           // Waves 1-5: Minimal HP increase (easier start)
           if (waveNum <= 5) {
             difficultyMultiplier = 1 + (waveNum * 0.08); // 1.08, 1.16, 1.24, 1.32, 1.40
@@ -712,7 +659,7 @@ const ZombieWaveGame = () => {
           else {
             difficultyMultiplier = 5.40 + ((waveNum - 25) * 0.35); // 5.75, 6.10...
           }
-
+          
           // REBALANCED speed scaling - slower early, faster late
           let speedMultiplier;
           if (waveNum <= 5) {
@@ -722,7 +669,7 @@ const ZombieWaveGame = () => {
           } else {
             speedMultiplier = 1.40 + ((waveNum - 15) * 0.08); // 1.48, 1.56...
           }
-
+          
           // REBALANCED damage scaling - gentler early, harsher late
           let damageMultiplier;
           if (waveNum <= 10) {
@@ -732,7 +679,7 @@ const ZombieWaveGame = () => {
           } else {
             damageMultiplier = 1.90 + ((waveNum - 20) * 0.10); // 2.00, 2.10...
           }
-
+          
           const zombie = {
             ...zombieTypes[type],
             type,
@@ -747,7 +694,7 @@ const ZombieWaveGame = () => {
             targetLock: null,
             preferPlayer: Math.random() < 0.3 // 30% chance to prefer player
           };
-
+          
           game.zombies.push(zombie);
           game.zombiesLeftToSpawn--;
         } else {
@@ -755,7 +702,7 @@ const ZombieWaveGame = () => {
         }
       }, waveNum <= 5 ? 900 : waveNum <= 15 ? 750 : waveNum <= 25 ? 600 : 500); // Adaptive spawn rate
     };
-
+    
     // Store startWave function in ref for external access
     startWaveRef.current = startWave;
 
@@ -763,7 +710,7 @@ const ZombieWaveGame = () => {
       const game = gameRef.current;
       createParticles(x, y, '#ff6600', 20);
       addScreenShake(damage * 2);
-
+      
       game.zombies.forEach(zombie => {
         const dist = Math.sqrt(Math.pow(zombie.x - x, 2) + Math.pow(zombie.y - y, 2));
         if (dist < radius) {
@@ -776,102 +723,102 @@ const ZombieWaveGame = () => {
       const game = gameRef.current;
       let closestWall = null;
       let closestDist = Infinity;
-
+      
       for (let wall of game.walls) {
         if (wall.health <= 0) continue;
-
+        
         const wallCenterX = wall.x + wall.width / 2;
         const wallCenterY = wall.y + wall.height / 2;
-
+        
         const distToWall = Math.sqrt(
-          Math.pow(wallCenterX - fromX, 2) +
+          Math.pow(wallCenterX - fromX, 2) + 
           Math.pow(wallCenterY - fromY, 2)
         );
-
+        
         const distFromWallToTarget = Math.sqrt(
-          Math.pow(toX - wallCenterX, 2) +
+          Math.pow(toX - wallCenterX, 2) + 
           Math.pow(toY - wallCenterY, 2)
         );
-
+        
         const directDist = Math.sqrt(
-          Math.pow(toX - fromX, 2) +
+          Math.pow(toX - fromX, 2) + 
           Math.pow(toY - fromY, 2)
         );
-
+        
         if (distToWall + distFromWallToTarget < directDist * 1.2 && distToWall < closestDist) {
           closestDist = distToWall;
           closestWall = wall;
         }
       }
-
+      
       return closestWall;
     };
 
     const checkStructureOverlap = (x, y, width, height, structureType) => {
       const game = gameRef.current;
-
+      
       // Allow walls to touch each other, turrets can be adjacent to anything
       const buffer = structureType === 'wall' ? 0 : structureType === 'turret' ? 0 : 2;
-
+      
       // Check overlap with walls - turrets can be right next to walls
       for (let wall of game.walls) {
         const wallBuffer = structureType === 'turret' ? -1 : (structureType === 'wall' ? 0 : buffer);
-        if (x < wall.x + wall.width + wallBuffer &&
+        if (x < wall.x + wall.width + wallBuffer && 
             x + width > wall.x - wallBuffer &&
-            y < wall.y + wall.height + wallBuffer &&
+            y < wall.y + wall.height + wallBuffer && 
             y + height > wall.y - wallBuffer) {
           return { valid: false, reason: 'Overlaps with wall' };
         }
       }
-
+      
       // Check overlap with turrets - turrets can be adjacent to each other
       for (let turret of game.turrets) {
         const tSize = turret.size || 50;
         const turretBuffer = structureType === 'turret' ? -1 : buffer;
-        if (x < turret.x + tSize + turretBuffer &&
+        if (x < turret.x + tSize + turretBuffer && 
             x + width > turret.x - turretBuffer &&
-            y < turret.y + tSize + turretBuffer &&
+            y < turret.y + tSize + turretBuffer && 
             y + height > turret.y - turretBuffer) {
           return { valid: false, reason: 'Overlaps with turret' };
         }
       }
-
+      
       // Check overlap with base - turrets can be adjacent
       for (let base of game.bases) {
         const baseBuffer = structureType === 'turret' ? -1 : buffer;
-        if (x < base.x + base.size + baseBuffer &&
+        if (x < base.x + base.size + baseBuffer && 
             x + width > base.x - baseBuffer &&
-            y < base.y + base.size + baseBuffer &&
+            y < base.y + base.size + baseBuffer && 
             y + height > base.y - baseBuffer) {
           return { valid: false, reason: 'Overlaps with base' };
         }
       }
-
+      
       // Check overlap with traps - strict distance
       for (let trap of game.traps) {
         const trapDist = Math.sqrt(
-          Math.pow(x + width/2 - trap.x, 2) +
+          Math.pow(x + width/2 - trap.x, 2) + 
           Math.pow(y + height/2 - trap.y, 2)
         );
         if (trapDist < 40) {
           return { valid: false, reason: 'Too close to trap' };
         }
       }
-
+      
       // Check if within map bounds with margin
       if (x < 20 || y < 20 || x + width > game.mapWidth - 20 || y + height > game.mapHeight - 20) {
         return { valid: false, reason: 'Out of bounds' };
       }
-
+      
       return { valid: true, reason: 'OK' };
     };
 
     const performDash = () => {
       const game = gameRef.current;
       const now = Date.now();
-
+      
       if (now - game.player.lastDash < game.player.dashCooldown * 1000) return;
-
+      
       let angle;
       if (isMobile && game.shootTouch.active) {
         const worldX = game.shootTouch.x + game.cameraX;
@@ -880,13 +827,13 @@ const ZombieWaveGame = () => {
       } else if (isMobile && (game.moveVector.x !== 0 || game.moveVector.y !== 0)) {
         angle = Math.atan2(game.moveVector.y, game.moveVector.x);
       } else {
-        angle = Math.atan2(game.mouseY + game.cameraY - game.player.y,
+        angle = Math.atan2(game.mouseY + game.cameraY - game.player.y, 
                            game.mouseX + game.cameraX - game.player.x);
       }
-
+      
       const newX = game.player.x + Math.cos(angle) * game.player.dashDistance;
       const newY = game.player.y + Math.sin(angle) * game.player.dashDistance;
-
+      
       let canDash = true;
       for (let obs of game.obstacles) {
         if (newX + game.player.size > obs.x && newX - game.player.size < obs.x + obs.width &&
@@ -895,45 +842,45 @@ const ZombieWaveGame = () => {
           break;
         }
       }
-
+      
       if (canDash) {
         game.player.x = Math.max(30, Math.min(game.mapWidth - 30, newX));
         game.player.y = Math.max(30, Math.min(game.mapHeight - 30, newY));
       }
-
+      
       // Phase shift - invincibility during dash
       if (game.player.phaseShift) {
         game.player.invincible = true;
         game.player.invincibleUntil = Date.now() + 500;
         setTimeout(() => game.player.invincible = false, 500);
       }
-
+      
       game.player.lastDash = now;
       createParticles(game.player.x, game.player.y, '#00ffff', 15);
     };
 
     const shootBullet = () => {
       const game = gameRef.current;
-
+      
       const targetX = game.mouseX + game.cameraX;
       const targetY = game.mouseY + game.cameraY;
-
+      
       const dx = targetX - game.player.x;
       const dy = targetY - game.player.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-
+      
       if (dist === 0) return;
-
+      
       // Laser sight increases accuracy and crit
       let critChance = game.player.critChance;
       const isCrit = Math.random() < critChance;
       let damage = game.player.damage * (isCrit ? game.player.critDamage : 1);
-
+      
       // Berserker bonus
       if (game.player.berserker && game.player.health < game.player.maxHealth * 0.3) {
         damage *= 1.5;
       }
-
+      
       const createBullet = (offsetAngle = 0) => {
         const finalAngle = Math.atan2(dy, dx) + offsetAngle;
         return {
@@ -956,15 +903,15 @@ const ZombieWaveGame = () => {
           cluster: game.player.clusterBomb || false
         };
       };
-
+      
       // Double tap - fire twice instantly
       const shotsToFire = game.player.doubleTap ? 2 : 1;
-
+      
       for (let shot = 0; shot < shotsToFire; shot++) {
         const bullet = createBullet();
         game.bullets.push(bullet);
         gameRef.current.stats.bulletsShot++;
-
+        
         // Lightning effect - random lightning strikes
         if (game.player.lightning && Math.random() < 0.15) {
           const nearbyZombies = game.zombies.filter(z => {
@@ -977,11 +924,11 @@ const ZombieWaveGame = () => {
             createParticles(target.x, target.y, '#ffff00', 20);
           }
         }
-
+        
         if (game.player.multishot) {
           const angle1 = Math.atan2(dy, dx) + 0.3;
           const angle2 = Math.atan2(dy, dx) - 0.3;
-
+          
           game.bullets.push(createBullet(0.3));
           game.bullets.push(createBullet(-0.3));
         }
@@ -1010,7 +957,7 @@ const ZombieWaveGame = () => {
       const game = gameRef.current;
       const canvas = canvasRef.current;
       if (!canvas) return;
-
+      
       // Animated gradient background
       const time = Date.now() / 2000;
       const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
@@ -1019,7 +966,7 @@ const ZombieWaveGame = () => {
       gradient.addColorStop(1, `hsl(${270 + Math.sin(time * 0.7) * 10}, 20%, ${12 + Math.sin(time * 0.7) * 2}%)`);
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+      
       // Subtle starfield effect
       for (let i = 0; i < 30; i++) {
         const starX = (i * 73) % canvas.width;
@@ -1028,19 +975,19 @@ const ZombieWaveGame = () => {
         ctx.fillStyle = `rgba(255, 255, 255, ${0.2 * twinkle})`;
         ctx.fillRect(starX, starY, 1, 1);
       }
-
+      
       // Apply minimal screen shake
       if (screenShake.intensity > 0) {
         ctx.save();
         ctx.translate(screenShake.x * 0.5, screenShake.y * 0.5);
       }
-
+      
       if (game.needsWaveStart && game.bases.length > 0 && !game.waveActive && gameState === 'playing' && !game.isPaused) {
         console.log('🌊 Wave starting in 10s...');
         game.needsWaveStart = false;
         setTimeout(() => startWave(wave), 10000);
       }
-
+      
       if (gameState !== 'playing' || game.isPaused) {
         animationId = requestAnimationFrame(gameLoop);
         return;
@@ -1061,22 +1008,22 @@ const ZombieWaveGame = () => {
       const moveSpeed = game.player.speed + bloodlustBonus;
       let newX = game.player.x;
       let newY = game.player.y;
-
+      
       if (game.keys['w'] || game.keys['ArrowUp']) newY -= moveSpeed;
       if (game.keys['s'] || game.keys['ArrowDown']) newY += moveSpeed;
       if (game.keys['a'] || game.keys['ArrowLeft']) newX -= moveSpeed;
       if (game.keys['d'] || game.keys['ArrowRight']) newX += moveSpeed;
-
+      
       if (game.joystick.active) {
         const dx = game.joystick.currentX - game.joystick.startX;
         const dy = game.joystick.currentY - game.joystick.startY;
         const distance = Math.sqrt(dx * dx + dy * dy);
-
+        
         if (distance > 10) {
           const normalized = Math.min(distance / 50, 1);
           newX += (dx / distance) * moveSpeed * normalized;
           newY += (dy / distance) * moveSpeed * normalized;
-
+          
           game.moveVector.x = dx / distance;
           game.moveVector.y = dy / distance;
         }
@@ -1084,7 +1031,7 @@ const ZombieWaveGame = () => {
         game.moveVector.x = 0;
         game.moveVector.y = 0;
       }
-
+      
       if (!checkCollision(newX, game.player.y, game.player.size, false, false, true)) {
         game.player.x = Math.max(30, Math.min(game.mapWidth - 30, newX));
       }
@@ -1113,14 +1060,14 @@ const ZombieWaveGame = () => {
       game.coinDrops = game.coinDrops.filter(coin => {
         coin.lifetime--;
         const dist = Math.sqrt(
-          Math.pow(coin.x - game.player.x, 2) +
+          Math.pow(coin.x - game.player.x, 2) + 
           Math.pow(coin.y - game.player.y, 2)
         );
-
+        
         const defaultMagnetRange = 120;
         const hopperRange = game.player.hopperRange || 0;
         const effectiveRange = Math.max(defaultMagnetRange, hopperRange);
-
+        
         if (dist < effectiveRange && dist > 30) {
           const dx = game.player.x - coin.x;
           const dy = game.player.y - coin.y;
@@ -1128,7 +1075,7 @@ const ZombieWaveGame = () => {
           coin.x += (dx / dist) * speed;
           coin.y += (dy / dist) * speed;
         }
-
+        
         if (dist < 30) {
           setCoins(c => c + coin.value);
           setTotalCoins(tc => tc + coin.value);
@@ -1136,19 +1083,19 @@ const ZombieWaveGame = () => {
           createParticles(coin.x, coin.y, hopperRange > 0 ? '#00ff00' : '#ffd700', hopperRange > 0 ? 8 : 5);
           return false;
         }
-
+        
         return coin.lifetime > 0;
       });
 
       // Power-up collection
       game.powerUps = game.powerUps.filter(powerUp => {
         powerUp.lifetime--;
-
+        
         const dist = Math.sqrt(
-          Math.pow(powerUp.x - game.player.x, 2) +
+          Math.pow(powerUp.x - game.player.x, 2) + 
           Math.pow(powerUp.y - game.player.y, 2)
         );
-
+        
         if (dist < 40) {
           // Apply power-up effect
           switch (powerUp.type) {
@@ -1180,7 +1127,7 @@ const ZombieWaveGame = () => {
           }
           return false;
         }
-
+        
         return powerUp.lifetime > 0;
       });
 
@@ -1197,15 +1144,15 @@ const ZombieWaveGame = () => {
       game.bullets = game.bullets.filter(bullet => {
         const oldX = bullet.x;
         const oldY = bullet.y;
-
+        
         // Homing bullets track nearest zombie
         if (bullet.homing && !bullet.fromTurret) {
           let closestZombie = null;
           let closestDist = 300;
-
+          
           game.zombies.forEach(zombie => {
             const dist = Math.sqrt(
-              Math.pow(zombie.x - bullet.x, 2) +
+              Math.pow(zombie.x - bullet.x, 2) + 
               Math.pow(zombie.y - bullet.y, 2)
             );
             if (dist < closestDist) {
@@ -1213,7 +1160,7 @@ const ZombieWaveGame = () => {
               closestZombie = zombie;
             }
           });
-
+          
           if (closestZombie) {
             const dx = closestZombie.x - bullet.x;
             const dy = closestZombie.y - bullet.y;
@@ -1222,7 +1169,7 @@ const ZombieWaveGame = () => {
               const homingStrength = 0.3;
               bullet.vx += (dx / dist) * homingStrength;
               bullet.vy += (dy / dist) * homingStrength;
-
+              
               // Normalize speed
               const currentSpeed = Math.sqrt(bullet.vx * bullet.vx + bullet.vy * bullet.vy);
               bullet.vx = (bullet.vx / currentSpeed) * game.player.bulletSpeed;
@@ -1230,10 +1177,10 @@ const ZombieWaveGame = () => {
             }
           }
         }
-
+        
         bullet.x += bullet.vx;
         bullet.y += bullet.vy;
-
+        
         // Ghost bullets ignore wall collisions
         const ignoreWalls = game.player.ghostBullets && !bullet.fromTurret;
         if (checkCollision(bullet.x, bullet.y, 3, true, bullet.fromTurret) && !ignoreWalls) {
@@ -1249,43 +1196,43 @@ const ZombieWaveGame = () => {
           }
           return false;
         }
-
+        
         return bullet.x > 0 && bullet.x < game.mapWidth && bullet.y > 0 && bullet.y < game.mapHeight;
       });
 
       game.turrets.forEach(turret => {
         turret.cooldown--;
-
+        
         if (turret.cooldown <= 0) {
           const turretSize = turret.size || 50;
           const centerX = turret.x + turretSize / 2;
           const centerY = turret.y + turretSize / 2;
-
+          
           let closestZombie = null;
           let closestDist = turret.range;
-
+          
           game.zombies.forEach(zombie => {
             const dist = Math.sqrt(
-              Math.pow(zombie.x - centerX, 2) +
+              Math.pow(zombie.x - centerX, 2) + 
               Math.pow(zombie.y - centerY, 2)
             );
-
+            
             if (dist < closestDist) {
               closestDist = dist;
               closestZombie = zombie;
             }
           });
-
+          
           if (closestZombie) {
             const dx = closestZombie.x - centerX;
             const dy = closestZombie.y - centerY;
             const dist = Math.sqrt(dx * dx + dy * dy);
-
+            
             const angle = Math.atan2(dy, dx);
             const spawnDistance = turretSize / 2;
             const spawnX = centerX + Math.cos(angle) * spawnDistance;
             const spawnY = centerY + Math.sin(angle) * spawnDistance;
-
+            
             const bullet = {
               x: spawnX,
               y: spawnY,
@@ -1299,14 +1246,14 @@ const ZombieWaveGame = () => {
               turretType: turret.turretType,
               ricochet: 0
             };
-
+            
             game.bullets.push(bullet);
             createParticles(spawnX, spawnY, turret.color || '#00ff88', 3);
-
+            
             if (turret.special === 'slow' && closestZombie) {
               closestZombie.slowedUntil = Date.now() + 2000;
             }
-
+            
             turret.cooldown = turret.fireRate;
             turret.lastShotTime = Date.now();
           }
@@ -1315,13 +1262,13 @@ const ZombieWaveGame = () => {
 
       game.traps.forEach(trap => {
         trap.cooldown--;
-
+        
         game.zombies.forEach(zombie => {
           const dist = Math.sqrt(
-            Math.pow(zombie.x - trap.x, 2) +
+            Math.pow(zombie.x - trap.x, 2) + 
             Math.pow(zombie.y - trap.y, 2)
           );
-
+          
           if (dist < 30 && trap.cooldown <= 0) {
             zombie.health -= 1;
             trap.cooldown = 20;
@@ -1343,7 +1290,7 @@ const ZombieWaveGame = () => {
             zombie.poisoned = false;
           }
         }
-
+        
         if (zombie.frozen && Date.now() < zombie.frozenUntil) {
           // Zombie is frozen, skip AI this frame
           createParticles(zombie.x, zombie.y, '#00ffff', 1);
@@ -1351,33 +1298,33 @@ const ZombieWaveGame = () => {
         } else if (zombie.frozen) {
           zombie.frozen = false;
         }
-
+        
         // Special zombie abilities
         if (zombie.type === 'healer') {
           // Initialize heal cooldown if not set
           if (zombie.healCooldown === undefined) {
             zombie.healCooldown = 0;
           }
-
+          
           if (zombie.healCooldown <= 0) {
             // Heal nearby zombies
             let healedCount = 0;
             game.zombies.forEach(other => {
               if (other !== zombie) {
                 const dist = Math.sqrt(
-                  Math.pow(zombie.x - other.x, 2) +
+                  Math.pow(zombie.x - other.x, 2) + 
                   Math.pow(zombie.y - other.y, 2)
                 );
-
+                
                 // Heal zombies within range that are damaged
                 if (dist < zombie.healRange && other.health < other.maxHealth) {
                   const healAmount = Math.min(zombie.healAmount, other.maxHealth - other.health);
                   other.health += healAmount;
                   healedCount++;
-
+                  
                   // Create healing particles
                   createParticles(other.x, other.y, '#2ecc71', 8);
-
+                  
                   // Visual healing beam
                   game.particles.push({
                     x: zombie.x,
@@ -1394,7 +1341,7 @@ const ZombieWaveGame = () => {
                 }
               }
             });
-
+            
             // Reset cooldown if healed someone
             if (healedCount > 0) {
               zombie.healCooldown = zombieTypes.healer.healCooldown;
@@ -1405,13 +1352,13 @@ const ZombieWaveGame = () => {
             zombie.healCooldown--;
           }
         }
-
+        
         if (zombie.type === 'berserker') {
           // Speed up as health decreases
           const healthPercent = zombie.health / zombie.maxHealth;
           zombie.baseSpeed = zombieTypes.berserker.speed * (1 + (1 - healthPercent) * zombie.rageBonus);
         }
-
+        
         if (zombie.type === 'necromancer' && !zombie.summonCooldownActive && game.zombies.length < 50) {
           zombie.summonCooldownActive = true;
           setTimeout(() => {
@@ -1435,19 +1382,19 @@ const ZombieWaveGame = () => {
             zombie.summonCooldownActive = false;
           }, zombie.summonCooldown * 16.67); // Convert frames to ms
         }
-
+        
         if (!zombie.lastPosition) {
           zombie.lastPosition = { x: zombie.x, y: zombie.y, time: Date.now() };
           zombie.stuckCounter = 0;
         }
-
+        
         const timeSinceLastCheck = Date.now() - zombie.lastPosition.time;
         if (timeSinceLastCheck > 2000) {
           const distMoved = Math.sqrt(
-            Math.pow(zombie.x - zombie.lastPosition.x, 2) +
+            Math.pow(zombie.x - zombie.lastPosition.x, 2) + 
             Math.pow(zombie.y - zombie.lastPosition.y, 2)
           );
-
+          
           if (distMoved < 20) {
             zombie.stuckCounter++;
             if (zombie.stuckCounter >= 3) {
@@ -1462,37 +1409,37 @@ const ZombieWaveGame = () => {
           } else {
             zombie.stuckCounter = 0;
           }
-
+          
           zombie.lastPosition = { x: zombie.x, y: zombie.y, time: Date.now() };
         }
-
-        const currentSpeed = (zombie.slowedUntil && Date.now() < zombie.slowedUntil)
-          ? zombie.baseSpeed * 0.5
+        
+        const currentSpeed = (zombie.slowedUntil && Date.now() < zombie.slowedUntil) 
+          ? zombie.baseSpeed * 0.5 
           : zombie.baseSpeed;
-
+        
         // Time warp global slow
         const finalSpeed = game.player.timeWarp ? currentSpeed * 0.8 : currentSpeed;
-
+        
         // SMART TARGETING SYSTEM
         let targetX = game.player.x;
         let targetY = game.player.y;
         let targetType = 'player';
         let targetObject = null;
         let closestDist = Infinity;
-
+        
         // Some zombies prefer the player
         if (zombie.preferPlayer) {
           const distToPlayer = Math.sqrt(
-            Math.pow(game.player.x - zombie.x, 2) +
+            Math.pow(game.player.x - zombie.x, 2) + 
             Math.pow(game.player.y - zombie.y, 2)
           );
           closestDist = distToPlayer;
-
+          
           // Check if wall blocks path to player
           const blockingWall = findBlockingWall(zombie.x, zombie.y, game.player.x, game.player.y);
           if (blockingWall) {
             const distToWall = Math.sqrt(
-              Math.pow(blockingWall.x + blockingWall.width/2 - zombie.x, 2) +
+              Math.pow(blockingWall.x + blockingWall.width/2 - zombie.x, 2) + 
               Math.pow(blockingWall.y + blockingWall.height/2 - zombie.y, 2)
             );
             closestDist = distToWall;
@@ -1507,12 +1454,12 @@ const ZombieWaveGame = () => {
             const base = game.bases[0];
             const baseCenterX = base.x + base.size/2;
             const baseCenterY = base.y + base.size/2;
-
+            
             const blockingWall = findBlockingWall(zombie.x, zombie.y, baseCenterX, baseCenterY);
-
+            
             if (blockingWall) {
               const distToWall = Math.sqrt(
-                Math.pow(blockingWall.x + blockingWall.width/2 - zombie.x, 2) +
+                Math.pow(blockingWall.x + blockingWall.width/2 - zombie.x, 2) + 
                 Math.pow(blockingWall.y + blockingWall.height/2 - zombie.y, 2)
               );
               closestDist = distToWall;
@@ -1522,7 +1469,7 @@ const ZombieWaveGame = () => {
               targetObject = blockingWall;
             } else {
               const distToBase = Math.sqrt(
-                Math.pow(baseCenterX - zombie.x, 2) +
+                Math.pow(baseCenterX - zombie.x, 2) + 
                 Math.pow(baseCenterY - zombie.y, 2)
               );
               closestDist = distToBase;
@@ -1537,12 +1484,12 @@ const ZombieWaveGame = () => {
               if (turret.health > 0) {
                 const turretCenterX = turret.x + turret.size/2;
                 const turretCenterY = turret.y + turret.size/2;
-
+                
                 const blockingWall = findBlockingWall(zombie.x, zombie.y, turretCenterX, turretCenterY);
-
+                
                 if (blockingWall) {
                   const distToWall = Math.sqrt(
-                    Math.pow(blockingWall.x + blockingWall.width/2 - zombie.x, 2) +
+                    Math.pow(blockingWall.x + blockingWall.width/2 - zombie.x, 2) + 
                     Math.pow(blockingWall.y + blockingWall.height/2 - zombie.y, 2)
                   );
                   if (distToWall < closestDist) {
@@ -1554,7 +1501,7 @@ const ZombieWaveGame = () => {
                   }
                 } else {
                   const distToTurret = Math.sqrt(
-                    Math.pow(turretCenterX - zombie.x, 2) +
+                    Math.pow(turretCenterX - zombie.x, 2) + 
                     Math.pow(turretCenterY - zombie.y, 2)
                   );
                   if (distToTurret < closestDist) {
@@ -1567,7 +1514,7 @@ const ZombieWaveGame = () => {
                 }
               }
             }
-
+            
             // Priority 3: Walls (if close by)
             if (!targetObject || targetType === 'player') {
               for (let wall of game.walls) {
@@ -1575,10 +1522,10 @@ const ZombieWaveGame = () => {
                   const wallCenterX = wall.x + wall.width/2;
                   const wallCenterY = wall.y + wall.height/2;
                   const distToWall = Math.sqrt(
-                    Math.pow(wallCenterX - zombie.x, 2) +
+                    Math.pow(wallCenterX - zombie.x, 2) + 
                     Math.pow(wallCenterY - zombie.y, 2)
                   );
-
+                  
                   if (distToWall < 150 && distToWall < closestDist) {
                     closestDist = distToWall;
                     targetX = wallCenterX;
@@ -1589,11 +1536,11 @@ const ZombieWaveGame = () => {
                 }
               }
             }
-
+            
             // Priority 4: Player (default)
             if (!targetObject) {
               const distToPlayer = Math.sqrt(
-                Math.pow(game.player.x - zombie.x, 2) +
+                Math.pow(game.player.x - zombie.x, 2) + 
                 Math.pow(game.player.y - zombie.y, 2)
               );
               if (distToPlayer < closestDist) {
@@ -1602,25 +1549,25 @@ const ZombieWaveGame = () => {
             }
           }
         }
-
+        
         const dx = targetX - zombie.x;
         const dy = targetY - zombie.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-
+        
         zombie.targetLock = targetType;
-
+        
         // Movement
         if (dist > 0) {
           let moveX = (dx / dist) * finalSpeed;
           let moveY = (dy / dist) * finalSpeed;
-
+          
           const newX = zombie.x + moveX;
           const newY = zombie.y + moveY;
-
+          
           // Check collision with walls - zombies cannot pass through walls
           let canMoveX = true;
           let canMoveY = true;
-
+          
           // Check wall collisions
           for (let wall of game.walls) {
             if (wall.health > 0) {
@@ -1629,7 +1576,7 @@ const ZombieWaveGame = () => {
                   zombie.y + zombie.size > wall.y && zombie.y - zombie.size < wall.y + wall.height) {
                 canMoveX = false;
               }
-
+              
               // Check Y movement
               if (zombie.x + zombie.size > wall.x && zombie.x - zombie.size < wall.x + wall.width &&
                   newY + zombie.size > wall.y && newY - zombie.size < wall.y + wall.height) {
@@ -1637,32 +1584,32 @@ const ZombieWaveGame = () => {
               }
             }
           }
-
+          
           // Check obstacle collisions
           if (!checkCollision(newX, zombie.y, zombie.size)) {
             canMoveX = canMoveX && true;
           } else {
             canMoveX = false;
           }
-
+          
           if (!checkCollision(zombie.x, newY, zombie.size)) {
             canMoveY = canMoveY && true;
           } else {
             canMoveY = false;
           }
-
+          
           if (!canMoveX && !canMoveY) {
             // Try diagonal movement if stuck
             const angle = Math.atan2(dy, dx) + (Math.random() - 0.5) * Math.PI / 2;
             moveX = Math.cos(angle) * currentSpeed;
             moveY = Math.sin(angle) * currentSpeed;
-
+            
             const diagX = zombie.x + moveX;
             const diagY = zombie.y + moveY;
-
+            
             canMoveX = !checkCollision(diagX, zombie.y, zombie.size);
             canMoveY = !checkCollision(zombie.x, diagY, zombie.size);
-
+            
             // Double check walls for diagonal movement
             for (let wall of game.walls) {
               if (wall.health > 0) {
@@ -1676,7 +1623,7 @@ const ZombieWaveGame = () => {
                 }
               }
             }
-
+            
             if (canMoveX) zombie.x = diagX;
             if (canMoveY) zombie.y = diagY;
           } else {
@@ -1684,17 +1631,17 @@ const ZombieWaveGame = () => {
             if (canMoveY) zombie.y = newY;
           }
         }
-
+        
         // ATTACK LOGIC
         zombie.attackCooldown = Math.max(0, zombie.attackCooldown - 1);
-
+        
         if (targetType === 'base' && closestDist < 60 && zombie.attackCooldown === 0) {
           const base = game.bases[0];
           const actualDamage = Math.max(1, zombie.damage - (base.armor || 0));
           base.health -= actualDamage;
           zombie.attackCooldown = 30;
           createParticles(base.x + base.size/2, base.y + base.size/2, '#ff6600', 5);
-
+          
           if (base.health <= 0) {
             game.bases = [];
             createParticles(base.x + base.size/2, base.y + base.size/2, '#ff0000', 30);
@@ -1705,7 +1652,7 @@ const ZombieWaveGame = () => {
           targetObject.health -= turretDamage;
           zombie.attackCooldown = 30;
           createParticles(targetObject.x + targetObject.size/2, targetObject.y + targetObject.size/2, '#ff6600', 8);
-
+          
           if (targetObject.health <= 0) {
             game.turrets = game.turrets.filter(t => t !== targetObject);
             createParticles(targetObject.x + targetObject.size/2, targetObject.y + targetObject.size/2, '#95a5a6', 20);
@@ -1722,7 +1669,7 @@ const ZombieWaveGame = () => {
           targetObject.health -= wallDamageDealt;
           zombie.attackCooldown = 30;
           createParticles(targetObject.x + targetObject.width/2, targetObject.y + targetObject.height/2, '#ff8800', 5);
-
+          
           // Show damage number
           game.particles.push({
             x: targetObject.x + targetObject.width/2,
@@ -1738,7 +1685,7 @@ const ZombieWaveGame = () => {
             isText: true,
             text: `-${Math.floor(wallDamageDealt)}`
           });
-
+          
           if (targetObject.health <= 0) {
             game.walls = game.walls.filter(w => w !== targetObject);
             gameRef.current.stats.wallsDestroyed++;
@@ -1757,19 +1704,19 @@ const ZombieWaveGame = () => {
           if (game.player.fortify > 0) {
             damageToPlayer *= (1 - game.player.fortify);
           }
-
+          
           // Thorns damage reflection
           if (game.player.thorns > 0) {
             zombie.health -= zombie.damage * game.player.thorns;
             createParticles(zombie.x, zombie.y, '#ff0000', 5);
           }
-
+          
           // Adrenaline rush - speed boost when hit
           if (game.player.adrenaline) {
             game.player.speed += 0.5;
             setTimeout(() => game.player.speed -= 0.5, 2000);
           }
-
+          
           if (game.player.shield > 0) {
             game.player.shield -= damageToPlayer;
             if (game.player.shield < 0) {
@@ -1779,7 +1726,7 @@ const ZombieWaveGame = () => {
           } else {
             game.player.health -= damageToPlayer;
           }
-
+          
           // Second chance - survive fatal hit
           if (game.player.health <= 0 && !game.player.invincible) {
             if (game.player.secondChance && !game.player.secondChanceUsed) {
@@ -1792,18 +1739,18 @@ const ZombieWaveGame = () => {
           }
         }
       });
-
+      
       // Orbital bullets system
       if (game.player.orbital && game.player.orbitalBullets.length > 0) {
         game.player.orbitalBullets.forEach((orbital, idx) => {
           orbital.angle += 0.05;
           const orbitalX = game.player.x + Math.cos(orbital.angle) * orbital.distance;
           const orbitalY = game.player.y + Math.sin(orbital.angle) * orbital.distance;
-
+          
           // Check collision with zombies
           game.zombies.forEach(zombie => {
             const dist = Math.sqrt(
-              Math.pow(zombie.x - orbitalX, 2) +
+              Math.pow(zombie.x - orbitalX, 2) + 
               Math.pow(zombie.y - orbitalY, 2)
             );
             if (dist < zombie.size + 10) {
@@ -1818,49 +1765,49 @@ const ZombieWaveGame = () => {
       game.bullets.forEach((bullet, bulletIndex) => {
         game.zombies.forEach((zombie, zombieIndex) => {
           const dist = Math.sqrt(
-            Math.pow(bullet.x - zombie.x, 2) +
+            Math.pow(bullet.x - zombie.x, 2) + 
             Math.pow(bullet.y - zombie.y, 2)
           );
-
+          
           if (dist < zombie.size) {
             // Critical aura bonus
             let finalDamage = bullet.damage;
             if (game.player.criticalAura) {
               const distToPlayer = Math.sqrt(
-                Math.pow(zombie.x - game.player.x, 2) +
+                Math.pow(zombie.x - game.player.x, 2) + 
                 Math.pow(zombie.y - game.player.y, 2)
               );
               if (distToPlayer < 200) {
                 finalDamage *= 2;
               }
             }
-
+            
             // Armor damage reduction for armored zombies
             if (zombie.type === 'armored' && zombie.armor) {
               finalDamage = Math.max(0.5, finalDamage - zombie.armor);
             }
-
+            
             // Shield blocking for shielded zombies (50% chance to block)
             if (zombie.type === 'shielded' && zombie.hasShield && Math.random() < 0.5) {
               finalDamage *= 0.3;
               createParticles(zombie.x, zombie.y, '#16a085', 5);
             }
-
+            
             zombie.health -= finalDamage;
             bullet.piercing--;
-
+            
             // Apply status effects
             if (bullet.poison) {
               zombie.poisoned = true;
               zombie.poisonDuration = 180; // 3 seconds
               zombie.poisonDamage = bullet.damage * 0.1;
             }
-
+            
             if (bullet.freeze) {
               zombie.frozen = true;
               zombie.frozenUntil = Date.now() + 2000;
             }
-
+            
             // Split shot - create 2 smaller bullets
             if (bullet.split && !bullet.hasSplit) {
               bullet.hasSplit = true;
@@ -1884,7 +1831,7 @@ const ZombieWaveGame = () => {
                 });
               }
             }
-
+            
             // Cluster bomb - create mini bullets on hit
             if (bullet.cluster && !bullet.hasClustered) {
               bullet.hasClustered = true;
@@ -1908,7 +1855,7 @@ const ZombieWaveGame = () => {
               }
               createParticles(bullet.x, bullet.y, '#ff6600', 15);
             }
-
+            
             // Chain Lightning effect
             if (game.player.chain && !bullet.hasChained) {
               bullet.hasChained = true;
@@ -1916,7 +1863,7 @@ const ZombieWaveGame = () => {
               game.zombies.forEach((otherZombie) => {
                 if (otherZombie !== zombie) {
                   const chainDist = Math.sqrt(
-                    Math.pow(otherZombie.x - zombie.x, 2) +
+                    Math.pow(otherZombie.x - zombie.x, 2) + 
                     Math.pow(otherZombie.y - zombie.y, 2)
                   );
                   if (chainDist < chainRange) {
@@ -1926,44 +1873,44 @@ const ZombieWaveGame = () => {
                 }
               });
             }
-
+            
             if (bullet.fromTurret) {
               gameRef.current.stats.turretKills += 0.1;
             }
-
+            
             if (bullet.explosive) {
               createExplosion(bullet.x, bullet.y, 50, bullet.damage * 0.5);
               game.bullets.splice(bulletIndex, 1);
             } else if (bullet.piercing < 0 && bullet.ricochet <= 0) {
               game.bullets.splice(bulletIndex, 1);
             }
-
+            
                           if (zombie.health <= 0) {
               setScore(s => s + zombie.score);
               gameRef.current.stats.zombiesKilled++;
-
+              
               // Kill streak system
               setKillStreak(k => {
                 const newStreak = k + 1;
                 setMaxKillStreak(max => Math.max(max, newStreak));
-
+                
                 // Bonus coins for streaks
                 if (newStreak % 10 === 0) {
                   setCoins(c => c + 10);
                   createParticles(zombie.x, zombie.y, '#ffd700', 25);
                 }
-
+                
                 return newStreak;
               });
-
+              
               // Reset streak timer
               setTimeout(() => setKillStreak(0), 3000);
-
+              
               // Screen shake on boss kill
               if (zombie.type === 'boss' || zombie.type === 'megaboss') {
                 addScreenShake(zombie.type === 'megaboss' ? 15 : 10);
               }
-
+              
               // Special zombie death effects
               if (zombie.type === 'healer') {
                 createParticles(zombie.x, zombie.y, '#2ecc71', 15);
@@ -1988,7 +1935,7 @@ const ZombieWaveGame = () => {
                 createParticles(zombie.x, zombie.y, '#9b59b6', 30);
                 addScreenShake(8);
               }
-
+              
               // Random power-up drops (10% chance)
               if (Math.random() < 0.1) {
                 const powerUpTypes = ['health', 'speed', 'damage', 'firerate', 'coins'];
@@ -2001,7 +1948,7 @@ const ZombieWaveGame = () => {
                   collected: false
                 });
               }
-
+              
               // Bloodlust: speed boost on kill
               if (game.player.bloodlust) {
                 game.player.bloodlustStacks = Math.min(10, (game.player.bloodlustStacks || 0) + 1);
@@ -2009,32 +1956,32 @@ const ZombieWaveGame = () => {
                   game.player.bloodlustStacks = Math.max(0, game.player.bloodlustStacks - 1);
                 }, 3000);
               }
-
+              
               setXp(x => {
                 const xpBoost = game.player.xpBoost || 1; // Default to 1 if undefined
                 const xpGained = zombie.xp * xpBoost;
                 const newXp = x + xpGained;
                 const xpNeeded = getXpForLevel(level);
-
+                
                 console.log(`💎 XP: ${Math.floor(newXp)}/${xpNeeded} (gained ${Math.floor(xpGained)})`);
-
+                
                 if (newXp >= xpNeeded) {
                   let levelsGained = 0;
                   let remainingXp = newXp;
                   let currentLevel = level;
-
+                  
                   // Calculate how many levels gained
                   while (remainingXp >= getXpForLevel(currentLevel)) {
                     remainingXp -= getXpForLevel(currentLevel);
                     currentLevel++;
                     levelsGained++;
                   }
-
+                  
                   console.log(`🎉 LEVEL UP! Gained ${levelsGained} level(s)! Now level ${currentLevel}`);
-
+                  
                   setLevel(l => l + levelsGained);
                   setPendingLevelUps(prev => prev + levelsGained);
-
+                  
                   // Only show level up screen if not already showing
                   if (!showLevelUp) {
                     setTotalLevelUps(levelsGained);
@@ -2045,12 +1992,12 @@ const ZombieWaveGame = () => {
                     // If already showing, add to the total
                     setTotalLevelUps(prev => prev + levelsGained);
                   }
-
+                  
                   return remainingXp;
                 }
                 return newXp;
               });
-
+              
               // Lifesteal
               const totalLifesteal = (game.player.lifeSteal || 0) + (game.player.vampire ? 0.1 : 0);
               if (totalLifesteal > 0) {
@@ -2059,9 +2006,9 @@ const ZombieWaveGame = () => {
                   game.player.health + game.player.maxHealth * totalLifesteal
                 );
               }
-
+              
               createParticles(zombie.x, zombie.y, zombie.color, 10);
-
+              
               // XP gain visual feedback
               createParticles(zombie.x, zombie.y, '#9b59b6', 5);
               game.particles.push({
@@ -2078,7 +2025,7 @@ const ZombieWaveGame = () => {
                 isText: true,
                 text: `+${zombie.xp}XP`
               });
-
+              
               // Coin drops with Scavenger and Lucky modifiers
               let coinValue = zombie.coins;
               if (game.player.scavenger) {
@@ -2088,18 +2035,18 @@ const ZombieWaveGame = () => {
                 coinValue *= 2;
                 createParticles(zombie.x, zombie.y, '#ffd700', 15);
               }
-
+              
               game.coinDrops.push({
                 x: zombie.x,
                 y: zombie.y,
                 value: coinValue,
                 lifetime: 300
               });
-
+              
               if (zombie.type === 'exploder') {
                 createExplosion(zombie.x, zombie.y, 80, 2);
               }
-
+              
               game.zombies.splice(zombieIndex, 1);
             }
           }
@@ -2113,7 +2060,7 @@ const ZombieWaveGame = () => {
         const nextWave = wave + 1;
         setWave(nextWave);
         game.player.health = Math.min(game.player.maxHealth, game.player.health + 30);
-
+        
         // Better scaling wave bonus rewards
         let waveBonus;
         if (wave <= 5) {
@@ -2123,14 +2070,14 @@ const ZombieWaveGame = () => {
         } else {
           waveBonus = 70 + ((wave - 15) * 5); // 75, 80, 85...
         }
-
+        
         setCoins(c => c + waveBonus);
         gameRef.current.stats.coinsEarned += waveBonus;
-
+        
         // Schedule next wave
         game.nextWaveTime = Date.now() + 10000;
         console.log(`⏳ Next wave (${nextWave}) starts in 10s...`);
-
+        
         // Use a more reliable trigger
         const waveTimer = setTimeout(() => {
           console.log(`🌊 Starting wave ${nextWave}...`);
@@ -2141,20 +2088,20 @@ const ZombieWaveGame = () => {
             console.log('❌ Wave start cancelled - game not playing or no base');
           }
         }, 10000);
-
+        
         // Store timer ID for cleanup if needed
         game.nextWaveTimer = waveTimer;
       }
-
+      
       // Failsafe: Auto-start wave if stuck (no zombies, no active wave, base exists, playing)
       // Wait at least 15 seconds after game start or last wave before failsafe triggers
       // Don't trigger during initial countdown
       const timeSinceLastWave = game.nextWaveTime ? (Date.now() - (game.nextWaveTime - 10000)) : Date.now();
-      if (game.zombies.length === 0 &&
-          game.zombiesLeftToSpawn === 0 &&
-          !game.waveActive &&
-          game.bases.length > 0 &&
-          gameState === 'playing' &&
+      if (game.zombies.length === 0 && 
+          game.zombiesLeftToSpawn === 0 && 
+          !game.waveActive && 
+          game.bases.length > 0 && 
+          gameState === 'playing' && 
           !game.isPaused &&
           !game.nextWaveTime &&
           !game.initialCountdownActive &&
@@ -2179,7 +2126,7 @@ const ZombieWaveGame = () => {
       }
 
       // === RENDERING ===
-
+      
       // Grid - much more subtle
       ctx.strokeStyle = selectedBuild ? 'rgba(78, 204, 163, 0.08)' : 'rgba(100, 120, 150, 0.03)';
       ctx.lineWidth = 1;
@@ -2209,13 +2156,13 @@ const ZombieWaveGame = () => {
         if (screenX + obs.width > 0 && screenX < canvas.width && screenY + obs.height > 0 && screenY < canvas.height) {
           ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
           ctx.fillRect(screenX + 5, screenY + 5, obs.width, obs.height);
-
+          
           ctx.fillStyle = obs.isWall ? '#34495e' : '#4a5568';
           ctx.fillRect(screenX, screenY, obs.width, obs.height);
-
+          
           ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
           ctx.fillRect(screenX, screenY, obs.width, 3);
-
+          
           ctx.strokeStyle = '#1a202c';
           ctx.lineWidth = 2;
           ctx.strokeRect(screenX, screenY, obs.width, obs.height);
@@ -2226,14 +2173,14 @@ const ZombieWaveGame = () => {
       game.walls.forEach(wall => {
         const screenX = wall.x - game.cameraX;
         const screenY = wall.y - game.cameraY;
-
+        
         // Enhanced CARTOON shadow with blur
         ctx.shadowBlur = 12;
         ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
         ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
         ctx.fillRect(screenX + 6, screenY + 6, wall.width, wall.height);
         ctx.shadowBlur = 0;
-
+        
         // Base wall with tier-specific CARTOON textures
         let wallTexture;
         if (wall.tier === 1) {
@@ -2244,7 +2191,7 @@ const ZombieWaveGame = () => {
           wallTexture.addColorStop(1, '#A0522D');
           ctx.fillStyle = wallTexture;
           ctx.fillRect(screenX, screenY, wall.width, wall.height);
-
+          
           // CARTOON wood planks - simplified
           ctx.strokeStyle = 'rgba(101, 67, 33, 0.6)';
           ctx.lineWidth = 4;
@@ -2269,7 +2216,7 @@ const ZombieWaveGame = () => {
           wallTexture.addColorStop(1, '#556B7D');
           ctx.fillStyle = wallTexture;
           ctx.fillRect(screenX, screenY, wall.width, wall.height);
-
+          
           // CARTOON stone blocks - bigger and simpler
           const blockSize = 30;
           ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
@@ -2287,7 +2234,7 @@ const ZombieWaveGame = () => {
           wallTexture.addColorStop(1, '#5A6C7D');
           ctx.fillStyle = wallTexture;
           ctx.fillRect(screenX, screenY, wall.width, wall.height);
-
+          
           // CARTOON metal panels - bigger
           const panelSize = 35;
           for (let py = 0; py < wall.height; py += panelSize) {
@@ -2296,7 +2243,7 @@ const ZombieWaveGame = () => {
               ctx.strokeStyle = '#1C1C1C';
               ctx.lineWidth = 4;
               ctx.strokeRect(screenX + px, screenY + py, Math.min(panelSize, wall.width - px), Math.min(panelSize, wall.height - py));
-
+              
               // CARTOON rivets - bigger and bolder
               ctx.fillStyle = '#FFD700';
               ctx.strokeStyle = '#000000';
@@ -2313,19 +2260,19 @@ const ZombieWaveGame = () => {
             }
           }
         }
-
+        
         // CARTOON thick black outline
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 5;
         ctx.strokeRect(screenX, screenY, wall.width, wall.height);
-
+        
         // Top highlight for 3D effect - more pronounced
         const highlightGradient = ctx.createLinearGradient(screenX, screenY, screenX, screenY + 15);
         highlightGradient.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
         highlightGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
         ctx.fillStyle = highlightGradient;
         ctx.fillRect(screenX, screenY, wall.width, 15);
-
+        
         // Armor glow effect
         if (wall.armor > 0) {
           ctx.shadowBlur = 15;
@@ -2335,7 +2282,7 @@ const ZombieWaveGame = () => {
           ctx.strokeRect(screenX + 3, screenY + 3, wall.width - 6, wall.height - 6);
           ctx.shadowBlur = 0;
         }
-
+        
         // Selection highlight
         if (selectedStructure && selectedStructure.type === 'wall' && selectedStructure.data === wall) {
           ctx.shadowBlur = 25;
@@ -2344,11 +2291,11 @@ const ZombieWaveGame = () => {
           ctx.lineWidth = 6;
           ctx.strokeRect(screenX - 4, screenY - 4, wall.width + 8, wall.height + 8);
           ctx.shadowBlur = 0;
-
+          
           ctx.fillStyle = 'rgba(255, 255, 0, 0.2)';
           ctx.fillRect(screenX, screenY, wall.width, wall.height);
         }
-
+        
         // Icon with better CARTOON rendering
         ctx.font = 'bold 40px Arial';
         ctx.textAlign = 'center';
@@ -2361,7 +2308,7 @@ const ZombieWaveGame = () => {
         ctx.strokeText(wallIcon, screenX + wall.width/2, screenY + wall.height/2);
         ctx.fillText(wallIcon, screenX + wall.width/2, screenY + wall.height/2);
         ctx.shadowBlur = 0;
-
+        
         // Upgrade stars with glow
         if (wall.upgradeLevel > 0) {
           ctx.font = 'bold 14px Arial';
@@ -2376,24 +2323,24 @@ const ZombieWaveGame = () => {
           ctx.fillText(starText, screenX + wall.width - 8, screenY + 18);
           ctx.shadowBlur = 0;
         }
-
+        
         // Enhanced CARTOON health bar
         const barWidth = Math.max(wall.width, wall.height);
         const barHeight = 8;
         const barX = screenX;
         const barY = screenY - 15;
-
+        
         // Health bar shadow
         ctx.shadowBlur = 6;
         ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
         ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
         ctx.fillRect(barX - 2, barY - 2, barWidth + 4, barHeight + 4);
         ctx.shadowBlur = 0;
-
+        
         // Health bar background
         ctx.fillStyle = '#2c3e50';
         ctx.fillRect(barX, barY, barWidth, barHeight);
-
+        
         // Health bar fill with gradient
         const healthPercent = wall.health / wall.maxHealth;
         const healthGradient = ctx.createLinearGradient(barX, barY, barX + barWidth, barY);
@@ -2409,11 +2356,11 @@ const ZombieWaveGame = () => {
         }
         ctx.fillStyle = healthGradient;
         ctx.fillRect(barX, barY, barWidth * healthPercent, barHeight);
-
+        
         // Health bar shine
         ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
         ctx.fillRect(barX, barY, barWidth * healthPercent, 3);
-
+        
         // Health bar CARTOON border
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 3;
@@ -2429,9 +2376,9 @@ const ZombieWaveGame = () => {
         const screenY = turret.y - game.cameraY;
         const screenCenterX = centerX - game.cameraX;
         const screenCenterY = centerY - game.cameraY;
-
+        
         const turretColor = turret.color || '#3498db';
-
+        
         // Range indicator - only show if Q is pressed
         if (showRanges) {
           const rangeGradient = ctx.createRadialGradient(screenCenterX, screenCenterY, 0, screenCenterX, screenCenterY, turret.range);
@@ -2442,7 +2389,7 @@ const ZombieWaveGame = () => {
           ctx.beginPath();
           ctx.arc(screenCenterX, screenCenterY, turret.range, 0, Math.PI * 2);
           ctx.fill();
-
+          
           ctx.strokeStyle = turretColor + '50';
           ctx.lineWidth = 3;
           ctx.setLineDash([8, 5]);
@@ -2451,14 +2398,14 @@ const ZombieWaveGame = () => {
           ctx.stroke();
           ctx.setLineDash([]);
         }
-
+        
         // Enhanced CARTOON shadow
         ctx.shadowBlur = 15;
         ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
         ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
         ctx.fillRect(screenX + 6, screenY + 6, turretSize, turretSize);
         ctx.shadowBlur = 0;
-
+        
         // Base platform with CARTOON 3D effect
         const baseGradient = ctx.createRadialGradient(screenCenterX, screenCenterY, 0, screenCenterX, screenCenterY, turretSize/2);
         baseGradient.addColorStop(0, '#5a5a5a');
@@ -2466,12 +2413,12 @@ const ZombieWaveGame = () => {
         baseGradient.addColorStop(1, '#1a1a1a');
         ctx.fillStyle = baseGradient;
         ctx.fillRect(screenX, screenY, turretSize, turretSize);
-
+        
         // CARTOON thick outline for base
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 5;
         ctx.strokeRect(screenX, screenY, turretSize, turretSize);
-
+        
         // Turret platform - circular
         const platformGrad = ctx.createRadialGradient(screenCenterX, screenCenterY, 0, screenCenterX, screenCenterY, turretSize/2);
         platformGrad.addColorStop(0, lightenColor(turretColor, 40));
@@ -2481,40 +2428,40 @@ const ZombieWaveGame = () => {
         ctx.beginPath();
         ctx.arc(screenCenterX, screenCenterY, turretSize * 0.45, 0, Math.PI * 2);
         ctx.fill();
-
+        
         // CARTOON outline for platform
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 4;
         ctx.beginPath();
         ctx.arc(screenCenterX, screenCenterY, turretSize * 0.45, 0, Math.PI * 2);
         ctx.stroke();
-
+        
         // Find target for barrel rotation
         let targetAngle = 0;
         let closestZombie = null;
         let closestDist = turret.range;
-
+        
         game.zombies.forEach(zombie => {
           const dist = Math.sqrt(
-            Math.pow(zombie.x - centerX, 2) +
+            Math.pow(zombie.x - centerX, 2) + 
             Math.pow(zombie.y - centerY, 2)
           );
-
+          
           if (dist < closestDist) {
             closestDist = dist;
             closestZombie = zombie;
           }
         });
-
+        
         if (closestZombie) {
           targetAngle = Math.atan2(closestZombie.y - centerY, closestZombie.x - centerX);
         }
-
+        
         // CARTOON turret body - simplified and rounded
         ctx.save();
         ctx.translate(screenCenterX, screenCenterY);
         ctx.rotate(targetAngle);
-
+        
         // Main body - round
         ctx.fillStyle = darkenColor(turretColor, 20);
         ctx.strokeStyle = '#000000';
@@ -2523,7 +2470,7 @@ const ZombieWaveGame = () => {
         ctx.arc(0, 0, 12, 0, Math.PI * 2);
         ctx.fill();
         ctx.stroke();
-
+        
         // Barrel - CARTOON chunky style
         ctx.fillStyle = '#34495e';
         ctx.strokeStyle = '#000000';
@@ -2532,7 +2479,7 @@ const ZombieWaveGame = () => {
         ctx.roundRect(0, -7, 28, 14, 3);
         ctx.fill();
         ctx.stroke();
-
+        
         // Barrel tip
         ctx.fillStyle = '#2c3e50';
         ctx.strokeStyle = '#000000';
@@ -2541,18 +2488,18 @@ const ZombieWaveGame = () => {
         ctx.arc(28, 0, 5, 0, Math.PI * 2);
         ctx.fill();
         ctx.stroke();
-
+        
         ctx.restore();
-
+        
         // Muzzle flash effect - CARTOON star
         if (turret.lastShotTime && Date.now() - turret.lastShotTime < 100) {
           ctx.save();
           ctx.translate(screenCenterX, screenCenterY);
           ctx.rotate(targetAngle);
-
+          
           ctx.shadowBlur = 30;
           ctx.shadowColor = '#ffff00';
-
+          
           // Star-shaped flash
           ctx.fillStyle = '#ffff00';
           ctx.strokeStyle = '#ff9900';
@@ -2564,7 +2511,7 @@ const ZombieWaveGame = () => {
             const outerY = Math.sin(angle) * 12;
             const innerX = 30 + Math.cos(angle + Math.PI / 5) * 6;
             const innerY = Math.sin(angle + Math.PI / 5) * 6;
-
+            
             if (i === 0) ctx.moveTo(outerX, outerY);
             else ctx.lineTo(outerX, outerY);
             ctx.lineTo(innerX, innerY);
@@ -2572,11 +2519,11 @@ const ZombieWaveGame = () => {
           ctx.closePath();
           ctx.fill();
           ctx.stroke();
-
+          
           ctx.shadowBlur = 0;
           ctx.restore();
         }
-
+        
         // Selection highlight
         if (selectedStructure && selectedStructure.type === 'turret' && selectedStructure.data === turret) {
           ctx.shadowBlur = 30;
@@ -2585,11 +2532,11 @@ const ZombieWaveGame = () => {
           ctx.lineWidth = 6;
           ctx.strokeRect(screenX - 4, screenY - 4, turretSize + 8, turretSize + 8);
           ctx.shadowBlur = 0;
-
+          
           ctx.fillStyle = 'rgba(0, 255, 0, 0.2)';
           ctx.fillRect(screenX, screenY, turretSize, turretSize);
         }
-
+        
         // Upgrade stars
         if (turret.upgradeLevel > 0) {
           ctx.shadowBlur = 10;
@@ -2604,24 +2551,24 @@ const ZombieWaveGame = () => {
           ctx.fillText(starText, screenX + turretSize - 6, screenY + 20);
           ctx.shadowBlur = 0;
         }
-
+        
         // Enhanced CARTOON health bar
         const barWidth = turretSize;
         const barHeight = 8;
         const barX = screenX;
         const barY = screenY - 15;
-
+        
         // Health bar shadow
         ctx.shadowBlur = 6;
         ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
         ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
         ctx.fillRect(barX - 2, barY - 2, barWidth + 4, barHeight + 4);
         ctx.shadowBlur = 0;
-
+        
         // Health bar background
         ctx.fillStyle = '#2c3e50';
         ctx.fillRect(barX, barY, barWidth, barHeight);
-
+        
         // Health bar fill
         const healthPercent = turret.health / turret.maxHealth;
         const healthGradient = ctx.createLinearGradient(barX, barY, barX + barWidth, barY);
@@ -2637,11 +2584,11 @@ const ZombieWaveGame = () => {
         }
         ctx.fillStyle = healthGradient;
         ctx.fillRect(barX, barY, barWidth * healthPercent, barHeight);
-
+        
         // Health bar shine
         ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
         ctx.fillRect(barX, barY, barWidth * healthPercent, 3);
-
+        
         // CARTOON health bar border
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 3;
@@ -2652,7 +2599,7 @@ const ZombieWaveGame = () => {
       game.traps.forEach(trap => {
         const screenX = trap.x - game.cameraX;
         const screenY = trap.y - game.cameraY;
-
+        
         // CARTOON glow circle
         ctx.fillStyle = 'rgba(192, 57, 43, 0.4)';
         ctx.shadowBlur = 15;
@@ -2661,21 +2608,21 @@ const ZombieWaveGame = () => {
         ctx.arc(screenX, screenY, 30, 0, Math.PI * 2);
         ctx.fill();
         ctx.shadowBlur = 0;
-
+        
         // CARTOON thick outline
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 5;
         ctx.beginPath();
         ctx.arc(screenX, screenY, 30, 0, Math.PI * 2);
         ctx.stroke();
-
+        
         // Inner danger ring
         ctx.strokeStyle = '#c0392b';
         ctx.lineWidth = 4;
         ctx.beginPath();
         ctx.arc(screenX, screenY, 28, 0, Math.PI * 2);
         ctx.stroke();
-
+        
         // Warning icon
         ctx.font = 'bold 32px Arial';
         ctx.textAlign = 'center';
@@ -2690,7 +2637,7 @@ const ZombieWaveGame = () => {
       game.bases.forEach(base => {
         const screenX = base.x - game.cameraX;
         const screenY = base.y - game.cameraY;
-
+        
         // Safe zone indicator - only show if Q is pressed
         if (showRanges) {
           const pulseScale = 1 + Math.sin(Date.now() / 1000) * 0.02;
@@ -2701,13 +2648,13 @@ const ZombieWaveGame = () => {
           ctx.arc(screenX + base.size/2, screenY + base.size/2, 400 * pulseScale, 0, Math.PI * 2);
           ctx.stroke();
           ctx.setLineDash([]);
-
+          
           // Fill safe zone
           ctx.fillStyle = 'rgba(0, 255, 150, 0.04)';
           ctx.beginPath();
           ctx.arc(screenX + base.size/2, screenY + base.size/2, 400, 0, Math.PI * 2);
           ctx.fill();
-
+          
           // Safe zone label
           ctx.font = 'bold 16px Arial';
           ctx.textAlign = 'center';
@@ -2717,17 +2664,17 @@ const ZombieWaveGame = () => {
           ctx.strokeText('🛡️ SAFE ZONE', screenX + base.size/2, screenY + base.size/2 - 220);
           ctx.fillText('🛡️ SAFE ZONE', screenX + base.size/2, screenY + base.size/2 - 220);
         }
-
+        
         // Pulsing glow effect
         const pulseIntensity = 0.7 + Math.sin(Date.now() / 500) * 0.3;
-
+        
         // Enhanced CARTOON shadow
         ctx.shadowBlur = 25;
         ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
         ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
         ctx.fillRect(screenX + 10, screenY + 10, base.size, base.size);
         ctx.shadowBlur = 0;
-
+        
         // Base gradient background - CARTOON vibrant
         const baseGradient = ctx.createRadialGradient(
           screenX + base.size/2, screenY + base.size/2, 0,
@@ -2738,19 +2685,19 @@ const ZombieWaveGame = () => {
         baseGradient.addColorStop(1, '#e67e22');
         ctx.fillStyle = baseGradient;
         ctx.fillRect(screenX, screenY, base.size, base.size);
-
+        
         // CARTOON thick black outline
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 6;
         ctx.strokeRect(screenX, screenY, base.size, base.size);
-
+        
         // Top highlight - more pronounced
         const shineGradient = ctx.createLinearGradient(screenX, screenY, screenX, screenY + base.size/3);
         shineGradient.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
         shineGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
         ctx.fillStyle = shineGradient;
         ctx.fillRect(screenX, screenY, base.size, base.size/3);
-
+        
         // Armor plating effect - CARTOON
         if (base.armor > 0) {
           for (let i = 0; i < base.armor; i++) {
@@ -2759,13 +2706,13 @@ const ZombieWaveGame = () => {
             ctx.strokeRect(screenX + 5 + i * 3, screenY + 5 + i * 3, base.size - 10 - i * 6, base.size - 10 - i * 6);
           }
         }
-
+        
         // CARTOON castle/fortress - simplified and cuter
         const castleY = screenY + base.size * 0.3;
         const castleHeight = base.size * 0.65;
         const castleWidth = base.size * 0.7;
         const castleX = screenX + (base.size - castleWidth) / 2;
-
+        
         // Castle body
         const castleGrad = ctx.createLinearGradient(castleX, castleY, castleX + castleWidth, castleY + castleHeight);
         castleGrad.addColorStop(0, '#d4a574');
@@ -2773,12 +2720,12 @@ const ZombieWaveGame = () => {
         castleGrad.addColorStop(1, '#9c835a');
         ctx.fillStyle = castleGrad;
         ctx.fillRect(castleX, castleY, castleWidth, castleHeight);
-
+        
         // Castle outline
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 4;
         ctx.strokeRect(castleX, castleY, castleWidth, castleHeight);
-
+        
         // Battlements - CARTOON chunky
         const battlmentWidth = castleWidth / 5;
         for (let i = 0; i < 5; i++) {
@@ -2790,26 +2737,26 @@ const ZombieWaveGame = () => {
             ctx.strokeRect(castleX + i * battlmentWidth, castleY - 10, battlmentWidth, 10);
           }
         }
-
+        
         // CARTOON door - bigger and friendlier
         const doorWidth = castleWidth * 0.3;
         const doorHeight = castleHeight * 0.4;
         const doorX = castleX + (castleWidth - doorWidth) / 2;
         const doorY = castleY + castleHeight - doorHeight;
-
+        
         ctx.fillStyle = '#5d4e37';
         ctx.fillRect(doorX, doorY, doorWidth, doorHeight);
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 3;
         ctx.strokeRect(doorX, doorY, doorWidth, doorHeight);
-
+        
         // Door arch top - CARTOON rounded
         ctx.fillStyle = '#5d4e37';
         ctx.beginPath();
         ctx.arc(doorX + doorWidth/2, doorY, doorWidth/2, Math.PI, 0);
         ctx.fill();
         ctx.stroke();
-
+        
         // CARTOON windows - bigger eyes-like
         ctx.fillStyle = '#87ceeb';
         ctx.strokeStyle = '#000000';
@@ -2822,7 +2769,7 @@ const ZombieWaveGame = () => {
           ctx.fill();
           ctx.stroke();
         }
-
+        
         // CARTOON flag - more prominent
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 3;
@@ -2830,7 +2777,7 @@ const ZombieWaveGame = () => {
         ctx.moveTo(castleX + castleWidth * 0.75, castleY);
         ctx.lineTo(castleX + castleWidth * 0.75, castleY - 30);
         ctx.stroke();
-
+        
         // Flag fabric - animated
         const flagWave = Math.sin(Date.now() / 150);
         ctx.fillStyle = '#ff0000';
@@ -2844,24 +2791,24 @@ const ZombieWaveGame = () => {
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
-
+        
         // Enhanced CARTOON health bar
         const barWidth = base.size;
         const barHeight = 12;
         const barX = screenX;
         const barY = screenY - 22;
-
+        
         // Health bar glow shadow
         ctx.shadowBlur = 10;
         ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
         ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
         ctx.fillRect(barX - 3, barY - 3, barWidth + 6, barHeight + 6);
         ctx.shadowBlur = 0;
-
+        
         // Health bar background
         ctx.fillStyle = '#1a1a1a';
         ctx.fillRect(barX, barY, barWidth, barHeight);
-
+        
         // Health bar fill
         const healthPercent = base.health / base.maxHealth;
         const healthGradient = ctx.createLinearGradient(barX, barY, barX + barWidth, barY);
@@ -2878,16 +2825,16 @@ const ZombieWaveGame = () => {
         }
         ctx.fillStyle = healthGradient;
         ctx.fillRect(barX, barY, barWidth * healthPercent, barHeight);
-
+        
         // Health bar shine
         ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
         ctx.fillRect(barX, barY, barWidth * healthPercent, 4);
-
+        
         // CARTOON health bar border - thick
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 4;
         ctx.strokeRect(barX, barY, barWidth, barHeight);
-
+        
         // Health text
         ctx.font = 'bold 14px Arial';
         ctx.textAlign = 'center';
@@ -2896,7 +2843,7 @@ const ZombieWaveGame = () => {
         ctx.fillStyle = '#fff';
         ctx.strokeText(`${Math.floor(base.health)}/${base.maxHealth}`, barX + barWidth/2, barY + barHeight/2 + 1);
         ctx.fillText(`${Math.floor(base.health)}/${base.maxHealth}`, barX + barWidth/2, barY + barHeight/2 + 1);
-
+        
         // Warning text if critical
         if (healthPercent < 0.3) {
           const warningAlpha = 0.6 + Math.sin(Date.now() / 150) * 0.4;
@@ -2915,21 +2862,21 @@ const ZombieWaveGame = () => {
       game.coinDrops.forEach(coin => {
         const screenX = coin.x - game.cameraX;
         const screenY = coin.y - game.cameraY;
-
+        
         ctx.shadowBlur = 15;
         ctx.shadowColor = '#ffd700';
         ctx.fillStyle = '#ffd700';
         ctx.beginPath();
         ctx.arc(screenX, screenY, 8, 0, Math.PI * 2);
         ctx.fill();
-
+        
         ctx.fillStyle = '#ffed4e';
         ctx.beginPath();
         ctx.arc(screenX - 2, screenY - 2, 3, 0, Math.PI * 2);
         ctx.fill();
-
+        
         ctx.shadowBlur = 0;
-
+        
         ctx.fillStyle = '#fff';
         ctx.font = 'bold 10px Arial';
         ctx.textAlign = 'center';
@@ -2940,10 +2887,10 @@ const ZombieWaveGame = () => {
       game.powerUps.forEach(powerUp => {
         const screenX = powerUp.x - game.cameraX;
         const screenY = powerUp.y - game.cameraY;
-
+        
         const pulse = Math.sin(Date.now() / 200) * 0.2 + 0.8;
         const float = Math.sin(Date.now() / 300 + powerUp.x) * 5;
-
+        
         let icon, color;
         switch (powerUp.type) {
           case 'health':
@@ -2967,23 +2914,23 @@ const ZombieWaveGame = () => {
             color = '#ffd700';
             break;
         }
-
+        
         ctx.shadowBlur = 20 * pulse;
         ctx.shadowColor = color;
-
+        
         // Glow circle
         ctx.fillStyle = color + '40';
         ctx.beginPath();
         ctx.arc(screenX, screenY + float, 20 * pulse, 0, Math.PI * 2);
         ctx.fill();
-
+        
         // Icon
         ctx.font = 'bold 24px Arial';
         ctx.textAlign = 'center';
         ctx.fillText(icon, screenX, screenY + float + 8);
-
+        
         ctx.shadowBlur = 0;
-
+        
         // Lifetime indicator
         if (powerUp.lifetime < 180) {
           ctx.fillStyle = `rgba(255, 255, 255, ${powerUp.lifetime / 180})`;
@@ -2996,7 +2943,7 @@ const ZombieWaveGame = () => {
       game.particles.forEach(p => {
         const screenX = p.x - game.cameraX;
         const screenY = p.y - game.cameraY;
-
+        
         if (p.isText) {
           // Text particles for XP gain
           ctx.globalAlpha = p.life / 60;
@@ -3022,13 +2969,13 @@ const ZombieWaveGame = () => {
       game.zombies.forEach(zombie => {
         const screenX = zombie.x - game.cameraX;
         const screenY = zombie.y - game.cameraY;
-
+        
         if (screenX > -50 && screenX < canvas.width + 50 && screenY > -50 && screenY < canvas.height + 50) {
           // Draw line to target with pulse effect
           if (zombie.targetLock && zombie.targetLock !== 'player' && zombie.attackCooldown > 20) {
             let targetScreenX, targetScreenY;
             let lineColor = '#ff0000';
-
+            
             if (zombie.targetLock === 'base' && game.bases.length > 0) {
               const base = game.bases[0];
               targetScreenX = base.x + base.size/2 - game.cameraX;
@@ -3039,7 +2986,7 @@ const ZombieWaveGame = () => {
               let closestDist = Infinity;
               for (let turret of game.turrets) {
                 const dist = Math.sqrt(
-                  Math.pow(turret.x + turret.size/2 - zombie.x, 2) +
+                  Math.pow(turret.x + turret.size/2 - zombie.x, 2) + 
                   Math.pow(turret.y + turret.size/2 - zombie.y, 2)
                 );
                 if (dist < closestDist) {
@@ -3057,7 +3004,7 @@ const ZombieWaveGame = () => {
               let closestDist = Infinity;
               for (let wall of game.walls) {
                 const dist = Math.sqrt(
-                  Math.pow(wall.x + wall.width/2 - zombie.x, 2) +
+                  Math.pow(wall.x + wall.width/2 - zombie.x, 2) + 
                   Math.pow(wall.y + wall.height/2 - zombie.y, 2)
                 );
                 if (dist < closestDist) {
@@ -3071,7 +3018,7 @@ const ZombieWaveGame = () => {
                 lineColor = '#95a5a6';
               }
             }
-
+            
             if (targetScreenX !== undefined && targetScreenY !== undefined) {
               const pulse = Math.sin(Date.now() / 200) * 0.3 + 0.7;
               ctx.strokeStyle = lineColor;
@@ -3086,7 +3033,7 @@ const ZombieWaveGame = () => {
               ctx.globalAlpha = 1;
             }
           }
-
+          
           // Targeting player line with pulse
           if (zombie.targetLock === 'player') {
             const playerScreenX = game.player.x - game.cameraX;
@@ -3103,13 +3050,13 @@ const ZombieWaveGame = () => {
             ctx.setLineDash([]);
             ctx.globalAlpha = 1;
           }
-
+          
           // CARTOON shadow - softer and rounder
           ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
           ctx.beginPath();
           ctx.ellipse(screenX, screenY + zombie.size + 3, zombie.size * 0.9, zombie.size * 0.4, 0, 0, Math.PI * 2);
           ctx.fill();
-
+          
           // CARTOON body - vibrant colors with thick outlines
           const zombieGradient = ctx.createRadialGradient(screenX - zombie.size/4, screenY - zombie.size/4, 0, screenX, screenY, zombie.size);
           zombieGradient.addColorStop(0, lightenColor(zombie.color, 40));
@@ -3119,14 +3066,14 @@ const ZombieWaveGame = () => {
           ctx.beginPath();
           ctx.arc(screenX, screenY, zombie.size, 0, Math.PI * 2);
           ctx.fill();
-
+          
           // CARTOON thick black outline
           ctx.strokeStyle = '#000000';
           ctx.lineWidth = 4;
           ctx.beginPath();
           ctx.arc(screenX, screenY, zombie.size, 0, Math.PI * 2);
           ctx.stroke();
-
+          
           // Boss/Megaboss enhanced CARTOON outline
           if (zombie.type === 'boss' || zombie.type === 'megaboss') {
             const glowIntensity = Math.sin(Date.now() / 300) * 0.3 + 0.7;
@@ -3137,28 +3084,28 @@ const ZombieWaveGame = () => {
             ctx.stroke();
             ctx.shadowBlur = 0;
           }
-
+          
           // CARTOON eyes - bigger and more expressive
           const eyeSize = zombie.size * 0.25;
           const pupilSize = eyeSize * 0.5;
-
+          
           // White of eyes
           ctx.fillStyle = '#ffffff';
           ctx.strokeStyle = '#000000';
           ctx.lineWidth = 2;
-
+          
           // Left eye
           ctx.beginPath();
           ctx.arc(screenX - zombie.size/3, screenY - zombie.size/4, eyeSize, 0, Math.PI * 2);
           ctx.fill();
           ctx.stroke();
-
+          
           // Right eye
           ctx.beginPath();
           ctx.arc(screenX + zombie.size/3, screenY - zombie.size/4, eyeSize, 0, Math.PI * 2);
           ctx.fill();
           ctx.stroke();
-
+          
           // Pupils - glowing and animated
           const eyeGlow = Math.sin(Date.now() / 400) * 0.2 + 0.8;
           ctx.shadowBlur = 8 * eyeGlow;
@@ -3171,7 +3118,7 @@ const ZombieWaveGame = () => {
           ctx.arc(screenX + zombie.size/3, screenY - zombie.size/4, pupilSize, 0, Math.PI * 2);
           ctx.fill();
           ctx.shadowBlur = 0;
-
+          
           // CARTOON mouth - exaggerated
           ctx.strokeStyle = '#000000';
           ctx.lineWidth = 3;
@@ -3179,7 +3126,7 @@ const ZombieWaveGame = () => {
           ctx.beginPath();
           ctx.arc(screenX, screenY + zombie.size/4, zombie.size/2, 0.2, Math.PI - 0.2);
           ctx.stroke();
-
+          
           // Teeth
           ctx.fillStyle = '#ffffff';
           for (let i = 0; i < 4; i++) {
@@ -3187,7 +3134,7 @@ const ZombieWaveGame = () => {
             const toothY = screenY + zombie.size/4;
             ctx.fillRect(toothX, toothY, zombie.size/12, zombie.size/8);
           }
-
+          
           // Status effect indicators
           if (zombie.poisoned) {
             ctx.strokeStyle = '#00ff00';
@@ -3198,12 +3145,12 @@ const ZombieWaveGame = () => {
             ctx.arc(screenX, screenY, zombie.size + 6, 0, Math.PI * 2);
             ctx.stroke();
             ctx.shadowBlur = 0;
-
+            
             ctx.font = 'bold 16px Arial';
             ctx.fillStyle = '#00ff00';
             ctx.fillText('☠️', screenX + zombie.size, screenY - zombie.size);
           }
-
+          
           if (zombie.frozen) {
             ctx.strokeStyle = '#00ffff';
             ctx.lineWidth = 4;
@@ -3213,12 +3160,12 @@ const ZombieWaveGame = () => {
             ctx.arc(screenX, screenY, zombie.size + 6, 0, Math.PI * 2);
             ctx.stroke();
             ctx.shadowBlur = 0;
-
+            
             ctx.font = 'bold 18px Arial';
             ctx.fillStyle = '#00ffff';
             ctx.fillText('❄️', screenX - zombie.size, screenY - zombie.size);
           }
-
+          
           // Target indicator
           if (zombie.targetLock && typeof zombie.targetLock === 'string') {
             let iconText = '';
@@ -3236,7 +3183,7 @@ const ZombieWaveGame = () => {
               iconText = '👤';
               iconColor = '#e74c3c';
             }
-
+            
             if (iconText) {
               ctx.font = 'bold 18px Arial';
               ctx.textAlign = 'center';
@@ -3247,7 +3194,7 @@ const ZombieWaveGame = () => {
               ctx.fillText(iconText, screenX, screenY + zombie.size + 28);
             }
           }
-
+          
           // Special zombie type indicators
           if (zombie.type === 'healer') {
             // Healing pulse effect - enhanced
@@ -3257,7 +3204,7 @@ const ZombieWaveGame = () => {
             ctx.beginPath();
             ctx.arc(screenX, screenY, zombie.healRange * healPulse * 0.3, 0, Math.PI * 2);
             ctx.stroke();
-
+            
             // Stronger visual when actively healing
             if (zombie.healCooldown > 0) {
               const activeGlow = Math.sin(Date.now() / 100) * 0.5 + 0.5;
@@ -3270,7 +3217,7 @@ const ZombieWaveGame = () => {
               ctx.stroke();
               ctx.shadowBlur = 0;
             }
-
+            
             // Healer cross
             ctx.font = 'bold 20px Arial';
             ctx.fillStyle = '#2ecc71';
@@ -3313,7 +3260,7 @@ const ZombieWaveGame = () => {
             ctx.arc(screenX, screenY, zombie.size + 10, 0, Math.PI * 2);
             ctx.stroke();
             ctx.shadowBlur = 0;
-
+            
             ctx.font = 'bold 20px Arial';
             ctx.fillStyle = '#9b59b6';
             ctx.fillText('☠️', screenX, screenY - zombie.size - 8);
@@ -3326,7 +3273,7 @@ const ZombieWaveGame = () => {
             ctx.arc(screenX, screenY, zombie.size + 8, 0, Math.PI * 2);
             ctx.fill();
             ctx.stroke();
-
+            
             ctx.font = 'bold 20px Arial';
             ctx.fillStyle = '#16a085';
             ctx.fillText('🛡️', screenX, screenY - zombie.size - 8);
@@ -3335,28 +3282,28 @@ const ZombieWaveGame = () => {
             ctx.fillStyle = '#e67e22';
             ctx.fillText('⚡', screenX, screenY - zombie.size - 8);
           }
-
+          
           // CARTOON health bar - thicker and more visible
           const barWidth = zombie.size * 2.2;
           const barHeight = 8;
           const barX = screenX - zombie.size * 1.1;
           const barY = screenY - zombie.size - 18;
-
+          
           // Black outline
           ctx.fillStyle = '#000000';
           ctx.fillRect(barX - 2, barY - 2, barWidth + 4, barHeight + 4);
-
+          
           ctx.fillStyle = '#e74c3c';
           ctx.fillRect(barX, barY, barWidth, barHeight);
-
+          
           const healthPercent = zombie.health / zombie.maxHealth;
           ctx.fillStyle = healthPercent > 0.5 ? '#2ecc71' : healthPercent > 0.25 ? '#f39c12' : '#e74c3c';
           ctx.fillRect(barX, barY, barWidth * healthPercent, barHeight);
-
+          
           // White shine on health bar
           ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
           ctx.fillRect(barX, barY, barWidth * healthPercent, 3);
-
+          
           ctx.strokeStyle = '#ffffff';
           ctx.lineWidth = 2;
           ctx.strokeRect(barX, barY, barWidth, barHeight);
@@ -3367,7 +3314,7 @@ const ZombieWaveGame = () => {
       game.bullets.forEach(bullet => {
         const screenX = bullet.x - game.cameraX;
         const screenY = bullet.y - game.cameraY;
-
+        
         let bulletColor, bulletSize, shadowBlur, trailLength;
         if (bullet.fromTurret) {
           bulletColor = bullet.explosive ? '#ff3300' : '#00ff88';
@@ -3382,12 +3329,12 @@ const ZombieWaveGame = () => {
           else if (bullet.split) bulletColor = '#ffaa00';
           else if (bullet.cluster) bulletColor = '#ff6600';
           else bulletColor = bullet.isCrit ? '#ffff00' : bullet.explosive ? '#ff6600' : '#ffd700';
-
+          
           bulletSize = bullet.isCrit ? 7 : 5;
           shadowBlur = bullet.isCrit ? 12 : 8;
           trailLength = bullet.homing ? 4 : bullet.isCrit ? 3 : 2;
         }
-
+        
         // Enhanced bullet trail effect - CARTOON style
         ctx.globalAlpha = 0.7;
         for (let i = 0; i < trailLength; i++) {
@@ -3395,9 +3342,9 @@ const ZombieWaveGame = () => {
           const trailY = screenY - bullet.vy * i * 2;
           const trailSize = bulletSize * (1 - i / trailLength);
           const trailAlpha = 0.7 * (1 - i / trailLength);
-
+          
           ctx.globalAlpha = trailAlpha;
-
+          
           // Trail glow
           const trailGrad = ctx.createRadialGradient(trailX, trailY, 0, trailX, trailY, trailSize * 2.5);
           trailGrad.addColorStop(0, bulletColor);
@@ -3406,7 +3353,7 @@ const ZombieWaveGame = () => {
           ctx.beginPath();
           ctx.arc(trailX, trailY, trailSize * 2.5, 0, Math.PI * 2);
           ctx.fill();
-
+          
           // Trail core
           ctx.fillStyle = bulletColor;
           ctx.shadowBlur = shadowBlur * 0.6 * (1 - i / trailLength);
@@ -3416,7 +3363,7 @@ const ZombieWaveGame = () => {
           ctx.fill();
         }
         ctx.globalAlpha = 1;
-
+        
         // Main bullet with CARTOON glow
         const bulletGrad = ctx.createRadialGradient(screenX, screenY, 0, screenX, screenY, bulletSize * 2.5);
         bulletGrad.addColorStop(0, '#ffffff');
@@ -3426,7 +3373,7 @@ const ZombieWaveGame = () => {
         ctx.beginPath();
         ctx.arc(screenX, screenY, bulletSize * 2.5, 0, Math.PI * 2);
         ctx.fill();
-
+        
         // Bullet core
         ctx.shadowBlur = shadowBlur;
         ctx.shadowColor = bulletColor;
@@ -3434,20 +3381,20 @@ const ZombieWaveGame = () => {
         ctx.beginPath();
         ctx.arc(screenX, screenY, bulletSize, 0, Math.PI * 2);
         ctx.fill();
-
+        
         // CARTOON thick outline
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(screenX, screenY, bulletSize, 0, Math.PI * 2);
         ctx.stroke();
-
+        
         // Inner bright core
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
         ctx.arc(screenX - bulletSize * 0.3, screenY - bulletSize * 0.3, bulletSize * 0.4, 0, Math.PI * 2);
         ctx.fill();
-
+        
         // Special effects for different bullet types
         if (bullet.homing) {
           // Homing indicator - CARTOON
@@ -3484,7 +3431,7 @@ const ZombieWaveGame = () => {
             ctx.stroke();
           }
         }
-
+        
         // Outer glow ring for turret bullets
         if (bullet.fromTurret) {
           ctx.globalAlpha = 0.4;
@@ -3493,7 +3440,7 @@ const ZombieWaveGame = () => {
           ctx.fill();
           ctx.globalAlpha = 1;
         }
-
+        
         // Critical hit enhanced sparkle effect - CARTOON
         if (bullet.isCrit) {
           const sparkleTime = Date.now() / 100;
@@ -3507,7 +3454,7 @@ const ZombieWaveGame = () => {
             ctx.fillRect(sparkleX - 2, sparkleY - 2, 4, 4);
             ctx.strokeRect(sparkleX - 2, sparkleY - 2, 4, 4);
           }
-
+          
           // Rotating star - CARTOON
           ctx.save();
           ctx.translate(screenX, screenY);
@@ -3525,7 +3472,7 @@ const ZombieWaveGame = () => {
           }
           ctx.restore();
         }
-
+        
         ctx.shadowBlur = 0;
       });
 
@@ -3536,17 +3483,17 @@ const ZombieWaveGame = () => {
         if (item) {
           let worldX = game.mouseX + game.cameraX;
           let worldY = game.mouseY + game.cameraY;
-
+          
           const gridSize = 50;
           worldX = Math.floor(worldX / gridSize) * gridSize;
           worldY = Math.floor(worldY / gridSize) * gridSize;
-
+          
           const previewX = worldX - game.cameraX;
           const previewY = worldY - game.cameraY;
-
+          
           let canPlace = coins >= item.cost;
           let validationMessage = 'OK';
-
+          
           if (item.type === 'base') {
             if (!game.bases) game.bases = [];
             if (game.bases.length > 0) {
@@ -3570,15 +3517,15 @@ const ZombieWaveGame = () => {
             canPlace = canPlace && overlapCheck.valid;
             validationMessage = overlapCheck.reason;
           }
-
+          
           ctx.save();
           ctx.globalAlpha = 0.8;
-
+          
           if (item.type === 'turret') {
             ctx.strokeStyle = canPlace ? 'rgba(78, 204, 163, 0.6)' : 'rgba(231, 76, 60, 0.6)';
             ctx.lineWidth = 3;
             ctx.strokeRect(previewX, previewY, 50, 50);
-
+            
             // Always show range during turret placement preview
             ctx.strokeStyle = canPlace ? 'rgba(78, 204, 163, 0.4)' : 'rgba(231, 76, 60, 0.4)';
             ctx.lineWidth = 2;
@@ -3587,16 +3534,16 @@ const ZombieWaveGame = () => {
             ctx.arc(previewX + 25, previewY + 25, item.stats.range, 0, Math.PI * 2);
             ctx.stroke();
             ctx.setLineDash([]);
-
+            
             ctx.fillStyle = canPlace ? '#4ecca3' : '#e74c3c';
             ctx.shadowBlur = 20;
             ctx.shadowColor = canPlace ? '#4ecca3' : '#e74c3c';
             ctx.fillRect(previewX, previewY, 50, 50);
-
+            
             ctx.strokeStyle = '#fff';
             ctx.lineWidth = 3;
             ctx.strokeRect(previewX, previewY, 50, 50);
-
+            
             ctx.shadowBlur = 0;
             ctx.save();
             ctx.translate(previewX + 25, previewY + 25);
@@ -3606,13 +3553,13 @@ const ZombieWaveGame = () => {
             ctx.fillStyle = canPlace ? '#4ecca3' : '#e74c3c';
             ctx.fillRect(15, -3, 5, 6);
             ctx.restore();
-
+            
             ctx.font = 'bold 32px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = '#fff';
             ctx.fillText(item.icon, previewX + 25, previewY + 25);
-
+            
             ctx.font = 'bold 14px Arial';
             ctx.fillStyle = '#fff';
             ctx.strokeStyle = '#000';
@@ -3620,52 +3567,52 @@ const ZombieWaveGame = () => {
             const rangeText = `Range: ${item.stats.range}px`;
             ctx.strokeText(rangeText, previewX + 25, previewY + 70);
             ctx.fillText(rangeText, previewX + 25, previewY + 70);
-
+            
           } else if (item.type === 'wall') {
             const currentRotation = preview.rotation || 0;
             const isHorizontal = currentRotation % 180 === 0;
             const w = isHorizontal ? 100 : 50;
             const h = isHorizontal ? 50 : 100;
-
+            
             ctx.fillStyle = canPlace ? item.color + 'CC' : '#e74c3cCC';
             ctx.shadowBlur = 20;
             ctx.shadowColor = canPlace ? item.color : '#e74c3c';
             ctx.fillRect(previewX, previewY, w, h);
-
+            
             ctx.strokeStyle = '#fff';
             ctx.lineWidth = 3;
             ctx.strokeRect(previewX, previewY, w, h);
-
+            
             ctx.shadowBlur = 0;
             ctx.font = 'bold 30px Arial';
             ctx.textAlign = 'center';
             ctx.fillStyle = '#ffffff';
             ctx.fillText(item.icon, previewX + w/2, previewY + h/2 + 10);
-
+            
             ctx.save();
             ctx.translate(previewX + w/2, previewY + h/2);
             ctx.rotate(currentRotation * Math.PI / 180);
-
+            
             const flashIntensity = game.rotationFlash / 30;
             const baseAlpha = 0.8 + (flashIntensity * 0.2);
             ctx.globalAlpha = baseAlpha;
-
+            
             ctx.strokeStyle = flashIntensity > 0 ? '#ffff00' : '#00ffff';
             ctx.lineWidth = 3 + (flashIntensity * 2);
             ctx.beginPath();
             ctx.moveTo(0, -20);
             ctx.lineTo(0, 20);
             ctx.stroke();
-
+            
             ctx.beginPath();
             ctx.moveTo(0, -20);
             ctx.lineTo(-5, -15);
             ctx.moveTo(0, -20);
             ctx.lineTo(5, -15);
             ctx.stroke();
-
+            
             ctx.restore();
-
+            
             ctx.font = 'bold 12px Arial';
             ctx.fillStyle = '#ffff00';
             ctx.strokeStyle = '#000';
@@ -3673,11 +3620,11 @@ const ZombieWaveGame = () => {
             const tierText = `Starts as Wood Wall | Click to Upgrade Later`;
             ctx.strokeText(tierText, previewX + w/2, previewY - 25);
             ctx.fillText(tierText, previewX + w/2, previewY - 25);
-
+            
             const rotText = `${currentRotation}° (Press R)`;
             ctx.strokeText(rotText, previewX + w/2, previewY - 10);
             ctx.fillText(rotText, previewX + w/2, previewY - 10);
-
+            
           } else if (item.type === 'trap') {
             ctx.fillStyle = canPlace ? 'rgba(192, 57, 43, 0.5)' : 'rgba(231, 76, 60, 0.5)';
             ctx.shadowBlur = 20;
@@ -3685,22 +3632,22 @@ const ZombieWaveGame = () => {
             ctx.beginPath();
             ctx.arc(previewX + 25, previewY + 25, 25, 0, Math.PI * 2);
             ctx.fill();
-
+            
             ctx.strokeStyle = canPlace ? '#c0392b' : '#e74c3c';
             ctx.lineWidth = 3;
             ctx.stroke();
-
+            
             ctx.shadowBlur = 0;
             ctx.font = 'bold 24px Arial';
             ctx.textAlign = 'center';
             ctx.fillStyle = '#fff';
             ctx.fillText(item.icon, previewX + 25, previewY + 32);
-
+            
           } else if (item.type === 'base') {
             const baseSize = 100;
             const alreadyHasBase = game.bases && game.bases.length > 0;
             const actuallyCanPlace = canPlace && !alreadyHasBase;
-
+            
             // Always show safe zone preview circle during base placement
             ctx.strokeStyle = actuallyCanPlace ? 'rgba(0, 255, 150, 0.3)' : 'rgba(255, 100, 100, 0.3)';
             ctx.lineWidth = 3;
@@ -3709,13 +3656,13 @@ const ZombieWaveGame = () => {
             ctx.arc(previewX + baseSize/2, previewY + baseSize/2, 400, 0, Math.PI * 2);
             ctx.stroke();
             ctx.setLineDash([]);
-
+            
             // Safe zone fill
             ctx.fillStyle = actuallyCanPlace ? 'rgba(0, 255, 150, 0.05)' : 'rgba(255, 100, 100, 0.05)';
             ctx.beginPath();
             ctx.arc(previewX + baseSize/2, previewY + baseSize/2, 400, 0, Math.PI * 2);
             ctx.fill();
-
+            
             // Safe zone label
             ctx.font = 'bold 12px Arial';
             ctx.textAlign = 'center';
@@ -3724,30 +3671,30 @@ const ZombieWaveGame = () => {
             ctx.lineWidth = 3;
             ctx.strokeText('🛡️ Safe Zone', previewX + baseSize/2, previewY + baseSize/2 - 220);
             ctx.fillText('🛡️ Safe Zone', previewX + baseSize/2, previewY + baseSize/2 - 220);
-
+            
             ctx.fillStyle = actuallyCanPlace ? '#f39c12' : '#e74c3c';
             ctx.shadowBlur = 25;
             ctx.shadowColor = actuallyCanPlace ? '#f39c12' : '#e74c3c';
             ctx.fillRect(previewX, previewY, baseSize, baseSize);
-
+            
             ctx.strokeStyle = '#fff';
             ctx.lineWidth = 4;
             ctx.strokeRect(previewX, previewY, baseSize, baseSize);
-
+            
             ctx.shadowBlur = 0;
             ctx.font = 'bold 48px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = '#fff';
             ctx.fillText(item.icon, previewX + baseSize/2, previewY + baseSize/2);
-
+            
             ctx.font = 'bold 16px Arial';
             ctx.fillStyle = '#fff';
             ctx.strokeStyle = '#000';
             ctx.lineWidth = 3;
             ctx.strokeText('2×2', previewX + baseSize/2, previewY + baseSize + 20);
             ctx.fillText('2×2', previewX + baseSize/2, previewY + baseSize + 20);
-
+            
             if (alreadyHasBase) {
               ctx.font = 'bold 14px Arial';
               ctx.fillStyle = '#ff0000';
@@ -3757,7 +3704,7 @@ const ZombieWaveGame = () => {
               ctx.fillText('BASE ALREADY PLACED', previewX + baseSize/2, previewY - 20);
             }
           }
-
+          
           ctx.shadowBlur = 0;
           ctx.font = 'bold 16px Arial';
           ctx.textAlign = 'center';
@@ -3767,13 +3714,13 @@ const ZombieWaveGame = () => {
           const statusText = canPlace ? '✓ CLICK TO PLACE' : `✗ ${validationMessage.toUpperCase()}`;
           ctx.strokeText(statusText, previewX, previewY - 60);
           ctx.fillText(statusText, previewX, previewY - 60);
-
+          
           ctx.font = 'bold 14px Arial';
           ctx.fillStyle = coins >= item.cost ? '#ffff00' : '#ff0000';
           const costText = `Cost: ${item.cost} 💰`;
           ctx.strokeText(costText, previewX, previewY - 40);
           ctx.fillText(costText, previewX, previewY - 40);
-
+          
           ctx.restore();
         }
       }
@@ -3782,7 +3729,7 @@ const ZombieWaveGame = () => {
       const screenPlayerX = game.player.x - game.cameraX;
       const screenPlayerY = game.player.y - game.cameraY;
       const angle = Math.atan2(game.mouseY - screenPlayerY, game.mouseX - screenPlayerX);
-
+      
       // Laser sight
       if (game.player.laserSight) {
         ctx.strokeStyle = 'rgba(255, 0, 0, 0.3)';
@@ -3793,7 +3740,7 @@ const ZombieWaveGame = () => {
         ctx.lineTo(screenPlayerX + Math.cos(angle) * 500, screenPlayerY + Math.sin(angle) * 500);
         ctx.stroke();
         ctx.setLineDash([]);
-
+        
         // Laser dot
         const dotX = screenPlayerX + Math.cos(angle) * 500;
         const dotY = screenPlayerY + Math.sin(angle) * 500;
@@ -3802,13 +3749,13 @@ const ZombieWaveGame = () => {
         ctx.arc(dotX, dotY, 3, 0, Math.PI * 2);
         ctx.fill();
       }
-
+      
       // Orbital bullets
       if (game.player.orbital && game.player.orbitalBullets.length > 0) {
         game.player.orbitalBullets.forEach(orbital => {
           const orbitalX = screenPlayerX + Math.cos(orbital.angle) * orbital.distance;
           const orbitalY = screenPlayerY + Math.sin(orbital.angle) * orbital.distance;
-
+          
           ctx.shadowBlur = 15;
           ctx.shadowColor = '#00ffff';
           ctx.fillStyle = '#00ffff';
@@ -3816,7 +3763,7 @@ const ZombieWaveGame = () => {
           ctx.arc(orbitalX, orbitalY, 6, 0, Math.PI * 2);
           ctx.fill();
           ctx.shadowBlur = 0;
-
+          
           // Trail
           ctx.strokeStyle = 'rgba(0, 255, 255, 0.3)';
           ctx.lineWidth = 2;
@@ -3825,7 +3772,7 @@ const ZombieWaveGame = () => {
           ctx.stroke();
         });
       }
-
+      
       let playerInsideWall = false;
       for (let wall of game.walls) {
         if (game.player.x + game.player.size > wall.x && game.player.x - game.player.size < wall.x + wall.width &&
@@ -3834,7 +3781,7 @@ const ZombieWaveGame = () => {
           break;
         }
       }
-
+      
       // Hopper range indicator with animated ring
       if (game.player.hopperRange > 0) {
         const pulseScale = 1 + Math.sin(Date.now() / 500) * 0.03;
@@ -3845,7 +3792,7 @@ const ZombieWaveGame = () => {
         ctx.arc(screenPlayerX, screenPlayerY, game.player.hopperRange * pulseScale, 0, Math.PI * 2);
         ctx.stroke();
         ctx.setLineDash([]);
-
+        
         // Subtle magnetic field effect
         for (let i = 0; i < 4; i++) {
           const rippleAngle = (i / 4) * Math.PI * 2 + Date.now() / 1500;
@@ -3856,7 +3803,7 @@ const ZombieWaveGame = () => {
           ctx.arc(rippleX, rippleY, 2, 0, Math.PI * 2);
           ctx.fill();
         }
-
+        
         ctx.fillStyle = 'rgba(0, 255, 100, 0.8)';
         ctx.font = 'bold 20px Arial';
         ctx.textAlign = 'center';
@@ -3864,41 +3811,41 @@ const ZombieWaveGame = () => {
         ctx.shadowColor = '#00ff64';
         ctx.fillText('🧲', screenPlayerX, screenPlayerY - game.player.size - 30);
         ctx.shadowBlur = 0;
-
+        
         ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
         ctx.font = 'bold 12px Arial';
         ctx.fillText(`Lv${game.player.hopperLevel}`, screenPlayerX, screenPlayerY - game.player.size - 15);
       }
-
+      
       // CARTOON shadow - rounder
       ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
       ctx.beginPath();
       ctx.ellipse(screenPlayerX, screenPlayerY + game.player.size + 3, game.player.size * 0.9, game.player.size * 0.3, 0, 0, Math.PI * 2);
       ctx.fill();
-
+      
       ctx.save();
       ctx.translate(screenPlayerX, screenPlayerY);
       ctx.rotate(angle);
-
+      
       if (playerInsideWall) {
         ctx.shadowBlur = 15;
         ctx.shadowColor = '#00ffff';
         ctx.globalAlpha = 0.8;
       }
-
+      
       const rageGlow = game.player.rage / game.player.maxRage;
       if (rageGlow > 0 && !playerInsideWall) {
         ctx.shadowBlur = 20 * rageGlow;
         ctx.shadowColor = '#ff0000';
       }
-
+      
       // Berserker glow with subtle pulse
       if (game.player.berserker && game.player.health < game.player.maxHealth * 0.3) {
         const berserkPulse = Math.sin(Date.now() / 200) * 0.2 + 0.8;
         ctx.shadowBlur = 20 * berserkPulse;
         ctx.shadowColor = '#ff0000';
       }
-
+      
       // CARTOON main body - round and friendly looking
       const bodyGradient = ctx.createRadialGradient(
         -game.player.size/3, -game.player.size/3, 0,
@@ -3908,19 +3855,19 @@ const ZombieWaveGame = () => {
       bodyGradient.addColorStop(0.5, '#ff6b6b');
       bodyGradient.addColorStop(1, '#e74c3c');
       ctx.fillStyle = bodyGradient;
-
+      
       // Round body
       ctx.beginPath();
       ctx.arc(0, 0, game.player.size, 0, Math.PI * 2);
       ctx.fill();
-
+      
       // CARTOON thick outline
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 4;
       ctx.beginPath();
       ctx.arc(0, 0, game.player.size, 0, Math.PI * 2);
       ctx.stroke();
-
+      
       // CARTOON visor/helmet - simplified and cute
       ctx.fillStyle = '#00ccff';
       ctx.strokeStyle = '#000000';
@@ -3929,30 +3876,30 @@ const ZombieWaveGame = () => {
       ctx.ellipse(game.player.size * 0.3, 0, game.player.size * 0.4, game.player.size * 0.6, 0, -Math.PI/2, Math.PI/2);
       ctx.fill();
       ctx.stroke();
-
+      
       // Visor shine
       ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
       ctx.beginPath();
       ctx.ellipse(game.player.size * 0.25, -game.player.size * 0.2, game.player.size * 0.15, game.player.size * 0.2, 0, 0, Math.PI * 2);
       ctx.fill();
-
+      
       // CARTOON gun - simplified and chunky
       const gunGradient = ctx.createLinearGradient(game.player.size/2, -game.player.size/3, game.player.size * 1.3, game.player.size/3);
       gunGradient.addColorStop(0, '#7f8c8d');
       gunGradient.addColorStop(0.5, '#95a5a6');
       gunGradient.addColorStop(1, '#5a6c7d');
       ctx.fillStyle = gunGradient;
-
+      
       // Gun body - rounded
       ctx.beginPath();
       ctx.roundRect(game.player.size * 0.3, -game.player.size * 0.3, game.player.size * 1, game.player.size * 0.6, 8);
       ctx.fill();
-
+      
       // Gun outline
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 3;
       ctx.stroke();
-
+      
       // Gun barrel
       ctx.fillStyle = '#34495e';
       ctx.strokeStyle = '#000000';
@@ -3961,18 +3908,18 @@ const ZombieWaveGame = () => {
       ctx.roundRect(game.player.size * 1.2, -game.player.size * 0.15, game.player.size * 0.3, game.player.size * 0.3, 3);
       ctx.fill();
       ctx.stroke();
-
+      
       // Gun details - simplified
       ctx.fillStyle = '#e74c3c';
       ctx.beginPath();
       ctx.arc(game.player.size * 0.6, -game.player.size * 0.05, 4, 0, Math.PI * 2);
       ctx.fill();
-
+      
       // Muzzle flash when shooting - MORE CARTOON-Y
       if (Date.now() - game.lastShot < 100) {
         ctx.shadowBlur = 25;
         ctx.shadowColor = '#ffff00';
-
+        
         // Star-shaped muzzle flash
         ctx.fillStyle = '#ffff00';
         ctx.beginPath();
@@ -3984,24 +3931,24 @@ const ZombieWaveGame = () => {
           const outerY = Math.sin(angle) * outerRadius;
           const innerX = game.player.size * 1.5 + Math.cos(angle + Math.PI / 5) * innerRadius;
           const innerY = Math.sin(angle + Math.PI / 5) * innerRadius;
-
+          
           if (i === 0) ctx.moveTo(outerX, outerY);
           else ctx.lineTo(outerX, outerY);
           ctx.lineTo(innerX, innerY);
         }
         ctx.closePath();
         ctx.fill();
-
+        
         // Outline the flash
         ctx.strokeStyle = '#ff9900';
         ctx.lineWidth = 2;
         ctx.stroke();
-
+        
         ctx.shadowBlur = 0;
       }
-
+      
       ctx.restore();
-
+      
       if (playerInsideWall) {
         ctx.font = 'bold 12px Arial';
         ctx.fillStyle = '#00ffff';
@@ -4011,18 +3958,18 @@ const ZombieWaveGame = () => {
         ctx.strokeText('👻 GHOST MODE', screenPlayerX, screenPlayerY - game.player.size - 40);
         ctx.fillText('👻 GHOST MODE', screenPlayerX, screenPlayerY - game.player.size - 40);
       }
-
+      
       // MULTIPLAYER: Render other players
       // Object.entries(game.otherPlayers).forEach(([otherPlayerId, otherPlayer]) => {
       //   const otherScreenX = otherPlayer.x - game.cameraX;
       //   const otherScreenY = otherPlayer.y - game.cameraY;
-      //
+      //   
       //   // Draw other player with different color
       //   ctx.fillStyle = '#00ff00'; // Green for teammates
       //   ctx.beginPath();
       //   ctx.arc(otherScreenX, otherScreenY, 20, 0, Math.PI * 2);
       //   ctx.fill();
-      //
+      //   
       //   // Player name
       //   ctx.font = 'bold 12px Arial';
       //   ctx.fillStyle = '#fff';
@@ -4031,7 +3978,7 @@ const ZombieWaveGame = () => {
       //   ctx.textAlign = 'center';
       //   ctx.strokeText(otherPlayer.name || otherPlayerId.substr(0, 8), otherScreenX, otherScreenY - 30);
       //   ctx.fillText(otherPlayer.name || otherPlayerId.substr(0, 8), otherScreenX, otherScreenY - 30);
-      //
+      //   
       //   // HP bar for other player
       //   const hpBarW = 40;
       //   const hpBarH = 4;
@@ -4040,7 +3987,7 @@ const ZombieWaveGame = () => {
       //   ctx.fillStyle = '#2ecc71';
       //   ctx.fillRect(otherScreenX - 20, otherScreenY - 35, hpBarW * (otherPlayer.health / otherPlayer.maxHealth), hpBarH);
       // });
-
+      
       if (game.player.invincible) {
         ctx.save();
         ctx.globalAlpha = 0.5 + Math.sin(Date.now() / 100) * 0.3;
@@ -4050,7 +3997,7 @@ const ZombieWaveGame = () => {
         ctx.arc(screenPlayerX, screenPlayerY, game.player.size + 10, 0, Math.PI * 2);
         ctx.stroke();
         ctx.restore();
-
+        
         ctx.font = 'bold 12px Arial';
         ctx.fillStyle = '#ffff00';
         ctx.strokeStyle = '#000';
@@ -4060,7 +4007,7 @@ const ZombieWaveGame = () => {
         ctx.strokeText(`🛡️ INVINCIBLE ${timeLeft}s`, screenPlayerX, screenPlayerY - game.player.size - 55);
         ctx.fillText(`🛡️ INVINCIBLE ${timeLeft}s`, screenPlayerX, screenPlayerY - game.player.size - 55);
       }
-
+      
       if (passiveIncome > 0) {
         ctx.font = 'bold 12px Arial';
         ctx.fillStyle = '#00ff00';
@@ -4070,7 +4017,7 @@ const ZombieWaveGame = () => {
         ctx.strokeText(`💰 +${passiveIncome}/s`, screenPlayerX, screenPlayerY + game.player.size + 35);
         ctx.fillText(`💰 +${passiveIncome}/s`, screenPlayerX, screenPlayerY + game.player.size + 35);
       }
-
+      
       // Bloodlust stacks indicator
       if (game.player.bloodlust && game.player.bloodlustStacks > 0) {
         ctx.font = 'bold 14px Arial';
@@ -4081,7 +4028,7 @@ const ZombieWaveGame = () => {
         ctx.strokeText(`💀 x${game.player.bloodlustStacks}`, screenPlayerX, screenPlayerY + game.player.size + 50);
         ctx.fillText(`💀 x${game.player.bloodlustStacks}`, screenPlayerX, screenPlayerY + game.player.size + 50);
       }
-
+      
       // Ghost bullets indicator
       if (game.player.ghostBullets) {
         ctx.font = 'bold 10px Arial';
@@ -4096,141 +4043,141 @@ const ZombieWaveGame = () => {
       // UI Overlay
       ctx.fillStyle = 'rgba(15, 20, 35, 0.95)';
       ctx.fillRect(0, 0, canvas.width, 80);
-
+      
       ctx.strokeStyle = '#4ecca3';
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(0, 80);
       ctx.lineTo(canvas.width, 80);
       ctx.stroke();
-
+      
       // Ad Reward Button (Desktop)
       if (!isMobile) {
         // Manual wave start button (Desktop)
-        if (game.bases.length > 0 &&
-            !game.waveActive &&
-            game.zombies.length === 0 &&
-            game.zombiesLeftToSpawn === 0 &&
+        if (game.bases.length > 0 && 
+            !game.waveActive && 
+            game.zombies.length === 0 && 
+            game.zombiesLeftToSpawn === 0 && 
             waveCountdown === 0 &&
             !game.initialCountdownActive) {
           const waveButtonX = canvas.width / 2 - 75;
           const waveButtonY = canvas.height - 60;
           const waveButtonW = 150;
           const waveButtonH = 40;
-
+          
           // Pulsing effect
           const pulseScale = 1 + Math.sin(Date.now() / 300) * 0.05;
-
+          
           ctx.save();
           ctx.translate(waveButtonX + waveButtonW/2, waveButtonY + waveButtonH/2);
           ctx.scale(pulseScale, pulseScale);
           ctx.translate(-(waveButtonX + waveButtonW/2), -(waveButtonY + waveButtonH/2));
-
+          
           ctx.fillStyle = 'rgba(16, 185, 129, 0.9)';
           ctx.shadowBlur = 20;
           ctx.shadowColor = '#10b981';
           ctx.fillRect(waveButtonX, waveButtonY, waveButtonW, waveButtonH);
-
+          
           ctx.strokeStyle = '#6ee7b7';
           ctx.lineWidth = 3;
           ctx.strokeRect(waveButtonX, waveButtonY, waveButtonW, waveButtonH);
-
+          
           ctx.shadowBlur = 0;
           ctx.fillStyle = '#fff';
           ctx.font = 'bold 18px Arial';
           ctx.textAlign = 'center';
           ctx.fillText(`🌊 START WAVE ${wave}`, waveButtonX + waveButtonW/2, waveButtonY + 26);
-
+          
           ctx.restore();
         }
-
+        
         const adButtonX = canvas.width - 140;
         const adButtonY = 10;
         const adButtonW = 130;
         const adButtonH = 30;
-
+        
         // Check if mouse is over button
         const mouseOverAd = game.mouseX >= adButtonX && game.mouseX <= adButtonX + adButtonW &&
                             game.mouseY >= adButtonY && game.mouseY <= adButtonY + adButtonH;
-
+        
         ctx.fillStyle = mouseOverAd ? 'rgba(245, 158, 11, 0.9)' : 'rgba(234, 88, 12, 0.8)';
         ctx.fillRect(adButtonX, adButtonY, adButtonW, adButtonH);
-
+        
         ctx.strokeStyle = '#fbbf24';
         ctx.lineWidth = 2;
         ctx.strokeRect(adButtonX, adButtonY, adButtonW, adButtonH);
-
+        
         ctx.fillStyle = '#fff';
         ctx.font = 'bold 14px Arial';
         ctx.textAlign = 'center';
         ctx.fillText('📺 FREE COINS', adButtonX + adButtonW/2, adButtonY + 20);
       }
-
+      
       // HP Bar
       const hpBarX = 15;
       const hpBarY = 15;
       const hpBarW = 180;
       const hpBarH = 22;
-
+      
       ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
       ctx.fillRect(hpBarX - 2, hpBarY - 2, hpBarW + 4, hpBarH + 4);
-
+      
       ctx.fillStyle = '#2c3e50';
       ctx.fillRect(hpBarX, hpBarY, hpBarW, hpBarH);
-
+      
       ctx.fillStyle = game.player.health > 50 ? '#2ecc71' : game.player.health > 25 ? '#f39c12' : '#e74c3c';
       ctx.fillRect(hpBarX, hpBarY, hpBarW * (game.player.health / game.player.maxHealth), hpBarH);
-
+      
       // Shield bar overlay
       if (game.player.maxShield > 0 && game.player.shield > 0) {
         ctx.fillStyle = 'rgba(0, 150, 255, 0.7)';
         ctx.fillRect(hpBarX, hpBarY, hpBarW * (game.player.shield / game.player.maxShield), hpBarH);
       }
-
+      
       ctx.strokeStyle = '#ecf0f1';
       ctx.lineWidth = 2;
       ctx.strokeRect(hpBarX, hpBarY, hpBarW, hpBarH);
-
+      
       ctx.fillStyle = '#fff';
       ctx.font = 'bold 13px Arial';
       ctx.textAlign = 'center';
       const hpText = game.player.shield > 0 ? `${Math.floor(game.player.health)}+${Math.floor(game.player.shield)}` : `${Math.floor(game.player.health)} / ${game.player.maxHealth}`;
       ctx.fillText(hpText, hpBarX + hpBarW/2, hpBarY + 16);
-
+      
       // XP Bar
       const xpBarX = 15;
       const xpBarY = 42;
       const xpBarW = 180;
       const xpBarH = 18;
       const xpNeeded = getXpForLevel(level);
-
+      
       ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
       ctx.fillRect(xpBarX - 2, xpBarY - 2, xpBarW + 4, xpBarH + 4);
-
+      
       ctx.fillStyle = '#2c3e50';
       ctx.fillRect(xpBarX, xpBarY, xpBarW, xpBarH);
-
+      
       const xpPercent = Math.min(1, xp / xpNeeded);
-
+      
       // Pulsing effect when close to level up
       if (xpPercent > 0.8) {
         const pulse = Math.sin(Date.now() / 200) * 0.2 + 0.8;
         ctx.shadowBlur = 10 * pulse;
         ctx.shadowColor = '#9b59b6';
       }
-
+      
       ctx.fillStyle = '#9b59b6';
       ctx.fillRect(xpBarX, xpBarY, xpBarW * xpPercent, xpBarH);
       ctx.shadowBlur = 0;
-
+      
       ctx.strokeStyle = '#ecf0f1';
       ctx.lineWidth = 2;
       ctx.strokeRect(xpBarX, xpBarY, xpBarW, xpBarH);
-
+      
       ctx.fillStyle = '#fff';
       ctx.font = 'bold 11px Arial';
       ctx.fillText(`LVL ${level} • ${Math.floor(xp)}/${xpNeeded}`, xpBarX + xpBarW/2, xpBarY + 13);
-
+      
       // "Almost level up!" message
       if (xpPercent > 0.8 && xpPercent < 1) {
         ctx.font = 'bold 10px Arial';
@@ -4240,7 +4187,7 @@ const ZombieWaveGame = () => {
         ctx.strokeText('Almost there! ⚡', xpBarX + xpBarW/2, xpBarY - 5);
         ctx.fillText('Almost there! ⚡', xpBarX + xpBarW/2, xpBarY - 5);
       }
-
+      
       // Stats
       ctx.fillStyle = '#fff';
       ctx.font = 'bold 14px Arial';
@@ -4254,10 +4201,10 @@ const ZombieWaveGame = () => {
         ctx.fillStyle = '#fff';
       }
       ctx.fillText(`🧟 ${game.zombies.length + game.zombiesLeftToSpawn}`, 360, 45);
-
+      
       ctx.fillText(`🔫 ${game.turrets.length}`, 480, 25);
       ctx.fillText(`🧱 ${game.walls.length}`, 480, 45);
-
+      
       // Active effects display - Fixed overlapping with proper wrapping
       const effectsStartX = 590;
       const effectsStartY = 25;
@@ -4266,7 +4213,7 @@ const ZombieWaveGame = () => {
       let effectsX = effectsStartX;
       let effectsY = effectsStartY;
       let effectCount = 0;
-
+      
       const drawEffect = (icon, color, width = effectIconWidth) => {
         if (effectCount > 0 && effectCount % maxEffectsPerRow === 0) {
           effectsX = effectsStartX;
@@ -4277,7 +4224,7 @@ const ZombieWaveGame = () => {
         effectsX += width;
         effectCount++;
       };
-
+      
       if (game.player.scavenger) drawEffect('💰', '#ffd700');
       if (game.player.chain) drawEffect('⚡', '#00ffff');
       if (game.player.ghostBullets) drawEffect('👻', '#a0a0ff');
@@ -4287,43 +4234,43 @@ const ZombieWaveGame = () => {
       if (game.player.thorns > 0) drawEffect('🌵', '#ff6600');
       if (game.player.timeWarp) drawEffect('⏰', '#9966ff');
       if (game.player.xpBoost > 1) drawEffect(`⭐x${game.player.xpBoost.toFixed(1)}`, '#ffcc00', 50);
-
+      
       ctx.fillStyle = '#fff';
-
+      
       // Wave preview
       if (!game.waveActive && game.zombies.length === 0 && game.zombiesLeftToSpawn === 0 && game.bases.length > 0) {
         const previewX = canvas.width - 180;
         const previewY = 80;
-
+        
         ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
         ctx.fillRect(previewX, previewY, 170, 70);
-
+        
         ctx.strokeStyle = '#4ecca3';
         ctx.lineWidth = 2;
         ctx.strokeRect(previewX, previewY, 170, 70);
-
+        
         ctx.font = 'bold 12px Arial';
         ctx.fillStyle = '#4ecca3';
         ctx.textAlign = 'center';
         ctx.fillText('📋 NEXT WAVE', previewX + 85, previewY + 15);
-
+        
         ctx.font = 'bold 11px Arial';
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'left';
         ctx.fillText(`Zombies: ${game.wavePreview.zombieCount}`, previewX + 10, previewY + 35);
-
-        const diffColor = game.wavePreview.difficulty === 'Easy' ? '#00ff00' :
-                          game.wavePreview.difficulty === 'Medium' ? '#ffaa00' :
+        
+        const diffColor = game.wavePreview.difficulty === 'Easy' ? '#00ff00' : 
+                          game.wavePreview.difficulty === 'Medium' ? '#ffaa00' : 
                           game.wavePreview.difficulty === 'Hard' ? '#ff5500' : '#ff0000';
         ctx.fillStyle = diffColor;
         ctx.fillText(`Difficulty: ${game.wavePreview.difficulty}`, previewX + 10, previewY + 50);
-
+        
         ctx.fillStyle = '#aaa';
         ctx.font = '10px Arial';
         const typesText = game.wavePreview.types.slice(0, 3).join(', ');
         ctx.fillText(`Types: ${typesText}...`, previewX + 10, previewY + 65);
       }
-
+      
       // Wave cooldown
       if (!game.waveActive && game.zombies.length === 0 && game.zombiesLeftToSpawn === 0 && game.bases.length > 0 && game.nextWaveTime) {
         const timeLeft = Math.max(0, Math.ceil((game.nextWaveTime - Date.now()) / 1000));
@@ -4338,7 +4285,7 @@ const ZombieWaveGame = () => {
           ctx.fillText(cooldownText, canvas.width / 2, 90);
         }
       }
-
+      
       const fireRateDisplay = Math.round(1000 / game.player.fireRate * 10) / 10;
       ctx.fillText(`🔥 ${fireRateDisplay}/s`, 570, 25);
             // Warning if no base / countdown display
@@ -4351,13 +4298,13 @@ const ZombieWaveGame = () => {
         const warningText = '⚠️ PLACE BASE TO START';
         ctx.strokeText(warningText, canvas.width / 2, 110);
         ctx.fillText(warningText, canvas.width / 2, 110);
-
+        
         ctx.font = 'bold 14px Arial';
         ctx.fillStyle = '#ffff00';
         const helpText = 'Press N → Base (🏠) → Click Map';
         ctx.strokeText(helpText, canvas.width / 2, 135);
         ctx.fillText(helpText, canvas.width / 2, 135);
-
+        
         // Show player ID for multiplayer debugging
         ctx.font = '10px Arial';
         ctx.fillStyle = '#888';
@@ -4376,7 +4323,7 @@ const ZombieWaveGame = () => {
         ctx.strokeText(waveCountdown, canvas.width / 2, canvas.height / 2 - 50);
         ctx.fillText(waveCountdown, canvas.width / 2, canvas.height / 2 - 50);
         ctx.shadowBlur = 0;
-
+        
         ctx.font = 'bold 24px Arial';
         ctx.fillStyle = '#ffffff';
         ctx.strokeStyle = '#000';
@@ -4384,7 +4331,7 @@ const ZombieWaveGame = () => {
         const countdownText = waveCountdown <= 3 ? '🚨 GET READY! 🚨' : '⏳ Prepare Your Defenses';
         ctx.strokeText(countdownText, canvas.width / 2, canvas.height / 2 + 20);
         ctx.fillText(countdownText, canvas.width / 2, canvas.height / 2 + 20);
-
+        
         ctx.font = 'bold 16px Arial';
         ctx.fillStyle = '#ffff00';
         const tipText = 'Build walls and turrets now!';
@@ -4399,17 +4346,17 @@ const ZombieWaveGame = () => {
         const tipText = '💡 TIP: Build walls around your base for protection!';
         ctx.strokeText(tipText, canvas.width / 2, 110);
         ctx.fillText(tipText, canvas.width / 2, 110);
-
+        
         ctx.font = 'bold 12px Arial';
         ctx.fillStyle = '#ffffff';
         const tipText2 = 'Zombies will attack walls first if they block their path';
         ctx.strokeText(tipText2, canvas.width / 2, 130);
         ctx.fillText(tipText2, canvas.width / 2, 130);
-      } else if (game.bases.length > 0 &&
-                 !game.waveActive &&
-                 game.zombies.length === 0 &&
-                 game.zombiesLeftToSpawn === 0 &&
-                 !game.nextWaveTime &&
+      } else if (game.bases.length > 0 && 
+                 !game.waveActive && 
+                 game.zombies.length === 0 && 
+                 game.zombiesLeftToSpawn === 0 && 
+                 !game.nextWaveTime && 
                  waveCountdown === 0 &&
                  !game.initialCountdownActive) {
         // Show message when wave should start but hasn't
@@ -4421,7 +4368,7 @@ const ZombieWaveGame = () => {
         const readyText = '✅ Ready for Next Wave!';
         ctx.strokeText(readyText, canvas.width / 2, 110);
         ctx.fillText(readyText, canvas.width / 2, 110);
-
+        
         if (!isMobile) {
           ctx.font = 'bold 14px Arial';
           ctx.fillStyle = '#6ee7b7';
@@ -4430,7 +4377,7 @@ const ZombieWaveGame = () => {
           ctx.fillText(clickText, canvas.width / 2, 135);
         }
       }
-
+      
       // Critical base health warning
       if (game.bases.length > 0) {
         const base = game.bases[0];
@@ -4456,13 +4403,13 @@ const ZombieWaveGame = () => {
       const minimapY = canvas.height - minimapSize - 15;
       const scaleX = minimapSize / game.mapWidth;
       const scaleY = minimapSize / game.mapHeight;
-
+      
       ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
       ctx.fillRect(minimapX - 2, minimapY - 2, minimapSize + 4, minimapSize + 4);
-
+      
       ctx.fillStyle = 'rgba(30, 35, 50, 0.8)';
       ctx.fillRect(minimapX, minimapY, minimapSize, minimapSize);
-
+      
       game.walls.forEach(wall => {
         ctx.fillStyle = wall.color || '#95a5a6';
         ctx.fillRect(
@@ -4472,7 +4419,7 @@ const ZombieWaveGame = () => {
           Math.max(2, wall.height * scaleY)
         );
       });
-
+      
       game.turrets.forEach(turret => {
         ctx.fillStyle = turret.color || '#3498db';
         ctx.fillRect(
@@ -4481,7 +4428,7 @@ const ZombieWaveGame = () => {
           4, 4
         );
       });
-
+      
       game.bases.forEach(base => {
         ctx.fillStyle = '#f39c12';
         ctx.shadowBlur = 3;
@@ -4493,7 +4440,7 @@ const ZombieWaveGame = () => {
         );
         ctx.shadowBlur = 0;
       });
-
+      
       game.zombies.forEach(zombie => {
         ctx.fillStyle = zombie.color;
         ctx.beginPath();
@@ -4504,7 +4451,7 @@ const ZombieWaveGame = () => {
         );
         ctx.fill();
       });
-
+      
       ctx.fillStyle = '#e74c3c';
       ctx.shadowBlur = 5;
       ctx.shadowColor = '#e74c3c';
@@ -4516,7 +4463,7 @@ const ZombieWaveGame = () => {
       );
       ctx.fill();
       ctx.shadowBlur = 0;
-
+      
       ctx.strokeStyle = 'rgba(78, 204, 163, 0.5)';
       ctx.lineWidth = 2;
       ctx.strokeRect(
@@ -4525,20 +4472,20 @@ const ZombieWaveGame = () => {
         canvas.width * scaleX,
         canvas.height * scaleY
       );
-
+      
       // Dash indicator (PC)
       if (!isMobile && game.player.dashCooldown > 0) {
         const dashReady = Date.now() - game.player.lastDash >= game.player.dashCooldown * 1000;
         const dashX = 15;
         const dashY = canvas.height - 45;
-
+        
         ctx.fillStyle = dashReady ? 'rgba(46, 204, 113, 0.9)' : 'rgba(231, 76, 60, 0.9)';
         ctx.fillRect(dashX, dashY, 100, 30);
-
+        
         ctx.strokeStyle = '#ecf0f1';
         ctx.lineWidth = 2;
         ctx.strokeRect(dashX, dashY, 100, 30);
-
+        
         ctx.fillStyle = '#fff';
         ctx.font = 'bold 12px Arial';
         ctx.textAlign = 'center';
@@ -4551,13 +4498,13 @@ const ZombieWaveGame = () => {
         const baseY = game.joystick.startY;
         const stickX = game.joystick.currentX;
         const stickY = game.joystick.currentY;
-
+        
         ctx.globalAlpha = 0.5;
         ctx.fillStyle = '#4a5568';
         ctx.beginPath();
         ctx.arc(baseX, baseY, 60, 0, Math.PI * 2);
         ctx.fill();
-
+        
         ctx.fillStyle = '#e74c3c';
         ctx.beginPath();
         ctx.arc(stickX, stickY, 35, 0, Math.PI * 2);
@@ -4569,11 +4516,11 @@ const ZombieWaveGame = () => {
       if (isMobile && game.shootTouch.active) {
         const aimX = game.shootTouch.x;
         const aimY = game.shootTouch.y;
-
+        
         ctx.globalAlpha = 0.7;
         ctx.strokeStyle = '#ff0000';
         ctx.lineWidth = 3;
-
+        
         ctx.beginPath();
         ctx.moveTo(aimX - 20, aimY);
         ctx.lineTo(aimX - 5, aimY);
@@ -4584,11 +4531,11 @@ const ZombieWaveGame = () => {
         ctx.moveTo(aimX, aimY + 5);
         ctx.lineTo(aimX, aimY + 20);
         ctx.stroke();
-
+        
         ctx.beginPath();
         ctx.arc(aimX, aimY, 25, 0, Math.PI * 2);
         ctx.stroke();
-
+        
         ctx.globalAlpha = 1;
       }
 
@@ -4603,7 +4550,7 @@ const ZombieWaveGame = () => {
         ctx.lineTo(midX, canvas.height);
         ctx.stroke();
         ctx.setLineDash([]);
-
+        
         ctx.globalAlpha = 0.5;
         ctx.fillStyle = '#4ecca3';
         ctx.font = 'bold 16px Arial';
@@ -4611,26 +4558,26 @@ const ZombieWaveGame = () => {
         ctx.fillText('MOVE', midX / 2, canvas.height - 20);
         ctx.fillText('AIM', midX + midX / 2, canvas.height - 20);
         ctx.globalAlpha = 1;
-
+        
         const now = Date.now();
         const timeSinceShot = now - game.lastShot;
         const cooldownPercent = Math.min(1, timeSinceShot / game.player.fireRate);
-
+        
         if (cooldownPercent < 1) {
           const barWidth = 150;
           const barHeight = 8;
           const barX = canvas.width - 175;
           const barY = 70;
-
+          
           ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
           ctx.fillRect(barX - 2, barY - 2, barWidth + 4, barHeight + 4);
-
+          
           ctx.fillStyle = '#e74c3c';
           ctx.fillRect(barX, barY, barWidth, barHeight);
-
+          
           ctx.fillStyle = '#2ecc71';
           ctx.fillRect(barX, barY, barWidth * cooldownPercent, barHeight);
-
+          
           ctx.strokeStyle = '#ecf0f1';
           ctx.lineWidth = 2;
           ctx.strokeRect(barX, barY, barWidth, barHeight);
@@ -4638,7 +4585,7 @@ const ZombieWaveGame = () => {
       }
 
       animationId = requestAnimationFrame(gameLoop);
-
+      
       // Restore canvas after screen shake
       if (screenShake.intensity > 0) {
         ctx.restore();
@@ -4647,26 +4594,26 @@ const ZombieWaveGame = () => {
 
     const handleKeyDown = (e) => {
       gameRef.current.keys[e.key] = true;
-
+      
       // Prevent TAB from scrolling the page
       if (e.key === 'Tab') {
         e.preventDefault();
       }
-
+      
       if (e.key === ' ' && gameRef.current.player.dashCooldown > 0) {
         e.preventDefault();
         performDash();
       }
-
+      
       if (e.key.toLowerCase() === 'b') {
         setShowShop(s => !s);
         gameRef.current.isPaused = !gameRef.current.isPaused;
       }
-
+      
       if (e.key.toLowerCase() === 'n') {
         setShowBuildMenu(s => !s);
       }
-
+      
       if (e.key === 'Escape') {
         if (selectedBuild) {
           setSelectedBuild(null);
@@ -4677,7 +4624,7 @@ const ZombieWaveGame = () => {
         }
         setShowBuildMenu(false);
       }
-
+      
       if (e.key.toLowerCase() === 'r' && selectedBuild) {
         e.preventDefault();
         gameRef.current.rotationFlash = 30;
@@ -4687,15 +4634,15 @@ const ZombieWaveGame = () => {
           return newRotation;
         });
       }
-
+      
       if (e.key.toLowerCase() === 't') {
         setShowStats(s => !s);
       }
-
+      
       if (e.key.toLowerCase() === 'q') {
         setShowRanges(s => !s);
       }
-
+      
       const keyNum = parseInt(e.key);
       if (keyNum >= 1 && keyNum <= 9 && !showShop && !showLevelUp && !showUpgradeMenu) {
         e.preventDefault();
@@ -4724,24 +4671,24 @@ const ZombieWaveGame = () => {
       const game = gameRef.current;
       const canvas = canvasRef.current;
       if (!canvas) return;
-
+      
       const rect = canvas.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
-
+      
       // Check manual wave start button (desktop)
-      if (!isMobile && gameState === 'playing' && !selectedBuild &&
-          game.bases.length > 0 &&
-          !game.waveActive &&
-          game.zombies.length === 0 &&
-          game.zombiesLeftToSpawn === 0 &&
+      if (!isMobile && gameState === 'playing' && !selectedBuild && 
+          game.bases.length > 0 && 
+          !game.waveActive && 
+          game.zombies.length === 0 && 
+          game.zombiesLeftToSpawn === 0 && 
           waveCountdown === 0 &&
           !game.initialCountdownActive) {
         const waveButtonX = canvas.width / 2 - 75;
         const waveButtonY = canvas.height - 60;
         const waveButtonW = 150;
         const waveButtonH = 40;
-
+        
         if (mouseX >= waveButtonX && mouseX <= waveButtonX + waveButtonW &&
             mouseY >= waveButtonY && mouseY <= waveButtonY + waveButtonH) {
           console.log('🎮 Manual wave start triggered (desktop)');
@@ -4751,40 +4698,40 @@ const ZombieWaveGame = () => {
           return;
         }
       }
-
+      
       // Check ad button click (desktop)
       if (!isMobile && gameState === 'playing' && !selectedBuild) {
         const adButtonX = canvas.width - 140;
         const adButtonY = 10;
         const adButtonW = 130;
         const adButtonH = 30;
-
+        
         if (mouseX >= adButtonX && mouseX <= adButtonX + adButtonW &&
             mouseY >= adButtonY && mouseY <= adButtonY + adButtonH) {
           showAdForReward('coins');
           return;
         }
       }
-
+      
       const worldX = mouseX + game.cameraX;
       const worldY = mouseY + game.cameraY;
-
+      
       if (selectedBuild && gameState === 'playing') {
         e.preventDefault();
         e.stopPropagation();
-
+        
         const item = buildItems.find(b => b.id === selectedBuild);
         if (!item) return;
-
+        
         if (coins < item.cost) {
           alert(`Need ${item.cost} coins, you have ${coins}`);
           return;
         }
-
+        
         const gridSize = 50;
         const snappedX = Math.floor(worldX / gridSize) * gridSize;
         const snappedY = Math.floor(worldY / gridSize) * gridSize;
-
+        
         if (item.type === 'base') {
           if (!game.bases) game.bases = [];
           if (game.bases.length > 0) {
@@ -4792,14 +4739,14 @@ const ZombieWaveGame = () => {
             setSelectedBuild(null);
             return;
           }
-
+          
           const overlapCheck = checkStructureOverlap(snappedX, snappedY, 100, 100, 'base');
           if (!overlapCheck.valid) {
             alert(`Cannot place base: ${overlapCheck.reason}`);
             return;
           }
         }
-
+        
         if (item.type === 'turret') {
           const overlapCheck = checkStructureOverlap(snappedX, snappedY, 50, 50, 'turret');
           if (!overlapCheck.valid) {
@@ -4811,17 +4758,17 @@ const ZombieWaveGame = () => {
           const isHorizontal = currentRotation % 180 === 0;
           const w = isHorizontal ? 100 : 50;
           const h = isHorizontal ? 50 : 100;
-
+          
           const overlapCheck = checkStructureOverlap(snappedX, snappedY, w, h, 'wall');
           if (!overlapCheck.valid) {
             alert(`Cannot place wall: ${overlapCheck.reason}`);
             return;
           }
         }
-
+        
         setCoins(c => c - item.cost);
         gameRef.current.stats.structuresBuilt++;
-
+        
         if (item.type === 'turret') {
           const newTurret = {
             id: `turret_${Date.now()}_${Math.random()}`,
@@ -4842,11 +4789,11 @@ const ZombieWaveGame = () => {
             killCount: 0
           };
           game.turrets.push(newTurret);
-
+          
         } else if (item.type === 'wall') {
           const currentRotation = wallRotation;
           const isHorizontal = currentRotation % 180 === 0;
-
+          
           const newWall = {
             id: `wall_${Date.now()}_${Math.random()}`,
             builtBy: game.playerId,
@@ -4865,7 +4812,7 @@ const ZombieWaveGame = () => {
             upgradeLevel: 0
           };
           game.walls.push(newWall);
-
+          
           setWallRotation(0);
         } else if (item.type === 'trap') {
           const newTrap = {
@@ -4876,7 +4823,7 @@ const ZombieWaveGame = () => {
             cooldown: 0
           };
           game.traps.push(newTrap);
-
+          
         } else if (item.type === 'base') {
           if (!game.bases) game.bases = [];
           const newBase = {
@@ -4890,11 +4837,11 @@ const ZombieWaveGame = () => {
             armor: baseUpgradeLevel
           };
           game.bases.push(newBase);
-
+          
           // Visual feedback - particle explosion
           createParticles(snappedX + 50, snappedY + 50, '#f39c12', 30);
           createParticles(snappedX + 50, snappedY + 50, '#ffff00', 20);
-
+          
           // Start countdown before first wave
           game.initialCountdownActive = true;
           setWaveCountdown(15);
@@ -4915,11 +4862,11 @@ const ZombieWaveGame = () => {
             });
           }, 1000);
         }
-
+        
         setSelectedBuild(null);
         return;
       }
-
+      
       if (e.button === 0 && gameState === 'playing' && !selectedBuild) {
         for (const turret of game.turrets) {
           if (worldX >= turret.x && worldX <= turret.x + turret.size &&
@@ -4929,7 +4876,7 @@ const ZombieWaveGame = () => {
             return;
           }
         }
-
+        
         for (const wall of game.walls) {
           if (worldX >= wall.x && worldX <= wall.x + wall.width &&
               worldY >= wall.y && worldY <= wall.y + wall.height) {
@@ -4938,7 +4885,7 @@ const ZombieWaveGame = () => {
             return;
           }
         }
-
+        
         game.mouseDown = true;
       }
     };
@@ -4953,11 +4900,11 @@ const ZombieWaveGame = () => {
       if (!canvas) return;
 
       const rect = canvas.getBoundingClientRect();
-
+      
       for (let touch of e.changedTouches) {
         const x = touch.clientX - rect.left;
         const y = touch.clientY - rect.top;
-
+        
         if (x < canvas.width / 2) {
           if (!game.joystick.active) {
             game.joystick.active = true;
@@ -4985,16 +4932,16 @@ const ZombieWaveGame = () => {
       if (!canvas) return;
 
       const rect = canvas.getBoundingClientRect();
-
+      
       for (let touch of e.changedTouches) {
         const x = touch.clientX - rect.left;
         const y = touch.clientY - rect.top;
-
+        
         if (game.joystick.active && touch.identifier === game.joystick.touchId) {
           game.joystick.currentX = x;
           game.joystick.currentY = y;
         }
-
+        
         if (game.shootTouch.active && touch.identifier === game.shootTouch.touchId) {
           game.shootTouch.x = x;
           game.shootTouch.y = y;
@@ -5004,13 +4951,13 @@ const ZombieWaveGame = () => {
 
     const handleTouchEnd = (e) => {
       const game = gameRef.current;
-
+      
       for (let touch of e.changedTouches) {
         if (game.joystick.active && touch.identifier === game.joystick.touchId) {
           game.joystick.active = false;
           game.joystick.touchId = null;
         }
-
+        
         if (game.shootTouch.active && touch.identifier === game.shootTouch.touchId) {
           game.shootTouch.active = false;
           game.shootTouch.touchId = null;
@@ -5023,7 +4970,7 @@ const ZombieWaveGame = () => {
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
-
+    
     if (isMobile) {
       canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
       canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
@@ -5038,25 +4985,25 @@ const ZombieWaveGame = () => {
       canvas.removeEventListener('mousemove', handleMouseMove);
       canvas.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
-
+      
       if (isMobile) {
         canvas.removeEventListener('touchstart', handleTouchStart);
         canvas.removeEventListener('touchmove', handleTouchMove);
         canvas.removeEventListener('touchend', handleTouchEnd);
       }
-
+      
       cancelAnimationFrame(animationId);
     };
   }, [gameState, wave, level, xp, coins, isMobile, selectedBuild, wallRotation, canvasWidth, canvasHeight, passiveIncome, waveCountdown, screenShake, killStreak, maxKillStreak, showRanges, playerId]);
 
   const startGame = () => {
     const game = gameRef.current;
-
+    
     game.playerId = playerId;
-
+    
     // CRITICAL: Reset keys to fix WASD after death
     game.keys = {};
-
+    
     game.player = {
       x: 800, y: 600, size: 20, speed: 5, health: 100, maxHealth: 100,
       damage: 1, fireRate: 500, bulletSpeed: 8, piercing: 0,
@@ -5069,7 +5016,7 @@ const ZombieWaveGame = () => {
       chain: false, scavenger: false, fortify: 0, lucky: false,
       ghostBullets: false, bloodlust: false, bloodlustStacks: 0
     };
-
+    
     game.zombies = [];
     game.bullets = [];
     game.particles = [];
@@ -5100,11 +5047,11 @@ const ZombieWaveGame = () => {
       types: ['normal', 'normal', 'fast'],
       difficulty: 'Easy'
     };
-
+    
     // Center camera on player
     game.cameraX = Math.max(0, Math.min(game.mapWidth - canvasWidth, 800 - canvasWidth/2));
     game.cameraY = Math.max(0, Math.min(game.mapHeight - canvasHeight, 600 - canvasHeight/2));
-
+    
     setWave(1);
     setScore(0);
     setCoins(120); // Better starting coins for early building
@@ -5127,7 +5074,7 @@ const ZombieWaveGame = () => {
     setPendingLevelUps(0);
     setTotalLevelUps(0);
     setShowRanges(false);
-
+    
     setGameState('playing');
   };
 
@@ -5164,16 +5111,16 @@ const ZombieWaveGame = () => {
       if (u.id === 'timeWarp' && game.player.timeWarp) return false;
       return true;
     });
-
+    
     const shuffled = [...available].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, 3);
   };
 
   const applyUpgrade = (upgradeId) => {
     const game = gameRef.current;
-
+    
     setUpgrades(u => [...u, upgradeId]);
-
+    
     switch (upgradeId) {
       // Basic upgrades
       case 'damage':
@@ -5253,7 +5200,7 @@ const ZombieWaveGame = () => {
         game.player.bloodlust = true;
         game.player.bloodlustStacks = 0;
         break;
-
+      
       // Advanced shooting upgrades
       case 'homingShots':
         game.player.homingShots = true;
@@ -5290,7 +5237,7 @@ const ZombieWaveGame = () => {
           });
         }
         break;
-
+      
       // Advanced survival upgrades
       case 'secondChance':
         game.player.secondChance = true;
@@ -5315,11 +5262,11 @@ const ZombieWaveGame = () => {
         game.player.timeWarp = true;
         break;
     }
-
+    
     // Decrement pending level ups
     setPendingLevelUps(prev => {
       const remaining = prev - 1;
-
+      
       // If more level ups pending, generate new options and keep screen open
       if (remaining > 0) {
         setCurrentUpgradeOptions(getRandomUpgrades());
@@ -5329,7 +5276,7 @@ const ZombieWaveGame = () => {
         setTotalLevelUps(0);
         game.isPaused = false;
       }
-
+      
       return remaining;
     });
   };
@@ -5337,16 +5284,16 @@ const ZombieWaveGame = () => {
   const buyShopItem = (itemId) => {
     const item = shopItems.find(i => i.id === itemId);
     if (!item || coins < item.cost) return;
-
+    
     // Anti-cheat: Validate purchase
     if (item.cost > coins) {
       console.warn('⚠️ Invalid purchase attempt');
       return;
     }
-
+    
     const game = gameRef.current;
     setCoins(c => Math.max(0, c - item.cost));
-
+    
     switch (itemId) {
       case 'health_potion':
         game.player.health = Math.min(game.player.maxHealth, game.player.health + 50);
@@ -5386,7 +5333,7 @@ const ZombieWaveGame = () => {
           createParticles(zombie.x, zombie.y, '#ff0000', 20);
           setScore(s => s + zombie.score);
           gameRef.current.stats.zombiesKilled++;
-
+          
           const coinValue = zombie.coins;
           game.coinDrops.push({
             x: zombie.x,
@@ -5415,14 +5362,14 @@ const ZombieWaveGame = () => {
   const upgradeTurret = (turret) => {
     const upgradeCost = 60 + (turret.upgradeLevel * 40); // Increased costs
     if (coins < upgradeCost) return;
-
+    
     setCoins(c => c - upgradeCost);
     turret.upgradeLevel++;
     turret.damage *= 1.5;
     turret.range *= 1.2;
     turret.maxHealth += 25;
     turret.health = turret.maxHealth;
-
+    
     setShowUpgradeMenu(false);
     setSelectedStructure(null);
   };
@@ -5432,14 +5379,14 @@ const ZombieWaveGame = () => {
     setAdWatched(false);
     setAdLoading(true);
     setShowAdReward(true);
-
+    
     // Set the correct ad slot based on reward type
     setCurrentAdSlot(adSlots[rewardType] || adSlots.coins);
-
+    
     // Initialize AdSense ad
     setTimeout(() => {
       setAdLoading(false);
-
+      
       // Push the ad to load
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -5447,7 +5394,7 @@ const ZombieWaveGame = () => {
       } catch (e) {
         console.log('⚠️ AdSense error:', e);
       }
-
+      
       // Mark ad as watched after 5 seconds (simulate viewing time)
       setTimeout(() => {
         setAdWatched(true);
@@ -5461,9 +5408,9 @@ const ZombieWaveGame = () => {
       console.log('❌ Cannot claim reward - ad not watched');
       return;
     }
-
+    
     const game = gameRef.current;
-
+    
     // Helper to create particles
     const createParticles = (x, y, color, count) => {
       for (let i = 0; i < count; i++) {
@@ -5480,7 +5427,7 @@ const ZombieWaveGame = () => {
         });
       }
     };
-
+    
     switch (adRewardType) {
       case 'coins':
         setCoins(c => c + 100);
@@ -5534,7 +5481,7 @@ const ZombieWaveGame = () => {
         }
         break;
     }
-
+    
     setShowAdReward(false);
     setAdRewardType(null);
     setAdWatched(false);
@@ -5545,14 +5492,14 @@ const ZombieWaveGame = () => {
   const upgradeWall = (wall) => {
     const upgradeCost = 35 + (wall.upgradeLevel * 25); // Increased costs
     if (coins < upgradeCost) return;
-
+    
     setCoins(c => c - upgradeCost);
     wall.upgradeLevel++;
-
+    
     wall.maxHealth = Math.floor(wall.maxHealth * 1.5);
     wall.health = wall.maxHealth;
     wall.armor = Math.min(5, (wall.armor || 0) + 1);
-
+    
     if (wall.upgradeLevel === 2 && wall.tier === 1) {
       wall.tier = 2;
       wall.color = '#95a5a6';
@@ -5564,7 +5511,7 @@ const ZombieWaveGame = () => {
       wall.icon = '🔩';
       wall.name = 'Metal Wall';
     }
-
+    
     setShowUpgradeMenu(false);
     setSelectedStructure(null);
   };
@@ -5572,15 +5519,15 @@ const ZombieWaveGame = () => {
   const sellStructure = (structure, type) => {
     const game = gameRef.current;
     const refund = type === 'turret' ? 20 : type === 'wall' ? 8 : 0; // Reduced refunds
-
+    
     setCoins(c => c + refund);
-
+    
     if (type === 'turret') {
       game.turrets = game.turrets.filter(t => t !== structure);
     } else if (type === 'wall') {
       game.walls = game.walls.filter(w => w !== structure);
     }
-
+    
     setShowUpgradeMenu(false);
     setSelectedStructure(null);
   };
@@ -5612,12 +5559,12 @@ const ZombieWaveGame = () => {
 
             {/* Navigation - Desktop */}
             <nav className="hidden md:flex items-center gap-6">
-              <a href="../index.html" className="text-white hover:text-cyan-400 transition font-semibold">🏠 Home</a>
+              <a href="/index.html" className="text-white hover:text-cyan-400 transition font-semibold">🏠 Home</a>
               <a href="/index.html#about" className="text-white hover:text-cyan-400 transition font-semibold">📖 About</a>
               <a href="/index.html#programs" className="text-white hover:text-cyan-400 transition font-semibold">💻 Programs</a>
               <a href="/index.html#games" className="text-white hover:text-cyan-400 transition font-semibold">🎮 Games</a>
-              <a
-                href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL"
+              <a 
+                href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-4 py-2 rounded-lg font-bold transition transform hover:scale-105"
@@ -5630,36 +5577,36 @@ const ZombieWaveGame = () => {
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
             <nav className="md:hidden mt-4 pb-2 space-y-2 border-t border-cyan-500/30 pt-4">
-              <a
-                href="../index.html"
+              <a 
+                href="/index.html" 
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-white hover:text-cyan-400 transition font-semibold py-2"
               >
                 🏠 Home
               </a>
-              <a
-                href="/index.html#about"
+              <a 
+                href="/index.html#about" 
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-white hover:text-cyan-400 transition font-semibold py-2"
               >
                 📖 About
               </a>
-              <a
-                href="/index.html#programs"
+              <a 
+                href="/index.html#programs" 
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-white hover:text-cyan-400 transition font-semibold py-2"
               >
                 💻 Programs
               </a>
-              <a
-                href="/index.html#games"
+              <a 
+                href="/index.html#games" 
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-white hover:text-cyan-400 transition font-semibold py-2"
               >
                 🎮 Games
               </a>
-              <a
-                href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL"
+              <a 
+                href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-4 py-2 rounded-lg font-bold transition text-center"
@@ -5673,7 +5620,7 @@ const ZombieWaveGame = () => {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col items-center justify-center p-4">
-
+      
       {/* Top Display Ad */}
       {gameState === 'playing' && (
         <div className="w-full max-w-6xl mb-4 bg-black/50 rounded-lg p-2 border-2 border-cyan-500/30">
@@ -5688,7 +5635,7 @@ const ZombieWaveGame = () => {
           </div>
         </div>
       )}
-
+      
       {gameState === 'menu' && (
         <div className="bg-black/80 rounded-xl p-8 border-4 border-cyan-500 text-center max-w-2xl">
           <h1 className="text-5xl md:text-7xl font-bold text-cyan-400 mb-2">LetUsTech</h1>
@@ -5756,7 +5703,7 @@ const ZombieWaveGame = () => {
                       <p className="text-sm text-gray-400 mb-4 italic">
             💡 Watch ads completely (5s) for rewards! Wave countdown prevents early spawns.
           </p>
-          <button
+          <button 
             onClick={startGame}
             className="px-12 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white text-3xl font-bold rounded-xl transition transform hover:scale-110 shadow-lg"
           >
@@ -5767,21 +5714,21 @@ const ZombieWaveGame = () => {
       )}
 
       <div className="relative">
-        <canvas
-          ref={canvasRef}
-          width={canvasWidth}
+        <canvas 
+          ref={canvasRef} 
+          width={canvasWidth} 
           height={canvasHeight}
           className="border-4 border-cyan-500 rounded-lg shadow-2xl"
         />
-
+        
         {/* Mobile controls */}
         {isMobile && gameState === 'playing' && (
           <div className="absolute bottom-4 right-4 flex flex-col gap-2">
             {/* Manual wave start button */}
-            {gameRef.current.bases.length > 0 &&
-             !gameRef.current.waveActive &&
-             gameRef.current.zombies.length === 0 &&
-             gameRef.current.zombiesLeftToSpawn === 0 &&
+            {gameRef.current.bases.length > 0 && 
+             !gameRef.current.waveActive && 
+             gameRef.current.zombies.length === 0 && 
+             gameRef.current.zombiesLeftToSpawn === 0 && 
              waveCountdown === 0 &&
              !gameRef.current.initialCountdownActive && (
               <button
@@ -5819,7 +5766,7 @@ const ZombieWaveGame = () => {
             </button>
           </div>
         )}
-
+        
         {/* Build menu */}
         {showBuildMenu && !showShop && !showLevelUp && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-black/95 via-blue-900/90 to-black/95 rounded-xl backdrop-blur-sm p-4 z-40">
@@ -5835,7 +5782,7 @@ const ZombieWaveGame = () => {
                 {isMobile ? '← Scroll to browse → Tap item then tap map' : '← Scroll (mouse wheel) or press 1-9 → Click item then map'}
               </p>
             </div>
-
+            
             <div className="relative w-full max-w-6xl mb-6">
               {/* Scroll container */}
               <div ref={buildScrollRef} className="overflow-x-auto overflow-y-hidden pb-4 px-4 scrollbar-build">
@@ -5851,8 +5798,8 @@ const ZombieWaveGame = () => {
                       }}
                       disabled={coins < item.cost}
                       className={`${
-                        coins >= item.cost
-                          ? 'bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 hover:scale-105 hover:shadow-2xl'
+                        coins >= item.cost 
+                          ? 'bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 hover:scale-105 hover:shadow-2xl' 
                           : 'bg-gray-700 cursor-not-allowed opacity-60'
                       } border-4 ${item.type === 'base' ? 'border-orange-500' : item.type === 'turret' ? 'border-blue-400' : item.type === 'wall' ? 'border-gray-400' : 'border-red-400'} p-5 rounded-xl w-64 transition transform shadow-xl flex-shrink-0 relative overflow-hidden`}
                     >
@@ -5862,17 +5809,17 @@ const ZombieWaveGame = () => {
                           {index + 1}
                         </div>
                       )}
-
+                      
                       {/* Shine effect */}
                       {coins >= item.cost && (
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-full hover:translate-x-[-200%] transition-transform duration-1000"></div>
                       )}
-
+                      
                       <div className="relative z-10">
                         <div className="text-6xl mb-3 drop-shadow-lg">{item.icon}</div>
                         <h4 className="text-white font-bold text-xl mb-2">{item.name}</h4>
                         <p className="text-gray-200 text-sm mb-3 min-h-[60px]">{item.desc}</p>
-
+                        
                         {/* Stats display for turrets */}
                         {item.type === 'turret' && item.stats && (
                           <div className="bg-black/40 p-2 rounded-lg mb-3 text-left text-xs">
@@ -5884,7 +5831,7 @@ const ZombieWaveGame = () => {
                             )}
                           </div>
                         )}
-
+                        
                         {/* Cost display */}
                         <div className={`flex items-center justify-center gap-2 ${item.cost === 0 ? 'bg-green-600/40' : 'bg-black/40'} py-2 px-3 rounded-lg`}>
                           {item.cost === 0 ? (
@@ -5896,7 +5843,7 @@ const ZombieWaveGame = () => {
                             </>
                           )}
                         </div>
-
+                        
                         {coins < item.cost && item.cost > 0 && (
                           <div className="mt-2 text-red-400 text-xs font-bold">
                             Need {item.cost - coins} more coins
@@ -5907,19 +5854,19 @@ const ZombieWaveGame = () => {
                   ))}
                 </div>
               </div>
-
+              
               {/* Scroll indicators */}
               <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-black/60 to-transparent pointer-events-none rounded-l-xl"></div>
               <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-black/60 to-transparent pointer-events-none rounded-r-xl"></div>
             </div>
-
+            
             <button
               onClick={() => setShowBuildMenu(false)}
               className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white text-xl font-bold rounded-xl transition transform hover:scale-110 shadow-lg border-2 border-red-400"
             >
               ✖️ CLOSE BUILD MENU
             </button>
-
+            
             <style jsx>{`
               .scrollbar-build {
                 scroll-behavior: smooth;
@@ -5942,7 +5889,7 @@ const ZombieWaveGame = () => {
             `}</style>
           </div>
         )}
-
+        
         {/* Shop */}
         {showShop && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-black/95 via-purple-900/90 to-black/95 rounded-xl backdrop-blur-sm p-4 z-40">
@@ -5956,7 +5903,7 @@ const ZombieWaveGame = () => {
               </div>
               <p className="text-sm md:text-base text-cyan-400">← Scroll horizontally to browse → (Use mouse wheel)</p>
             </div>
-
+            
             <div className="relative w-full max-w-6xl mb-6">
               {/* Scroll container */}
               <div ref={shopScrollRef} className="overflow-x-auto overflow-y-hidden pb-4 px-4 scrollbar-custom">
@@ -5967,8 +5914,8 @@ const ZombieWaveGame = () => {
                       onClick={() => buyShopItem(item.id)}
                       disabled={coins < item.cost}
                       className={`${
-                        coins >= item.cost
-                          ? 'bg-gradient-to-br from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 hover:scale-105 hover:shadow-2xl'
+                        coins >= item.cost 
+                          ? 'bg-gradient-to-br from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 hover:scale-105 hover:shadow-2xl' 
                           : 'bg-gray-700 cursor-not-allowed opacity-60'
                       } border-4 border-yellow-500 p-5 rounded-xl w-64 transition transform shadow-xl flex-shrink-0 relative overflow-hidden`}
                     >
@@ -5976,7 +5923,7 @@ const ZombieWaveGame = () => {
                       {coins >= item.cost && (
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-full hover:translate-x-[-200%] transition-transform duration-1000"></div>
                       )}
-
+                      
                       <div className="relative z-10">
                         <div className="text-6xl mb-3 drop-shadow-lg">{item.icon}</div>
                         <h3 className="text-white font-bold text-xl mb-2">{item.name}</h3>
@@ -5995,12 +5942,12 @@ const ZombieWaveGame = () => {
                   ))}
                 </div>
               </div>
-
+              
               {/* Scroll indicators */}
               <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-black/60 to-transparent pointer-events-none rounded-l-xl"></div>
               <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-black/60 to-transparent pointer-events-none rounded-r-xl"></div>
             </div>
-
+            
             <button
               onClick={() => {
                 setShowShop(false);
@@ -6010,7 +5957,7 @@ const ZombieWaveGame = () => {
             >
               ✖️ CLOSE SHOP
             </button>
-
+            
             <style jsx>{`
               .scrollbar-custom {
                 scroll-behavior: smooth;
@@ -6033,7 +5980,7 @@ const ZombieWaveGame = () => {
             `}</style>
           </div>
         )}
-
+        
         {/* Level up */}
         {showLevelUp && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-black/95 to-purple-900/95 rounded-xl backdrop-blur-sm p-4 overflow-y-auto z-50">
@@ -6069,18 +6016,18 @@ const ZombieWaveGame = () => {
             <p className="text-xs text-gray-500 mt-2">💡 Tip: Each upgrade makes you stronger! Choose wisely based on your playstyle.</p>
           </div>
         )}
-
+        
         {/* Upgrade menu */}
         {showUpgradeMenu && selectedStructure && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/90 rounded-xl backdrop-blur-sm p-4 z-40">
             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-4 border-cyan-500 max-w-md">
               <h2 className="text-3xl font-bold text-cyan-400 mb-4">
-                {selectedStructure.type === 'turret' ? '🔫 Turret Menu' :
+                {selectedStructure.type === 'turret' ? '🔫 Turret Menu' : 
                  selectedStructure.data.tier === 1 ? '🪵 Wood Wall Menu' :
                  selectedStructure.data.tier === 2 ? '🧱 Stone Wall Menu' :
                  selectedStructure.data.tier === 3 ? '🔩 Metal Wall Menu' : '🧱 Wall Menu'}
               </h2>
-
+              
               {selectedStructure.type === 'turret' && (
                 <>
                   <div className="text-white mb-4 space-y-2">
@@ -6098,14 +6045,14 @@ const ZombieWaveGame = () => {
                   </button>
                 </>
               )}
-
+              
               {selectedStructure.type === 'wall' && (
                 <>
                   <div className="text-white mb-4 space-y-2">
                     <p className="text-lg">Level: <span className="text-yellow-400 font-bold">★{selectedStructure.data.upgradeLevel}</span></p>
                     <p className="text-lg">Tier: <span className="text-purple-400 font-bold">{
-                      selectedStructure.data.tier === 1 ? '🪵 Wood' :
-                      selectedStructure.data.tier === 2 ? '🧱 Stone' :
+                      selectedStructure.data.tier === 1 ? '🪵 Wood' : 
+                      selectedStructure.data.tier === 2 ? '🧱 Stone' : 
                       selectedStructure.data.tier === 3 ? '🔩 Metal' : 'Max'
                     }</span></p>
                     <p className="text-lg">Health: <span className="text-green-400 font-bold">{Math.floor(selectedStructure.data.health)}/{selectedStructure.data.maxHealth}</span></p>
@@ -6122,7 +6069,7 @@ const ZombieWaveGame = () => {
                   </button>
                 </>
               )}
-
+              
               <button
                 onClick={() => sellStructure(selectedStructure.data, selectedStructure.type)}
                 className="w-full mb-2 px-4 py-3 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-lg transition"
@@ -6141,7 +6088,7 @@ const ZombieWaveGame = () => {
             </div>
           </div>
         )}
-
+        
         {/* Pause menu */}
         {showPauseMenu && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/90 rounded-xl backdrop-blur-sm p-4 z-50">
@@ -6195,7 +6142,7 @@ const ZombieWaveGame = () => {
             </div>
           </div>
         )}
-
+        
         {/* Stats panel */}
         {showStats && (
           <div className="absolute top-20 left-4 bg-black/95 rounded-xl p-4 border-2 border-yellow-500 max-w-xs z-30">
@@ -6216,7 +6163,7 @@ const ZombieWaveGame = () => {
             </button>
           </div>
         )}
-
+        
         {/* Game over */}
         {gameState === 'gameover' && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-black/95 to-red-900/95 rounded-xl backdrop-blur-sm p-4 overflow-y-auto z-50">
@@ -6234,7 +6181,7 @@ const ZombieWaveGame = () => {
             {score > highScore && score > 0 && (
               <p className="text-xl md:text-2xl text-yellow-300 mb-4">🏆 NEW HIGH SCORE! 🏆</p>
             )}
-
+            
             {/* Ad Reward Options */}
             <div className="bg-gradient-to-br from-purple-900/50 to-blue-900/50 p-4 rounded-xl border-2 border-yellow-400 mb-4">
               <p className="text-yellow-400 font-bold text-lg mb-3">📺 Watch Ads to Continue!</p>
@@ -6253,7 +6200,7 @@ const ZombieWaveGame = () => {
                 </button>
               </div>
             </div>
-
+            
             <div className="mb-6 text-gray-200 max-w-2xl">
               <p className="text-lg md:text-xl font-bold mb-3 text-cyan-400">Upgrades Collected:</p>
               <div className="flex flex-wrap gap-2 justify-center">
@@ -6267,7 +6214,7 @@ const ZombieWaveGame = () => {
                 }) : <span className="text-gray-400">No upgrades</span>}
               </div>
             </div>
-            <button
+            <button 
               onClick={startGame}
               className="px-8 md:px-12 py-3 md:py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white text-xl md:text-2xl font-bold rounded-xl transition transform hover:scale-110 shadow-lg"
             >
@@ -6287,10 +6234,10 @@ const ZombieWaveGame = () => {
                 {adRewardType === 'powerup' && '⚡ Watch an ad for a 30-second power boost!'}
                 {adRewardType === 'nuke' && '☢️ Watch an ad to clear all zombies!'}
               </p>
-
+              
               {/* Show current ad slot for debugging */}
               <p className="text-xs text-gray-400 mb-4">Ad Unit: {currentAdSlot}</p>
-
+              
               {/* Ad Placeholder */}
               <div className="bg-gray-800 rounded-lg p-8 mb-6 border-2 border-gray-600 min-h-[200px] flex items-center justify-center">
                 <div className="text-center">
@@ -6325,14 +6272,14 @@ const ZombieWaveGame = () => {
                   )}
                 </div>
               </div>
-
+              
               <div className="space-y-3">
                 <button
                   onClick={claimAdReward}
                   disabled={!adWatched}
                   className={`w-full px-8 py-4 ${
-                    adWatched
-                      ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 cursor-pointer'
+                    adWatched 
+                      ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 cursor-pointer' 
                       : 'bg-gray-600 cursor-not-allowed opacity-50'
                   } text-white text-xl font-bold rounded-xl transition transform hover:scale-105 shadow-lg border-2 ${
                     adWatched ? 'border-green-400' : 'border-gray-500'
@@ -6353,17 +6300,17 @@ const ZombieWaveGame = () => {
                   ❌ Cancel
                 </button>
               </div>
-
+              
               <p className="text-gray-400 text-xs mt-4">
                 Ads help support free game development!
               </p>
             </div>
           </div>
         )}
-
+        
       </div>
       </div>
-
+      
       {/* Bottom Display Ad */}
       {gameState === 'playing' && (
         <div className="w-full max-w-6xl mx-auto mb-4 bg-black/50 rounded-lg p-2 border-2 border-cyan-500/30">
@@ -6398,7 +6345,7 @@ const ZombieWaveGame = () => {
             <div>
               <h3 className="text-cyan-400 font-bold text-lg mb-2">Quick Links</h3>
               <div className="space-y-1">
-                <a href="../index.html" className="block text-gray-300 hover:text-cyan-400 transition text-sm">🏠 Home</a>
+                <a href="/index.html" className="block text-gray-300 hover:text-cyan-400 transition text-sm">🏠 Home</a>
                 <a href="/index.html#about" className="block text-gray-300 hover:text-cyan-400 transition text-sm">📖 About</a>
                 <a href="/index.html#programs" className="block text-gray-300 hover:text-cyan-400 transition text-sm">💻 Programs</a>
                 <a href="/index.html#games" className="block text-gray-300 hover:text-cyan-400 transition text-sm">🎮 Games</a>
@@ -6409,16 +6356,16 @@ const ZombieWaveGame = () => {
             <div>
               <h3 className="text-cyan-400 font-bold text-lg mb-2">Support & Contact</h3>
               <div className="space-y-2">
-                <a
-                  href="https://discord.gg/dkebMS5eCX"
+                <a 
+                  href="https://discord.gg/dkebMS5eCX" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block text-gray-300 hover:text-blue-400 transition text-sm"
                 >
                   💡 Feature Request
                 </a>
-                <a
-                  href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL"
+                <a 
+                  href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block text-yellow-400 hover:text-yellow-300 transition text-sm font-semibold"
@@ -6435,8 +6382,8 @@ const ZombieWaveGame = () => {
               © 2024 LetUsTech. Open Source. Made with ❤️ by the community.
             </p>
             <p className="text-gray-500 text-xs mt-1">
-              <a
-                href="https://github.com/letustec-oss/LetUsTech"
+              <a 
+                href="https://github.com/letustec-oss/LetUsTech" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-cyan-400 transition"
@@ -6451,10 +6398,4 @@ const ZombieWaveGame = () => {
   );
 };
 
-
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<ZombieWaveGame />);
-    </script>
-</body>
-</html>
+export default ZombieWaveGame;
