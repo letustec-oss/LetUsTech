@@ -4648,6 +4648,12 @@ const ZombieWaveGame = () => {
     const handleKeyDown = (e) => {
       gameRef.current.keys[e.key] = true;
 
+      // Prevent WASD and Arrow keys from scrolling the page while playing
+      const movementKeys = ['w', 'a', 's', 'd', 'W', 'A', 'S', 'D', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '];
+      if (movementKeys.includes(e.key)) {
+        e.preventDefault();
+      }
+
       // Prevent TAB from scrolling the page
       if (e.key === 'Tab') {
         e.preventDefault();
@@ -5613,9 +5619,9 @@ const ZombieWaveGame = () => {
             {/* Navigation - Desktop */}
             <nav className="hidden md:flex items-center gap-6">
               <a href="../index.html" className="text-white hover:text-cyan-400 transition font-semibold">🏠 Home</a>
-              <a href="/index.html#about" className="text-white hover:text-cyan-400 transition font-semibold">📖 About</a>
-              <a href="/index.html#programs" className="text-white hover:text-cyan-400 transition font-semibold">💻 Programs</a>
-              <a href="/index.html#games" className="text-white hover:text-cyan-400 transition font-semibold">🎮 Games</a>
+              <a href="../index.html#about" className="text-white hover:text-cyan-400 transition font-semibold">📖 About</a>
+              <a href="../index.html#programs" className="text-white hover:text-cyan-400 transition font-semibold">💻 Programs</a>
+              <a href="../index.html#games" className="text-white hover:text-cyan-400 transition font-semibold">🎮 Games</a>
               <a
                 href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL"
                 target="_blank"
@@ -5638,21 +5644,21 @@ const ZombieWaveGame = () => {
                 🏠 Home
               </a>
               <a
-                href="/index.html#about"
+                href="../index.html#about"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-white hover:text-cyan-400 transition font-semibold py-2"
               >
                 📖 About
               </a>
               <a
-                href="/index.html#programs"
+                href="../index.html#programs"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-white hover:text-cyan-400 transition font-semibold py-2"
               >
                 💻 Programs
               </a>
               <a
-                href="/index.html#games"
+                href="../index.html#games"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-white hover:text-cyan-400 transition font-semibold py-2"
               >
@@ -6399,9 +6405,9 @@ const ZombieWaveGame = () => {
               <h3 className="text-cyan-400 font-bold text-lg mb-2">Quick Links</h3>
               <div className="space-y-1">
                 <a href="../index.html" className="block text-gray-300 hover:text-cyan-400 transition text-sm">🏠 Home</a>
-                <a href="/index.html#about" className="block text-gray-300 hover:text-cyan-400 transition text-sm">📖 About</a>
-                <a href="/index.html#programs" className="block text-gray-300 hover:text-cyan-400 transition text-sm">💻 Programs</a>
-                <a href="/index.html#games" className="block text-gray-300 hover:text-cyan-400 transition text-sm">🎮 Games</a>
+                <a href="../index.html#about" className="block text-gray-300 hover:text-cyan-400 transition text-sm">📖 About</a>
+                <a href="../index.html#programs" className="block text-gray-300 hover:text-cyan-400 transition text-sm">💻 Programs</a>
+                <a href="../index.html#games" className="block text-gray-300 hover:text-cyan-400 transition text-sm">🎮 Games</a>
               </div>
             </div>
 
