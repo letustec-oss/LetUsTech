@@ -643,7 +643,7 @@
                 <div class="upload-area">
                     <div class="upload-icon">??</div>
                     <div class="upload-text">Click or drag to upload your dataset</div>
-                    <div class="upload-subtext">Supports CSV files • Maximum precision analysis</div>
+                    <div class="upload-subtext">Supports CSV files ï¿½ Maximum precision analysis</div>
                 </div>
             </label>
             <input type="file" id="fileInput" style="display: none;" accept=".csv">
@@ -1123,7 +1123,7 @@
                                 <li>|r| > 0.8: Strong linear relationship</li>
                                 <li>0.4 < |r| < 0.8: Moderate linear relationship</li>
                                 <li>|r| < 0.4: Weak linear relationship</li>
-                                <li>r ˜ 0: No linear relationship</li>
+                                <li>r ï¿½ 0: No linear relationship</li>
                             </ul>
                         </div>
                     </div>
@@ -1134,7 +1134,7 @@
             return `
                     <div class="section" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; border: none; margin-bottom: 2rem;">
                         <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">Outlier Detection Report</div>
-                        <div style="color: #94a3b8; font-size: 0.95rem;">IQR-based anomaly detection (1.5 × IQR threshold)</div>
+                        <div style="color: #94a3b8; font-size: 0.95rem;">IQR-based anomaly detection (1.5 ï¿½ IQR threshold)</div>
                     </div>
 
                     ${Object.entries(outliers).map(([column, data]) => `
@@ -1189,8 +1189,8 @@
                                 This analysis employs the Interquartile Range (IQR) method for robust outlier detection:
                             </p>
                             <ul>
-                                <li>Lower Bound = Q1 - 1.5 × IQR</li>
-                                <li>Upper Bound = Q3 + 1.5 × IQR</li>
+                                <li>Lower Bound = Q1 - 1.5 ï¿½ IQR</li>
+                                <li>Upper Bound = Q3 + 1.5 ï¿½ IQR</li>
                                 <li>Values outside these bounds are flagged as outliers</li>
                                 <li>This method is resistant to extreme values and appropriate for non-normal distributions</li>
                             </ul>

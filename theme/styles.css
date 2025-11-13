@@ -1,4 +1,4 @@
-﻿/* ========================================
+/* ========================================
    EMERGENCY FIX - CLICKABILITY FIXES
    ======================================== */
 
@@ -18,10 +18,10 @@ html, body {
     pointer-events: none !important;
 }
 
-    .modal[style*="display: block"],
-    .modal.active {
-        pointer-events: auto !important;
-    }
+.modal[style*="display: block"],
+.modal.active {
+    pointer-events: auto !important;
+}
 
 .modal-content {
     pointer-events: auto !important;
@@ -61,7 +61,10 @@ a, button, .btn, [onclick], input, textarea, select {
     z-index: 1;
 }
 
-/* Header and Navigation */
+/* ========================================
+   HEADER & NAVIGATION - DARK NAVY THEME
+   ======================================== */
+
 header {
     background: #2c3e50;
     position: sticky;
@@ -79,6 +82,20 @@ nav {
     pointer-events: auto !important;
 }
 
+nav.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+}
+
 .logo img {
     height: 50px;
     width: auto;
@@ -88,33 +105,36 @@ nav {
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 2rem;
+    gap: 2.5rem;
     align-items: center;
     pointer-events: auto !important;
+    margin: 0;
+    padding: 0;
 }
 
-    .nav-links li {
-        pointer-events: auto !important;
-    }
+.nav-links li {
+    pointer-events: auto !important;
+    margin: 0;
+}
 
-    .nav-links a {
-        text-decoration: none;
-        color: #ecf0f1;
-        font-weight: 500;
-        transition: color 0.3s ease;
-        cursor: pointer !important;
-        pointer-events: auto !important;
-        display: inline-block;
-        padding: 0.5rem 0;
-    }
+.nav-links a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    display: inline-block;
+    padding: 0.5rem 0;
+    font-size: 1rem;
+}
 
-        .nav-links a:hover {
-            color: #10b981;
-        }
+.nav-links a:hover {
+    color: #22c55e;
+}
 
 .donate-link {
-    background: #10b981;
-    color: white !important;
+    color: #ff6b6b !important;
     padding: 0.5rem 1.5rem;
     border-radius: 6px;
     transition: all 0.3s ease;
@@ -122,11 +142,10 @@ nav {
     pointer-events: auto !important;
 }
 
-    .donate-link:hover {
-        background: #059669;
-        transform: translateY(-1px);
-        color: white !important;
-    }
+.donate-link:hover {
+    color: #ff5252 !important;
+    transform: translateY(-1px);
+}
 
 /* Hero Section */
 .hero {
@@ -137,19 +156,19 @@ nav {
     pointer-events: auto !important;
 }
 
-    .hero h1 {
-        font-size: 3.5rem;
-        margin-bottom: 1rem;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-    }
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
 
-    .hero p {
-        font-size: 1.3rem;
-        margin-bottom: 2rem;
-        opacity: 0.95;
-        color: #ecf0f1;
-    }
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+    color: #ecf0f1;
+}
 
 .cta-buttons {
     display: flex;
@@ -183,11 +202,11 @@ nav {
     pointer-events: auto !important;
 }
 
-    .btn-primary:hover {
-        background: #059669;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-    }
+.btn-primary:hover {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
 
 .btn-secondary {
     background: transparent;
@@ -197,10 +216,10 @@ nav {
     pointer-events: auto !important;
 }
 
-    .btn-secondary:hover {
-        background: white;
-        color: #2c3e50;
-    }
+.btn-secondary:hover {
+    background: white;
+    color: #2c3e50;
+}
 
 button.btn-secondary:disabled {
     opacity: 0.5;
@@ -208,11 +227,11 @@ button.btn-secondary:disabled {
     pointer-events: none;
 }
 
-    button.btn-secondary:disabled:hover {
-        background: transparent;
-        color: white;
-        transform: none;
-    }
+button.btn-secondary:disabled:hover {
+    background: transparent;
+    color: white;
+    transform: none;
+}
 
 /* Section Styles */
 section {
@@ -256,21 +275,21 @@ section {
     padding-left: 0;
 }
 
-    .about-list li {
-        padding: 0.5rem 0;
-        padding-left: 1.5rem;
-        position: relative;
-        font-size: 1.05rem;
-        color: #4a5568;
-    }
+.about-list li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 1.05rem;
+    color: #4a5568;
+}
 
-        .about-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #10b981;
-            font-weight: bold;
-        }
+.about-list li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #10b981;
+    font-weight: bold;
+}
 
 /* Features Grid */
 .features-grid {
@@ -289,10 +308,10 @@ section {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-    .feature-box:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
+.feature-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
 
 .feature-icon {
     font-size: 3rem;
@@ -326,15 +345,15 @@ section {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-    .value-item strong {
-        color: #10b981;
-        font-size: 1.1rem;
-    }
+.value-item strong {
+    color: #10b981;
+    font-size: 1.1rem;
+}
 
-    .value-item p {
-        color: #4a5568;
-        margin-top: 0.5rem;
-    }
+.value-item p {
+    color: #4a5568;
+    margin-top: 0.5rem;
+}
 
 /* CTA Box */
 .cta-box {
@@ -347,20 +366,20 @@ section {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-    .cta-box h4 {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
-    }
+.cta-box h4 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
 
-    .cta-box p {
-        margin-bottom: 1.5rem;
-        color: #ecf0f1;
-    }
+.cta-box p {
+    margin-bottom: 1.5rem;
+    color: #ecf0f1;
+}
 
-    .cta-box a {
-        pointer-events: auto !important;
-        cursor: pointer !important;
-    }
+.cta-box a {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
 
 /* Programs Section */
 .programs-section {
@@ -385,16 +404,16 @@ section {
     pointer-events: auto !important;
 }
 
-    .program-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
+.program-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
 
-    .program-card button,
-    .program-card a {
-        cursor: pointer !important;
-        pointer-events: auto !important;
-    }
+.program-card button,
+.program-card a {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
 
 .program-badge {
     position: absolute;
@@ -464,18 +483,18 @@ section {
     padding: 0;
 }
 
-    .donate-list li {
-        padding: 0.5rem 0;
-        padding-left: 1.5rem;
-        position: relative;
-        color: #4a5568;
-    }
+.donate-list li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    color: #4a5568;
+}
 
-        .donate-list li:before {
-            content: "💙";
-            position: absolute;
-            left: 0;
-        }
+.donate-list li:before {
+    content: "💙";
+    position: absolute;
+    left: 0;
+}
 
 .donate-options {
     display: flex;
@@ -492,27 +511,27 @@ section {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-    .donate-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
+.donate-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
-    .donate-card h3 {
-        margin-bottom: 0.5rem;
-        color: #1a202c;
-        font-weight: 600;
-    }
+.donate-card h3 {
+    margin-bottom: 0.5rem;
+    color: #1a202c;
+    font-weight: 600;
+}
 
-    .donate-card p {
-        color: #4a5568;
-        margin-bottom: 1rem;
-    }
+.donate-card p {
+    color: #4a5568;
+    margin-bottom: 1rem;
+}
 
-    .donate-card button,
-    .donate-card a {
-        cursor: pointer !important;
-        pointer-events: auto !important;
-    }
+.donate-card button,
+.donate-card a {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
 
 /* Contact Section */
 .contact-section {
@@ -549,54 +568,64 @@ section {
     gap: 1rem;
 }
 
-    .contact-form input,
-    .contact-form textarea {
-        padding: 1rem;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        font-size: 1rem;
-        font-family: inherit;
-        cursor: text;
-        pointer-events: auto !important;
-        background: white;
-        color: #2d3748;
-    }
+.contact-form input,
+.contact-form textarea {
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: text;
+    pointer-events: auto !important;
+    background: white;
+    color: #2d3748;
+}
 
-        .contact-form input:focus,
-        .contact-form textarea:focus {
-            outline: none;
-            border-color: #10b981;
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-        }
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
 
-    .contact-form button {
-        cursor: pointer !important;
-        pointer-events: auto !important;
-    }
+.contact-form button {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
 
-    .contact-form textarea {
-        resize: vertical;
-        min-height: 150px;
-    }
+.contact-form textarea {
+    resize: vertical;
+    min-height: 150px;
+}
 
 /* Footer */
 footer {
-    background: #1a202c;
-    color: #e2e8f0;
+    background: #2c3e50;
+    color: white;
     text-align: center;
-    padding: 2rem 0;
+    padding: 2rem;
+    margin-top: 4rem;
 }
 
-    footer a {
-        color: #e2e8f0;
-        transition: color 0.3s ease;
-        cursor: pointer !important;
-        pointer-events: auto !important;
-    }
+footer p {
+    margin: 0;
+}
 
-        footer a:hover {
-            color: #10b981;
-        }
+footer .container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+footer a {
+    color: #e2e8f0;
+    transition: color 0.3s ease;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
+
+footer a:hover {
+    color: #10b981;
+}
 
 /* Modals */
 .modal {
@@ -613,17 +642,16 @@ footer {
     pointer-events: none !important;
 }
 
-    /* When modal is visible/active */
-    .modal[style*="display: block"],
-    .modal.active {
-        pointer-events: auto !important;
-    }
+/* When modal is visible/active */
+.modal[style*="display: block"],
+.modal.active {
+    pointer-events: auto !important;
+}
 
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
-
     to {
         opacity: 1;
     }
@@ -647,7 +675,6 @@ footer {
         transform: translateY(-50px);
         opacity: 0;
     }
-
     to {
         transform: translateY(0);
         opacity: 1;
@@ -666,16 +693,24 @@ footer {
     z-index: 2002;
 }
 
-    .close-modal:hover,
-    .close-modal:focus {
-        color: #2d3748;
-    }
+.close-modal:hover,
+.close-modal:focus {
+    color: #2d3748;
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    nav.container {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
     .nav-links {
         gap: 1rem;
         font-size: 0.9rem;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .hero h1 {
@@ -730,23 +765,15 @@ footer {
     display: inline-block;
 }
 
-    .loading:after {
-        content: '...';
-        animation: loading 1.5s infinite;
-    }
+.loading:after {
+    content: '...';
+    animation: loading 1.5s infinite;
+}
 
 @keyframes loading {
-    0% {
-        content: '.';
-    }
-
-    33% {
-        content: '..';
-    }
-
-    66% {
-        content: '...';
-    }
+    0% { content: '.'; }
+    33% { content: '..'; }
+    66% { content: '...'; }
 }
 
 /* Additional Modern Touches */
@@ -768,10 +795,10 @@ pre {
     margin: 1rem 0;
 }
 
-    pre code {
-        background: transparent;
-        padding: 0;
-    }
+pre code {
+    background: transparent;
+    padding: 0;
+}
 
 /* Smooth scroll behavior */
 html {
@@ -784,9 +811,9 @@ a {
     text-decoration: none;
 }
 
-    a:hover {
-        text-decoration: underline;
-    }
+a:hover {
+    text-decoration: underline;
+}
 
 /* Selection styling */
 ::selection {
