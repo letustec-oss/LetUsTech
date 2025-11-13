@@ -18,10 +18,10 @@ html, body {
     pointer-events: none !important;
 }
 
-.modal[style*="display: block"],
-.modal.active {
-    pointer-events: auto !important;
-}
+    .modal[style*="display: block"],
+    .modal.active {
+        pointer-events: auto !important;
+    }
 
 .modal-content {
     pointer-events: auto !important;
@@ -82,14 +82,14 @@ nav {
     pointer-events: auto !important;
 }
 
-nav.container {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 3rem;
-}
+    nav.container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 3rem;
+    }
 
 .logo a {
     display: flex;
@@ -112,26 +112,26 @@ nav.container {
     padding: 0;
 }
 
-.nav-links li {
-    pointer-events: auto !important;
-    margin: 0;
-}
+    .nav-links li {
+        pointer-events: auto !important;
+        margin: 0;
+    }
 
-.nav-links a {
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: 500;
-    transition: color 0.3s ease;
-    cursor: pointer !important;
-    pointer-events: auto !important;
-    display: inline-block;
-    padding: 0.5rem 0;
-    font-size: 1rem;
-}
+    .nav-links a {
+        text-decoration: none;
+        color: #ffffff;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+        display: inline-block;
+        padding: 0.5rem 0;
+        font-size: 1rem;
+    }
 
-.nav-links a:hover {
-    color: #22c55e;
-}
+        .nav-links a:hover {
+            color: #22c55e;
+        }
 
 .donate-link {
     color: #ff6b6b !important;
@@ -142,10 +142,10 @@ nav.container {
     pointer-events: auto !important;
 }
 
-.donate-link:hover {
-    color: #ff5252 !important;
-    transform: translateY(-1px);
-}
+    .donate-link:hover {
+        color: #ff5252 !important;
+        transform: translateY(-1px);
+    }
 
 /* Hero Section */
 .hero {
@@ -156,19 +156,19 @@ nav.container {
     pointer-events: auto !important;
 }
 
-.hero h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-}
+    .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
 
-.hero p {
-    font-size: 1.3rem;
-    margin-bottom: 2rem;
-    opacity: 0.95;
-    color: #ecf0f1;
-}
+    .hero p {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+        opacity: 0.95;
+        color: #ecf0f1;
+    }
 
 .cta-buttons {
     display: flex;
@@ -202,11 +202,11 @@ nav.container {
     pointer-events: auto !important;
 }
 
-.btn-primary:hover {
-    background: #059669;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-}
+    .btn-primary:hover {
+        background: #059669;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
 
 .btn-secondary {
     background: transparent;
@@ -216,10 +216,10 @@ nav.container {
     pointer-events: auto !important;
 }
 
-.btn-secondary:hover {
-    background: white;
-    color: #2c3e50;
-}
+    .btn-secondary:hover {
+        background: white;
+        color: #2c3e50;
+    }
 
 button.btn-secondary:disabled {
     opacity: 0.5;
@@ -227,11 +227,11 @@ button.btn-secondary:disabled {
     pointer-events: none;
 }
 
-button.btn-secondary:disabled:hover {
-    background: transparent;
-    color: white;
-    transform: none;
-}
+    button.btn-secondary:disabled:hover {
+        background: transparent;
+        color: white;
+        transform: none;
+    }
 
 /* Section Styles */
 section {
@@ -275,21 +275,21 @@ section {
     padding-left: 0;
 }
 
-.about-list li {
-    padding: 0.5rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-    font-size: 1.05rem;
-    color: #4a5568;
-}
+    .about-list li {
+        padding: 0.5rem 0;
+        padding-left: 1.5rem;
+        position: relative;
+        font-size: 1.05rem;
+        color: #4a5568;
+    }
 
-.about-list li:before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    color: #10b981;
-    font-weight: bold;
-}
+        .about-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
 
 /* Features Grid */
 .features-grid {
@@ -308,10 +308,10 @@ section {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.feature-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
+    .feature-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
 
 .feature-icon {
     font-size: 3rem;
@@ -345,15 +345,15 @@ section {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.value-item strong {
-    color: #10b981;
-    font-size: 1.1rem;
-}
+    .value-item strong {
+        color: #10b981;
+        font-size: 1.1rem;
+    }
 
-.value-item p {
-    color: #4a5568;
-    margin-top: 0.5rem;
-}
+    .value-item p {
+        color: #4a5568;
+        margin-top: 0.5rem;
+    }
 
 /* CTA Box */
 .cta-box {
@@ -366,20 +366,20 @@ section {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.cta-box h4 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-}
+    .cta-box h4 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
 
-.cta-box p {
-    margin-bottom: 1.5rem;
-    color: #ecf0f1;
-}
+    .cta-box p {
+        margin-bottom: 1.5rem;
+        color: #ecf0f1;
+    }
 
-.cta-box a {
-    pointer-events: auto !important;
-    cursor: pointer !important;
-}
+    .cta-box a {
+        pointer-events: auto !important;
+        cursor: pointer !important;
+    }
 
 /* Programs Section */
 .programs-section {
@@ -404,16 +404,16 @@ section {
     pointer-events: auto !important;
 }
 
-.program-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
+    .program-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
 
-.program-card button,
-.program-card a {
-    cursor: pointer !important;
-    pointer-events: auto !important;
-}
+    .program-card button,
+    .program-card a {
+        cursor: pointer !important;
+        pointer-events: auto !important;
+    }
 
 .program-badge {
     position: absolute;
@@ -483,18 +483,18 @@ section {
     padding: 0;
 }
 
-.donate-list li {
-    padding: 0.5rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-    color: #4a5568;
-}
+    .donate-list li {
+        padding: 0.5rem 0;
+        padding-left: 1.5rem;
+        position: relative;
+        color: #4a5568;
+    }
 
-.donate-list li:before {
-    content: "💙";
-    position: absolute;
-    left: 0;
-}
+        .donate-list li:before {
+            content: "💙";
+            position: absolute;
+            left: 0;
+        }
 
 .donate-options {
     display: flex;
@@ -511,27 +511,27 @@ section {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.donate-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+    .donate-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
-.donate-card h3 {
-    margin-bottom: 0.5rem;
-    color: #1a202c;
-    font-weight: 600;
-}
+    .donate-card h3 {
+        margin-bottom: 0.5rem;
+        color: #1a202c;
+        font-weight: 600;
+    }
 
-.donate-card p {
-    color: #4a5568;
-    margin-bottom: 1rem;
-}
+    .donate-card p {
+        color: #4a5568;
+        margin-bottom: 1rem;
+    }
 
-.donate-card button,
-.donate-card a {
-    cursor: pointer !important;
-    pointer-events: auto !important;
-}
+    .donate-card button,
+    .donate-card a {
+        cursor: pointer !important;
+        pointer-events: auto !important;
+    }
 
 /* Contact Section */
 .contact-section {
@@ -568,35 +568,35 @@ section {
     gap: 1rem;
 }
 
-.contact-form input,
-.contact-form textarea {
-    padding: 1rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-family: inherit;
-    cursor: text;
-    pointer-events: auto !important;
-    background: white;
-    color: #2d3748;
-}
+    .contact-form input,
+    .contact-form textarea {
+        padding: 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-family: inherit;
+        cursor: text;
+        pointer-events: auto !important;
+        background: white;
+        color: #2d3748;
+    }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
-    outline: none;
-    border-color: #10b981;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-}
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
 
-.contact-form button {
-    cursor: pointer !important;
-    pointer-events: auto !important;
-}
+    .contact-form button {
+        cursor: pointer !important;
+        pointer-events: auto !important;
+    }
 
-.contact-form textarea {
-    resize: vertical;
-    min-height: 150px;
-}
+    .contact-form textarea {
+        resize: vertical;
+        min-height: 150px;
+    }
 
 /* Footer */
 footer {
@@ -607,25 +607,25 @@ footer {
     margin-top: 4rem;
 }
 
-footer p {
-    margin: 0;
-}
+    footer p {
+        margin: 0;
+    }
 
-footer .container {
-    max-width: 1400px;
-    margin: 0 auto;
-}
+    footer .container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
 
-footer a {
-    color: #e2e8f0;
-    transition: color 0.3s ease;
-    cursor: pointer !important;
-    pointer-events: auto !important;
-}
+    footer a {
+        color: #e2e8f0;
+        transition: color 0.3s ease;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+    }
 
-footer a:hover {
-    color: #10b981;
-}
+        footer a:hover {
+            color: #10b981;
+        }
 
 /* Modals */
 .modal {
@@ -642,16 +642,17 @@ footer a:hover {
     pointer-events: none !important;
 }
 
-/* When modal is visible/active */
-.modal[style*="display: block"],
-.modal.active {
-    pointer-events: auto !important;
-}
+    /* When modal is visible/active */
+    .modal[style*="display: block"],
+    .modal.active {
+        pointer-events: auto !important;
+    }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -675,6 +676,7 @@ footer a:hover {
         transform: translateY(-50px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -693,10 +695,10 @@ footer a:hover {
     z-index: 2002;
 }
 
-.close-modal:hover,
-.close-modal:focus {
-    color: #2d3748;
-}
+    .close-modal:hover,
+    .close-modal:focus {
+        color: #2d3748;
+    }
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -765,15 +767,23 @@ footer a:hover {
     display: inline-block;
 }
 
-.loading:after {
-    content: '...';
-    animation: loading 1.5s infinite;
-}
+    .loading:after {
+        content: '...';
+        animation: loading 1.5s infinite;
+    }
 
 @keyframes loading {
-    0% { content: '.'; }
-    33% { content: '..'; }
-    66% { content: '...'; }
+    0% {
+        content: '.';
+    }
+
+    33% {
+        content: '..';
+    }
+
+    66% {
+        content: '...';
+    }
 }
 
 /* Additional Modern Touches */
@@ -795,10 +805,10 @@ pre {
     margin: 1rem 0;
 }
 
-pre code {
-    background: transparent;
-    padding: 0;
-}
+    pre code {
+        background: transparent;
+        padding: 0;
+    }
 
 /* Smooth scroll behavior */
 html {
@@ -811,12 +821,227 @@ a {
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
-}
+    a:hover {
+        text-decoration: underline;
+    }
 
 /* Selection styling */
 ::selection {
     background: #10b981;
     color: white;
 }
+
+/* ========================================
+   GAMES SECTION - PROFESSIONAL STYLING
+   ======================================== */
+
+/* Games Section Container */
+.games-section {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    padding: 5rem 0;
+}
+
+    .games-section .section-title {
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+    .games-section .section-subtitle {
+        color: #e2e8f0;
+        font-size: 1.2rem;
+        text-align: center;
+        margin-bottom: 3rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+/* Games Grid */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+/* Game Card - White background for better contrast */
+.game-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+    .game-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+/* Game Card Header */
+.game-card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-card-icon {
+    font-size: 3.5rem;
+}
+
+/* Game Badge */
+.game-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+    .game-badge.featured {
+        background: #fbbf24;
+        color: #78350f;
+    }
+
+    .game-badge.new {
+        background: #10b981;
+        color: white;
+    }
+
+    .game-badge.coming-soon {
+        background: #ef4444;
+        color: white;
+    }
+
+/* Game Card Body */
+.game-card-body {
+    padding: 2rem;
+}
+
+.game-card h3 {
+    color: #1a202c;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.game-card p {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    min-height: 60px;
+}
+
+/* Game Stats */
+.game-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.game-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+/* Play Button */
+.btn-play {
+    display: block;
+    width: 100%;
+    padding: 0.9rem;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+}
+
+    .btn-play:hover {
+        background: #059669;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-play.disabled {
+        background: #cbd5e0;
+        color: #718096;
+        cursor: not-allowed;
+    }
+
+        .btn-play.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+/* Featured Game - Larger card */
+.game-card.featured {
+    grid-column: span 1;
+}
+
+@media (min-width: 768px) {
+    .game-card.featured {
+        grid-column: span 2;
+    }
+
+        .game-card.featured .game-card-header {
+            min-height: 180px;
+        }
+
+        .game-card.featured h3 {
+            font-size: 1.8rem;
+        }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .game-card-header {
+        min-height: 120px;
+    }
+}
+
+/* Alternative Dark Card Style (if you prefer) */
+.game-card.dark-style {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+}
+
+    .game-card.dark-style h3 {
+        color: white;
+    }
+
+    .game-card.dark-style p {
+        color: #e2e8f0;
+    }
+
+    .game-card.dark-style .game-stats {
+        border-top-color: #4a5568;
+    }
+
+    .game-card.dark-style .game-stat {
+        color: #cbd5e0;
+    }
