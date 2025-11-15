@@ -5,52 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Math Quest Game by LetUsTech - Wired For Your World. Test your math skills, earn coins, and unlock levels!">
     <title>Math Quest - LetUsTech | Wired For Your World</title>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- React and ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    
+
     <!-- Babel for JSX transformation -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
+
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5830581574523106"
             crossorigin="anonymous"></script>
-    
+
     <style>
         /* Custom animations */
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
         }
+
         .animate-pulse {
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
+
         @keyframes bounce {
             0%, 100% {
                 transform: translateY(-25%);
                 animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
             }
+
             50% {
                 transform: translateY(0);
                 animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
             }
         }
+
         .animate-bounce {
             animation: bounce 1s infinite;
         }
+
+        /* Navigation styling */
+        .nav-header {
+            background: linear-gradient(135deg, #2d4a6e 0%, #1e3a5f 50%, #0f2744 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .nav-link {
+            color: #e5e7eb;
+            transition: color 0.3s ease;
+        }
+
+            .nav-link:hover {
+                color: #10b981;
+            }
+
+        .donate-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            transition: all 0.3s ease;
+        }
+
+            .donate-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+            }
     </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-H548VRKNHW');
-</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-H548VRKNHW');
+    </script>
 
     <script>
         tailwind.config = {
@@ -71,18 +105,18 @@
 </head>
 <body>
     <div id="root"></div>
-    
+
     <script type="text/babel">
         // Access React hooks from the global React object
         const { useState, useEffect, useRef } = React;
-        
+
         // Simple icon components as replacements for lucide-react
         const Icon = ({ children, size = 20, className = "" }) => (
             <span className={className} style={{ fontSize: size + 'px', display: 'inline-block' }}>
                 {children}
             </span>
         );
-        
+
         const Trophy = ({ size, className }) => <Icon size={size} className={className}>🏆</Icon>;
         const Star = ({ size, className }) => <Icon size={size} className={className}>⭐</Icon>;
         const Zap = ({ size, className }) => <Icon size={size} className={className}>⚡</Icon>;
@@ -132,7 +166,7 @@
                 mathematician: false,
                 survivor: false
             });
-            
+
             // Ad system
             const [showAd, setShowAd] = useState(false);
             const [adType, setAdType] = useState(null);
@@ -145,31 +179,31 @@
             const [showSideAd, setShowSideAd] = useState(true);
             const [adMuted, setAdMuted] = useState(false);
             const [gamesPlayedSinceAd, setGamesPlayedSinceAd] = useState(0);
-            
+
             // Anti-cheat measures
             const [gameStartTime, setGameStartTime] = useState(null);
             const [answerTimes, setAnswerTimes] = useState([]);
             const [tabSwitches, setTabSwitches] = useState(0);
             const questionGeneratedTime = useRef(null);
             const [isCheating, setIsCheating] = useState(false);
-            
+
             // Set favicon and page title
             useEffect(() => {
                 // Set page title
                 document.title = 'Math Quest - LetUsTech | Wired For Your World';
-                
+
                 // Set favicon from GitHub repository
                 const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
                 link.type = 'image/png';
                 link.rel = 'shortcut icon';
                 link.href = 'https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/Favicon.png';
                 document.getElementsByTagName('head')[0].appendChild(link);
-                
+
                 // Remove loading screen after a short delay
                 setTimeout(() => {
                     setIsLoading(false);
                 }, 1500);
-                
+
                 // Initialize AdSense
                 try {
                     (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -244,7 +278,7 @@
 
                 document.addEventListener('contextmenu', preventCheat);
                 document.addEventListener('keydown', preventCheat);
-                
+
                 return () => {
                     document.removeEventListener('contextmenu', preventCheat);
                     document.removeEventListener('keydown', preventCheat);
@@ -278,9 +312,9 @@
                 const difficulty = Math.min(level, 10);
                 const operations = ['+', '-', '*'];
                 const op = operations[Math.floor(Math.random() * operations.length)];
-                
+
                 let num1, num2, correctAnswer;
-                
+
                 if (op === '+') {
                     num1 = Math.floor(Math.random() * (10 * difficulty)) + 1;
                     num2 = Math.floor(Math.random() * (10 * difficulty)) + 1;
@@ -310,34 +344,34 @@
                 }
 
                 const isCorrect = parseInt(answer) === question.correctAnswer;
-                
+
                 if (isCorrect) {
                     setAnswerTimes(prev => [...prev, timeTaken]);
-                    
+
                     const newStreak = streak + 1;
                     const newMultiplier = Math.min(Math.floor(newStreak / 3) + 1, 5);
                     setComboMultiplier(newMultiplier);
-                    
+
                     if (newMultiplier > 1) {
                         setShowComboAnimation(true);
                         setTimeout(() => setShowComboAnimation(false), 1000);
                     }
-                    
+
                     const basePoints = activePowerUps.doublePoints ? 20 : 10;
                     const points = basePoints * newMultiplier;
                     setScore(score + points);
                     setCoins(coins + (5 * newMultiplier));
                     setStreak(newStreak);
                     setTotalCorrectAnswers(totalCorrectAnswers + 1);
-                    
+
                     if (newStreak > bestStreak) {
                         setBestStreak(newStreak);
                     }
-                    
+
                     if (newStreak >= 5 && !achievements.streakMaster) {
                         setAchievements({...achievements, streakMaster: true});
                     }
-                    
+
                     if (score + points >= 100 && !achievements.mathematician) {
                         setAchievements({...achievements, mathematician: true});
                     }
@@ -362,13 +396,13 @@
                     alert("Please wait before watching another ad!");
                     return;
                 }
-                
+
                 setAdType('rewarded');
                 setAdRewardType(rewardType);
                 setShowAd(true);
                 setAdTimeLeft(10);
                 setCanWatchAd(false);
-                
+
                 setTimeout(() => setCanWatchAd(true), 60000); // 1 minute cooldown
             };
 
@@ -384,10 +418,10 @@
                         const randomPowerUp = powerUpTypes[Math.floor(Math.random() * powerUpTypes.length)];
                         setPowerUps({...powerUps, [randomPowerUp]: powerUps[randomPowerUp] + 1});
                     }
-                    
+
                     setTotalAdsWatched(totalAdsWatched + 1);
                 }
-                
+
                 setShowAd(false);
                 setAdType(null);
                 setAdRewardType(null);
@@ -398,7 +432,7 @@
                 if (lastPlayedDate) {
                     const lastDate = new Date(lastPlayedDate);
                     const daysDiff = Math.floor((new Date(today) - lastDate) / (1000 * 60 * 60 * 24));
-                    
+
                     if (daysDiff === 1) {
                         setDailyStreak(dailyStreak + 1);
                     } else if (daysDiff > 1) {
@@ -408,7 +442,7 @@
                     setDailyStreak(1);
                 }
                 setLastPlayedDate(today);
-                
+
                 setScreen('game');
                 setScore(0);
                 setLives(3);
@@ -431,11 +465,11 @@
                 if (lives > 0 && !achievements.survivor) {
                     setAchievements({...achievements, survivor: true});
                 }
-                
+
                 if (score >= 50 && level === unlockedLevels && unlockedLevels < 10) {
                     setUnlockedLevels(unlockedLevels + 1);
                 }
-                
+
                 setScreen('gameOver');
             };
 
@@ -462,7 +496,7 @@
                 if (coins >= cost) {
                     setCoins(coins - cost);
                     setPowerUps({...powerUps, [type]: powerUps[type] + 1});
-                    
+
                     const totalPowerUps = Object.values(powerUps).reduce((a, b) => a + b, 0) + 1;
                     if (totalPowerUps >= 5 && !achievements.shopaholic) {
                         setAchievements({...achievements, shopaholic: true});
@@ -471,15 +505,50 @@
             };
 
             return (
-                <div className="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 p-2 sm:p-4">
+                <div className="min-h-screen bg-gradient-to-br from-[#1e3a5f] via-[#2d5f8d] to-[#0a1128] p-2 sm:p-4">
+                    {/* Navigation Header */}
+                    <nav className="nav-header fixed top-0 left-0 right-0 z-50 px-4 py-3">
+                        <div className="max-w-7xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                <div className="h-8 w-8 bg-white rounded flex items-center justify-center p-1.5">
+                                    <img
+                                        src="LetUsTech.png"
+                                        alt="LetUsTech"
+                                        className="max-h-full max-w-full object-contain"
+                                    />
+                                </div>
+                                <span className="text-white font-semibold text-lg hidden sm:inline">LetUsTech</span>
+                            </div>
+
+                            <div className="hidden md:flex items-center gap-6">
+                                <a href="https://letustech.uk" className="nav-link text-sm font-medium">About</a>
+                                <a href="https://letustech.uk/programs" className="nav-link text-sm font-medium">Programs</a>
+                                <a href="https://letustech.uk/games" className="nav-link text-sm font-medium">Games</a>
+                                <a href="https://letustech.uk/blog" className="nav-link text-sm font-medium">Blog</a>
+                                <a href="https://letustech.uk/faq" className="nav-link text-sm font-medium">FAQ</a>
+                                <a href="https://letustech.uk/contact" className="nav-link text-sm font-medium">Contact</a>
+                                <a href="https://letustech.uk/donate" className="donate-btn text-white text-sm font-medium px-4 py-2 rounded">
+                                    ❤️ Donate
+                                </a>
+                            </div>
+
+                            <a href="https://letustech.uk/donate" className="donate-btn md:hidden text-white text-sm font-medium px-3 py-1.5 rounded">
+                                ❤️ Donate
+                            </a>
+                        </div>
+                    </nav>
+
+                    {/* Add spacing for fixed header */}
+                    <div className="h-16"></div>
+
                     {/* Loading Screen */}
                     {isLoading && (
-                        <div className="fixed inset-0 bg-gradient-to-br from-[#1e3a5f] to-pink-600 z-50 flex items-center justify-center">
+                        <div className="fixed inset-0 bg-gradient-to-br from-[#1e3a5f] via-[#2d5f8d] to-[#0a1128] z-50 flex items-center justify-center">
                             <div className="text-center">
                                 <div className="mb-4 animate-bounce">
                                     <div className="h-40 w-40 mx-auto bg-white rounded-2xl shadow-2xl p-4 flex items-center justify-center">
-                                        <img 
-                                            src="LetUsTech.png" 
+                                        <img
+                                            src="LetUsTech.png"
                                             alt="LetUsTech Logo"
                                             className="max-h-full max-w-full object-contain"
                                         />
@@ -497,7 +566,7 @@
                             </div>
                         </div>
                     )}
-                    
+
                     {/* Top Banner Ad */}
                     {showBannerAd && (
                         <div className="max-w-6xl mx-auto mb-4">
@@ -531,8 +600,8 @@
                             <div className="flex items-center justify-between">
                                 <a href="../index.html" className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
                                     <div className="h-10 w-10 sm:h-14 sm:w-14 bg-white border-2 border-purple-200 rounded-lg flex items-center justify-center p-1.5 sm:p-2">
-                                        <img 
-                                            src="LetUsTech.png" 
+                                        <img
+                                            src="LetUsTech.png"
                                             alt="LetUsTech Logo"
                                             className="max-h-full max-w-full object-contain"
                                         />
@@ -542,7 +611,7 @@
                                         <p className="text-xs text-gray-500 italic hidden sm:block">Wired For Your World</p>
                                     </div>
                                 </a>
-                                
+
                                 <nav className="hidden md:flex items-center gap-4 lg:gap-6">
                                     <a href="../index.html#about" className="text-gray-700 hover:text-[#1e3a5f] transition-colors font-medium text-sm lg:text-base">
                                         About
@@ -557,7 +626,7 @@
                                         💝 Donate
                                     </a>
                                 </nav>
-                                
+
                                 {/* Mobile Menu Button */}
                                 <a href="../index.html" className="md:hidden bg-[#1e3a5f] text-white px-3 py-1.5 rounded-lg text-sm font-medium">
                                     Menu
@@ -614,7 +683,7 @@
                                 <h1 className="text-3xl sm:text-5xl font-bold text-[#1e3a5f] mb-2">Math Quest</h1>
                                 <p className="text-sm sm:text-base text-gray-600 mb-1">Test your math skills and earn coins!</p>
                                 <p className="text-xs text-gray-500 italic mb-4">Powered by LetUsTech - Wired For Your World</p>
-                                
+
                                 {/* Watch Ad for Rewards Section */}
                                 <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-orange-300 rounded-lg p-3 sm:p-4 mb-4">
                                     <h3 className="font-bold text-orange-700 mb-2 sm:mb-3 text-sm sm:text-base">🎬 Watch Ads for Rewards!</h3>
@@ -660,7 +729,7 @@
                                         <p className="text-xs text-orange-600 mt-2">Please wait before watching another ad</p>
                                     )}
                                 </div>
-                                
+
                                 {/* Stats Display */}
                                 <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
                                     <div className="bg-purple-50 p-2 sm:p-3 rounded-lg">
@@ -676,7 +745,7 @@
                                         <p className="text-xs text-gray-600">Daily Streak 🔥</p>
                                     </div>
                                 </div>
-                                
+
                                 <div className="space-y-3 sm:space-y-4">
                                     <button
                                         onClick={startGame}
@@ -700,10 +769,10 @@
                                                     onClick={() => l <= unlockedLevels && setLevel(l)}
                                                     disabled={l > unlockedLevels}
                                                     className={`px-3 sm:px-4 py-2 rounded transition text-sm sm:text-base ${
-                                                        level === l 
-                                                            ? 'bg-[#1e3a5f] text-white' 
-                                                            : l <= unlockedLevels 
-                                                                ? 'bg-gray-200 hover:bg-gray-300' 
+                                                        level === l
+                                                            ? 'bg-[#1e3a5f] text-white'
+                                                            : l <= unlockedLevels
+                                                                ? 'bg-gray-200 hover:bg-gray-300'
                                                                 : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                                     }`}
                                                     title={l > unlockedLevels ? '🔒 Locked' : ''}
@@ -833,7 +902,7 @@
                         {screen === 'shop' && (
                             <div className="bg-white rounded-lg shadow-2xl p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold text-[#1e3a5f] mb-4 sm:mb-6">Power-Up Shop</h2>
-                                
+
                                 {/* Ad for bonus coins */}
                                 <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-orange-300 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 text-center">
                                     <h3 className="font-bold text-orange-700 mb-2 sm:mb-3 text-sm sm:text-base">💰 Need More Coins?</h3>
@@ -857,7 +926,7 @@
                                         Watch Ad for +25 Coins
                                     </button>
                                 </div>
-                                
+
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
                                     <div className="border-2 border-blue-300 rounded-lg p-4">
                                         <div className="flex items-center gap-2 mb-2">
@@ -915,7 +984,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                
+
                                 <button
                                     onClick={() => setScreen('menu')}
                                     className="w-full bg-gray-600 text-white py-2 sm:py-3 rounded-lg hover:bg-gray-700 text-sm sm:text-base"
@@ -1016,13 +1085,13 @@
                                             <p className="mb-2">Final Score: <span className="font-bold text-[#1e3a5f]">{score}</span></p>
                                             <p className="mb-2">Best Streak: <span className="font-bold text-orange-600">{streak}</span></p>
                                             <p className="mb-4">Coins Earned: <span className="font-bold text-yellow-600">+{Math.floor(score / 2)}</span></p>
-                                            
+
                                             {score >= 50 && level === unlockedLevels - 1 && (
                                                 <div className="bg-green-100 border-2 border-green-400 rounded-lg p-3 sm:p-4 mb-4">
                                                     <p className="text-green-700 font-bold text-lg sm:text-xl">🎉 Level {unlockedLevels} Unlocked! 🎉</p>
                                                 </div>
                                             )}
-                                            
+
                                             {score < 50 && level === unlockedLevels && unlockedLevels < 10 && (
                                                 <div className="bg-orange-100 border-2 border-orange-400 rounded-lg p-3 sm:p-4 mb-4">
                                                     <p className="text-orange-700 font-semibold text-sm sm:text-base">Score 50+ to unlock Level {unlockedLevels + 1}!</p>
@@ -1110,7 +1179,7 @@
                                                         <p className="text-white/80 text-xs sm:text-sm mt-2">(Ad may not be available)</p>
                                                     )}
                                                     <div className="mt-4 bg-white/20 rounded-full h-2">
-                                                        <div 
+                                                        <div
                                                             className="bg-white rounded-full h-2 transition-all duration-1000"
                                                             style={{width: `${((10 - adTimeLeft) / 10) * 100}%`}}
                                                         ></div>
@@ -1140,8 +1209,8 @@
                         <div className="bg-white/10 backdrop-blur rounded-lg p-3 sm:p-4 text-center">
                             <div className="flex items-center justify-center gap-2 mb-3">
                                 <div className="h-8 w-8 sm:h-10 sm:w-10 bg-white rounded flex items-center justify-center p-1 sm:p-1.5">
-                                    <img 
-                                        src="LetUsTech.png" 
+                                    <img
+                                        src="LetUsTech.png"
                                         alt="LetUsTech"
                                         className="max-h-full max-w-full object-contain"
                                     />
@@ -1149,11 +1218,11 @@
                                 <span className="text-white font-semibold text-sm sm:text-base">LetUsTech</span>
                                 <span className="text-white/70 text-xs sm:text-sm italic hidden sm:inline">- Wired For Your World</span>
                             </div>
-                            
+
                             <div className="flex justify-center gap-4 text-white/70 text-xs sm:text-sm mb-2">
-                                <a 
-                                    href="https://discord.gg/dkebMS5eCX" 
-                                    target="_blank" 
+                                <a
+                                    href="https://discord.gg/dkebMS5eCX"
+                                    target="_blank"
                                     rel="noopener noreferrer"
                                     className="hover:text-white transition-colors"
                                 >
