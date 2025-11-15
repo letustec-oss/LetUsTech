@@ -267,7 +267,7 @@
             };
 
             return (
-                <div className="min-h-screen bg-gradient-to-br from-[#1e3a5f] via-pink-500 to-orange-400 flex flex-col">
+                <div className="min-h-screen bg-gradient-to-br from-[#1e3a5f] via-[#2d5f8d] to-[#0a1128] flex flex-col">
                     <nav className="bg-white shadow-sm">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="flex justify-between items-center h-16 md:h-20">
@@ -396,14 +396,14 @@
                                             <div className="flex gap-2 md:gap-3">
                                                 <button
                                                     onClick={() => setShowShop(!showShop)}
-                                                    className="flex items-center gap-2 bg-gradient-to-r from-[#1e3a5f] to-purple-600 text-white px-4 md:px-6 py-2 rounded-lg md:rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all font-bold text-sm"
+                                                    className="flex items-center gap-2 bg-gradient-to-r from-[#1e3a5f] to-[#2d5f8d] text-white px-4 md:px-6 py-2 rounded-lg md:rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all font-bold text-sm"
                                                 >
                                                     <Icon name="shoppingBag" size={18} />
                                                     <span className="hidden sm:inline">Shop</span>
                                                 </button>
                                                 <button
                                                     onClick={initializeGame}
-                                                    className="flex items-center gap-2 bg-gradient-to-r from-[#1e3a5f] to-pink-600 text-white px-4 md:px-6 py-2 rounded-lg md:rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all font-bold text-sm"
+                                                    className="flex items-center gap-2 bg-gradient-to-r from-[#059669] to-[#10b981] text-white px-4 md:px-6 py-2 rounded-lg md:rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all font-bold text-sm"
                                                 >
                                                     <Icon name="rotateCcw" size={18} />
                                                     <span className="hidden sm:inline">Reset</span>
@@ -412,7 +412,7 @@
                                         </div>
 
                                         {showShop && (
-                                            <div className="mb-4 md:mb-6 p-4 md:p-6 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-xl md:rounded-2xl border-2 md:border-4 border-indigo-300">
+                                            <div className="mb-4 md:mb-6 p-4 md:p-6 bg-gradient-to-r from-[#1e3a5f]/20 to-[#2d5f8d]/20 rounded-xl md:rounded-2xl border-2 md:border-4 border-[#2d5f8d]">
                                                 <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3 md:mb-4 flex items-center gap-2">
                                                     <Icon name="shoppingBag" size={20} />
                                                     Power-Up Shop
@@ -458,7 +458,7 @@
                                                         disabled={count <= 0}
                                                         className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg md:rounded-xl font-bold transition-all text-sm ${
                                                             count > 0
-                                                                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-lg transform hover:scale-105'
+                                                                ? 'bg-gradient-to-r from-[#1e3a5f] to-[#2d5f8d] text-white hover:shadow-lg transform hover:scale-105'
                                                                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                                         }`}
                                                     >
@@ -490,7 +490,7 @@
                                                             }}
                                                         >
                                                             <div
-                                                                className="absolute w-full h-full rounded-lg md:rounded-xl shadow-lg flex items-center justify-center font-bold bg-gradient-to-br from-indigo-500 to-purple-600"
+                                                                className="absolute w-full h-full rounded-lg md:rounded-xl shadow-lg flex items-center justify-center font-bold bg-gradient-to-br from-[#1e3a5f] to-[#2d5f8d]"
                                                                 style={{ backfaceVisibility: 'hidden' }}
                                                             >
                                                                 <span className="text-white text-xl sm:text-2xl md:text-4xl">?</span>
@@ -596,7 +596,7 @@
                                         </div>
                                         <button
                                             onClick={() => setShowHelp(false)}
-                                            className="w-full mt-6 bg-gradient-to-r from-[#1e3a5f] to-pink-600 text-white py-3 rounded-xl font-bold"
+                                            className="w-full mt-6 bg-gradient-to-r from-[#1e3a5f] to-[#2d5f8d] text-white py-3 rounded-xl font-bold"
                                         >
                                             Got it!
                                         </button>
@@ -626,7 +626,7 @@
                                             )}
                                             <button
                                                 onClick={initializeGame}
-                                                className="w-full bg-gradient-to-r from-[#1e3a5f] to-pink-600 text-white px-8 py-3 rounded-xl font-bold"
+                                                className="w-full bg-gradient-to-r from-[#1e3a5f] to-[#2d5f8d] text-white px-8 py-3 rounded-xl font-bold"
                                             >
                                                 Play Again
                                             </button>
