@@ -33,6 +33,32 @@
             }
         }
     </script>
+    <style>
+        /* Navigation styling */
+        .nav-header {
+            background: linear-gradient(135deg, #2d4a6e 0%, #1e3a5f 50%, #0f2744 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .nav-link {
+            color: #e5e7eb;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #10b981;
+        }
+        
+        .donate-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .donate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        }
+    </style>
 </head>
 <body>
     <div id="root"></div>
@@ -523,14 +549,14 @@
           };
 
           const renderMenu = () => (
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-8 min-h-[calc(100vh-64px)]">
+            <div className="bg-gradient-to-br from-[#1e3a5f] via-[#2d5f8d] to-[#0a1128] p-8 min-h-[calc(100vh-64px)]">
               <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-12">
-                  <h1 className="text-6xl font-bold text-indigo-900 mb-4 flex items-center justify-center gap-3">
+                  <h1 className="text-6xl font-bold text-white mb-4 flex items-center justify-center gap-3">
                     <Zap className="w-12 h-12" />
                     Speed Typing Challenge
                   </h1>
-                  <p className="text-xl text-indigo-700">Test your typing speed and accuracy!</p>
+                  <p className="text-xl text-green-light">Test your typing speed and accuracy!</p>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6 mb-8">
@@ -669,7 +695,7 @@
           );
 
           const renderGame = () => (
-            <div className="bg-gradient-to-br from-indigo-50 to-purple-100 p-8 min-h-[calc(100vh-64px)]">
+            <div className="bg-gradient-to-br from-[#1e3a5f] via-[#2d5f8d] to-[#0a1128] p-8 min-h-[calc(100vh-64px)]">
               <div className="max-w-4xl mx-auto">
                 {cheatAttempt && (
                   <div className="fixed top-24 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-bounce">
@@ -778,7 +804,7 @@
           );
 
           const renderResults = () => (
-            <div className="bg-gradient-to-br from-green-50 to-emerald-100 p-8 min-h-[calc(100vh-64px)]">
+            <div className="bg-gradient-to-br from-[#1e3a5f] via-[#2d5f8d] to-[#0a1128] p-8 min-h-[calc(100vh-64px)]">
               <div className="max-w-4xl mx-auto">
                 <div className="bg-white rounded-xl shadow-2xl p-8 text-center">
                   <div className="mb-6">
@@ -925,35 +951,34 @@
           );
 
           const renderHeader = () => (
-            <header className="bg-gray-800 text-white shadow-lg">
-              <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-                <a href="../index.html" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                  <div className="bg-white text-gray-800 px-3 py-2 rounded font-bold">
-                    LetUsTech
+            <header className="nav-header text-white shadow-lg">
+              <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 bg-white rounded flex items-center justify-center p-1.5">
+                    <img 
+                      src="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png" 
+                      alt="LetUsTech"
+                      className="max-h-full max-w-full object-contain"
+                    />
                   </div>
-                </a>
+                  <span className="text-white font-semibold text-lg hidden sm:inline">LetUsTech</span>
+                </div>
 
-                <nav className="hidden md:flex items-center gap-8">
-                  <a href="../index.html#about" className="hover:text-gray-300 transition-colors">About</a>
-                  <a href="../index.html#programs" className="hover:text-gray-300 transition-colors">Programs</a>
-                  <a href="../index.html#games" className="hover:text-gray-300 transition-colors">Games</a>
-                  <a href="../index.html#blog" className="hover:text-gray-300 transition-colors">Blog</a>
-                  <a href="../index.html#faq" className="hover:text-gray-300 transition-colors">FAQ</a>
-                  <a href="../index.html#contact" className="hover:text-gray-300 transition-colors">Contact</a>
-                  <a
-                    href="../index.html#donate"
-                    className="bg-[#10b981] hover:bg-[#059669] px-6 py-2 rounded-lg font-semibold transition-colors"
-                  >
-                    Donate
+                <nav className="hidden md:flex items-center gap-6">
+                  <a href="https://letustech.uk" className="nav-link text-sm font-medium">About</a>
+                  <a href="https://letustech.uk/programs" className="nav-link text-sm font-medium">Programs</a>
+                  <a href="https://letustech.uk/games" className="nav-link text-sm font-medium">Games</a>
+                  <a href="https://letustech.uk/blog" className="nav-link text-sm font-medium">Blog</a>
+                  <a href="https://letustech.uk/faq" className="nav-link text-sm font-medium">FAQ</a>
+                  <a href="https://letustech.uk/contact" className="nav-link text-sm font-medium">Contact</a>
+                  <a href="https://letustech.uk/donate" className="donate-btn text-white text-sm font-medium px-4 py-2 rounded">
+                    ❤️ Donate
                   </a>
                 </nav>
 
-                {/* Mobile menu button */}
-                <button className="md:hidden text-white">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                </button>
+                <a href="https://letustech.uk/donate" className="donate-btn md:hidden text-white text-sm font-medium px-3 py-1.5 rounded">
+                  ❤️ Donate
+                </a>
               </div>
             </header>
           );
