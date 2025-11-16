@@ -174,32 +174,6 @@
             font-weight: bold;
         }
 
-        .difficulty-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 0.375rem;
-        }
-
-        .difficulty-btn {
-            padding: 0.375rem 0.625rem;
-            border-radius: 0.375rem;
-            font-size: 0.75rem;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-
-            .difficulty-btn.active {
-                background: #4f46e5;
-                color: white;
-            }
-
-            .difficulty-btn:not(.active) {
-                background: #e5e7eb;
-                color: #374151;
-            }
-
         /* Game Board */
         .status-message {
             padding: 0.625rem;
@@ -717,11 +691,6 @@
                         🏆 <span>Wins: <span id="wins">0</span></span>
                     </div>
                 </div>
-                <div class="difficulty-buttons">
-                    <button class="difficulty-btn active" onclick="setDifficulty('easy')">Easy</button>
-                    <button class="difficulty-btn" onclick="setDifficulty('medium')">Medium</button>
-                    <button class="difficulty-btn" onclick="setDifficulty('hard')">Hard</button>
-                </div>
             </div>
 
             <div id="status-message" class="status-message" style="display: none;"></div>
@@ -765,21 +734,15 @@
 
     <script>
         // Game State
-        const WORD_LISTS = {
-            easy: ['APPLE', 'BREAD', 'CHAIR', 'DANCE', 'EAGLE', 'FLAME', 'GRAPE', 'HOUSE', 'JUMP', 'KNIFE', 'LEMON', 'MOUSE', 'NIGHT', 'OCEAN', 'PEACE'],
-            medium: ['BLAZE', 'CROWN', 'FROST', 'GHOST', 'MAGIC', 'PLANT', 'QUEST', 'SHADE', 'SPARK', 'STORM', 'SWIFT', 'BEAST', 'BRAIN', 'DREAM', 'HEART'],
-            hard: ['AZURE', 'BLITZ', 'CYNIC', 'DWARF', 'EPOXY', 'FJORD', 'GLYPH', 'HYPER', 'INBOX', 'JAZZY', 'KNACK', 'LYMPH', 'MYTHS', 'NYMPH', 'PIXEL']
-        };
+        const WORD_LIST = ['BLAZE', 'CROWN', 'FROST', 'GHOST', 'MAGIC', 'PLANT', 'QUEST', 'SHADE', 'SPARK', 'STORM', 'SWIFT', 'BEAST', 'BRAIN', 'DREAM', 'HEART', 'HONOR', 'JUDGE', 'LATCH', 'MARCH', 'NOBLE', 'PROBE', 'REACH', 'SCALE', 'TEACH', 'WORTH'];
 
         const ACHIEVEMENTS = [
             { id: 'first_win', name: 'First Victory', desc: 'Win your first game', icon: '🏆' },
             { id: 'perfect_game', name: 'Perfect Game', desc: 'Win in 1 guess', icon: '🎯' },
             { id: 'streak_3', name: 'Hot Streak', desc: 'Win 3 games in a row', icon: '🔥' },
-            { id: 'hard_winner', name: 'Hard Mode Master', desc: 'Win on hard difficulty', icon: '💎' },
         ];
 
         let gameState = {
-            difficulty: 'medium',
             targetWord: '',
             currentGuess: '',
             guesses: [],
@@ -790,18 +753,56 @@
             wins: 0,
             hintedLetters: [],
             usedLetters: [],
-            lastPlayedDate: ''
+            lastPlayedDate: '',
+            lastCompletedDate: ''
         };
+
+        // Load game state from localStorage
+        function loadGameState() {
+            const saved = localStorage.getItem('wordMasterState');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    gameState = { ...gameState, ...parsed };
+                } catch (e) {
+                    console.error('Failed to load game state:', e);
+                }
+            }
+        }
+
+        // Save game state to localStorage
+        function saveGameState() {
+            try {
+                localStorage.setItem('wordMasterState', JSON.stringify(gameState));
+            } catch (e) {
+                console.error('Failed to save game state:', e);
+            }
+        }
+
+        // Check if player has already completed today's word
+        function hasCompletedToday() {
+            const today = new Date();
+            const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+            return gameState.lastCompletedDate === dateString;
+        }
 
         // Initialize Game
         function init() {
+            loadGameState();
             renderKeyboard();
-            startNewGame();
+            
+            if (hasCompletedToday()) {
+                // Player already completed today - show completion message
+                showCompletionScreen();
+            } else {
+                startNewGame();
+            }
+            
             setupKeyboardListeners();
             updateUI();
         }
 
-        function getDailyWord(difficulty) {
+        function getDailyWord() {
             const today = new Date();
             const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 
@@ -811,14 +812,19 @@
                 hash = hash & hash;
             }
 
-            const wordList = WORD_LISTS[difficulty];
-            const index = Math.abs(hash) % wordList.length;
+            const index = Math.abs(hash) % WORD_LIST.length;
 
-            return { word: wordList[index], date: dateString };
+            return { word: WORD_LIST[index], date: dateString };
         }
 
         function startNewGame() {
-            const { word, date } = getDailyWord(gameState.difficulty);
+            const { word, date } = getDailyWord();
+
+            // Don't allow new game if already completed today
+            if (hasCompletedToday()) {
+                showCompletionScreen();
+                return;
+            }
 
             if (date !== gameState.lastPlayedDate) {
                 gameState.lastPlayedDate = date;
@@ -834,15 +840,7 @@
 
             renderBoard();
             updateUI();
-        }
-
-        function setDifficulty(difficulty) {
-            gameState.difficulty = difficulty;
-            document.querySelectorAll('.difficulty-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            startNewGame();
+            saveGameState();
         }
 
         function renderBoard() {
@@ -1014,11 +1012,18 @@
                 gameState.gameStatus = 'won';
                 gameState.wins++;
                 gameState.streak++;
+                
+                // Save completion date
+                const today = new Date();
+                const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+                gameState.lastCompletedDate = dateString;
+                saveGameState();
 
                 checkAchievements();
             } else if (gameState.guesses.length >= gameState.maxGuesses) {
                 gameState.gameStatus = 'lost';
                 gameState.streak = 0;
+                saveGameState();
             }
 
             gameState.currentGuess = '';
@@ -1036,9 +1041,6 @@
             }
             if (gameState.streak >= 3 && !gameState.achievements.includes('streak_3')) {
                 unlockAchievement('streak_3');
-            }
-            if (gameState.difficulty === 'hard' && !gameState.achievements.includes('hard_winner')) {
-                unlockAchievement('hard_winner');
             }
         }
 
@@ -1061,16 +1063,30 @@
             const actionBtn = document.getElementById('action-btn');
             const nextWordMsg = document.getElementById('next-word-msg');
 
-            if (gameState.gameStatus === 'won') {
+            // Check if already completed today
+            if (hasCompletedToday() && gameState.gameStatus !== 'playing') {
                 statusMsg.className = 'status-message win';
-                statusMsg.innerHTML = '<span>🏆</span><div><strong>Congratulations!</strong><br>You won!</div>';
+                statusMsg.innerHTML = '<span>✅</span><div><strong>Already Completed!</strong><br>You\'ve already solved today\'s word.<br>Come back tomorrow for a new word!</div>';
                 statusMsg.style.display = 'flex';
                 submitBtn.style.display = 'none';
-                actionBtn.style.display = 'block';
-                actionBtn.className = 'action-btn primary';
-                actionBtn.innerHTML = '🔄 Try Again';
-                actionBtn.onclick = startNewGame;
+                actionBtn.style.display = 'none';
                 nextWordMsg.style.display = 'block';
+                
+                // Disable keyboard input
+                disableKeyboard();
+                return;
+            }
+
+            if (gameState.gameStatus === 'won') {
+                statusMsg.className = 'status-message win';
+                statusMsg.innerHTML = '<span>🏆</span><div><strong>Congratulations!</strong><br>You won!<br><small>Come back tomorrow for a new word!</small></div>';
+                statusMsg.style.display = 'flex';
+                submitBtn.style.display = 'none';
+                actionBtn.style.display = 'none';
+                nextWordMsg.style.display = 'block';
+                
+                // Disable keyboard input after winning
+                disableKeyboard();
             } else if (gameState.gameStatus === 'lost') {
                 statusMsg.className = 'status-message lose';
                 statusMsg.innerHTML = `<span>❌</span><div><strong>Game Over!</strong><br>Word: <strong>${gameState.targetWord}</strong></div>`;
@@ -1087,6 +1103,25 @@
                 submitBtn.disabled = gameState.currentGuess.length !== 5;
                 actionBtn.style.display = 'none';
                 nextWordMsg.style.display = 'none';
+            }
+        }
+
+        function showCompletionScreen() {
+            // Get today's word to display the board
+            const { word, date } = getDailyWord();
+            gameState.targetWord = word;
+            gameState.gameStatus = 'won';
+            
+            // The guesses should already be saved in gameState from localStorage
+            renderBoard();
+            updateUI();
+        }
+
+        function disableKeyboard() {
+            const keyboard = document.getElementById('keyboard');
+            if (keyboard) {
+                keyboard.style.opacity = '0.5';
+                keyboard.style.pointerEvents = 'none';
             }
         }
 

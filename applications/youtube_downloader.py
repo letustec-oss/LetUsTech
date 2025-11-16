@@ -172,6 +172,42 @@ class YouTubeDownloader:
         header_btn_frame = tk.Frame(header_frame, bg=self.card_color)
         header_btn_frame.pack(side="right", padx=30)
         
+        # Help button
+        help_btn = tk.Button(
+            header_btn_frame,
+            text="❓ Help",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            padx=15,
+            pady=8,
+            command=self.show_help_guide
+        )
+        help_btn.pack(side="right", padx=5)
+        
+        # About button
+        about_btn = tk.Button(
+            header_btn_frame,
+            text="ℹ About",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            padx=15,
+            pady=8,
+            command=self.show_about
+        )
+        about_btn.pack(side="right", padx=5)
+        
         # History button
         history_btn = tk.Button(
             header_btn_frame,
@@ -219,8 +255,8 @@ class YouTubeDownloader:
         main_frame = tk.Frame(main_card, bg=self.card_color)
         main_frame.pack(fill="both", expand=True, padx=25, pady=25)
         
-        # Right side - Thumbnail preview (Card style)
-        thumbnail_card = tk.Frame(container_frame, bg=self.card_color, width=280)
+        # Right side - Thumbnail preview (Card style) - MADE BIGGER
+        thumbnail_card = tk.Frame(container_frame, bg=self.card_color, width=350)  # Increased from 280
         thumbnail_card.pack(side="right", fill="y")
         thumbnail_card.pack_propagate(False)
         
@@ -236,7 +272,7 @@ class YouTubeDownloader:
         )
         thumb_title.pack(pady=(0, 10))
         
-        # Thumbnail display area with border
+        # Thumbnail display area with border - MADE BIGGER
         thumb_display_frame = tk.Frame(thumbnail_frame, bg=self.border_color, padx=2, pady=2)
         thumb_display_frame.pack(pady=(0, 10))
         
@@ -246,9 +282,9 @@ class YouTubeDownloader:
             font=("Segoe UI", 9),
             bg=self.accent_color,
             fg=self.text_muted,
-            wraplength=230,
-            height=8,
-            width=30
+            wraplength=300,  # Increased from 230
+            height=10,       # Increased from 8
+            width=40         # Increased from 30
         )
         self.thumbnail_label.pack()
         
@@ -258,7 +294,7 @@ class YouTubeDownloader:
             font=("Segoe UI", 9, "bold"),
             bg=self.card_color,
             fg=self.text_color,
-            wraplength=240,
+            wraplength=310,  # Increased from 240
             justify="center"
         )
         self.video_title_label.pack(pady=(0, 10))
@@ -720,7 +756,7 @@ class YouTubeDownloader:
             self.log_debug("WARNING: FFmpeg not found in system PATH or portable installation")
             
         except Exception as e:
-            self.log_debug(f"ERROR in check_ffmpeg: {type(e).__name__}: {e}")
+            self.log_debug(f"⚠ FFmpeg check issue: {type(e).__name__}: {e}")
             # Don't let FFmpeg check errors crash the application
             import traceback
             self.log_debug(f"FFmpeg check traceback: {traceback.format_exc()}")
@@ -941,10 +977,15 @@ class YouTubeDownloader:
     def log_debug(self, message):
         """Add message to debug console"""
         if self.debug_mode:
-            self.debug_console.config(state="normal")
-            self.debug_console.insert("end", f"{message}\n")
-            self.debug_console.see("end")
-            self.debug_console.config(state="disabled")
+            # Safely check if debug console exists
+            if hasattr(self, 'debug_console'):
+                self.debug_console.config(state="normal")
+                self.debug_console.insert("end", f"{message}\n")
+                self.debug_console.see("end")
+                self.debug_console.config(state="disabled")
+            else:
+                # Fallback to print if debug console not yet created
+                print(f"DEBUG: {message}")
     
     def process_output_queue(self):
         """Process output queue and update debug console"""
@@ -1086,6 +1127,407 @@ class YouTubeDownloader:
             listbox.insert("end", "No download history yet")
             self.log_debug("Download history cleared")
     
+    def show_help_guide(self):
+        """Show comprehensive help guide"""
+        help_window = tk.Toplevel(self.root)
+        help_window.title("User Guide - LetUsTech YouTube Converter")
+        help_window.geometry("800x700")
+        help_window.configure(bg=self.bg_color)
+        help_window.resizable(True, True)
+        
+        # Header
+        header_frame = tk.Frame(help_window, bg=self.card_color, height=60)
+        header_frame.pack(fill="x")
+        header_frame.pack_propagate(False)
+        
+        header_label = tk.Label(
+            header_frame,
+            text="📖 User Guide & Help",
+            font=("Segoe UI", 16, "bold"),
+            bg=self.card_color,
+            fg=self.green_color
+        )
+        header_label.pack(pady=15)
+        
+        # Create notebook for tabs
+        notebook = ttk.Notebook(help_window)
+        notebook.pack(fill="both", expand=True, padx=20, pady=10)
+        
+        # Quick Start Tab
+        quick_frame = tk.Frame(notebook, bg=self.bg_color)
+        notebook.add(quick_frame, text="🚀 Quick Start")
+        
+        quick_text = tk.Text(
+            quick_frame,
+            font=("Segoe UI", 10),
+            bg=self.accent_color,
+            fg=self.text_color,
+            wrap="word",
+            padx=15,
+            pady=15
+        )
+        quick_text.pack(fill="both", expand=True, padx=10, pady=10)
+        
+        quick_content = """🎬 QUICK START GUIDE
+
+1. PASTE URL
+   • Copy YouTube video or playlist URL
+   • Paste in the "Video URL" field
+   • Click "Load Preview" to see thumbnail
+
+2. SELECT QUALITY
+   • Choose from dropdown:
+     - Best Quality (Video + Audio)
+     - 1080p, 720p, 480p, 360p
+     - Audio Only (MP3) - for music
+
+3. CHOOSE LOCATION
+   • Default: Downloads/Videos or Downloads/Music
+   • Click "Browse" to change location
+   • Files auto-organize by type
+
+4. DOWNLOAD
+   • Single videos: Click "Download"
+   • Playlists: Click "Select Videos" first
+   • Watch progress bar for completion
+
+🎵 FOR PLAYLISTS:
+   • Large playlists load quickly
+   • Use "Select Videos" for precise control
+   • Search, filter by duration, or select patterns
+   • Files include artist names automatically"""
+        
+        quick_text.insert("1.0", quick_content)
+        quick_text.config(state="disabled")
+        
+        # Advanced Features Tab
+        advanced_frame = tk.Frame(notebook, bg=self.bg_color)
+        notebook.add(advanced_frame, text="⚡ Advanced Features")
+        
+        advanced_text = tk.Text(
+            advanced_frame,
+            font=("Segoe UI", 10),
+            bg=self.accent_color,
+            fg=self.text_color,
+            wrap="word",
+            padx=15,
+            pady=15
+        )
+        advanced_text.pack(fill="both", expand=True, padx=10, pady=10)
+        
+        advanced_content = """⚡ ADVANCED FEATURES
+
+🔍 SMART PLAYLIST SELECTION:
+   • Search Bar: Find videos by keywords
+   • Duration Filter: Select by time range (e.g., 3-8 minutes)
+   • Every Nth: Sample every 5th/10th video
+   • Bulk Operations: Select/Deselect all
+
+📁 FILE NAMING:
+   • Format: "Artist - Song Title.mp3"
+   • Auto-organizes: Music → Downloads/Music
+   • Videos → Downloads/Videos
+   • Preserves original quality metadata
+
+🎛️ QUALITY OPTIONS:
+   • Best Quality: Highest available (may need FFmpeg)
+   • Fixed Resolutions: 1080p, 720p, 480p, 360p
+   • Audio Only: Converts to MP3 (requires FFmpeg)
+
+🐛 DEBUG MODE:
+   • Enable in Settings for troubleshooting
+   • Shows detailed download progress
+   • Helps diagnose connection issues
+   • Clear console with "Clear" button
+
+📜 DOWNLOAD HISTORY:
+   • Tracks all downloads automatically
+   • Shows date, title, quality, location
+   • Clear history when needed
+   • Reopens files from history"""
+        
+        advanced_text.insert("1.0", advanced_content)
+        advanced_text.config(state="disabled")
+        
+        # System Requirements Tab
+        system_frame = tk.Frame(notebook, bg=self.bg_color)
+        notebook.add(system_frame, text="💻 System Requirements")
+        
+        system_text = tk.Text(
+            system_frame,
+            font=("Segoe UI", 10),
+            bg=self.accent_color,
+            fg=self.text_color,
+            wrap="word",
+            padx=15,
+            pady=15
+        )
+        system_text.pack(fill="both", expand=True, padx=10, pady=10)
+        
+        system_content = """💻 SYSTEM REQUIREMENTS
+
+✅ MINIMUM REQUIREMENTS:
+   • Windows 10/11, macOS 10.14+, or Linux
+   • Python 3.8+ with tkinter
+   • 4GB RAM, 1GB free storage
+   • Internet connection
+   • 1366x768 screen resolution
+
+🚀 RECOMMENDED:
+   • 8GB+ RAM for large playlists
+   • SSD storage for faster processing
+   • 1920x1080+ resolution for best experience
+   • High-speed internet for 4K downloads
+
+📦 DEPENDENCIES:
+   • yt-dlp (YouTube downloader library)
+   • Pillow (PIL) for image processing
+   • requests (HTTP library)
+   • tkinter (GUI - usually included with Python)
+
+🔧 OPTIONAL BUT RECOMMENDED:
+   • FFmpeg - For audio conversion & merging
+     - Windows: Auto-installer available
+     - macOS: brew install ffmpeg
+     - Linux: sudo apt install ffmpeg
+   • Without FFmpeg:
+     - No MP3 conversion
+     - Limited format merging
+     - Still downloads videos/audio
+
+⚠️ TROUBLESHOOTING:
+   • Enable Debug Mode for detailed logs
+   • Check internet connection
+   • Verify YouTube URL is valid
+   • Install FFmpeg for audio issues
+   • Update yt-dlp if download fails"""
+        
+        system_text.insert("1.0", system_content)
+        system_text.config(state="disabled")
+        
+        # Tips & Tricks Tab
+        tips_frame = tk.Frame(notebook, bg=self.bg_color)
+        notebook.add(tips_frame, text="💡 Tips & Tricks")
+        
+        tips_text = tk.Text(
+            tips_frame,
+            font=("Segoe UI", 10),
+            bg=self.accent_color,
+            fg=self.text_color,
+            wrap="word",
+            padx=15,
+            pady=15
+        )
+        tips_text.pack(fill="both", expand=True, padx=10, pady=10)
+        
+        tips_content = """💡 TIPS & TRICKS
+
+🎵 FOR MUSIC LOVERS:
+   • Use "Audio Only (MP3)" for music playlists
+   • Search for "remix" to find all remixes
+   • Filter 3-6 minutes to skip intros/outros
+   • Select every 3rd song for variety
+
+📺 FOR VIDEO CONTENT:
+   • Use "Best Quality" for important videos
+   • 720p saves space while staying crisp
+   • Check "Download Entire Playlist" for full series
+
+⚡ SPEED TIPS:
+   • Large playlists? Use search/filters first
+   • Process playlists in batches (50-100 videos)
+   • Close other programs during big downloads
+   • Use SSD storage for faster processing
+
+🔧 ORGANIZATION HACKS:
+   • Let app auto-sort into Music/Videos folders
+   • Artist names included automatically
+   • Use History to find old downloads
+   • Clear browser cache if URLs fail
+
+⚠️ COMMON ISSUES & FIXES:
+   • "Video unavailable" → Try again later
+   • Slow downloads → Check internet speed
+   • FFmpeg errors → Install/update FFmpeg
+   • Long playlists → Use selection tools
+   • GUI freezing → Enable debug mode"""
+        
+        tips_text.insert("1.0", tips_content)
+        tips_text.config(state="disabled")
+        
+        # Close button
+        close_btn = tk.Button(
+            help_window,
+            text="Close",
+            font=("Segoe UI", 10, "bold"),
+            bg=self.green_color,
+            fg=self.bg_color,
+            command=help_window.destroy
+        )
+        close_btn.pack(pady=10)
+    
+    def show_about(self):
+        """Show about dialog with credits and information"""
+        about_window = tk.Toplevel(self.root)
+        about_window.title("About - LetUsTech YouTube Converter")
+        about_window.geometry("600x500")
+        about_window.configure(bg=self.bg_color)
+        about_window.resizable(False, False)
+        
+        # Center the window
+        about_window.transient(self.root)
+        
+        # Header with logo area
+        header_frame = tk.Frame(about_window, bg=self.card_color, height=120)
+        header_frame.pack(fill="x")
+        header_frame.pack_propagate(False)
+        
+        # Try to show logo or fallback to icon
+        logo_frame = tk.Frame(header_frame, bg=self.card_color)
+        logo_frame.pack(pady=20)
+        
+        try:
+            if os.path.exists("LetUsTech.png"):
+                logo_img = Image.open("LetUsTech.png")
+                logo_img = logo_img.resize((64, 64), Image.Resampling.LANCZOS)
+                logo_photo = ImageTk.PhotoImage(logo_img)
+                logo_label = tk.Label(logo_frame, image=logo_photo, bg=self.card_color)
+                logo_label.image = logo_photo
+                logo_label.pack()
+            else:
+                logo_label = tk.Label(
+                    logo_frame,
+                    text="▶",
+                    font=("Segoe UI", 48, "bold"),
+                    bg=self.card_color,
+                    fg=self.green_color
+                )
+                logo_label.pack()
+        except:
+            logo_label = tk.Label(
+                logo_frame,
+                text="▶",
+                font=("Segoe UI", 48, "bold"),
+                bg=self.card_color,
+                fg=self.green_color
+            )
+            logo_label.pack()
+        
+        title_label = tk.Label(
+            header_frame,
+            text="LetUsTech YouTube Converter",
+            font=("Segoe UI", 20, "bold"),
+            bg=self.card_color,
+            fg=self.text_color
+        )
+        title_label.pack()
+        
+        version_label = tk.Label(
+            header_frame,
+            text="Version 2.0 - Professional Edition",
+            font=("Segoe UI", 10),
+            bg=self.card_color,
+            fg=self.text_muted
+        )
+        version_label.pack()
+        
+        # Main content
+        content_frame = tk.Frame(about_window, bg=self.bg_color)
+        content_frame.pack(fill="both", expand=True, padx=30, pady=20)
+        
+        about_text = tk.Text(
+            content_frame,
+            font=("Segoe UI", 10),
+            bg=self.accent_color,
+            fg=self.text_color,
+            wrap="word",
+            height=12,
+            relief="flat"
+        )
+        about_text.pack(fill="both", expand=True)
+        
+        about_content = f"""🚀 BUILT BY: LetUsTech
+👨‍💻 DEVELOPER: Deano (23) - Liverpool, UK
+🌐 WEBSITE: letustech.uk
+💝 TAGLINE: "Wired For Your World"
+
+📱 ABOUT LETUSTECH:
+LetUsTech is a technology platform offering free Python automation tools and browser-based games. We create educational content and practical applications to make technology accessible for everyone.
+
+🎬 YOUTUBE CONVERTER FEATURES:
+• Download videos in multiple quality options
+• Smart playlist handling for large collections
+• Artist names in filenames automatically
+• Advanced selection tools (search, duration, patterns)
+• Built-in FFmpeg support with auto-installer
+• Professional UI with debug capabilities
+
+🛠️ TECHNICAL STACK:
+• Python 3.8+ with tkinter GUI
+• yt-dlp for YouTube downloading
+• Pillow (PIL) for image processing
+• FFmpeg for audio/video processing
+• Designed for Windows, macOS, and Linux
+
+💖 SUPPORT THE PROJECT:
+This software is completely free! If you find it useful:
+• Visit letustech.uk for more tools
+• Join our Discord: discord.gg/dkebMS5eCX
+• Share with friends who need video downloading
+• Consider a PayPal donation to keep projects running
+
+📞 CONTACT & COMMUNITY:
+• GitHub: github.com/letustech
+• Discord: Active community for feature requests
+• Website: letustech.uk - More free tools available
+
+© 2024 LetUsTech. Made with ❤️ in Liverpool."""
+        
+        about_text.insert("1.0", about_content)
+        about_text.config(state="disabled")
+        
+        # Buttons frame
+        button_frame = tk.Frame(about_window, bg=self.bg_color)
+        button_frame.pack(fill="x", padx=30, pady=(0, 20))
+        
+        website_btn = tk.Button(
+            button_frame,
+            text="🌐 Visit Website",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            command=lambda: self.open_url("https://letustech.uk")
+        )
+        website_btn.pack(side="left", padx=5, ipadx=15, ipady=5)
+        
+        discord_btn = tk.Button(
+            button_frame,
+            text="💬 Join Discord",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            command=lambda: self.open_url("https://discord.gg/dkebMS5eCX")
+        )
+        discord_btn.pack(side="left", padx=5, ipadx=15, ipady=5)
+        
+        close_btn = tk.Button(
+            button_frame,
+            text="Close",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.green_color,
+            fg=self.bg_color,
+            command=about_window.destroy
+        )
+        close_btn.pack(side="right", padx=5, ipadx=20, ipady=5)
+    
+    def open_url(self, url):
+        """Open URL in default browser"""
+        import webbrowser
+        try:
+            webbrowser.open(url)
+        except:
+            messagebox.showinfo("URL", f"Please visit: {url}")
+    
     def browse_folder(self):
         folder = filedialog.askdirectory(initialdir=self.download_path)
         if folder:
@@ -1114,12 +1556,20 @@ class YouTubeDownloader:
         
         self.log_debug("URL validation passed - proceeding with preview load")
         
+        # Reset UI state for new URL
         self.preview_btn.config(state="disabled", text="Loading...")
-        self.thumbnail_label.config(text="🔄 Fetching preview...")
+        self.thumbnail_label.config(text="🔄 Fetching preview...", image="")
+        self.video_title_label.config(text="")
         self.select_videos_btn.config(state="disabled")
+        self.current_thumbnail = None
+        self.is_playlist = False
+        self.playlist_videos = []
+        self.selected_videos = []
+        self.full_playlist_info = None
+        
         self.root.update_idletasks()  # Force UI update
         
-        self.log_debug("UI updated - buttons disabled, status set to loading")
+        self.log_debug("UI updated - buttons disabled, status set to loading, previous data cleared")
         
         def fetch_preview():
             try:
@@ -1331,51 +1781,62 @@ class YouTubeDownloader:
                     self.log_debug("=== LOADING THUMBNAIL ===")
                     self.log_debug(f"Thumbnail URL: {thumbnail_url}")
                     
-                    # Add headers to mimic browser request
-                    headers = {
-                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-                    }
-                    
-                    self.log_debug("Making HTTP request for thumbnail...")
-                    response = requests.get(thumbnail_url, timeout=15, headers=headers)
-                    self.log_debug(f"HTTP response status: {response.status_code}")
-                    self.log_debug(f"Content-Type: {response.headers.get('content-type', 'Unknown')}")
-                    self.log_debug(f"Content-Length: {len(response.content)} bytes")
-                    
-                    if response.status_code != 200:
-                        raise Exception(f"HTTP {response.status_code}: Could not download thumbnail")
-                    
-                    img_data = response.content
-                    self.log_debug(f"Downloaded {len(img_data)} bytes of image data")
-                    
-                    self.log_debug("Opening image with PIL...")
-                    img = Image.open(BytesIO(img_data))
-                    self.log_debug(f"Original image size: {img.size}")
-                    self.log_debug(f"Image mode: {img.mode}")
-                    
-                    # Convert to RGB if needed
-                    if img.mode != 'RGB':
-                        self.log_debug(f"Converting image from {img.mode} to RGB")
-                        img = img.convert('RGB')
-                    
-                    # Resize to fit preview area
-                    original_size = img.size
-                    self.log_debug("Resizing image to fit preview area (230x130)...")
-                    img.thumbnail((230, 130), Image.Resampling.LANCZOS)
-                    self.log_debug(f"Image resized from {original_size} to {img.size}")
-                    
-                    self.log_debug("Converting to PhotoImage...")
-                    photo = ImageTk.PhotoImage(img)
-                    self.current_thumbnail = photo
-                    
-                    self.log_debug("Updating thumbnail label...")
-                    self.thumbnail_label.config(image=photo, text="")
-                    self.thumbnail_label.image = photo
-                    self.log_debug("Thumbnail loaded and displayed successfully!")
-                    
+                    try:
+                        # Add headers to mimic browser request
+                        headers = {
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                        }
+                        
+                        self.log_debug("Making HTTP request for thumbnail...")
+                        response = requests.get(thumbnail_url, timeout=15, headers=headers)
+                        self.log_debug(f"HTTP response status: {response.status_code}")
+                        self.log_debug(f"Content-Type: {response.headers.get('content-type', 'Unknown')}")
+                        self.log_debug(f"Content-Length: {len(response.content)} bytes")
+                        
+                        if response.status_code != 200:
+                            raise Exception(f"HTTP {response.status_code}: Could not download thumbnail")
+                        
+                        img_data = response.content
+                        self.log_debug(f"Downloaded {len(img_data)} bytes of image data")
+                        
+                        self.log_debug("Opening image with PIL...")
+                        img = Image.open(BytesIO(img_data))
+                        self.log_debug(f"Original image size: {img.size}")
+                        self.log_debug(f"Image mode: {img.mode}")
+                        
+                        # Convert to RGB if needed
+                        if img.mode != 'RGB':
+                            self.log_debug(f"Converting image from {img.mode} to RGB")
+                            img = img.convert('RGB')
+                        
+                        # Resize to fit preview area - BIGGER SIZE
+                        original_size = img.size
+                        self.log_debug("Resizing image to fit preview area (300x180)...")  # Increased from 230x130
+                        img.thumbnail((300, 180), Image.Resampling.LANCZOS)
+                        self.log_debug(f"Image resized from {original_size} to {img.size}")
+                        
+                        self.log_debug("Converting to PhotoImage...")
+                        photo = ImageTk.PhotoImage(img)
+                        self.current_thumbnail = photo
+                        
+                        self.log_debug("Updating thumbnail label...")
+                        self.thumbnail_label.config(image=photo, text="")
+                        self.thumbnail_label.image = photo
+                        self.log_debug("Thumbnail loaded and displayed successfully!")
+                        
+                    except Exception as thumb_error:
+                        self.log_debug(f"WARNING: Failed to load thumbnail: {thumb_error}")
+                        if self.is_playlist:
+                            self.thumbnail_label.config(text="📋 Playlist\n(No preview image)")
+                        else:
+                            self.thumbnail_label.config(text="❌ No image available")
+                        
                 else:
                     self.log_debug("WARNING: No thumbnail URL found")
-                    self.thumbnail_label.config(text="No thumbnail available")
+                    if self.is_playlist:
+                        self.thumbnail_label.config(text="📋 Playlist\n(No preview image)")
+                    else:
+                        self.thumbnail_label.config(text="❌ No image available")
                 
                 self.log_debug(f"=== PREVIEW LOAD COMPLETE ===")
                 self.log_debug(f"Type: {'Playlist' if self.is_playlist else 'Video'}")
@@ -1546,9 +2007,28 @@ class YouTubeDownloader:
             self.log_debug(f"Video {i+1}: {video.get('title', 'No title')}")
         
         selector_window = tk.Toplevel(self.root)
-        selector_window.title("Select Videos - LetUsTech")
-        selector_window.geometry("900x650")
+        selector_window.title("Select Videos - LetUsTech YouTube Converter")
+        
+        # Responsive window sizing for different screen sizes
+        screen_width = selector_window.winfo_screenwidth()
+        screen_height = selector_window.winfo_screenheight()
+        
+        if screen_width >= 1920:  # Large screens (1920+)
+            window_width = 1400
+            window_height = 900
+        elif screen_width >= 1366:  # Medium screens
+            window_width = 1200
+            window_height = 800
+        else:  # Smaller screens
+            window_width = 1000
+            window_height = 700
+            
+        # Center the window
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
+        selector_window.geometry(f"{window_width}x{window_height}+{x}+{y}")
         selector_window.configure(bg=self.bg_color)
+        selector_window.minsize(900, 600)  # Minimum size
         
         # Header
         header_frame = tk.Frame(selector_window, bg=self.card_color, height=80)
@@ -1573,7 +2053,7 @@ class YouTubeDownloader:
         )
         count_label.pack()
         
-        # Select/Deselect all buttons
+        # Select/Deselect all buttons with enhanced options
         button_frame = tk.Frame(selector_window, bg=self.bg_color)
         button_frame.pack(pady=15)
         
@@ -1589,8 +2069,120 @@ class YouTubeDownloader:
                 var.set(False)
             update_count()
         
+        def select_by_duration():
+            """Select videos based on duration range"""
+            duration_window = tk.Toplevel(selector_window)
+            duration_window.title("Select by Duration")
+            duration_window.geometry("400x200")
+            duration_window.configure(bg=self.bg_color)
+            duration_window.transient(selector_window)
+            
+            tk.Label(duration_window, text="Select videos by duration range:", 
+                    font=("Segoe UI", 12, "bold"), bg=self.bg_color, fg=self.text_color).pack(pady=10)
+            
+            frame = tk.Frame(duration_window, bg=self.bg_color)
+            frame.pack(pady=10)
+            
+            tk.Label(frame, text="Min duration (minutes):", bg=self.bg_color, fg=self.text_color).grid(row=0, column=0, padx=5)
+            min_entry = tk.Entry(frame, width=10)
+            min_entry.grid(row=0, column=1, padx=5)
+            min_entry.insert(0, "0")
+            
+            tk.Label(frame, text="Max duration (minutes):", bg=self.bg_color, fg=self.text_color).grid(row=1, column=0, padx=5)
+            max_entry = tk.Entry(frame, width=10)
+            max_entry.grid(row=1, column=1, padx=5)
+            max_entry.insert(0, "60")
+            
+            def apply_duration_filter():
+                try:
+                    min_dur = float(min_entry.get()) * 60  # Convert to seconds
+                    max_dur = float(max_entry.get()) * 60
+                    count = 0
+                    for i, video in enumerate(self.playlist_videos):
+                        duration = video.get('duration', 0)
+                        if min_dur <= duration <= max_dur:
+                            video_vars[i].set(True)
+                            count += 1
+                        else:
+                            video_vars[i].set(False)
+                    update_count()
+                    duration_window.destroy()
+                    messagebox.showinfo("Selection Complete", f"Selected {count} videos within duration range")
+                except ValueError:
+                    messagebox.showerror("Error", "Please enter valid numbers")
+            
+            tk.Button(frame, text="Apply Filter", command=apply_duration_filter, 
+                     bg=self.green_color, fg=self.bg_color, font=("Segoe UI", 10, "bold")).grid(row=2, column=0, columnspan=2, pady=10)
+        
+        def select_every_nth():
+            """Select every Nth video"""
+            nth_window = tk.Toplevel(selector_window)
+            nth_window.title("Select Every Nth Video")
+            nth_window.geometry("300x150")
+            nth_window.configure(bg=self.bg_color)
+            nth_window.transient(selector_window)
+            
+            tk.Label(nth_window, text="Select every Nth video:", 
+                    font=("Segoe UI", 12, "bold"), bg=self.bg_color, fg=self.text_color).pack(pady=10)
+            
+            frame = tk.Frame(nth_window, bg=self.bg_color)
+            frame.pack(pady=10)
+            
+            tk.Label(frame, text="Every", bg=self.bg_color, fg=self.text_color).grid(row=0, column=0, padx=5)
+            nth_entry = tk.Entry(frame, width=10)
+            nth_entry.grid(row=0, column=1, padx=5)
+            nth_entry.insert(0, "5")
+            tk.Label(frame, text="videos", bg=self.bg_color, fg=self.text_color).grid(row=0, column=2, padx=5)
+            
+            def apply_nth_filter():
+                try:
+                    nth = int(nth_entry.get())
+                    deselect_all()  # Start with none selected
+                    count = 0
+                    for i in range(0, len(self.playlist_videos), nth):
+                        video_vars[i].set(True)
+                        count += 1
+                    update_count()
+                    nth_window.destroy()
+                    messagebox.showinfo("Selection Complete", f"Selected every {nth}th video ({count} total)")
+                except ValueError:
+                    messagebox.showerror("Error", "Please enter a valid number")
+            
+            tk.Button(frame, text="Apply", command=apply_nth_filter, 
+                     bg=self.green_color, fg=self.bg_color, font=("Segoe UI", 10, "bold")).grid(row=1, column=0, columnspan=3, pady=10)
+        
+        # Search functionality
+        search_frame = tk.Frame(button_frame, bg=self.bg_color)
+        search_frame.pack(side="top", pady=(0, 10), fill="x")
+        
+        tk.Label(search_frame, text="🔍 Search:", font=("Segoe UI", 9, "bold"), 
+                bg=self.bg_color, fg=self.text_color).pack(side="left", padx=5)
+        
+        search_entry = tk.Entry(search_frame, width=30, font=("Segoe UI", 9))
+        search_entry.pack(side="left", padx=5)
+        
+        def search_and_select():
+            search_term = search_entry.get().lower()
+            if not search_term:
+                return
+            count = 0
+            for i, video in enumerate(self.playlist_videos):
+                title = video.get('title', '').lower()
+                if search_term in title:
+                    video_vars[i].set(True)
+                    count += 1
+            update_count()
+            messagebox.showinfo("Search Complete", f"Found and selected {count} videos matching '{search_term}'")
+        
+        tk.Button(search_frame, text="Select Matching", command=search_and_select,
+                 bg=self.accent_color, fg=self.text_color, font=("Segoe UI", 8, "bold")).pack(side="left", padx=5)
+        
+        # Main selection buttons
+        buttons_frame = tk.Frame(button_frame, bg=self.bg_color)
+        buttons_frame.pack(side="top", pady=5)
+        
         select_all_btn = tk.Button(
-            button_frame,
+            buttons_frame,
             text="✓ Select All",
             font=("Segoe UI", 9, "bold"),
             bg=self.accent_color,
@@ -1605,7 +2197,7 @@ class YouTubeDownloader:
         select_all_btn.pack(side="left", padx=5, ipadx=15, ipady=6)
         
         deselect_all_btn = tk.Button(
-            button_frame,
+            buttons_frame,
             text="✗ Deselect All",
             font=("Segoe UI", 9, "bold"),
             bg=self.accent_color,
@@ -1618,6 +2210,36 @@ class YouTubeDownloader:
             command=deselect_all
         )
         deselect_all_btn.pack(side="left", padx=5, ipadx=15, ipady=6)
+        
+        duration_btn = tk.Button(
+            buttons_frame,
+            text="⏱ By Duration",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            command=select_by_duration
+        )
+        duration_btn.pack(side="left", padx=5, ipadx=15, ipady=6)
+        
+        nth_btn = tk.Button(
+            buttons_frame,
+            text="🔢 Every Nth",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            command=select_every_nth
+        )
+        nth_btn.pack(side="left", padx=5, ipadx=15, ipady=6)
         
         # Scrollable frame for videos
         list_container = tk.Frame(selector_window, bg=self.bg_color)
@@ -1657,8 +2279,8 @@ class YouTubeDownloader:
                 fg=self.text_color,
                 selectcolor=self.bg_color,
                 activebackground=row_bg,
-                cursor="hand2",
-                command=update_count
+                cursor="hand2"
+                # Remove command=update_count for now - will add after function is defined
             )
             check.pack(side="left", padx=(10, 5))
             
@@ -1725,7 +2347,14 @@ class YouTubeDownloader:
             count = sum(var.get() for var in video_vars)
             selection_label.config(text=f"{count} videos selected")
         
-        # Update count initially and bind to checkboxes
+        # NOW configure checkboxes with update_count function
+        for i, video in enumerate(self.playlist_videos):
+            # Find the checkbox widget and configure it
+            video_frame = scrollable_frame.winfo_children()[i]
+            checkbox = video_frame.winfo_children()[0]  # First child is the checkbox
+            checkbox.configure(command=update_count)
+        
+        # Update count initially
         update_count()
         
         # Confirm button
@@ -1835,31 +2464,115 @@ class YouTubeDownloader:
         self.log_debug(f"Download folder: {download_folder}")
         self.log_debug(f"Playlist mode: {download_playlist}")
         self.log_debug(f"Is playlist detected: {getattr(self, 'is_playlist', False)}")
+        self.log_debug(f"Selected videos count: {len(getattr(self, 'selected_videos', []))}")
         self.log_debug(f"Debug mode: {self.debug_mode}")
         
         try:
             self.log_debug("=== STARTING YT-DLP DOWNLOAD ===")
             
-            # Configure yt-dlp options
+            # Configure yt-dlp options with improved file naming
             ydl_opts = {
-                'outtmpl': os.path.join(download_folder, '%(title)s.%(ext)s'),
+                'outtmpl': os.path.join(download_folder, '%(uploader)s - %(title)s.%(ext)s'),  # Include artist/uploader name
                 'progress_hooks': [self.progress_hook],
-                'noplaylist': not download_playlist,
-                'ignoreerrors': False,
+                'noplaylist': True,  # Always set to True since we handle playlists manually
+                'ignoreerrors': True,  # Continue on errors for individual videos
+                'extract_flat': False,  # Get full metadata for better naming
             }
             
+            self.log_debug("Configured yt-dlp with artist naming format")
+            self.log_debug(f"Output template: {ydl_opts['outtmpl']}")
+            
+            # Enhanced quality options
             if quality == "Audio Only (MP3)":
                 ydl_opts['format'] = 'bestaudio/best'
+                self.log_debug("Format: Audio only (will include artist name)")
+            elif quality == "Best Quality (Video + Audio)":
+                ydl_opts['format'] = 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best'
+                self.log_debug("Format: Best quality video + audio (will include artist name)")
+            elif quality == "1080p":
+                ydl_opts['format'] = 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[height<=1080][ext=mp4]/best'
+            elif quality == "720p":
+                ydl_opts['format'] = 'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720][ext=mp4]/best'
+            elif quality == "480p":
+                ydl_opts['format'] = 'bestvideo[height<=480][ext=mp4]+bestaudio[ext=m4a]/best[height<=480][ext=mp4]/best'
+            elif quality == "360p":
+                ydl_opts['format'] = 'bestvideo[height<=360][ext=mp4]+bestaudio[ext=m4a]/best[height<=360][ext=mp4]/best'
             else:
                 ydl_opts['format'] = 'best'
             
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                ydl.download([url])
-            
-            self.log_debug("=== DOWNLOAD COMPLETED SUCCESSFULLY ===")
-            self.progress_bar.stop()
-            self.progress_label.config(text="Download completed successfully!")
-            messagebox.showinfo("Success", f"Download completed!\n\nLocation: {download_folder}")
+            # Check if we have selected videos (from playlist selector)
+            if hasattr(self, 'selected_videos') and self.selected_videos:
+                self.log_debug("=== DOWNLOADING SELECTED VIDEOS FROM PLAYLIST ===")
+                video_count = len(self.selected_videos)
+                self.log_debug(f"Processing {video_count} selected videos")
+                
+                # Generate playlist thumbnail
+                self.generate_playlist_thumbnail()
+                
+                successful_downloads = 0
+                failed_downloads = 0
+                
+                for i, video in enumerate(self.selected_videos, 1):
+                    video_url = f"https://www.youtube.com/watch?v={video['id']}"
+                    video_title = video.get('title', 'Unknown')
+                    self.log_debug(f"\n=== DOWNLOADING VIDEO {i}/{video_count} ===")
+                    self.log_debug(f"Video title: {video_title}")
+                    self.log_debug(f"Video ID: {video.get('id', 'Unknown')}")
+                    self.log_debug(f"Video URL: {video_url}")
+                    
+                    # Update progress
+                    self.progress_label.config(text=f"Downloading {i}/{video_count}: {video_title[:40]}...")
+                    
+                    try:
+                        self.log_debug(f"Starting download for video {i}")
+                        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                            ydl.download([video_url])
+                        self.log_debug(f"✓ Successfully downloaded video {i}: {video_title}")
+                        successful_downloads += 1
+                    except Exception as e:
+                        self.log_debug(f"✗ Failed to download video {i}: {video_title}")
+                        self.log_debug(f"Error: {type(e).__name__}: {str(e)}")
+                        failed_downloads += 1
+                        # Continue with next video
+                        continue
+                
+                # Show completion summary
+                self.log_debug(f"\n=== PLAYLIST DOWNLOAD COMPLETE ===")
+                self.log_debug(f"Successful: {successful_downloads}, Failed: {failed_downloads}")
+                self.progress_bar.stop()
+                self.progress_label.config(text="Playlist download completed!")
+                
+                if successful_downloads > 0:
+                    if failed_downloads > 0:
+                        messagebox.showinfo("Partial Success", 
+                                          f"Downloaded {successful_downloads} videos successfully!\n"
+                                          f"{failed_downloads} videos failed.\n\n"
+                                          f"Location: {download_folder}")
+                    else:
+                        messagebox.showinfo("Success", 
+                                          f"All {successful_downloads} videos downloaded successfully!\n\n"
+                                          f"Location: {download_folder}")
+                else:
+                    messagebox.showerror("Download Failed", 
+                                       f"All {failed_downloads} videos failed to download.\n"
+                                       "Please check your internet connection and try again.")
+                
+            else:
+                self.log_debug("=== DOWNLOADING SINGLE VIDEO OR FULL PLAYLIST ===")
+                # Single video or full playlist download
+                if self.is_playlist and not download_playlist:
+                    # User has a playlist but didn't check "Download Entire Playlist"
+                    self.log_debug("Playlist detected but not downloading entire playlist - downloading first video only")
+                
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    if download_playlist and self.is_playlist:
+                        ydl_opts['noplaylist'] = False  # Allow full playlist download
+                    ydl.download([url])
+                
+                self.log_debug("=== DOWNLOAD COMPLETED SUCCESSFULLY ===")
+                self.progress_bar.stop()
+                self.progress_label.config(text="Download completed successfully!")
+                messagebox.showinfo("Success", f"Download completed!\n\nLocation: {download_folder}")
             
         except Exception as e:
             self.progress_bar.stop()
@@ -1869,6 +2582,135 @@ class YouTubeDownloader:
         
         finally:
             self.download_btn.config(state="normal", text="Download")
+    
+    def generate_playlist_thumbnail(self):
+        """Generate a composite thumbnail from multiple playlist videos"""
+        try:
+            self.log_debug("=== GENERATING PLAYLIST THUMBNAIL ===")
+            
+            # Get thumbnails from first 4 selected videos
+            thumbnail_urls = []
+            for video in self.selected_videos[:4]:
+                thumb_url = video.get('thumbnail')
+                if thumb_url:
+                    thumbnail_urls.append(thumb_url)
+            
+            if not thumbnail_urls:
+                self.log_debug("No thumbnails available for playlist composite")
+                self.thumbnail_label.config(text="📋 Playlist\n(Downloading selected videos)")
+                return
+            
+            self.log_debug(f"Creating composite from {len(thumbnail_urls)} thumbnails")
+            
+            # Download thumbnail images
+            thumbnail_images = []
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+            
+            for i, url in enumerate(thumbnail_urls):
+                try:
+                    response = requests.get(url, timeout=10, headers=headers)
+                    if response.status_code == 200:
+                        img = Image.open(BytesIO(response.content))
+                        # Convert to RGB if needed
+                        if img.mode != 'RGB':
+                            img = img.convert('RGB')
+                        thumbnail_images.append(img)
+                        self.log_debug(f"Downloaded thumbnail {i+1}")
+                    else:
+                        self.log_debug(f"Failed to download thumbnail {i+1}: HTTP {response.status_code}")
+                except Exception as e:
+                    self.log_debug(f"Error downloading thumbnail {i+1}: {e}")
+            
+            if not thumbnail_images:
+                self.log_debug("No thumbnails downloaded successfully")
+                self.thumbnail_label.config(text="📋 Playlist\n(Downloading selected videos)")
+                return
+            
+            # Create composite image
+            composite_width = 300
+            composite_height = 180
+            
+            if len(thumbnail_images) == 1:
+                # Single thumbnail
+                composite = thumbnail_images[0].resize((composite_width, composite_height), Image.Resampling.LANCZOS)
+            elif len(thumbnail_images) == 2:
+                # Two thumbnails side by side
+                composite = Image.new('RGB', (composite_width, composite_height), (20, 20, 30))
+                thumb_width = composite_width // 2
+                for i, img in enumerate(thumbnail_images):
+                    resized = img.resize((thumb_width, composite_height), Image.Resampling.LANCZOS)
+                    composite.paste(resized, (i * thumb_width, 0))
+            elif len(thumbnail_images) >= 3:
+                # Grid layout
+                composite = Image.new('RGB', (composite_width, composite_height), (20, 20, 30))
+                thumb_width = composite_width // 2
+                thumb_height = composite_height // 2
+                
+                positions = [(0, 0), (thumb_width, 0), (0, thumb_height), (thumb_width, thumb_height)]
+                
+                for i, img in enumerate(thumbnail_images[:4]):
+                    if i < len(positions):
+                        resized = img.resize((thumb_width, thumb_height), Image.Resampling.LANCZOS)
+                        composite.paste(resized, positions[i])
+            
+            # Add overlay text
+            from PIL import ImageDraw, ImageFont
+            draw = ImageDraw.Draw(composite)
+            
+            # Add semi-transparent overlay
+            overlay = Image.new('RGBA', (composite_width, composite_height), (0, 0, 0, 100))
+            composite = Image.alpha_composite(composite.convert('RGBA'), overlay).convert('RGB')
+            draw = ImageDraw.Draw(composite)
+            
+            # Add text
+            try:
+                # Try to use a nice font
+                font = ImageFont.truetype("arial.ttf", 16)
+                small_font = ImageFont.truetype("arial.ttf", 12)
+            except:
+                # Fallback to default font
+                font = ImageFont.load_default()
+                small_font = ImageFont.load_default()
+            
+            # Draw playlist indicator
+            text = "PLAYLIST"
+            bbox = draw.textbbox((0, 0), text, font=font)
+            text_width = bbox[2] - bbox[0]
+            text_height = bbox[3] - bbox[1]
+            text_x = (composite_width - text_width) // 2
+            text_y = 10
+            
+            # Draw text with outline
+            for adj in range(-1, 2):
+                for adj2 in range(-1, 2):
+                    draw.text((text_x + adj, text_y + adj2), text, font=font, fill=(0, 0, 0))
+            draw.text((text_x, text_y), text, font=font, fill=(0, 255, 136))
+            
+            # Draw video count
+            count_text = f"{len(self.selected_videos)} videos selected"
+            bbox = draw.textbbox((0, 0), count_text, font=small_font)
+            count_width = bbox[2] - bbox[0]
+            count_x = (composite_width - count_width) // 2
+            count_y = composite_height - 25
+            
+            for adj in range(-1, 2):
+                for adj2 in range(-1, 2):
+                    draw.text((count_x + adj, count_y + adj2), count_text, font=small_font, fill=(0, 0, 0))
+            draw.text((count_x, count_y), count_text, font=small_font, fill=(255, 255, 255))
+            
+            # Convert to PhotoImage and display
+            photo = ImageTk.PhotoImage(composite)
+            self.current_thumbnail = photo
+            self.thumbnail_label.config(image=photo, text="")
+            self.thumbnail_label.image = photo
+            
+            self.log_debug("✓ Playlist composite thumbnail generated successfully")
+            
+        except Exception as e:
+            self.log_debug(f"Error generating playlist thumbnail: {e}")
+            self.thumbnail_label.config(text="📋 Playlist\n(Downloading selected videos)")
     
     def start_download(self):
         self.download_btn.config(state="disabled", text="Downloading...")
