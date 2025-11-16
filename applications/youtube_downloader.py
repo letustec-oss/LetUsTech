@@ -1,0 +1,1769 @@
+﻿import tkinter as tk
+from tkinter import ttk, filedialog, messagebox
+import threading
+import os
+import time
+from pathlib import Path
+import yt_dlp
+import re
+import json
+from datetime import datetime
+from PIL import Image, ImageTk
+import requests
+from io import BytesIO
+import subprocess
+import sys
+from queue import Queue
+import shutil
+
+
+class MyLogger:
+    """Custom logger to capture yt-dlp output"""
+    def __init__(self, output_queue):
+        self.output_queue = output_queue
+    
+    def debug(self, msg):
+        # Filter out some overly verbose messages if needed
+        if msg.startswith('[debug]'):
+            return
+        self.output_queue.put(msg + '\n')
+    
+    def info(self, msg):
+        self.output_queue.put(msg + '\n')
+    
+    def warning(self, msg):
+        self.output_queue.put(f'WARNING: {msg}\n')
+    
+    def error(self, msg):
+        self.output_queue.put(f'ERROR: {msg}\n')
+
+
+class YouTubeDownloader:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("LetUsTech - YouTube Converter")
+        self.root.geometry("1000x650")
+        self.root.resizable(True, True)  # Enable resizing
+        self.root.minsize(900, 600)  # Set minimum size
+        
+        # Set icon if available
+        try:
+            if os.path.exists("favicon.ico"):
+                self.root.iconbitmap("favicon.ico")
+        except:
+            pass
+        
+        # Enhanced Color scheme - Navy and Green branding
+        self.bg_color = "#0f0f1e"
+        self.accent_color = "#1a1a2e"
+        self.card_color = "#16213e"
+        self.green_color = "#00ff88"
+        self.green_hover = "#00cc6a"
+        self.text_color = "#e4e4e7"
+        self.text_muted = "#a1a1aa"
+        self.border_color = "#27272a"
+        
+        self.root.configure(bg=self.bg_color)
+        
+        # Download path
+        self.download_path = str(Path.home() / "Downloads")
+        
+        # Settings
+        self.settings_file = Path.home() / ".youtube_downloader_settings.json"
+        self.history_file = Path.home() / ".youtube_downloader_history.json"
+        self.debug_mode = True  # Enable debug by default
+        self.download_history = []
+        self.current_thumbnail = None
+        self.is_playlist = False
+        self.playlist_videos = []
+        self.selected_videos = []
+        self.full_playlist_info = None  # Store full playlist info for large playlists
+        self.output_queue = Queue()
+        
+        print("Loading application settings...")
+        self.load_settings()
+        print("✓ Settings loaded successfully")
+        
+        print("Loading download history...")
+        self.load_history()
+        print("✓ History loaded successfully")
+        
+        # Check FFmpeg
+        print("Checking FFmpeg installation status...")
+        try:
+            self.check_ffmpeg()
+            print("✓ FFmpeg check completed")
+        except Exception as e:
+            print(f"⚠ FFmpeg check issue: {str(e)}")
+        
+        # Setup UI
+        print("Setting up user interface...")
+        self.setup_ui()
+        print("✓ User interface setup complete")
+        
+        print("YouTube Downloader initialization completed successfully!")
+        
+    def setup_ui(self):
+        # Header with gradient effect
+        header_frame = tk.Frame(self.root, bg=self.card_color, height=100)
+        header_frame.pack(fill="x", padx=0, pady=0)
+        header_frame.pack_propagate(False)
+        
+        # Logo/Icon area
+        logo_frame = tk.Frame(header_frame, bg=self.card_color)
+        logo_frame.pack(side="left", padx=30, pady=20)
+        
+        # Try to load logo image
+        try:
+            if os.path.exists("LetUsTech.png"):
+                logo_img = Image.open("LetUsTech.png")
+                logo_img = logo_img.resize((50, 50), Image.Resampling.LANCZOS)
+                logo_photo = ImageTk.PhotoImage(logo_img)
+                logo_label = tk.Label(
+                    logo_frame,
+                    image=logo_photo,
+                    bg=self.card_color
+                )
+                logo_label.image = logo_photo  # Keep reference
+                logo_label.pack(side="left")
+            else:
+                # Fallback to play icon
+                logo_label = tk.Label(
+                    logo_frame,
+                    text="▶",
+                    font=("Segoe UI", 32, "bold"),
+                    bg=self.card_color,
+                    fg=self.green_color
+                )
+                logo_label.pack(side="left")
+        except:
+            # Fallback to play icon if image loading fails
+            logo_label = tk.Label(
+                logo_frame,
+                text="▶",
+                font=("Segoe UI", 32, "bold"),
+                bg=self.card_color,
+                fg=self.green_color
+            )
+            logo_label.pack(side="left")
+        
+        title_container = tk.Frame(logo_frame, bg=self.card_color)
+        title_container.pack(side="left", padx=10)
+        
+        title_label = tk.Label(
+            title_container,
+            text="YouTube Converter",
+            font=("Segoe UI", 20, "bold"),
+            bg=self.card_color,
+            fg=self.text_color
+        )
+        title_label.pack(anchor="w")
+        
+        subtitle_label = tk.Label(
+            title_container,
+            text="Download & convert videos, playlists & audio from YouTube",
+            font=("Segoe UI", 9),
+            bg=self.card_color,
+            fg=self.text_muted
+        )
+        subtitle_label.pack(anchor="w")
+        
+        # Header buttons container
+        header_btn_frame = tk.Frame(header_frame, bg=self.card_color)
+        header_btn_frame.pack(side="right", padx=30)
+        
+        # History button
+        history_btn = tk.Button(
+            header_btn_frame,
+            text="📜 History",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            padx=15,
+            pady=8,
+            command=self.show_history
+        )
+        history_btn.pack(side="right", padx=5)
+        
+        # Settings button
+        settings_btn = tk.Button(
+            header_btn_frame,
+            text="⚙ Settings",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            padx=15,
+            pady=8,
+            command=self.toggle_settings
+        )
+        settings_btn.pack(side="right", padx=5)
+        
+        # Main content frame
+        container_frame = tk.Frame(self.root, bg=self.bg_color)
+        container_frame.pack(fill="both", expand=True, padx=30, pady=20)
+        
+        # Left side - Main download controls (Card style)
+        main_card = tk.Frame(container_frame, bg=self.card_color)
+        main_card.pack(side="left", fill="both", expand=True, padx=(0, 15))
+        
+        main_frame = tk.Frame(main_card, bg=self.card_color)
+        main_frame.pack(fill="both", expand=True, padx=25, pady=25)
+        
+        # Right side - Thumbnail preview (Card style)
+        thumbnail_card = tk.Frame(container_frame, bg=self.card_color, width=280)
+        thumbnail_card.pack(side="right", fill="y")
+        thumbnail_card.pack_propagate(False)
+        
+        thumbnail_frame = tk.Frame(thumbnail_card, bg=self.card_color)
+        thumbnail_frame.pack(fill="both", expand=True, padx=20, pady=20)
+        
+        thumb_title = tk.Label(
+            thumbnail_frame,
+            text="🎬 Preview",
+            font=("Segoe UI", 12, "bold"),
+            bg=self.card_color,
+            fg=self.green_color
+        )
+        thumb_title.pack(pady=(0, 10))
+        
+        # Thumbnail display area with border
+        thumb_display_frame = tk.Frame(thumbnail_frame, bg=self.border_color, padx=2, pady=2)
+        thumb_display_frame.pack(pady=(0, 10))
+        
+        self.thumbnail_label = tk.Label(
+            thumb_display_frame,
+            text="No preview\nClick 'Load Preview' below",
+            font=("Segoe UI", 9),
+            bg=self.accent_color,
+            fg=self.text_muted,
+            wraplength=230,
+            height=8,
+            width=30
+        )
+        self.thumbnail_label.pack()
+        
+        self.video_title_label = tk.Label(
+            thumbnail_frame,
+            text="",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.card_color,
+            fg=self.text_color,
+            wraplength=240,
+            justify="center"
+        )
+        self.video_title_label.pack(pady=(0, 10))
+        
+        # Preview buttons with better styling
+        self.preview_btn = tk.Button(
+            thumbnail_frame,
+            text="🔍 Load Preview",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            command=self.load_preview
+        )
+        self.preview_btn.pack(pady=(0, 8), fill="x", ipady=8)
+        
+        # Select videos button
+        self.select_videos_btn = tk.Button(
+            thumbnail_frame,
+            text="📋 Select Videos",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.green_color,
+            fg=self.bg_color,
+            activebackground=self.green_hover,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            command=self.show_video_selector,
+            state="disabled"
+        )
+        self.select_videos_btn.pack(fill="x", ipady=8)
+        
+        # Settings Panel (hidden by default) - improved styling
+        self.settings_frame = tk.Frame(self.root, bg=self.accent_color, height=180)
+        self.settings_visible = False
+        
+        settings_inner = tk.Frame(self.settings_frame, bg=self.accent_color)
+        settings_inner.pack(fill="both", expand=True, padx=30, pady=15)
+        
+        settings_title = tk.Label(
+            settings_inner,
+            text="⚙ Settings",
+            font=("Segoe UI", 13, "bold"),
+            bg=self.accent_color,
+            fg=self.green_color
+        )
+        settings_title.pack(anchor="w", pady=(0, 10))
+        
+        # Settings grid
+        settings_grid = tk.Frame(settings_inner, bg=self.accent_color)
+        settings_grid.pack(fill="x")
+        
+        # Debug mode checkbox
+        debug_container = tk.Frame(settings_grid, bg=self.accent_color)
+        debug_container.pack(fill="x", pady=5)
+        
+        self.debug_var = tk.BooleanVar(value=self.debug_mode)
+        
+        debug_check = tk.Checkbutton(
+            debug_container,
+            text="Enable Debug Mode",
+            variable=self.debug_var,
+            font=("Segoe UI", 10),
+            bg=self.accent_color,
+            fg=self.text_color,
+            selectcolor=self.bg_color,
+            activebackground=self.accent_color,
+            activeforeground=self.green_color,
+            cursor="hand2",
+            command=self.toggle_debug_mode
+        )
+        debug_check.pack(side="left")
+        
+        debug_desc = tk.Label(
+            debug_container,
+            text="Show detailed console output for troubleshooting",
+            font=("Segoe UI", 8),
+            bg=self.accent_color,
+            fg=self.text_muted
+        )
+        debug_desc.pack(side="left", padx=10)
+        
+        # Playlist mode checkbox
+        playlist_container = tk.Frame(settings_grid, bg=self.accent_color)
+        playlist_container.pack(fill="x", pady=5)
+        
+        self.playlist_var = tk.BooleanVar(value=False)
+        
+        playlist_check = tk.Checkbutton(
+            playlist_container,
+            text="Download Entire Playlist",
+            variable=self.playlist_var,
+            font=("Segoe UI", 10),
+            bg=self.accent_color,
+            fg=self.text_color,
+            selectcolor=self.bg_color,
+            activebackground=self.accent_color,
+            activeforeground=self.green_color,
+            cursor="hand2"
+        )
+        playlist_check.pack(side="left")
+        
+        playlist_desc = tk.Label(
+            playlist_container,
+            text="Download all videos when URL is a playlist",
+            font=("Segoe UI", 8),
+            bg=self.accent_color,
+            fg=self.text_muted
+        )
+        playlist_desc.pack(side="left", padx=10)
+        
+        # URL Input Section
+        url_section = tk.Frame(main_frame, bg=self.card_color)
+        url_section.pack(fill="x", pady=(0, 20))
+        
+        url_label = tk.Label(
+            url_section,
+            text="📺 Video URL",
+            font=("Segoe UI", 11, "bold"),
+            bg=self.card_color,
+            fg=self.text_color
+        )
+        url_label.pack(anchor="w", pady=(0, 8))
+        
+        url_entry_frame = tk.Frame(url_section, bg=self.border_color, padx=1, pady=1)
+        url_entry_frame.pack(fill="x")
+        
+        self.url_entry = tk.Entry(
+            url_entry_frame,
+            font=("Segoe UI", 10),
+            bg=self.accent_color,
+            fg=self.text_color,
+            insertbackground=self.green_color,
+            relief="flat",
+            bd=0
+        )
+        self.url_entry.pack(fill="x", ipady=10, padx=2, pady=2)
+        
+        url_hint = tk.Label(
+            url_section,
+            text="Paste a YouTube video or playlist URL",
+            font=("Segoe UI", 8),
+            bg=self.card_color,
+            fg=self.text_muted
+        )
+        url_hint.pack(anchor="w", pady=(5, 0))
+        
+        # Quality Selection Section
+        quality_section = tk.Frame(main_frame, bg=self.card_color)
+        quality_section.pack(fill="x", pady=(0, 20))
+        
+        quality_label = tk.Label(
+            quality_section,
+            text="🎞️ Quality / Format",
+            font=("Segoe UI", 11, "bold"),
+            bg=self.card_color,
+            fg=self.text_color
+        )
+        quality_label.pack(anchor="w", pady=(0, 8))
+        
+        self.quality_var = tk.StringVar(value="Best Quality (Video + Audio)")
+        
+        quality_options = [
+            "Best Quality (Video + Audio)",
+            "1080p",
+            "720p",
+            "480p",
+            "360p",
+            "Audio Only (MP3)"
+        ]
+        
+        quality_frame = tk.Frame(quality_section, bg=self.border_color, padx=1, pady=1)
+        quality_frame.pack(fill="x")
+        
+        self.quality_combo = ttk.Combobox(
+            quality_frame,
+            textvariable=self.quality_var,
+            values=quality_options,
+            state="readonly",
+            font=("Segoe UI", 10)
+        )
+        self.quality_combo.pack(fill="x", ipady=8, padx=2, pady=2)
+        
+        # Download Path Section
+        path_section = tk.Frame(main_frame, bg=self.card_color)
+        path_section.pack(fill="x", pady=(0, 20))
+        
+        path_label = tk.Label(
+            path_section,
+            text="📁 Download Location",
+            font=("Segoe UI", 11, "bold"),
+            bg=self.card_color,
+            fg=self.text_color
+        )
+        path_label.pack(anchor="w", pady=(0, 8))
+        
+        path_frame = tk.Frame(path_section, bg=self.card_color)
+        path_frame.pack(fill="x")
+        
+        path_entry_container = tk.Frame(path_frame, bg=self.border_color, padx=1, pady=1)
+        path_entry_container.pack(side="left", fill="x", expand=True)
+        
+        self.path_entry = tk.Entry(
+            path_entry_container,
+            font=("Segoe UI", 10),
+            bg=self.accent_color,
+            fg=self.text_color,
+            insertbackground=self.green_color,
+            relief="flat",
+            bd=0
+        )
+        self.path_entry.pack(fill="x", ipady=10, padx=2, pady=2)
+        self.path_entry.insert(0, self.download_path)
+        
+        browse_btn = tk.Button(
+            path_frame,
+            text="Browse",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            command=self.browse_folder
+        )
+        browse_btn.pack(side="left", padx=(10, 0), ipady=10, ipadx=20)
+        
+        # Progress Section
+        progress_section = tk.Frame(main_frame, bg=self.card_color)
+        progress_section.pack(fill="x", pady=(0, 20))
+        
+        self.progress_label = tk.Label(
+            progress_section,
+            text="Ready to download",
+            font=("Segoe UI", 9),
+            bg=self.card_color,
+            fg=self.text_muted
+        )
+        self.progress_label.pack(anchor="w", pady=(0, 8))
+        
+        progress_bar_container = tk.Frame(progress_section, bg=self.border_color, padx=1, pady=1)
+        progress_bar_container.pack(fill="x")
+        
+        self.progress_bar = ttk.Progressbar(
+            progress_bar_container,
+            mode='indeterminate',
+            length=640
+        )
+        self.progress_bar.pack(fill="x", padx=1, pady=1)
+        
+        # Download Button
+        self.download_btn = tk.Button(
+            main_frame,
+            text="⬇ Download",
+            font=("Segoe UI", 13, "bold"),
+            bg=self.green_color,
+            fg=self.bg_color,
+            activebackground=self.green_hover,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            command=self.start_download
+        )
+        self.download_btn.pack(fill="x", ipady=15)
+        
+        # Debug Console (hidden by default) - improved styling
+        self.debug_console_frame = tk.Frame(self.root, bg=self.bg_color)
+        
+        debug_header = tk.Frame(self.debug_console_frame, bg=self.bg_color)
+        debug_header.pack(fill="x", padx=30, pady=(10, 5))
+        
+        debug_console_label = tk.Label(
+            debug_header,
+            text="🐛 Debug Console",
+            font=("Segoe UI", 11, "bold"),
+            bg=self.bg_color,
+            fg=self.green_color
+        )
+        debug_console_label.pack(side="left")
+        
+        # Clear console button
+        clear_console_btn = tk.Button(
+            debug_header,
+            text="Clear",
+            font=("Segoe UI", 8, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            command=self.clear_console
+        )
+        clear_console_btn.pack(side="right", padx=5, ipadx=15, ipady=3)
+        
+        # Scrollbar and Text widget for console
+        console_container = tk.Frame(self.debug_console_frame, bg=self.border_color, padx=1, pady=1)
+        console_container.pack(fill="both", expand=True, padx=30, pady=(0, 10))
+        
+        console_inner = tk.Frame(console_container, bg=self.bg_color)
+        console_inner.pack(fill="both", expand=True, padx=1, pady=1)
+        
+        scrollbar = tk.Scrollbar(console_inner)
+        scrollbar.pack(side="right", fill="y")
+        
+        self.debug_console = tk.Text(
+            console_inner,
+            height=10,
+            font=("Consolas", 9),
+            bg=self.accent_color,
+            fg=self.green_color,
+            insertbackground=self.green_color,
+            relief="flat",
+            wrap="word",
+            state="disabled",
+            yscrollcommand=scrollbar.set
+        )
+        self.debug_console.pack(side="left", fill="both", expand=True)
+        scrollbar.config(command=self.debug_console.yview)
+        
+        # Show debug console if debug mode is enabled
+        if self.debug_mode:
+            self.debug_console_frame.pack(fill="both", expand=True)
+            self.root.geometry("1000x850")
+            self.log_debug("Debug mode enabled")
+            # Start processing output queue
+            self.process_output_queue()
+        
+        # Footer
+        footer_frame = tk.Frame(self.root, bg=self.bg_color, height=40)
+        footer_frame.pack(side="bottom", fill="x")
+        footer_frame.pack_propagate(False)
+        
+        footer_label = tk.Label(
+            footer_frame,
+            text="LetUsTech - Wired For Your World  |  letustech.uk",
+            font=("Segoe UI", 8),
+            bg=self.bg_color,
+            fg=self.text_muted
+        )
+        footer_label.pack(pady=10)
+        
+        # Style configuration for ttk widgets
+        style = ttk.Style()
+        style.theme_use('clam')
+        style.configure("TCombobox", 
+                       fieldbackground=self.accent_color,
+                       background=self.accent_color,
+                       foreground=self.text_color,
+                       arrowcolor=self.green_color,
+                       borderwidth=0,
+                       relief="flat")
+        style.map('TCombobox', 
+                 fieldbackground=[('readonly', self.accent_color)],
+                 selectbackground=[('readonly', self.accent_color)],
+                 selectforeground=[('readonly', self.text_color)])
+        
+        style.configure("TProgressbar",
+                       troughcolor=self.accent_color,
+                       background=self.green_color,
+                       borderwidth=0,
+                       thickness=25)
+    
+    def load_settings(self):
+        """Load settings from JSON file"""
+        try:
+            if self.settings_file.exists():
+                with open(self.settings_file, 'r') as f:
+                    settings = json.load(f)
+                    self.debug_mode = settings.get('debug_mode', False)
+                    saved_path = settings.get('download_path', '')
+                    if saved_path and os.path.exists(saved_path):
+                        self.download_path = saved_path
+        except Exception as e:
+            print(f"Error loading settings: {e}")
+    
+    def check_ffmpeg(self):
+        """Check if FFmpeg is installed"""
+        try:
+            self.log_debug("=== STARTING FFMPEG CHECK ===")
+            
+            # Check system PATH first
+            if shutil.which('ffmpeg'):
+                self.log_debug("FFmpeg found in system PATH")
+                return
+            
+            self.log_debug("FFmpeg not found in system PATH, checking portable installations...")
+            
+            # Check for portable installation in app directory
+            app_dir = os.getcwd()
+            portable_ffmpeg = os.path.join(app_dir, "ffmpeg.exe")
+            portable_folder = os.path.join(app_dir, "ffmpeg", "bin", "ffmpeg.exe")
+            
+            self.log_debug(f"Checking portable locations:")
+            self.log_debug(f"  - {portable_ffmpeg}")
+            self.log_debug(f"  - {portable_folder}")
+            
+            if os.path.exists(portable_ffmpeg):
+                self.log_debug("FFmpeg found as portable installation in app directory")
+                # Add to current session PATH
+                current_path = os.environ.get('PATH', '')
+                if app_dir not in current_path:
+                    os.environ['PATH'] = current_path + os.pathsep + app_dir
+                    self.log_debug("Added app directory to current session PATH")
+                return
+            elif os.path.exists(portable_folder):
+                self.log_debug("FFmpeg found in portable folder")
+                # Add portable bin to current session PATH
+                portable_bin = os.path.join(app_dir, "ffmpeg", "bin")
+                current_path = os.environ.get('PATH', '')
+                if portable_bin not in current_path:
+                    os.environ['PATH'] = current_path + os.pathsep + portable_bin
+                    self.log_debug("Added portable bin directory to current session PATH")
+                return
+            
+            self.log_debug("FFmpeg not found anywhere - showing installation options")
+            
+            # Schedule FFmpeg installation dialog for after UI is ready
+            def show_ffmpeg_dialog():
+                try:
+                    result = messagebox.askyesnocancel(
+                        "FFmpeg Not Found",
+                        "FFmpeg is not installed or not in your system PATH.\n\n"
+                        "FFmpeg is required for:\n"
+                        "• Merging video and audio streams\n"
+                        "• Converting to MP3\n"
+                        "• Processing certain video formats\n\n"
+                        "Video downloads will work, but audio conversion and format merging may fail.\n\n"
+                        "Would you like to:\n"
+                        "• Yes - Open FFmpeg installation guide\n"
+                        "• No - Continue without FFmpeg\n"
+                        "• Cancel - Exit application"
+                    )
+                    
+                    if result is True:  # Yes - Open installation guide
+                        self.open_ffmpeg_installer()
+                    elif result is None:  # Cancel - Exit
+                        self.log_debug("User chose to exit due to missing FFmpeg")
+                        self.root.quit()
+                    else:  # No - Continue
+                        self.log_debug("User chose to continue without FFmpeg")
+                        
+                except Exception as e:
+                    self.log_debug(f"Error in FFmpeg dialog: {e}")
+                    # Don't let dialog errors crash the app
+                    
+            # Show dialog after 1 second to ensure UI is ready
+            self.root.after(1000, show_ffmpeg_dialog)
+            
+            self.log_debug("WARNING: FFmpeg not found in system PATH or portable installation")
+            
+        except Exception as e:
+            self.log_debug(f"ERROR in check_ffmpeg: {type(e).__name__}: {e}")
+            # Don't let FFmpeg check errors crash the application
+            import traceback
+            self.log_debug(f"FFmpeg check traceback: {traceback.format_exc()}")
+            
+            # Show a simple warning but don't crash
+            try:
+                self.root.after(2000, lambda: messagebox.showwarning(
+                    "FFmpeg Check Failed", 
+                    f"Could not check FFmpeg installation:\n{e}\n\nYou may install it later if needed."
+                ))
+            except:
+                pass  # Even this shouldn't crash the app
+    
+    def open_ffmpeg_installer(self):
+        """Open FFmpeg installation options"""
+        import sys
+        import webbrowser
+        
+        installer_window = tk.Toplevel(self.root)
+        installer_window.title("Install FFmpeg - LetUsTech")
+        installer_window.geometry("700x600")
+        installer_window.configure(bg=self.bg_color)
+        installer_window.grab_set()  # Make it modal
+        
+        # Header
+        header_frame = tk.Frame(installer_window, bg=self.card_color, height=80)
+        header_frame.pack(fill="x")
+        header_frame.pack_propagate(False)
+        
+        header = tk.Label(
+            header_frame,
+            text="🔧 Install FFmpeg",
+            font=("Segoe UI", 16, "bold"),
+            bg=self.card_color,
+            fg=self.green_color
+        )
+        header.pack(pady=25)
+        
+        # Content
+        content_frame = tk.Frame(installer_window, bg=self.bg_color)
+        content_frame.pack(fill="both", expand=True, padx=30, pady=20)
+        
+        info_label = tk.Label(
+            content_frame,
+            text="Choose your installation method:",
+            font=("Segoe UI", 12, "bold"),
+            bg=self.bg_color,
+            fg=self.text_color
+        )
+        info_label.pack(anchor="w", pady=(0, 15))
+        
+        # Progress bar for installation
+        self.install_progress = ttk.Progressbar(
+            content_frame,
+            mode='indeterminate',
+            length=640
+        )
+        self.install_progress.pack(fill="x", pady=(0, 15))
+        self.install_progress.pack_forget()  # Hide initially
+        
+        self.install_status = tk.Label(
+            content_frame,
+            text="",
+            font=("Segoe UI", 9),
+            bg=self.bg_color,
+            fg=self.text_muted
+        )
+        self.install_status.pack(fill="x")
+        self.install_status.pack_forget()  # Hide initially
+        
+        # Windows options
+        if sys.platform == "win32":
+            # Option 1: Automatic installer
+            option1_frame = tk.Frame(content_frame, bg=self.card_color)
+            option1_frame.pack(fill="x", pady=5)
+            
+            tk.Label(
+                option1_frame,
+                text="🚀 Option 1: Automatic Installation (Recommended)",
+                font=("Segoe UI", 11, "bold"),
+                bg=self.card_color,
+                fg=self.green_color
+            ).pack(anchor="w", padx=15, pady=10)
+            
+            tk.Label(
+                option1_frame,
+                text="Downloads and installs FFmpeg automatically. No manual steps required!",
+                font=("Segoe UI", 9),
+                bg=self.card_color,
+                fg=self.text_muted
+            ).pack(anchor="w", padx=15)
+            
+            auto_buttons_frame = tk.Frame(option1_frame, bg=self.card_color)
+            auto_buttons_frame.pack(anchor="w", padx=15, pady=(5, 15))
+            
+            auto_install_btn = tk.Button(
+                auto_buttons_frame,
+                text="⬇ Install to System",
+                font=("Segoe UI", 10, "bold"),
+                bg=self.green_color,
+                fg=self.bg_color,
+                activebackground=self.green_hover,
+                activeforeground=self.bg_color,
+                relief="flat",
+                cursor="hand2",
+                borderwidth=0,
+                command=lambda: self.auto_install_ffmpeg(installer_window)
+            )
+            auto_install_btn.pack(side="left", padx=(0, 10), ipadx=20, ipady=8)
+            
+            portable_install_btn = tk.Button(
+                auto_buttons_frame,
+                text="📁 Portable Install",
+                font=("Segoe UI", 10, "bold"),
+                bg=self.accent_color,
+                fg=self.text_color,
+                activebackground=self.green_color,
+                activeforeground=self.bg_color,
+                relief="flat",
+                cursor="hand2",
+                borderwidth=0,
+                command=lambda: self.portable_install_ffmpeg(installer_window)
+            )
+            portable_install_btn.pack(side="left", ipadx=20, ipady=8)
+        
+        # Bottom buttons
+        button_frame = tk.Frame(installer_window, bg=self.bg_color)
+        button_frame.pack(fill="x", padx=30, pady=(0, 20))
+        
+        close_btn = tk.Button(
+            button_frame,
+            text="Close",
+            font=("Segoe UI", 10, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            command=installer_window.destroy
+        )
+        close_btn.pack(side="right", ipadx=25, ipady=8)
+    
+    def auto_install_ffmpeg(self, parent_window):
+        """Automatically download and install FFmpeg"""
+        messagebox.showinfo("FFmpeg Installation", "FFmpeg auto-installation would start here. This feature is available in the full version.")
+        parent_window.destroy()
+    
+    def portable_install_ffmpeg(self, parent_window):
+        """Install FFmpeg portably to application folder"""
+        messagebox.showinfo("FFmpeg Installation", "FFmpeg portable installation would start here. This feature is available in the full version.")
+        parent_window.destroy()
+    
+    def get_download_folder(self, quality):
+        """Get or create appropriate download folder based on content type"""
+        base_path = Path(self.download_path)
+        
+        # Determine subfolder based on quality/type
+        if quality == "Audio Only (MP3)":
+            subfolder = "Music"
+        else:
+            subfolder = "Videos"
+        
+        # Create full path
+        download_folder = base_path / subfolder
+        
+        # Create folder if it doesn't exist
+        try:
+            download_folder.mkdir(parents=True, exist_ok=True)
+            self.log_debug(f"Using download folder: {download_folder}")
+        except Exception as e:
+            self.log_debug(f"Error creating folder: {e}")
+            # Fallback to base path if folder creation fails
+            download_folder = base_path
+        
+        return str(download_folder)
+    
+    def save_settings(self):
+        """Save settings to JSON file"""
+        try:
+            settings = {
+                'debug_mode': self.debug_mode,
+                'download_path': self.download_path
+            }
+            with open(self.settings_file, 'w') as f:
+                json.dump(settings, f, indent=2)
+        except Exception as e:
+            print(f"Error saving settings: {e}")
+    
+    def toggle_settings(self):
+        """Show/hide settings panel"""
+        if self.settings_visible:
+            self.settings_frame.pack_forget()
+            self.settings_visible = False
+        else:
+            self.settings_frame.pack(after=self.root.winfo_children()[0], fill="x")
+            self.settings_visible = True
+    
+    def toggle_debug_mode(self):
+        """Toggle debug mode on/off"""
+        self.debug_mode = self.debug_var.get()
+        self.save_settings()
+        
+        if self.debug_mode:
+            self.debug_console_frame.pack(fill="both", expand=True)
+            self.root.geometry("1000x850")
+            self.log_debug("Debug mode enabled")
+            # Start processing output queue
+            self.process_output_queue()
+        else:
+            self.debug_console_frame.pack_forget()
+            self.root.geometry("1000x650")
+        
+        # Update window to apply changes
+        self.root.update_idletasks()
+    
+    def log_debug(self, message):
+        """Add message to debug console"""
+        if self.debug_mode:
+            self.debug_console.config(state="normal")
+            self.debug_console.insert("end", f"{message}\n")
+            self.debug_console.see("end")
+            self.debug_console.config(state="disabled")
+    
+    def process_output_queue(self):
+        """Process output queue and update debug console"""
+        while not self.output_queue.empty():
+            message = self.output_queue.get()
+            self.debug_console.config(state="normal")
+            self.debug_console.insert("end", message)
+            self.debug_console.see("end")
+            self.debug_console.config(state="disabled")
+        
+        # Schedule next check
+        if self.debug_mode:
+            self.root.after(100, self.process_output_queue)
+    
+    def clear_console(self):
+        """Clear the debug console"""
+        self.debug_console.config(state="normal")
+        self.debug_console.delete(1.0, "end")
+        self.debug_console.config(state="disabled")
+        self.log_debug("Console cleared")
+    
+    def load_history(self):
+        """Load download history from JSON file"""
+        try:
+            if self.history_file.exists():
+                with open(self.history_file, 'r') as f:
+                    self.download_history = json.load(f)
+        except Exception as e:
+            self.log_debug(f"Error loading history: {e}")
+            self.download_history = []
+    
+    def save_history(self):
+        """Save download history to JSON file"""
+        try:
+            # Keep only last 100 downloads
+            self.download_history = self.download_history[-100:]
+            with open(self.history_file, 'w') as f:
+                json.dump(self.download_history, f, indent=2)
+        except Exception as e:
+            self.log_debug(f"Error saving history: {e}")
+    
+    def add_to_history(self, title, url, quality, file_path, is_playlist=False):
+        """Add download to history"""
+        history_entry = {
+            'title': title,
+            'url': url,
+            'quality': quality,
+            'file_path': file_path,
+            'is_playlist': is_playlist,
+            'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        self.download_history.append(history_entry)
+        self.save_history()
+    
+    def show_history(self):
+        """Display download history in a new window"""
+        history_window = tk.Toplevel(self.root)
+        history_window.title("Download History - LetUsTech")
+        history_window.geometry("700x500")
+        history_window.configure(bg=self.bg_color)
+        
+        # Header
+        header = tk.Label(
+            history_window,
+            text="Download History",
+            font=("Segoe UI", 16, "bold"),
+            bg=self.bg_color,
+            fg=self.green_color
+        )
+        header.pack(pady=10)
+        
+        # Listbox with scrollbar
+        list_frame = tk.Frame(history_window, bg=self.bg_color)
+        list_frame.pack(fill="both", expand=True, padx=20, pady=10)
+        
+        scrollbar = tk.Scrollbar(list_frame)
+        scrollbar.pack(side="right", fill="y")
+        
+        history_list = tk.Listbox(
+            list_frame,
+            font=("Segoe UI", 9),
+            bg=self.accent_color,
+            fg=self.text_color,
+            selectbackground=self.green_color,
+            selectforeground=self.bg_color,
+            yscrollcommand=scrollbar.set,
+            relief="flat"
+        )
+        history_list.pack(side="left", fill="both", expand=True)
+        scrollbar.config(command=history_list.yview)
+        
+        # Populate history
+        if not self.download_history:
+            history_list.insert("end", "No download history yet")
+        else:
+            for entry in reversed(self.download_history):
+                playlist_tag = " [PLAYLIST]" if entry.get('is_playlist', False) else ""
+                display_text = f"{entry['timestamp']} - {entry['title']}{playlist_tag} ({entry['quality']})"
+                history_list.insert("end", display_text)
+        
+        # Buttons
+        btn_frame = tk.Frame(history_window, bg=self.bg_color)
+        btn_frame.pack(pady=10)
+        
+        clear_btn = tk.Button(
+            btn_frame,
+            text="Clear History",
+            font=("Segoe UI", 10, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            command=lambda: self.clear_history(history_list)
+        )
+        clear_btn.pack(side="left", padx=5, ipadx=20, ipady=5)
+        
+        close_btn = tk.Button(
+            btn_frame,
+            text="Close",
+            font=("Segoe UI", 10, "bold"),
+            bg=self.green_color,
+            fg=self.bg_color,
+            activebackground="#00cc6a",
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            command=history_window.destroy
+        )
+        close_btn.pack(side="left", padx=5, ipadx=20, ipady=5)
+    
+    def clear_history(self, listbox):
+        """Clear download history"""
+        if messagebox.askyesno("Clear History", "Are you sure you want to clear all download history?"):
+            self.download_history = []
+            self.save_history()
+            listbox.delete(0, "end")
+            listbox.insert("end", "No download history yet")
+            self.log_debug("Download history cleared")
+    
+    def browse_folder(self):
+        folder = filedialog.askdirectory(initialdir=self.download_path)
+        if folder:
+            self.download_path = folder
+            self.path_entry.delete(0, tk.END)
+            self.path_entry.insert(0, folder)
+            self.save_settings()
+            self.log_debug(f"Download path changed to: {folder}")
+    
+    def load_preview(self):
+        """Load video thumbnail and info"""
+        self.log_debug("=== STARTING PREVIEW LOAD ===")
+        url = self.url_entry.get().strip()
+        self.log_debug(f"Raw URL from entry: '{url}'")
+        
+        if not url:
+            self.log_debug("ERROR: No URL provided")
+            messagebox.showwarning("No URL", "Please enter a YouTube URL first")
+            return
+        
+        self.log_debug(f"URL validation starting for: {url}")
+        if not self.validate_url(url):
+            self.log_debug("ERROR: URL validation failed")
+            messagebox.showerror("Invalid URL", "Please enter a valid YouTube URL")
+            return
+        
+        self.log_debug("URL validation passed - proceeding with preview load")
+        
+        self.preview_btn.config(state="disabled", text="Loading...")
+        self.thumbnail_label.config(text="🔄 Fetching preview...")
+        self.select_videos_btn.config(state="disabled")
+        self.root.update_idletasks()  # Force UI update
+        
+        self.log_debug("UI updated - buttons disabled, status set to loading")
+        
+        def fetch_preview():
+            try:
+                self.log_debug("=== FETCH PREVIEW THREAD STARTED ===")
+                self.log_debug(f"Current time: {time.strftime('%H:%M:%S')}")
+                
+                # Update UI to show progress
+                def update_status(message):
+                    self.root.after(0, lambda: self.thumbnail_label.config(text=message))
+                
+                update_status("🔄 Connecting to YouTube...")
+                self.log_debug("Status updated: Connecting to YouTube")
+                
+                # First, do a quick check to see if it's a large playlist
+                quick_opts = {
+                    'quiet': True,
+                    'extract_flat': True,  # Fast check
+                    'ignoreerrors': True,
+                }
+                
+                self.log_debug("Doing quick playlist check...")
+                with yt_dlp.YoutubeDL(quick_opts) as ydl:
+                    quick_info = ydl.extract_info(url, download=False)
+                
+                # If it's a large playlist, handle it specially
+                if 'entries' in quick_info:
+                    entries_count = len(quick_info.get('entries', []))
+                    self.log_debug(f"Found playlist with {entries_count} videos")
+                    
+                    if entries_count > 50:  # Large playlist
+                        self.log_debug("=== LARGE PLAYLIST DETECTED - FAST MODE ===")
+                        update_status(f"📋 Large playlist found ({entries_count} videos)")
+                        
+                        self.is_playlist = True
+                        self.playlist_videos = []
+                        
+                        playlist_title = quick_info.get('title', 'Large Playlist')
+                        
+                        # Just take the first few videos for preview
+                        for i, entry in enumerate(quick_info['entries'][:5]):
+                            if entry:
+                                video_data = {
+                                    'title': entry.get('title', f'Video {i+1}'),
+                                    'id': entry.get('id', ''),
+                                    'url': entry.get('url', ''),
+                                    'duration': entry.get('duration', 0),
+                                    'thumbnail': entry.get('thumbnail', '')
+                                }
+                                self.playlist_videos.append(video_data)
+                        
+                        self.video_title_label.config(
+                            text=f"📋 {playlist_title}\n({entries_count} videos - Large playlist detected)"
+                        )
+                        
+                        # Store the quick info for later use
+                        self.full_playlist_info = quick_info
+                        self.select_videos_btn.config(state="normal")
+                        
+                        # Use first video thumbnail
+                        thumbnail_url = self.playlist_videos[0].get('thumbnail') if self.playlist_videos else None
+                        
+                        self.log_debug("Large playlist handled quickly - skipping full processing")
+                        
+                        # Jump to thumbnail loading for large playlists
+                        if thumbnail_url:
+                            self.log_debug("Loading thumbnail for large playlist")
+                        else:
+                            self.log_debug("No thumbnail available for large playlist")
+                            self.thumbnail_label.config(text="📋 Large Playlist")
+                        
+                        # Skip the rest of processing for large playlists
+                        skip_normal_processing = True
+                        
+                    else:
+                        self.log_debug(f"Small playlist ({entries_count} videos) - processing normally")
+                        # Continue with normal processing for small playlists
+                        ydl_opts = {
+                            'quiet': not self.debug_mode,
+                            'no_warnings': not self.debug_mode,
+                            'extract_flat': False,
+                            'ignoreerrors': False,
+                            'socket_timeout': 30,
+                            'retries': 2,
+                        }
+                        skip_normal_processing = False
+                else:
+                    self.log_debug("Single video detected - processing normally")
+                    # Continue with normal processing for single videos
+                    ydl_opts = {
+                        'quiet': not self.debug_mode,
+                        'no_warnings': not self.debug_mode,
+                        'extract_flat': False,
+                        'ignoreerrors': False,
+                        'socket_timeout': 30,
+                        'retries': 2,
+                    }
+                    skip_normal_processing = False
+                
+                # Only do full processing if not a large playlist
+                if not skip_normal_processing:
+                    self.log_debug("yt-dlp options configured:")
+                    self.log_debug(f"  - quiet: {ydl_opts['quiet']}")
+                    self.log_debug(f"  - no_warnings: {ydl_opts['no_warnings']}")
+                    self.log_debug(f"  - extract_flat: {ydl_opts['extract_flat']}")
+                    self.log_debug(f"  - ignoreerrors: {ydl_opts['ignoreerrors']}")
+                    
+                    self.log_debug("Creating yt-dlp instance...")
+                    
+                    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                        self.log_debug("yt-dlp instance created successfully")
+                        self.log_debug(f"Calling extract_info for URL: {url}")
+                        
+                        info = ydl.extract_info(url, download=False)
+                        
+                        self.log_debug("yt-dlp extract_info completed")
+                        self.log_debug(f"Info type: {type(info)}")
+                        
+                        if not info:
+                            self.log_debug("ERROR: yt-dlp returned None/empty info")
+                            raise Exception("Could not extract video information")
+                        
+                        self.log_debug(f"Info keys: {list(info.keys()) if isinstance(info, dict) else 'Not a dict'}")
+                        
+                        # Check if it's a playlist
+                        if 'entries' in info:
+                            self.log_debug("=== PLAYLIST DETECTED ===")
+                            self.is_playlist = True
+                            self.playlist_videos = []
+                            
+                            playlist_title = info.get('title', 'Unknown Playlist')
+                            self.log_debug(f"Playlist title: {playlist_title}")
+                            
+                            # Get playlist thumbnail from first video or playlist info
+                            thumbnail_url = info.get('thumbnail')
+                            self.log_debug(f"Playlist thumbnail URL: {thumbnail_url}")
+                            
+                            # Store all videos with full info
+                            entries_count = len(info.get('entries', []))
+                            self.log_debug(f"Processing {entries_count} entries...")
+                            
+                            for i, entry in enumerate(info['entries']):
+                                if entry:
+                                    video_data = {
+                                        'title': entry.get('title', 'Unknown'),
+                                        'id': entry.get('id', ''),
+                                        'url': entry.get('webpage_url', entry.get('url', '')),
+                                        'duration': entry.get('duration', 0),
+                                        'thumbnail': entry.get('thumbnail', '')
+                                    }
+                                    self.playlist_videos.append(video_data)
+                                    self.log_debug(f"Entry {i+1}: {video_data['title']} ({video_data['id']})")
+                                else:
+                                    self.log_debug(f"Entry {i+1}: Empty/None entry skipped")
+                            
+                            video_count = len(self.playlist_videos)
+                            self.log_debug(f"Total valid videos in playlist: {video_count}")
+                            
+                            self.video_title_label.config(
+                                text=f"📋 Playlist: {playlist_title}\n({video_count} videos)"
+                            )
+                            
+                            # Enable select videos button
+                            self.select_videos_btn.config(state="normal")
+                            self.log_debug("Select videos button enabled")
+                            
+                            # Get first video thumbnail if playlist doesn't have one
+                            if not thumbnail_url and self.playlist_videos:
+                                thumbnail_url = self.playlist_videos[0].get('thumbnail')
+                                self.log_debug(f"Using first video thumbnail: {thumbnail_url}")
+                            
+                        else:
+                            self.log_debug("=== SINGLE VIDEO DETECTED ===")
+                            self.is_playlist = False
+                            self.playlist_videos = []
+                            self.select_videos_btn.config(state="disabled")
+                            
+                            title = info.get('title', 'Unknown')
+                            duration = info.get('duration', 0)
+                            uploader = info.get('uploader', 'Unknown')
+                            view_count = info.get('view_count', 0)
+                            
+                            self.log_debug(f"Video title: {title}")
+                            self.log_debug(f"Video duration: {duration} seconds")
+                            self.log_debug(f"Video uploader: {uploader}")
+                            self.log_debug(f"Video view count: {view_count}")
+                            
+                            mins, secs = divmod(duration, 60) if duration else (0, 0)
+                            
+                            self.video_title_label.config(
+                                text=f"{title}\n({int(mins)}:{int(secs):02d})"
+                            )
+                            
+                            # Try multiple thumbnail fields
+                            thumbnails = info.get('thumbnails', [])
+                            self.log_debug(f"Available thumbnails: {len(thumbnails)}")
+                            
+                            for i, thumb in enumerate(thumbnails[:3]):  # Log first 3
+                                self.log_debug(f"  Thumbnail {i+1}: {thumb.get('url', 'No URL')} ({thumb.get('width', '?')}x{thumb.get('height', '?')})")
+                            
+                            thumbnail_url = (
+                                info.get('thumbnail') or 
+                                (thumbnails[-1].get('url') if thumbnails else None)
+                            )
+                            
+                            self.log_debug(f"Selected thumbnail URL: {thumbnail_url}")
+                
+                # Load thumbnail image (works for both large playlists and normal processing)
+                if thumbnail_url:
+                    self.log_debug("=== LOADING THUMBNAIL ===")
+                    self.log_debug(f"Thumbnail URL: {thumbnail_url}")
+                    
+                    # Add headers to mimic browser request
+                    headers = {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                    }
+                    
+                    self.log_debug("Making HTTP request for thumbnail...")
+                    response = requests.get(thumbnail_url, timeout=15, headers=headers)
+                    self.log_debug(f"HTTP response status: {response.status_code}")
+                    self.log_debug(f"Content-Type: {response.headers.get('content-type', 'Unknown')}")
+                    self.log_debug(f"Content-Length: {len(response.content)} bytes")
+                    
+                    if response.status_code != 200:
+                        raise Exception(f"HTTP {response.status_code}: Could not download thumbnail")
+                    
+                    img_data = response.content
+                    self.log_debug(f"Downloaded {len(img_data)} bytes of image data")
+                    
+                    self.log_debug("Opening image with PIL...")
+                    img = Image.open(BytesIO(img_data))
+                    self.log_debug(f"Original image size: {img.size}")
+                    self.log_debug(f"Image mode: {img.mode}")
+                    
+                    # Convert to RGB if needed
+                    if img.mode != 'RGB':
+                        self.log_debug(f"Converting image from {img.mode} to RGB")
+                        img = img.convert('RGB')
+                    
+                    # Resize to fit preview area
+                    original_size = img.size
+                    self.log_debug("Resizing image to fit preview area (230x130)...")
+                    img.thumbnail((230, 130), Image.Resampling.LANCZOS)
+                    self.log_debug(f"Image resized from {original_size} to {img.size}")
+                    
+                    self.log_debug("Converting to PhotoImage...")
+                    photo = ImageTk.PhotoImage(img)
+                    self.current_thumbnail = photo
+                    
+                    self.log_debug("Updating thumbnail label...")
+                    self.thumbnail_label.config(image=photo, text="")
+                    self.thumbnail_label.image = photo
+                    self.log_debug("Thumbnail loaded and displayed successfully!")
+                    
+                else:
+                    self.log_debug("WARNING: No thumbnail URL found")
+                    self.thumbnail_label.config(text="No thumbnail available")
+                
+                self.log_debug(f"=== PREVIEW LOAD COMPLETE ===")
+                self.log_debug(f"Type: {'Playlist' if self.is_playlist else 'Video'}")
+                    
+            except requests.exceptions.Timeout as e:
+                self.log_debug(f"TIMEOUT ERROR: {str(e)}")
+                self.thumbnail_label.config(text="Timeout loading preview")
+                self.video_title_label.config(text="")
+                messagebox.showerror("Timeout Error", "Request timed out. Please check your internet connection and try again.")
+                
+            except requests.exceptions.ConnectionError as e:
+                self.log_debug(f"CONNECTION ERROR: {str(e)}")
+                self.thumbnail_label.config(text="Connection failed")
+                self.video_title_label.config(text="")
+                messagebox.showerror("Connection Error", "Could not connect to YouTube. Please check your internet connection.")
+                
+            except yt_dlp.DownloadError as e:
+                self.log_debug(f"YT-DLP DOWNLOAD ERROR: {str(e)}")
+                self.thumbnail_label.config(text="Video unavailable")
+                self.video_title_label.config(text="")
+                error_msg = str(e).lower()
+                if 'private' in error_msg:
+                    messagebox.showerror("Video Unavailable", "This video is private.")
+                elif 'unavailable' in error_msg:
+                    messagebox.showerror("Video Unavailable", "This video is no longer available.")
+                elif 'age' in error_msg or 'restricted' in error_msg:
+                    messagebox.showerror("Video Restricted", "This video is age-restricted or region-blocked.")
+                else:
+                    messagebox.showerror("Download Error", f"Could not access video:\n{str(e)}")
+                    
+            except Exception as e:
+                self.log_debug(f"UNEXPECTED ERROR in fetch_preview: {type(e).__name__}: {str(e)}")
+                self.thumbnail_label.config(text="Failed to load preview")
+                self.video_title_label.config(text="")
+                import traceback
+                full_traceback = traceback.format_exc()
+                self.log_debug(f"Full traceback:\n{full_traceback}")
+                messagebox.showerror("Preview Error", f"Failed to load preview:\n\n{type(e).__name__}: {str(e)}")
+            
+            finally:
+                self.log_debug("=== PREVIEW LOAD FINISHED ===")
+                self.preview_btn.config(state="normal", text="Reload Preview")
+        
+        # Run in thread
+        self.log_debug("Starting preview fetch thread...")
+        threading.Thread(target=fetch_preview, daemon=True).start()
+    
+    def validate_url(self, url):
+        youtube_regex = r'(https?://)?(www\.)?(youtube|youtu|youtube-nocookie)\.(com|be)/'
+        return re.match(youtube_regex, url) is not None
+    
+    def show_video_selector(self):
+        """Show window to select which videos to download from playlist"""
+        if not self.playlist_videos and not hasattr(self, 'full_playlist_info'):
+            messagebox.showwarning("No Playlist", "Please load a playlist preview first")
+            return
+        
+        # Check if this is a large playlist that needs full loading
+        if hasattr(self, 'full_playlist_info') and self.full_playlist_info and len(self.playlist_videos) < 10:
+            self.log_debug("Loading full playlist info for large playlist...")
+            
+            # Show loading dialog
+            loading_window = tk.Toplevel(self.root)
+            loading_window.title("Loading Playlist...")
+            loading_window.geometry("400x150")
+            loading_window.configure(bg=self.bg_color)
+            loading_window.resizable(False, False)
+            
+            # Center the window
+            loading_window.transient(self.root)
+            loading_window.grab_set()
+            
+            tk.Label(
+                loading_window,
+                text="🔄 Loading full playlist information...",
+                font=("Segoe UI", 12),
+                bg=self.bg_color,
+                fg=self.text_color
+            ).pack(pady=30)
+            
+            progress_bar = ttk.Progressbar(loading_window, mode='indeterminate')
+            progress_bar.pack(pady=10, padx=30, fill="x")
+            progress_bar.start(10)
+            
+            status_label = tk.Label(
+                loading_window,
+                text="Please wait...",
+                font=("Segoe UI", 10),
+                bg=self.bg_color,
+                fg=self.text_muted
+            )
+            status_label.pack()
+            
+            def load_full_playlist():
+                try:
+                    status_label.config(text="Extracting video information...")
+                    self.root.update()
+                    
+                    # Load full info for all videos
+                    self.playlist_videos = []
+                    total_videos = len(self.full_playlist_info['entries'])
+                    
+                    for i, entry in enumerate(self.full_playlist_info['entries']):
+                        if entry:
+                            video_data = {
+                                'title': entry.get('title', f'Video {i+1}'),
+                                'id': entry.get('id', ''),
+                                'url': entry.get('url', ''),
+                                'duration': entry.get('duration', 0),
+                                'thumbnail': entry.get('thumbnail', '')
+                            }
+                            self.playlist_videos.append(video_data)
+                            
+                            # Update progress every 10 videos
+                            if i % 10 == 0:
+                                status_label.config(text=f"Processing video {i+1} of {total_videos}...")
+                                self.root.update()
+                    
+                    progress_bar.stop()
+                    loading_window.destroy()
+                    self.log_debug(f"Loaded {len(self.playlist_videos)} videos from large playlist")
+                    
+                    # Now show the video selector with all videos
+                    self._show_video_selector_window()
+                    
+                except Exception as e:
+                    progress_bar.stop()
+                    loading_window.destroy()
+                    self.log_debug(f"Error loading full playlist: {e}")
+                    messagebox.showerror("Error", f"Failed to load full playlist:\n{e}")
+            
+            # Start loading in thread
+            threading.Thread(target=load_full_playlist, daemon=True).start()
+            
+        else:
+            # Normal playlist or already fully loaded
+            self._show_video_selector_window()
+    
+    def _show_video_selector_window(self):
+        """Show the actual video selector window"""
+        selector_window = tk.Toplevel(self.root)
+        selector_window.title("Select Videos - LetUsTech")
+        selector_window.geometry("900x650")
+        selector_window.configure(bg=self.bg_color)
+        
+        # Header
+        header_frame = tk.Frame(selector_window, bg=self.card_color, height=80)
+        header_frame.pack(fill="x")
+        header_frame.pack_propagate(False)
+        
+        header = tk.Label(
+            header_frame,
+            text=f"📋 Select Videos to Download",
+            font=("Segoe UI", 16, "bold"),
+            bg=self.card_color,
+            fg=self.green_color
+        )
+        header.pack(pady=(20, 5))
+        
+        count_label = tk.Label(
+            header_frame,
+            text=f"{len(self.playlist_videos)} videos in playlist",
+            font=("Segoe UI", 9),
+            bg=self.card_color,
+            fg=self.text_muted
+        )
+        count_label.pack()
+        
+        # Select/Deselect all buttons
+        button_frame = tk.Frame(selector_window, bg=self.bg_color)
+        button_frame.pack(pady=15)
+        
+        video_vars = []
+        
+        def select_all():
+            for var in video_vars:
+                var.set(True)
+        
+        def deselect_all():
+            for var in video_vars:
+                var.set(False)
+        
+        select_all_btn = tk.Button(
+            button_frame,
+            text="✓ Select All",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            command=select_all
+        )
+        select_all_btn.pack(side="left", padx=5, ipadx=15, ipady=6)
+        
+        deselect_all_btn = tk.Button(
+            button_frame,
+            text="✗ Deselect All",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            command=deselect_all
+        )
+        deselect_all_btn.pack(side="left", padx=5, ipadx=15, ipady=6)
+        
+        # Close button
+        close_btn = tk.Button(
+            selector_window,
+            text="Close",
+            font=("Segoe UI", 10, "bold"),
+            bg=self.green_color,
+            fg=self.bg_color,
+            activebackground=self.green_hover,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
+            command=selector_window.destroy
+        )
+        close_btn.pack(side="bottom", pady=20)
+    
+    def progress_hook(self, d):
+        if d['status'] == 'downloading':
+            try:
+                percent = d.get('_percent_str', 'N/A')
+                speed = d.get('_speed_str', 'N/A')
+                eta = d.get('_eta_str', 'N/A')
+                
+                status_text = f"Downloading... {percent} | Speed: {speed} | ETA: {eta}"
+                self.progress_label.config(text=status_text)
+                
+                # Log every 10% in debug mode
+                if self.debug_mode and percent != 'N/A':
+                    percent_num = percent.strip('%')
+                    try:
+                        if float(percent_num) % 10 < 1:
+                            self.log_debug(f"Progress: {percent} | Speed: {speed}")
+                    except:
+                        pass
+            except:
+                self.progress_label.config(text="Downloading...")
+        elif d['status'] == 'finished':
+            self.progress_label.config(text="Download complete! Processing...")
+            self.log_debug("Download finished, processing file...")
+    
+    def download_video(self):
+        self.log_debug("=== STARTING VIDEO DOWNLOAD ===")
+        
+        url = self.url_entry.get().strip()
+        self.log_debug(f"Raw URL from entry: '{url}'")
+        
+        if not url:
+            self.log_debug("ERROR: No URL provided")
+            messagebox.showerror("Error", "Please enter a YouTube URL")
+            self.download_btn.config(state="normal", text="Download")
+            self.progress_bar.stop()
+            return
+        
+        self.log_debug(f"URL validation starting for: {url}")
+        if not self.validate_url(url):
+            self.log_debug("ERROR: URL validation failed")
+            messagebox.showerror("Error", "Invalid YouTube URL")
+            self.download_btn.config(state="normal", text="Download")
+            self.progress_bar.stop()
+            self.log_debug(f"Invalid URL rejected: {url}")
+            return
+        
+        self.log_debug("URL validation passed")
+        
+        quality = self.quality_var.get()
+        download_playlist = self.playlist_var.get()
+        
+        # Get appropriate download folder
+        download_folder = self.get_download_folder(quality)
+        
+        self.log_debug(f"=== DOWNLOAD CONFIGURATION ===")
+        self.log_debug(f"URL: {url}")
+        self.log_debug(f"Quality setting: {quality}")
+        self.log_debug(f"Download folder: {download_folder}")
+        self.log_debug(f"Playlist mode: {download_playlist}")
+        self.log_debug(f"Is playlist detected: {getattr(self, 'is_playlist', False)}")
+        self.log_debug(f"Debug mode: {self.debug_mode}")
+        
+        try:
+            self.log_debug("=== STARTING YT-DLP DOWNLOAD ===")
+            
+            # Configure yt-dlp options
+            ydl_opts = {
+                'outtmpl': os.path.join(download_folder, '%(title)s.%(ext)s'),
+                'progress_hooks': [self.progress_hook],
+                'noplaylist': not download_playlist,
+                'ignoreerrors': False,
+            }
+            
+            if quality == "Audio Only (MP3)":
+                ydl_opts['format'] = 'bestaudio/best'
+            else:
+                ydl_opts['format'] = 'best'
+            
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([url])
+            
+            self.log_debug("=== DOWNLOAD COMPLETED SUCCESSFULLY ===")
+            self.progress_bar.stop()
+            self.progress_label.config(text="Download completed successfully!")
+            messagebox.showinfo("Success", f"Download completed!\n\nLocation: {download_folder}")
+            
+        except Exception as e:
+            self.progress_bar.stop()
+            self.progress_label.config(text="Download failed")
+            self.log_debug(f"✗ Error: {str(e)}")
+            messagebox.showerror("Error", f"Failed to download:\n{str(e)}")
+        
+        finally:
+            self.download_btn.config(state="normal", text="Download")
+    
+    def start_download(self):
+        self.download_btn.config(state="disabled", text="Downloading...")
+        self.progress_bar.start(10)
+        self.progress_label.config(text="Initializing download...")
+        self.log_debug("="*50)
+        self.log_debug("NEW DOWNLOAD REQUEST")
+        
+        # Run download in separate thread to prevent UI freezing
+        download_thread = threading.Thread(target=self.download_video, daemon=True)
+        download_thread.start()
+
+
+def main():
+    """Main application entry point with error handling"""
+    try:
+        print("=" * 60)
+        print("LETUSTECH YOUTUBE CONVERTER - STARTING UP")
+        print("=" * 60)
+        print("Creating main window...")
+        
+        root = tk.Tk()
+        print("✓ Tkinter window created")
+        
+        # Prevent immediate closure
+        def on_closing():
+            print("Application close requested")
+            try:
+                root.quit()
+                root.destroy()
+            except:
+                pass
+        
+        root.protocol("WM_DELETE_WINDOW", on_closing)
+        print("✓ Close handler registered")
+        
+        print("Initializing YouTube Downloader...")
+        app = YouTubeDownloader(root)
+        print("✓ Application initialized successfully")
+        
+        print("Starting main event loop...")
+        print("=" * 60)
+        print("APPLICATION READY - Window should now be visible")
+        print("=" * 60)
+        
+        root.mainloop()
+        
+    except Exception as e:
+        print(f"✗ CRITICAL ERROR in main(): {str(e)}")
+        import traceback
+        print("✗ Full traceback:")
+        traceback.print_exc()
+        
+        # Try to show error dialog
+        try:
+            import tkinter.messagebox as msgbox
+            msgbox.showerror(
+                "Critical Error", 
+                f"Application failed to start:\n\n{str(e)}\n\nCheck console for details."
+            )
+        except:
+            print("Could not show error dialog")
+        
+        # Keep window open to see error
+        input("\nPress Enter to close...")
+
+
+if __name__ == "__main__":
+    main()
