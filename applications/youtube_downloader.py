@@ -1433,8 +1433,14 @@ class YouTubeDownloader:
             messagebox.showwarning("No Playlist", "Please load a playlist preview first")
             return
         
+        # Check if playlist is already fully loaded
+        if self.playlist_videos and len(self.playlist_videos) > 10:
+            self.log_debug(f"Playlist already loaded with {len(self.playlist_videos)} videos")
+            self._show_video_selector_window()
+            return
+        
         # Check if this is a large playlist that needs full loading
-        if hasattr(self, 'full_playlist_info') and self.full_playlist_info and len(self.playlist_videos) < 10:
+        if hasattr(self, 'full_playlist_info') and self.full_playlist_info:
             self.log_debug("Loading full playlist info for large playlist...")
             
             # Show loading dialog
@@ -1471,12 +1477,13 @@ class YouTubeDownloader:
             
             def load_full_playlist():
                 try:
-                    status_label.config(text="Extracting video information...")
-                    self.root.update()
+                    # Update status on main thread
+                    self.root.after(0, lambda: status_label.config(text="Extracting video information..."))
                     
                     # Load full info for all videos
-                    self.playlist_videos = []
+                    new_playlist_videos = []
                     total_videos = len(self.full_playlist_info['entries'])
+                    self.log_debug(f"Starting to load {total_videos} videos...")
                     
                     for i, entry in enumerate(self.full_playlist_info['entries']):
                         if entry:
@@ -1487,25 +1494,34 @@ class YouTubeDownloader:
                                 'duration': entry.get('duration', 0),
                                 'thumbnail': entry.get('thumbnail', '')
                             }
-                            self.playlist_videos.append(video_data)
+                            new_playlist_videos.append(video_data)
                             
-                            # Update progress every 10 videos
-                            if i % 10 == 0:
-                                status_label.config(text=f"Processing video {i+1} of {total_videos}...")
-                                self.root.update()
+                            # Update progress every 50 videos to avoid UI freezing
+                            if i % 50 == 0:
+                                self.root.after(0, lambda idx=i, total=total_videos: 
+                                    status_label.config(text=f"Processing video {idx+1} of {total}..."))
                     
-                    progress_bar.stop()
-                    loading_window.destroy()
-                    self.log_debug(f"Loaded {len(self.playlist_videos)} videos from large playlist")
+                    # Update the main playlist_videos on main thread
+                    def update_and_show():
+                        self.playlist_videos = new_playlist_videos
+                        progress_bar.stop()
+                        loading_window.destroy()
+                        self.log_debug(f"Loaded {len(self.playlist_videos)} videos from large playlist")
+                        # Show the video selector with all videos
+                        self._show_video_selector_window()
                     
-                    # Now show the video selector with all videos
-                    self._show_video_selector_window()
+                    # Execute UI updates on main thread
+                    self.root.after(0, update_and_show)
                     
                 except Exception as e:
-                    progress_bar.stop()
-                    loading_window.destroy()
-                    self.log_debug(f"Error loading full playlist: {e}")
-                    messagebox.showerror("Error", f"Failed to load full playlist:\n{e}")
+                    def show_error():
+                        progress_bar.stop()
+                        loading_window.destroy()
+                        self.log_debug(f"Error loading full playlist: {e}")
+                        messagebox.showerror("Error", f"Failed to load full playlist:\n{e}")
+                    
+                    # Show error on main thread
+                    self.root.after(0, show_error)
             
             # Start loading in thread
             threading.Thread(target=load_full_playlist, daemon=True).start()
@@ -1516,6 +1532,19 @@ class YouTubeDownloader:
     
     def _show_video_selector_window(self):
         """Show the actual video selector window"""
+        # Debug: Check if we have videos to show
+        self.log_debug(f"=== SHOWING VIDEO SELECTOR ===")
+        self.log_debug(f"Number of playlist videos available: {len(self.playlist_videos)}")
+        
+        if not self.playlist_videos:
+            self.log_debug("ERROR: No playlist videos available to show!")
+            messagebox.showerror("Error", "No videos available to select. Please reload the preview.")
+            return
+        
+        # Show first few video titles for debugging
+        for i, video in enumerate(self.playlist_videos[:3]):
+            self.log_debug(f"Video {i+1}: {video.get('title', 'No title')}")
+        
         selector_window = tk.Toplevel(self.root)
         selector_window.title("Select Videos - LetUsTech")
         selector_window.geometry("900x650")
@@ -1553,10 +1582,12 @@ class YouTubeDownloader:
         def select_all():
             for var in video_vars:
                 var.set(True)
+            update_count()
         
         def deselect_all():
             for var in video_vars:
                 var.set(False)
+            update_count()
         
         select_all_btn = tk.Button(
             button_frame,
@@ -1588,11 +1619,135 @@ class YouTubeDownloader:
         )
         deselect_all_btn.pack(side="left", padx=5, ipadx=15, ipady=6)
         
-        # Close button
-        close_btn = tk.Button(
-            selector_window,
-            text="Close",
-            font=("Segoe UI", 10, "bold"),
+        # Scrollable frame for videos
+        list_container = tk.Frame(selector_window, bg=self.bg_color)
+        list_container.pack(fill="both", expand=True, padx=30, pady=(0, 15))
+        
+        # Border frame
+        list_frame = tk.Frame(list_container, bg=self.border_color, padx=1, pady=1)
+        list_frame.pack(fill="both", expand=True)
+        
+        canvas = tk.Canvas(list_frame, bg=self.card_color, highlightthickness=0)
+        scrollbar = tk.Scrollbar(list_frame, orient="vertical", command=canvas.yview)
+        scrollable_frame = tk.Frame(canvas, bg=self.card_color)
+        
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+        
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+        
+        # Add videos with checkboxes
+        for i, video in enumerate(self.playlist_videos):
+            var = tk.BooleanVar(value=True)  # All selected by default
+            video_vars.append(var)
+            
+            # Alternating row colors
+            row_bg = self.card_color if i % 2 == 0 else self.accent_color
+            
+            video_frame = tk.Frame(scrollable_frame, bg=row_bg)
+            video_frame.pack(fill="x", padx=5, pady=2)
+            
+            check = tk.Checkbutton(
+                video_frame,
+                variable=var,
+                bg=row_bg,
+                fg=self.text_color,
+                selectcolor=self.bg_color,
+                activebackground=row_bg,
+                cursor="hand2",
+                command=update_count
+            )
+            check.pack(side="left", padx=(10, 5))
+            
+            # Video number
+            num_label = tk.Label(
+                video_frame,
+                text=f"{i+1}.",
+                font=("Segoe UI", 9, "bold"),
+                bg=row_bg,
+                fg=self.text_muted,
+                width=4
+            )
+            num_label.pack(side="left", padx=5)
+            
+            # Format duration
+            duration = video.get('duration', 0)
+            mins, secs = divmod(duration, 60) if duration else (0, 0)
+            duration_str = f"[{int(mins)}:{int(secs):02d}]" if duration else "[--:--]"
+            
+            # Duration label
+            duration_label = tk.Label(
+                video_frame,
+                text=duration_str,
+                font=("Segoe UI", 9),
+                bg=row_bg,
+                fg=self.green_color,
+                width=8
+            )
+            duration_label.pack(side="left", padx=5)
+            
+            # Title label (limit length to prevent window stretching)
+            title = video.get('title', 'Unknown Title')
+            if len(title) > 60:
+                title = title[:57] + "..."
+            
+            title_label = tk.Label(
+                video_frame,
+                text=title,
+                font=("Segoe UI", 9),
+                bg=row_bg,
+                fg=self.text_color,
+                anchor="w"
+            )
+            title_label.pack(side="left", fill="x", expand=True, padx=5, pady=8)
+        
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+        
+        # Bottom button frame
+        bottom_frame = tk.Frame(selector_window, bg=self.bg_color)
+        bottom_frame.pack(fill="x", padx=30, pady=(0, 20))
+        
+        # Selection count label
+        selection_label = tk.Label(
+            bottom_frame,
+            text="",
+            font=("Segoe UI", 9),
+            bg=self.bg_color,
+            fg=self.text_muted
+        )
+        selection_label.pack(side="left")
+        
+        def update_count():
+            count = sum(var.get() for var in video_vars)
+            selection_label.config(text=f"{count} videos selected")
+        
+        # Update count initially and bind to checkboxes
+        update_count()
+        
+        # Confirm button
+        def confirm_selection():
+            self.selected_videos = []
+            for i, var in enumerate(video_vars):
+                if var.get():
+                    self.selected_videos.append(self.playlist_videos[i])
+            
+            if not self.selected_videos:
+                messagebox.showwarning("No Selection", "Please select at least one video")
+                return
+            
+            count = len(self.selected_videos)
+            self.log_debug(f"Selected {count} videos from playlist")
+            messagebox.showinfo("Selection Confirmed", f"{count} video(s) selected for download")
+            selector_window.destroy()
+        
+        confirm_btn = tk.Button(
+            bottom_frame,
+            text=f"⬇ Confirm Selection",
+            font=("Segoe UI", 11, "bold"),
             bg=self.green_color,
             fg=self.bg_color,
             activebackground=self.green_hover,
@@ -1600,9 +1755,25 @@ class YouTubeDownloader:
             relief="flat",
             cursor="hand2",
             borderwidth=0,
+            command=confirm_selection
+        )
+        confirm_btn.pack(side="right", ipadx=30, ipady=10)
+        
+        # Close button
+        close_btn = tk.Button(
+            bottom_frame,
+            text="Close",
+            font=("Segoe UI", 10, "bold"),
+            bg=self.accent_color,
+            fg=self.text_color,
+            activebackground=self.green_color,
+            activeforeground=self.bg_color,
+            relief="flat",
+            cursor="hand2",
+            borderwidth=0,
             command=selector_window.destroy
         )
-        close_btn.pack(side="bottom", pady=20)
+        close_btn.pack(side="right", padx=(0, 10), ipadx=25, ipady=10)
     
     def progress_hook(self, d):
         if d['status'] == 'downloading':

@@ -48,36 +48,6 @@
     </script>
 </head>
 <body>
-    <!-- Navigation Header -->
-    <header class="nav-header sticky top-0 z-50">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="h-10 w-10 bg-white rounded flex items-center justify-center p-1.5">
-                        <img 
-                            src="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png" 
-                            alt="LetUsTech"
-                            class="max-h-full max-w-full object-contain"
-                        />
-                    </div>
-                    <div>
-                        <div class="text-white font-bold text-lg">LetUsTech</div>
-                        <div class="text-green-primary text-xs italic">Wired For Your World</div>
-                    </div>
-                </div>
-                <ul class="hidden md:flex gap-6 items-center">
-                    <li><a href="../index.html#about" class="nav-link">About</a></li>
-                    <li><a href="../index.html#programs" class="nav-link">Programs</a></li>
-                    <li><a href="../index.html#games" class="nav-link">Games</a></li>
-                    <li><a href="../blog/blog.html" class="nav-link">Blog</a></li>
-                    <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
-                    <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
-                    <li><a href="../index.html#donate" class="donate-btn px-4 py-2 rounded-lg font-semibold">❤️ Donate</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-
     <div id="root"></div>
 
     <script type="text/babel">
@@ -5648,17 +5618,17 @@ const ZombieWaveGame = () => {
 
             {/* Navigation - Desktop */}
             <nav className="hidden md:flex items-center gap-6">
-              <a href="../index.html" className="text-white hover:text-cyan-400 transition font-semibold">🏠 Home</a>
-              <a href="../index.html#about" className="text-white hover:text-cyan-400 transition font-semibold">📖 About</a>
-              <a href="../index.html#programs" className="text-white hover:text-cyan-400 transition font-semibold">💻 Programs</a>
-              <a href="../index.html#games" className="text-white hover:text-cyan-400 transition font-semibold">🎮 Games</a>
+              <a href="../index.html#about" className="text-white hover:text-cyan-400 transition font-semibold">About</a>
+              <a href="../index.html#programs" className="text-white hover:text-cyan-400 transition font-semibold">Programs</a>
+              <a href="../index.html#games" className="text-white hover:text-cyan-400 transition font-semibold">Games</a>
+              <a href="../blog/blog.html" className="text-white hover:text-cyan-400 transition font-semibold">Blog</a>
+              <a href="../index.html#faq" className="text-white hover:text-cyan-400 transition font-semibold">FAQ</a>
+              <a href="../index.html#contact" className="text-white hover:text-cyan-400 transition font-semibold">Contact</a>
               <a
-                href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="../index.html#donate"
                 className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-4 py-2 rounded-lg font-bold transition transform hover:scale-105"
               >
-                💝 Donate
+                ❤️ Donate
               </a>
             </nav>
           </div>
@@ -5667,40 +5637,53 @@ const ZombieWaveGame = () => {
           {mobileMenuOpen && (
             <nav className="md:hidden mt-4 pb-2 space-y-2 border-t border-cyan-500/30 pt-4">
               <a
-                href="../index.html"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-white hover:text-cyan-400 transition font-semibold py-2"
-              >
-                🏠 Home
-              </a>
-              <a
                 href="../index.html#about"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-white hover:text-cyan-400 transition font-semibold py-2"
               >
-                📖 About
+                About
               </a>
               <a
                 href="../index.html#programs"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-white hover:text-cyan-400 transition font-semibold py-2"
               >
-                💻 Programs
+                Programs
               </a>
               <a
                 href="../index.html#games"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-white hover:text-cyan-400 transition font-semibold py-2"
               >
-                🎮 Games
+                Games
               </a>
               <a
-                href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="../blog/blog.html"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-white hover:text-cyan-400 transition font-semibold py-2"
+              >
+                Blog
+              </a>
+              <a
+                href="../index.html#faq"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-white hover:text-cyan-400 transition font-semibold py-2"
+              >
+                FAQ
+              </a>
+              <a
+                href="../index.html#contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-white hover:text-cyan-400 transition font-semibold py-2"
+              >
+                Contact
+              </a>
+              <a
+                href="../index.html#donate"
+                onClick={() => setMobileMenuOpen(false)}
                 className="block bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-4 py-2 rounded-lg font-bold transition text-center"
               >
-                💝 Donate
+                ❤️ Donate
               </a>
             </nav>
           )}
