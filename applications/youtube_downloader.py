@@ -1889,63 +1889,61 @@ This software is completely free! If you find it useful:
         return re.match(youtube_regex, url) is not None
     
     def show_video_selector(self):
-        """Show window to select which videos to download from playlist"""
-        if not self.playlist_videos and not hasattr(self, 'full_playlist_info'):
-            messagebox.showwarning("No Playlist", "Please load a playlist preview first")
+        """Show video selector for playlist"""
+        if not hasattr(self, 'is_playlist') or not self.is_playlist:
+            messagebox.showwarning("Warning", "This feature is only available for playlists")
             return
         
-        # Check if playlist is already fully loaded
-        if self.playlist_videos and len(self.playlist_videos) > 10:
-            self.log_debug(f"Playlist already loaded with {len(self.playlist_videos)} videos")
-            self._show_video_selector_window()
-            return
-        
-        # Check if this is a large playlist that needs full loading
+        # For large playlists, we'll load the first 20 thumbnails immediately
         if hasattr(self, 'full_playlist_info') and self.full_playlist_info:
-            self.log_debug("Loading full playlist info for large playlist...")
+            self.log_debug("=== LOADING FIRST 20 THUMBNAILS FOR VIDEO SELECTOR ===")
             
-            # Show loading dialog
-            loading_window = tk.Toplevel(self.root)
-            loading_window.title("Loading Playlist...")
-            loading_window.geometry("400x150")
-            loading_window.configure(bg=self.bg_color)
-            loading_window.resizable(False, False)
+            # Show loading dialog for first 20 thumbnails only
+            loading_dialog = tk.Toplevel(self.root)
+            loading_dialog.title("Loading Video Selector")
+            loading_dialog.geometry("400x150")
+            loading_dialog.configure(bg=self.bg_color)
+            loading_dialog.resizable(False, False)
+            loading_dialog.transient(self.root)
+            loading_dialog.grab_set()
             
-            # Center the window
-            loading_window.transient(self.root)
-            loading_window.grab_set()
+            # Center the dialog
+            loading_dialog.update_idletasks()
+            x = (loading_dialog.winfo_screenwidth() // 2) - (400 // 2)
+            y = (loading_dialog.winfo_screenheight() // 2) - (150 // 2)
+            loading_dialog.geometry(f"400x150+{x}+{y}")
             
-            tk.Label(
-                loading_window,
-                text="🔄 Loading full playlist information...",
-                font=("Segoe UI", 12),
+            # Header
+            header_label = tk.Label(
+                loading_dialog,
+                text="🔄 Loading Video Selector",
+                font=("Segoe UI", 12, "bold"),
                 bg=self.bg_color,
-                fg=self.text_color
-            ).pack(pady=30)
+                fg=self.green_color
+            )
+            header_label.pack(pady=20)
             
-            progress_bar = ttk.Progressbar(loading_window, mode='indeterminate')
-            progress_bar.pack(pady=10, padx=30, fill="x")
-            progress_bar.start(10)
-            
+            # Status label
             status_label = tk.Label(
-                loading_window,
-                text="Please wait...",
+                loading_dialog,
+                text="Loading first 20 video thumbnails...",
                 font=("Segoe UI", 10),
                 bg=self.bg_color,
-                fg=self.text_muted
+                fg=self.text_color
             )
-            status_label.pack()
+            status_label.pack(pady=5)
             
-            def load_full_playlist():
+            # Progress bar
+            progress_bar = ttk.Progressbar(loading_dialog, mode='indeterminate')
+            progress_bar.pack(pady=15, padx=30, fill="x")
+            progress_bar.start(10)
+            
+            def load_first_page_with_thumbnails():
                 try:
-                    # Update status on main thread
-                    self.root.after(0, lambda: status_label.config(text="Extracting video information..."))
+                    self.log_debug("Preparing basic video list...")
                     
-                    # Load full info for all videos
-                    new_playlist_videos = []
-                    total_videos = len(self.full_playlist_info['entries'])
-                    self.log_debug(f"Starting to load {total_videos} videos...")
-                    
+                    # Prepare basic video list
+                    self.playlist_videos = []
                     for i, entry in enumerate(self.full_playlist_info['entries']):
                         if entry:
                             video_data = {
@@ -1953,42 +1951,80 @@ This software is completely free! If you find it useful:
                                 'id': entry.get('id', ''),
                                 'url': entry.get('url', ''),
                                 'duration': entry.get('duration', 0),
-                                'thumbnail': entry.get('thumbnail', '')
+                                'thumbnail': '',  # Will be populated for first 20
+                                'uploader': entry.get('uploader', ''),
+                                'view_count': entry.get('view_count', 0)
                             }
-                            new_playlist_videos.append(video_data)
-                            
-                            # Update progress every 50 videos to avoid UI freezing
-                            if i % 50 == 0:
-                                self.root.after(0, lambda idx=i, total=total_videos: 
-                                    status_label.config(text=f"Processing video {idx+1} of {total}..."))
+                            self.playlist_videos.append(video_data)
                     
-                    # Update the main playlist_videos on main thread
-                    def update_and_show():
-                        self.playlist_videos = new_playlist_videos
+                    self.log_debug(f"Prepared {len(self.playlist_videos)} videos")
+                    
+                    # Now load thumbnails for first 20 videos
+                    self.root.after(0, lambda: status_label.config(text="Loading thumbnails for first 20 videos..."))
+                    
+                    first_20_videos = self.playlist_videos[:20]
+                    ydl_opts = {
+                        'quiet': True,
+                        'no_warnings': True,
+                        'extract_flat': False,
+                        'ignoreerrors': True,
+                    }
+                    
+                    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                        for i, video in enumerate(first_20_videos):
+                            try:
+                                if video.get('id'):
+                                    video_url = f"https://www.youtube.com/watch?v={video['id']}"
+                                    self.log_debug(f"Loading thumbnail {i+1}/20 for: {video['title'][:50]}...")
+                                    
+                                    # Update status
+                                    if i % 5 == 0 or i < 5:
+                                        progress_text = f"Loading thumbnail {i+1}/20..."
+                                        self.root.after(0, lambda p=progress_text: status_label.config(text=p))
+                                    
+                                    info = ydl.extract_info(video_url, download=False)
+                                    
+                                    if info:
+                                        thumbnail_url = (
+                                            info.get('thumbnail') or 
+                                            (info.get('thumbnails', [{}])[-1].get('url', '') if info.get('thumbnails') else '')
+                                        )
+                                        
+                                        if thumbnail_url:
+                                            self.playlist_videos[i]['thumbnail'] = thumbnail_url
+                                            self.log_debug(f"✓ Loaded thumbnail {i+1}: {thumbnail_url[:50]}...")
+                                        else:
+                                            self.log_debug(f"No thumbnail for video {i+1}")
+                            
+                            except Exception as e:
+                                self.log_debug(f"Error loading thumbnail {i+1}: {e}")
+                                continue
+                    
+                    self.log_debug(f"✓ Loaded thumbnails for first 20 videos")
+                    
+                    # Close dialog and show selector
+                    def show_selector():
                         progress_bar.stop()
-                        loading_window.destroy()
-                        self.log_debug(f"Loaded {len(self.playlist_videos)} videos from large playlist")
-                        # Show the video selector with all videos
+                        loading_dialog.destroy()
                         self._show_video_selector_window()
                     
-                    # Execute UI updates on main thread
-                    self.root.after(0, update_and_show)
+                    self.root.after(0, show_selector)
                     
                 except Exception as e:
+                    self.log_debug(f"Error loading first page: {e}")
+                    
                     def show_error():
                         progress_bar.stop()
-                        loading_window.destroy()
-                        self.log_debug(f"Error loading full playlist: {e}")
-                        messagebox.showerror("Error", f"Failed to load full playlist:\n{e}")
+                        loading_dialog.destroy()
+                        messagebox.showerror("Error", f"Failed to load video selector:\n{str(e)}")
                     
-                    # Show error on main thread
                     self.root.after(0, show_error)
             
-            # Start loading in thread
-            threading.Thread(target=load_full_playlist, daemon=True).start()
+            # Start loading in background
+            threading.Thread(target=load_first_page_with_thumbnails, daemon=True).start()
             
         else:
-            # Normal playlist or already fully loaded
+            # Small playlist - load normally
             self._show_video_selector_window()
     
     def _show_video_selector_window(self):
@@ -2060,14 +2096,16 @@ This software is completely free! If you find it useful:
         video_vars = []
         
         def select_all():
-            for var in video_vars:
-                var.set(True)
-            update_count()
+            if hasattr(self, 'all_video_vars'):
+                for var in self.all_video_vars:
+                    var.set(True)
+                self.update_selection_count()
         
         def deselect_all():
-            for var in video_vars:
-                var.set(False)
-            update_count()
+            if hasattr(self, 'all_video_vars'):
+                for var in self.all_video_vars:
+                    var.set(False)
+                self.update_selection_count()
         
         def select_by_duration():
             """Select videos based on duration range"""
@@ -2098,14 +2136,15 @@ This software is completely free! If you find it useful:
                     min_dur = float(min_entry.get()) * 60  # Convert to seconds
                     max_dur = float(max_entry.get()) * 60
                     count = 0
-                    for i, video in enumerate(self.playlist_videos):
-                        duration = video.get('duration', 0)
-                        if min_dur <= duration <= max_dur:
-                            video_vars[i].set(True)
-                            count += 1
-                        else:
-                            video_vars[i].set(False)
-                    update_count()
+                    if hasattr(self, 'all_video_vars'):
+                        for i, video in enumerate(self.playlist_videos):
+                            duration = video.get('duration', 0)
+                            if min_dur <= duration <= max_dur:
+                                self.all_video_vars[i].set(True)
+                                count += 1
+                            else:
+                                self.all_video_vars[i].set(False)
+                        self.update_selection_count()
                     duration_window.destroy()
                     messagebox.showinfo("Selection Complete", f"Selected {count} videos within duration range")
                 except ValueError:
@@ -2246,121 +2285,167 @@ This software is completely free! If you find it useful:
         list_container.pack(fill="both", expand=True, padx=30, pady=(0, 15))
         
         # Border frame
-        list_frame = tk.Frame(list_container, bg=self.border_color, padx=1, pady=1)
+        list_frame = tk.Frame(list_container, bg=self.border_color, padx=2, pady=2)
         list_frame.pack(fill="both", expand=True)
         
+        # Create canvas and scrollbar
         canvas = tk.Canvas(list_frame, bg=self.card_color, highlightthickness=0)
         scrollbar = tk.Scrollbar(list_frame, orient="vertical", command=canvas.yview)
+        
+        # Create scrollable frame
         scrollable_frame = tk.Frame(canvas, bg=self.card_color)
         
-        scrollable_frame.bind(
-            "<Configure>",
-            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
-        )
+        # Configure scrolling
+        def configure_scroll_region(event=None):
+            canvas.configure(scrollregion=canvas.bbox("all"))
         
-        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        def on_canvas_configure(event):
+            # Update scroll region when canvas size changes
+            canvas.configure(scrollregion=canvas.bbox("all"))
+            # Update the width of the scrollable frame to match canvas
+            canvas_width = event.width
+            canvas.itemconfig(canvas_window, width=canvas_width)
+        
+        scrollable_frame.bind("<Configure>", configure_scroll_region)
+        canvas.bind("<Configure>", on_canvas_configure)
+        
+        # Create window in canvas
+        canvas_window = canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
         canvas.configure(yscrollcommand=scrollbar.set)
         
-        # Add videos with checkboxes
-        for i, video in enumerate(self.playlist_videos):
-            var = tk.BooleanVar(value=True)  # All selected by default
-            video_vars.append(var)
-            
-            # Alternating row colors
-            row_bg = self.card_color if i % 2 == 0 else self.accent_color
-            
-            video_frame = tk.Frame(scrollable_frame, bg=row_bg)
-            video_frame.pack(fill="x", padx=5, pady=2)
-            
-            check = tk.Checkbutton(
-                video_frame,
-                variable=var,
-                bg=row_bg,
-                fg=self.text_color,
-                selectcolor=self.bg_color,
-                activebackground=row_bg,
-                cursor="hand2"
-                # Remove command=update_count for now - will add after function is defined
-            )
-            check.pack(side="left", padx=(10, 5))
-            
-            # Video number
-            num_label = tk.Label(
-                video_frame,
-                text=f"{i+1}.",
-                font=("Segoe UI", 9, "bold"),
-                bg=row_bg,
-                fg=self.text_muted,
-                width=4
-            )
-            num_label.pack(side="left", padx=5)
-            
-            # Format duration
-            duration = video.get('duration', 0)
-            mins, secs = divmod(duration, 60) if duration else (0, 0)
-            duration_str = f"[{int(mins)}:{int(secs):02d}]" if duration else "[--:--]"
-            
-            # Duration label
-            duration_label = tk.Label(
-                video_frame,
-                text=duration_str,
-                font=("Segoe UI", 9),
-                bg=row_bg,
-                fg=self.green_color,
-                width=8
-            )
-            duration_label.pack(side="left", padx=5)
-            
-            # Title label (limit length to prevent window stretching)
-            title = video.get('title', 'Unknown Title')
-            if len(title) > 60:
-                title = title[:57] + "..."
-            
-            title_label = tk.Label(
-                video_frame,
-                text=title,
-                font=("Segoe UI", 9),
-                bg=row_bg,
-                fg=self.text_color,
-                anchor="w"
-            )
-            title_label.pack(side="left", fill="x", expand=True, padx=5, pady=8)
-        
+        # Pack canvas and scrollbar
         canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
+        
+        # Add mouse wheel scrolling
+        def on_mousewheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        
+        # Bind mousewheel to canvas
+        canvas.bind("<MouseWheel>", on_mousewheel)  # Windows
+        canvas.bind("<Button-4>", lambda e: canvas.yview_scroll(-1, "units"))  # Linux
+        canvas.bind("<Button-5>", lambda e: canvas.yview_scroll(1, "units"))   # Linux
+        
+        # Pagination for large playlists
+        self.current_page = 0
+        self.videos_per_page = 20
+        self.total_pages = (len(self.playlist_videos) + self.videos_per_page - 1) // self.videos_per_page
+        
+        # Pagination controls frame
+        if self.total_pages > 1:
+            pagination_frame = tk.Frame(selector_window, bg=self.bg_color)
+            pagination_frame.pack(fill="x", padx=30, pady=(0, 10))
+            
+            # Page info label
+            self.page_info_label = tk.Label(
+                pagination_frame,
+                text=f"Page {self.current_page + 1} of {self.total_pages} ({self.videos_per_page} videos per page)",
+                font=("Segoe UI", 9),
+                bg=self.bg_color,
+                fg=self.text_muted
+            )
+            self.page_info_label.pack(side="left")
+            
+            # Pagination buttons
+            pagination_buttons = tk.Frame(pagination_frame, bg=self.bg_color)
+            pagination_buttons.pack(side="right")
+            
+            # Previous button
+            self.prev_btn = tk.Button(
+                pagination_buttons,
+                text="◀ Previous",
+                font=("Segoe UI", 9, "bold"),
+                bg=self.accent_color,
+                fg=self.text_color,
+                activebackground=self.green_color,
+                activeforeground=self.bg_color,
+                relief="flat",
+                cursor="hand2",
+                borderwidth=0,
+                state="disabled",  # Start disabled
+                command=lambda: self.change_page(selector_window, scrollable_frame, canvas, -1)
+            )
+            self.prev_btn.pack(side="left", padx=5, ipadx=15, ipady=5)
+            
+            # Next button
+            self.next_btn = tk.Button(
+                pagination_buttons,
+                text="Next ▶",
+                font=("Segoe UI", 9, "bold"),
+                bg=self.accent_color,
+                fg=self.text_color,
+                activebackground=self.green_color,
+                activeforeground=self.bg_color,
+                relief="flat",
+                cursor="hand2",
+                borderwidth=0,
+                state="normal" if self.total_pages > 1 else "disabled",
+                command=lambda: self.change_page(selector_window, scrollable_frame, canvas, 1)
+            )
+            self.next_btn.pack(side="left", padx=5, ipadx=15, ipady=5)
+            
+            # Jump to page
+            jump_frame = tk.Frame(pagination_buttons, bg=self.bg_color)
+            jump_frame.pack(side="left", padx=10)
+            
+            tk.Label(jump_frame, text="Go to page:", bg=self.bg_color, fg=self.text_color, font=("Segoe UI", 8)).pack(side="left")
+            
+            self.page_entry = tk.Entry(jump_frame, width=5, font=("Segoe UI", 9))
+            self.page_entry.pack(side="left", padx=5)
+            
+            jump_btn = tk.Button(
+                jump_frame,
+                text="Go",
+                font=("Segoe UI", 8, "bold"),
+                bg=self.green_color,
+                fg=self.bg_color,
+                relief="flat",
+                cursor="hand2",
+                borderwidth=0,
+                command=lambda: self.jump_to_page(selector_window, scrollable_frame, canvas)
+            )
+            jump_btn.pack(side="left", padx=2, ipadx=8, ipady=2)
+        
+        self.log_debug(f"Setting up video list with {len(self.playlist_videos)} videos")
+        self.log_debug(f"Total pages: {getattr(self, 'total_pages', 1)}, Videos per page: {getattr(self, 'videos_per_page', len(self.playlist_videos))}")
+        
+        # Load videos for current page
+        self.load_page_videos(scrollable_frame, canvas, 0)
+        
+        # Force update to ensure widgets are properly laid out
+        scrollable_frame.update_idletasks()
+        
+        # Configure scroll region after all videos are added
+        canvas.configure(scrollregion=canvas.bbox("all"))
+        
+        # Ensure canvas focuses on widgets for keyboard events
+        canvas.focus_set()
         
         # Bottom button frame
         bottom_frame = tk.Frame(selector_window, bg=self.bg_color)
         bottom_frame.pack(fill="x", padx=30, pady=(0, 20))
         
         # Selection count label
-        selection_label = tk.Label(
+        self.selection_label = tk.Label(
             bottom_frame,
             text="",
             font=("Segoe UI", 9),
             bg=self.bg_color,
             fg=self.text_muted
         )
-        selection_label.pack(side="left")
+        self.selection_label.pack(side="left")
         
-        def update_count():
-            count = sum(var.get() for var in video_vars)
-            selection_label.config(text=f"{count} videos selected")
-        
-        # NOW configure checkboxes with update_count function
-        for i, video in enumerate(self.playlist_videos):
-            # Find the checkbox widget and configure it
-            video_frame = scrollable_frame.winfo_children()[i]
-            checkbox = video_frame.winfo_children()[0]  # First child is the checkbox
-            checkbox.configure(command=update_count)
-        
-        # Update count initially
-        update_count()
+        # Update initial count
+        self.update_selection_count()
         
         # Confirm button
         def confirm_selection():
+            if not hasattr(self, 'all_video_vars'):
+                messagebox.showwarning("No Selection", "Please select at least one video")
+                return
+                
             self.selected_videos = []
-            for i, var in enumerate(video_vars):
+            for i, var in enumerate(self.all_video_vars):
                 if var.get():
                     self.selected_videos.append(self.playlist_videos[i])
             
@@ -2403,6 +2488,66 @@ This software is completely free! If you find it useful:
             command=selector_window.destroy
         )
         close_btn.pack(side="right", padx=(0, 10), ipadx=25, ipady=10)
+        
+        # Add "Load More Thumbnails" button for large playlists
+        if len(self.playlist_videos) > 20:
+            load_thumbs_btn = tk.Button(
+                button_frame,
+                text="📷 Load All Thumbnails",
+                font=("Segoe UI", 9, "bold"),
+                bg=self.accent_color,
+                fg=self.text_color,
+                activebackground=self.green_color,
+                activeforeground=self.bg_color,
+                relief="flat",
+                cursor="hand2",
+                borderwidth=0,
+                command=lambda: self.load_remaining_thumbnails(scrollable_frame)
+            )
+            load_thumbs_btn.pack(side="right", padx=(0, 10), ipadx=20, ipady=10)
+    
+    def load_remaining_thumbnails(self, scrollable_frame):
+        """Load thumbnails for videos beyond the first 20"""
+        def load_all_thumbs():
+            try:
+                # Get all video frames
+                video_frames = scrollable_frame.winfo_children()
+                
+                for i, video in enumerate(self.playlist_videos[20:], start=20):
+                    if i >= len(video_frames):
+                        break
+                        
+                    # Find thumbnail label in this frame
+                    video_frame = video_frames[i]
+                    thumbnail_frame = None
+                    
+                    for child in video_frame.winfo_children():
+                        if isinstance(child, tk.Frame) and child.winfo_width() == 90:  # Thumbnail frame
+                            thumbnail_frame = child
+                            break
+                    
+                    if thumbnail_frame:
+                        # Find thumbnail label
+                        for child in thumbnail_frame.winfo_children():
+                            if isinstance(child, tk.Label):
+                                thumbnail_label = child
+                                # Load this thumbnail
+                                self.load_video_thumbnail(video, thumbnail_label, i)
+                                break
+                    
+                    # Small delay to avoid overwhelming the system
+                    time.sleep(0.1)
+                    
+            except Exception as e:
+                self.log_debug(f"Error loading remaining thumbnails: {e}")
+        
+        # Show loading message
+        messagebox.showinfo("Loading Thumbnails", 
+                           f"Loading thumbnails for {len(self.playlist_videos) - 20} remaining videos.\n"
+                           "This may take a moment...")
+        
+        # Start loading in background
+        threading.Thread(target=load_all_thumbs, daemon=True).start()
     
     def progress_hook(self, d):
         if d['status'] == 'downloading':
@@ -2582,6 +2727,325 @@ This software is completely free! If you find it useful:
         
         finally:
             self.download_btn.config(state="normal", text="Download")
+    
+    def load_page_thumbnails(self, page_videos, start_index):
+        """Load thumbnail data for specific videos on current page"""
+        def extract_page_thumbnails():
+            try:
+                self.log_debug(f"=== LOADING THUMBNAILS FOR PAGE {start_index // self.videos_per_page + 1} ===")
+                
+                # Get video IDs for this page
+                video_ids = []
+                video_indices = []
+                
+                for i, video in enumerate(page_videos):
+                    if video.get('id'):
+                        video_ids.append(video['id'])
+                        video_indices.append(start_index + i)
+                
+                if not video_ids:
+                    self.log_debug("No video IDs found for thumbnail extraction")
+                    return
+                
+                self.log_debug(f"Loading thumbnails for {len(video_ids)} videos...")
+                
+                # Extract thumbnail info for these specific videos
+                ydl_opts = {
+                    'quiet': True,
+                    'no_warnings': True,
+                    'extract_flat': False,
+                    'ignoreerrors': True,
+                }
+                
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    for i, video_id in enumerate(video_ids):
+                        try:
+                            video_url = f"https://www.youtube.com/watch?v={video_id}"
+                            self.log_debug(f"Extracting thumbnail for video {video_indices[i] + 1}: {video_id}")
+                            
+                            # Extract info for this specific video
+                            info = ydl.extract_info(video_url, download=False)
+                            
+                            if info:
+                                # Get best thumbnail URL
+                                thumbnail_url = (
+                                    info.get('thumbnail') or 
+                                    (info.get('thumbnails', [{}])[-1].get('url', '') if info.get('thumbnails') else '')
+                                )
+                                
+                                if thumbnail_url:
+                                    # Update the video data with thumbnail
+                                    video_index = video_indices[i]
+                                    if video_index < len(self.playlist_videos):
+                                        self.playlist_videos[video_index]['thumbnail'] = thumbnail_url
+                                        self.log_debug(f"✓ Got thumbnail for video {video_index + 1}")
+                                else:
+                                    self.log_debug(f"No thumbnail found for video {video_indices[i] + 1}")
+                        
+                        except Exception as e:
+                            self.log_debug(f"Error getting thumbnail for video {video_indices[i] + 1}: {e}")
+                            continue
+                
+                self.log_debug(f"✓ Completed thumbnail loading for page")
+                
+            except Exception as e:
+                self.log_debug(f"Error in load_page_thumbnails: {e}")
+        
+        # Load thumbnails in background
+        threading.Thread(target=extract_page_thumbnails, daemon=True).start()
+    
+    def load_page_videos(self, scrollable_frame, canvas, page_num):
+        """Load videos for a specific page"""
+        # Clear existing videos
+        for widget in scrollable_frame.winfo_children():
+            widget.destroy()
+        
+        # Calculate start and end indices for this page
+        start_idx = page_num * self.videos_per_page
+        end_idx = min(start_idx + self.videos_per_page, len(self.playlist_videos))
+        page_videos = self.playlist_videos[start_idx:end_idx]
+        
+        self.log_debug(f"Loading page {page_num + 1}: videos {start_idx + 1}-{end_idx}")
+        
+        # Create global video_vars if it doesn't exist
+        if not hasattr(self, 'all_video_vars'):
+            self.all_video_vars = [tk.BooleanVar(value=True) for _ in self.playlist_videos]
+        
+        # Add videos for this page
+        for i, video in enumerate(page_videos):
+            actual_index = start_idx + i
+            var = self.all_video_vars[actual_index]
+            
+            # Alternating row colors
+            row_bg = self.card_color if i % 2 == 0 else self.accent_color
+            
+            video_frame = tk.Frame(scrollable_frame, bg=row_bg, height=70)
+            video_frame.pack(fill="x", padx=5, pady=2)
+            video_frame.pack_propagate(False)
+            
+            # Checkbox
+            check = tk.Checkbutton(
+                video_frame,
+                variable=var,
+                bg=row_bg,
+                fg=self.text_color,
+                selectcolor=self.bg_color,
+                activebackground=row_bg,
+                cursor="hand2",
+                command=self.update_selection_count
+            )
+            check.pack(side="left", padx=(10, 5), anchor="w")
+            
+            # Thumbnail image
+            thumbnail_frame = tk.Frame(video_frame, bg=row_bg, width=90, height=50)
+            thumbnail_frame.pack(side="left", padx=5, pady=10)
+            thumbnail_frame.pack_propagate(False)
+            
+            thumbnail_label = tk.Label(
+                thumbnail_frame,
+                text="🎬",
+                font=("Segoe UI", 20),
+                bg=self.accent_color,
+                fg=self.green_color,
+                width=6,
+                height=2
+            )
+            thumbnail_label.pack(fill="both", expand=True)
+            
+            # Auto-load thumbnail for current page
+            self.load_video_thumbnail(video, thumbnail_label, actual_index)
+            
+            # Add a fallback - if no thumbnail loads after 3 seconds, show a reload button
+            def add_reload_option():
+                if thumbnail_label.cget('text') == '🎬':  # Still showing loading icon
+                    # Create a small reload button
+                    reload_btn = tk.Button(
+                        thumbnail_frame,
+                        text="↻",
+                        font=("Segoe UI", 8),
+                        bg=self.green_color,
+                        fg=self.bg_color,
+                        relief="flat",
+                        cursor="hand2",
+                        borderwidth=0,
+                        command=lambda: self.load_video_thumbnail(video, thumbnail_label, actual_index)
+                    )
+                    reload_btn.place(x=65, y=35, width=15, height=15)
+            
+            # Schedule fallback check
+            self.root.after(3000, add_reload_option)
+            
+            # Video info container
+            info_frame = tk.Frame(video_frame, bg=row_bg)
+            info_frame.pack(side="left", fill="both", expand=True, padx=10, pady=5)
+            
+            # Top row: number and duration
+            top_info = tk.Frame(info_frame, bg=row_bg)
+            top_info.pack(fill="x", anchor="n")
+            
+            # Video number (global index)
+            num_label = tk.Label(
+                top_info,
+                text=f"{actual_index + 1}.",
+                font=("Segoe UI", 9, "bold"),
+                bg=row_bg,
+                fg=self.text_muted,
+                width=4
+            )
+            num_label.pack(side="left", anchor="nw")
+            
+            # Duration label
+            duration = video.get('duration', 0)
+            mins, secs = divmod(duration, 60) if duration else (0, 0)
+            duration_str = f"[{int(mins)}:{int(secs):02d}]" if duration else "[--:--]"
+            
+            duration_label = tk.Label(
+                top_info,
+                text=duration_str,
+                font=("Segoe UI", 9),
+                bg=row_bg,
+                fg=self.green_color,
+                width=8
+            )
+            duration_label.pack(side="right", anchor="ne")
+            
+            # Title label
+            title = video.get('title', 'Unknown Title')
+            if len(title) > 55:
+                title = title[:52] + "..."
+            
+            title_label = tk.Label(
+                info_frame,
+                text=title,
+                font=("Segoe UI", 10, "bold"),
+                bg=row_bg,
+                fg=self.text_color,
+                anchor="w",
+                justify="left",
+                wraplength=400
+            )
+            title_label.pack(fill="x", anchor="n", pady=(5, 0))
+        
+        # Update scroll region
+        scrollable_frame.update_idletasks()
+        canvas.configure(scrollregion=canvas.bbox("all"))
+        canvas.yview_moveto(0)  # Scroll to top of page
+        
+        # Update page info
+        if hasattr(self, 'page_info_label'):
+            self.page_info_label.config(
+                text=f"Page {page_num + 1} of {self.total_pages} (showing videos {start_idx + 1}-{end_idx})"
+            )
+        
+        # Update pagination buttons
+        if hasattr(self, 'prev_btn'):
+            self.prev_btn.config(state="normal" if page_num > 0 else "disabled")
+        if hasattr(self, 'next_btn'):
+            self.next_btn.config(state="normal" if page_num < self.total_pages - 1 else "disabled")
+        
+        # Load thumbnails for this page in background (skip if first page already loaded)
+        if page_num == 0:
+            # First page thumbnails should already be loaded
+            self.log_debug("Page 1 thumbnails already loaded, skipping background load")
+        else:
+            # Load thumbnails for other pages
+            self.load_page_thumbnails(page_videos, start_idx)
+        
+        self.log_debug(f"Page {page_num + 1} loaded with {len(page_videos)} videos")
+    
+    def change_page(self, selector_window, scrollable_frame, canvas, direction):
+        """Change to next or previous page"""
+        new_page = self.current_page + direction
+        if 0 <= new_page < self.total_pages:
+            self.current_page = new_page
+            self.load_page_videos(scrollable_frame, canvas, new_page)
+    
+    def jump_to_page(self, selector_window, scrollable_frame, canvas):
+        """Jump to a specific page"""
+        try:
+            page_num = int(self.page_entry.get()) - 1  # Convert to 0-based index
+            if 0 <= page_num < self.total_pages:
+                self.current_page = page_num
+                self.load_page_videos(scrollable_frame, canvas, page_num)
+                self.page_entry.delete(0, tk.END)
+            else:
+                messagebox.showwarning("Invalid Page", f"Please enter a page number between 1 and {self.total_pages}")
+        except ValueError:
+            messagebox.showwarning("Invalid Input", "Please enter a valid page number")
+    
+    def update_selection_count(self):
+        """Update the selection count display"""
+        if hasattr(self, 'selection_label') and hasattr(self, 'all_video_vars'):
+            count = sum(var.get() for var in self.all_video_vars)
+            self.selection_label.config(text=f"{count} videos selected")
+    
+    def load_video_thumbnail(self, video, thumbnail_label, index):
+        """Load thumbnail for a video in the background"""
+        def load_thumb():
+            try:
+                thumbnail_url = video.get('thumbnail')
+                self.log_debug(f"Loading thumbnail for video {index + 1}: {video.get('title', 'Unknown')}")
+                self.log_debug(f"Thumbnail URL: {thumbnail_url}")
+                
+                if not thumbnail_url:
+                    # No thumbnail available
+                    self.log_debug(f"No thumbnail URL for video {index + 1}")
+                    self.root.after(0, lambda: thumbnail_label.config(text="🎵", font=("Segoe UI", 16)))
+                    return
+                
+                # Download thumbnail
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                }
+                
+                self.log_debug(f"Downloading thumbnail for video {index + 1}...")
+                response = requests.get(thumbnail_url, timeout=15, headers=headers)
+                self.log_debug(f"Thumbnail response for video {index + 1}: {response.status_code}")
+                
+                if response.status_code == 200:
+                    # Process image
+                    img_data = response.content
+                    self.log_debug(f"Downloaded {len(img_data)} bytes for video {index + 1}")
+                    
+                    img = Image.open(BytesIO(img_data))
+                    if img.mode != 'RGB':
+                        img = img.convert('RGB')
+                    
+                    # Resize to fit thumbnail area (90x50)
+                    img.thumbnail((80, 45), Image.Resampling.LANCZOS)
+                    
+                    # Convert to PhotoImage
+                    photo = ImageTk.PhotoImage(img)
+                    
+                    # Update label on main thread
+                    def update_label():
+                        try:
+                            thumbnail_label.config(image=photo, text="")
+                            thumbnail_label.image = photo  # Keep reference
+                            self.log_debug(f"✓ Thumbnail loaded successfully for video {index + 1}")
+                        except Exception as e:
+                            self.log_debug(f"Error updating thumbnail label for video {index + 1}: {e}")
+                            thumbnail_label.config(text="❌", font=("Segoe UI", 12))
+                    
+                    self.root.after(0, update_label)
+                else:
+                    # Failed to download
+                    self.log_debug(f"Failed to download thumbnail for video {index + 1}: HTTP {response.status_code}")
+                    self.root.after(0, lambda: thumbnail_label.config(text="❌", font=("Segoe UI", 12)))
+                    
+            except requests.exceptions.Timeout:
+                self.log_debug(f"Timeout loading thumbnail for video {index + 1}")
+                self.root.after(0, lambda: thumbnail_label.config(text="⏱", font=("Segoe UI", 12)))
+            except requests.exceptions.RequestException as e:
+                self.log_debug(f"Network error loading thumbnail for video {index + 1}: {e}")
+                self.root.after(0, lambda: thumbnail_label.config(text="🌐", font=("Segoe UI", 12)))
+            except Exception as e:
+                # Error loading thumbnail
+                self.log_debug(f"Error loading thumbnail for video {index + 1}: {type(e).__name__}: {e}")
+                self.root.after(0, lambda: thumbnail_label.config(text="🎵", font=("Segoe UI", 16)))
+        
+        # Always load thumbnails for pagination system (only loads current page)
+        threading.Thread(target=load_thumb, daemon=True).start()
     
     def generate_playlist_thumbnail(self):
         """Generate a composite thumbnail from multiple playlist videos"""
