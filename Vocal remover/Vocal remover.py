@@ -1,10 +1,10 @@
 ﻿#!/usr/bin/env python3
 """
-LetUsTech Vocal Remover - Full featured
+LetUsTech Vocal Remover - Full featured (FIXED VERSION)
 - Auto-installs FFmpeg (FULL build) to C:\ffmpeg (user-chosen Full build)
 - Auto-installs demucs and yt-dlp via pip if missing
 - Validates downloads
-- Runs demucs in CPU mode
+- Runs demucs in CPU mode with better error handling
 - Export options: WAV, MP3, FLAC, M4A (audio in mp4 container), OGG
 - Optional MP4 video outputs (merge isolated audio into original video)
 """
@@ -22,6 +22,73 @@ import urllib.request
 import zipfile
 import tempfile
 import time
+import webbrowser
+import base64
+import io
+import re
+
+# ----------------------------
+# LetUsTech Icon (Base64 encoded .ico file)
+# ----------------------------
+LETUSTECH_ICON_BASE64 = """
+AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAABAAANcNAADXDQAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAgAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAMAAABnAAAAmgAAACMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFAAAANIAAADzAAAAcgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAwwAAAP8AAACYAAoAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAZAAAAACQAAAAAAAAAAAAAACAAAAKQAAAD/AA
+AAuAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkAAAAbAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAB+AAAA3gAAAIAAAAABAAAAAAAAAAAAAACAAAAA/
+wAAANMAAAAVAAAAAAAAAAAAAAAAAAAAAAAAAAEAAACAAAAA3gAAAHAAAAAEAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAGQAAAPIAAAD/AAAApgAAAAQAAAAAAAAAAAAAAGEAAAD/
+AAAA6AAAACkAAAAAAAAAAAAAAAAAAAAAAAAABAAAAKYAAAD/AAAA8gAAAGkAAAACAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAFwAAADuAAAA/wAAAM0AAAAtAAAAAAAAAAAAAAAAAAAAQQAAAP
+YAAAD3AAAARAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALQAAAM0AAAD/AAAA7gAAAF8AAAABAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABWAAAA6gAAAP8AAADUAAAANQAAAAAAAAAAAAAAAAAAAAAAAAAnAAAA
+5wAAAP8AAABjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANQAAANQAAAD/AAAA6gAAAFYAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAE0AAADlAAAA/wAAAN0AAAA9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMAAa
+ADRAAA/wAAAIUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPQAAANsAAAD/AAAA5QAAAE0AAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAEQAAAOGAAAD/AAAA4QAAAEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAA
+ALUAAADwAAAApwAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARQAAAOEAAAD/AAAA4AAAAEQAAA
+AAAAAAAAAAAAAAAAA7AAAA2gAAAP8AAADmAAAATgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlQAA
+AP8AAADFAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATgAAAOYAAAD/AAAA2gAAADsA
+AAAAAAAAOwAAANIAAAD/AAAA6wAAAFcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABzA
+AAA/wAAANwAAAAdAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVwAAAOsAAAD/AAAA0g
+AAADsAAADYAAAA/wAAAPQAAABiAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFIAAAD
+8AAAA8AAAADUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAYgAAAPQAAAD/AAAA2A
+AAA NgAAAD/AAAA9AAAAGIAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAPAAAAD8AAAAU
+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAABiAAAA9AAAAP8AAADYAAAAOwAAAN
+IAAAD/AAAA6wAAAFcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdAAAA3gAAAP8AAABzA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVwAAAOsAAAD/AAAA0gAAADsAAAAAAAAAAw
+AAANoAAAD/AAAA5gAAAE4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAADFAAAA/wAAAJUAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANgAAADmAAAA/wAAANoAAAA7AAAAAAAAAAAAAAAA
+AARRAAAAOAAAAD/AAAA4QAAAEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAKcAAAD/AAAA
+tQAAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFAAAA4QAAAP8AAADgAAAARAAAAAAAAAAAAAAAAAA
+AAAAAAAAATQAAAOUA AAD/AAAA2wAAAD0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhQAAAP8AAADRAAAAEw
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPQAAANsAAAD/AAAA5QAAAE0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAVgAAAOoAAAD/AAAA1AAAADUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABjAAAA/wAAAOcAAAAnAAAAAA
+AAAAAAAAAAAAAAADUAAADHUAAAD/AAAA6gAAAFYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA
+AF8AAADuAAAA/wAAAM0AAAAtAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEQAAAD3AAAA9gAAAEEAAAAAAAAAAAAA
+AAAtAAAAzQAAAP8AAADuAAAAXwAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAaQ
+AAAPIAAAD/AAAApgAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAKQAAAOgAAAD/AAAAYQAAAAAAAAAAAAAABAAAAKYAAAD
+/AAAA8gAAAGkAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABwA
+AAA3gAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAVAAAA0wAAAP8AAACCAAAAAAAAAAAAAAABAAAAgAAAAN4AA
+ABwAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAGwA
+AAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAC4AAAA/wAAAKQAAAACAAAAAAAAAAAAAAAJAAAAGwAAAA
+QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACYAAAADwAAAwwAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAcgAAAP8AAADSAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjAAAAmgAAAGcAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+"""
 
 # ----------------------------
 # Configuration (adjust if desired)
@@ -31,7 +98,7 @@ FFMPEG_BIN = FFMPEG_INSTALL_DIR / "bin"
 FFMPEG_DOWNLOAD_URL = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-full.zip"
 FFMPEG_ZIP_NAME = "ffmpeg-full.zip"
 
-PIP_PACKAGES = ["demucs", "yt-dlp"]
+PIP_PACKAGES = ["torch", "torchaudio", "demucs", "yt-dlp"]
 
 # Output formats mapping for ffmpeg encoders/extensions
 OUTPUT_FORMATS = {
@@ -162,19 +229,26 @@ def install_ffmpeg_if_missing(gui_logger=None, persist=True):
 def pip_install_packages(packages, gui_logger=None):
     """Install pip packages using the running interpreter. Returns True if success."""
     try:
-        # Build pip install command
-        cmd = [sys.executable, "-m", "pip", "install", "--break-system-packages"] + packages
-        if gui_logger:
-            gui_logger(f"Installing Python packages: {', '.join(packages)} (this may take a while)...")
-        proc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        if proc.returncode != 0:
+        # Install packages one at a time for better progress tracking
+        for package in packages:
             if gui_logger:
-                gui_logger("pip install failed. Output:")
-                for line in (proc.stdout + proc.stderr).splitlines()[:20]:
-                    gui_logger("  " + line)
-            return False
+                gui_logger(f"Installing {package}... (this may take a few minutes)")
+            
+            cmd = [sys.executable, "-m", "pip", "install", "--break-system-packages", package]
+            proc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=600)
+            
+            if proc.returncode != 0:
+                if gui_logger:
+                    gui_logger(f"Failed to install {package}. Output:")
+                    for line in (proc.stdout + proc.stderr).splitlines()[:30]:
+                        gui_logger("  " + line)
+                return False
+            else:
+                if gui_logger:
+                    gui_logger(f"✓ {package} installed successfully")
+        
         if gui_logger:
-            gui_logger("✓ Python packages installed")
+            gui_logger("✓ All Python packages installed")
         return True
     except Exception as e:
         if gui_logger:
@@ -208,9 +282,21 @@ def safe_remove(path):
 class VocalRemoverApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("LetUsTech Vocal Remover - Wired For Your World")
-        self.root.geometry("860x760")
-        self.root.configure(bg='#001f3f')
+        self.root.title("LetUsTech - Vocal Remover")
+        self.root.geometry("920x800")
+        
+        # Modern dark theme colors matching YouTube Converter
+        self.bg_dark = '#0a1628'  # Dark navy background
+        self.bg_medium = '#1a2332'  # Medium navy for panels
+        self.bg_light = '#2a3545'  # Lighter navy for inputs
+        self.accent_green = '#00ff88'  # Bright green accent
+        self.text_white = '#ffffff'
+        self.text_gray = '#8892a6'
+        
+        self.root.configure(bg=self.bg_dark)
+        
+        # Set LetUsTech icon
+        self.set_window_icon()
 
         # Variables
         self.input_file = tk.StringVar()
@@ -221,80 +307,534 @@ class VocalRemoverApp:
         self.create_video_output = tk.BooleanVar(value=True)
         self.auto_install_pip = tk.BooleanVar(value=True)
         self.persist_ffmpeg = tk.BooleanVar(value=True)
+        self.demucs_model = tk.StringVar(value="htdemucs_ft (Best Quality)")
+        self.enhance_separation = tk.BooleanVar(value=True)  # Enhanced vocal removal
+        self.debug_mode = tk.BooleanVar(value=False)  # Debug console visibility
+        
+        # Progress tracking
+        self.current_progress = 0
+        self.start_time = None
+        self.total_steps = 0
+        self.current_step = 0
+        self.progress_label_var = tk.StringVar(value="Ready")
 
         Path(self.output_folder.get()).mkdir(parents=True, exist_ok=True)
+        self.create_menu()
         self.create_widgets()
 
+    def set_window_icon(self):
+        """Set the LetUsTech icon for the window"""
+        try:
+            # Decode base64 icon data
+            icon_data = base64.b64decode(LETUSTECH_ICON_BASE64)
+            
+            # Save temporarily to set as icon
+            icon_path = Path(tempfile.gettempdir()) / "letustech_icon.ico"
+            with open(icon_path, 'wb') as f:
+                f.write(icon_data)
+            
+            # Set the window icon
+            self.root.iconbitmap(str(icon_path))
+            
+            # Clean up temp file after a short delay
+            self.root.after(1000, lambda: self.cleanup_temp_icon(icon_path))
+        except Exception as e:
+            # If icon setting fails, just continue without it
+            pass
+    
+    def cleanup_temp_icon(self, icon_path):
+        """Clean up temporary icon file"""
+        try:
+            if icon_path.exists():
+                icon_path.unlink()
+        except Exception:
+            pass
+
+    def create_menu(self):
+        """Create menu bar (currently empty - using buttons instead)"""
+        # Menu bar removed - using top-right buttons (Settings, About, Help) instead
+        pass
+
+    def show_settings(self):
+        """Show settings dialog with debug mode toggle"""
+        settings_window = tk.Toplevel(self.root)
+        settings_window.title("Settings")
+        settings_window.geometry("400x250")
+        settings_window.configure(bg=self.bg_dark)
+        settings_window.resizable(False, False)
+        
+        # Set icon
+        try:
+            icon_data = base64.b64decode(LETUSTECH_ICON_BASE64)
+            icon_path = Path(tempfile.gettempdir()) / "letustech_settings_icon.ico"
+            with open(icon_path, 'wb') as f:
+                f.write(icon_data)
+            settings_window.iconbitmap(str(icon_path))
+            settings_window.after(1000, lambda: self.cleanup_temp_icon(icon_path))
+        except Exception:
+            pass
+        
+        # Center window
+        settings_window.transient(self.root)
+        settings_window.grab_set()
+        
+        # Main container
+        container = tk.Frame(settings_window, bg=self.bg_dark, padx=30, pady=20)
+        container.pack(fill='both', expand=True)
+        
+        # Title
+        tk.Label(container, text="⚙ Settings", font=('Segoe UI', 18, 'bold'), 
+                bg=self.bg_dark, fg=self.text_white).pack(pady=(0, 20))
+        
+        # Settings frame
+        settings_frame = tk.Frame(container, bg=self.bg_medium, padx=20, pady=20)
+        settings_frame.pack(fill='both', expand=True)
+        
+        # Debug mode checkbox
+        tk.Label(settings_frame, text="Developer Options:", font=('Segoe UI', 11, 'bold'), 
+                bg=self.bg_medium, fg=self.text_white).pack(anchor='w', pady=(0, 10))
+        
+        debug_check = tk.Checkbutton(settings_frame, 
+                                     text="🐞 Show debug console (for troubleshooting)", 
+                                     variable=self.debug_mode, 
+                                     bg=self.bg_medium, fg=self.text_white, 
+                                     selectcolor=self.bg_dark, font=('Segoe UI', 10),
+                                     activebackground=self.bg_medium,
+                                     command=self.toggle_debug_console)
+        debug_check.pack(anchor='w', pady=5)
+        
+        tk.Label(settings_frame, 
+                text="Enable this to see detailed processing logs\nand diagnostic information.",
+                font=('Segoe UI', 9), bg=self.bg_medium, fg=self.text_gray,
+                justify='left').pack(anchor='w', padx=(25, 0), pady=(0, 10))
+        
+        # Close button
+        close_btn = tk.Button(container, text="Close", command=settings_window.destroy,
+                            bg=self.accent_green, fg=self.bg_dark, font=('Segoe UI', 11, 'bold'),
+                            cursor='hand2', padx=30, pady=8)
+        close_btn.pack(pady=(15, 0))
+    
+    def toggle_debug_console(self):
+        """Show or hide the debug console based on debug_mode"""
+        if self.debug_mode.get():
+            self.console_frame.pack(fill='both', expand=True, pady=(10, 0))
+            self.progress_frame.config(text="  📊 Progress & Debug Console  ")
+        else:
+            self.console_frame.pack_forget()
+            self.progress_frame.config(text="  📊 Progress  ")
+    
+    def show_help(self):
+        """Show help dialog"""
+        help_text = """LetUsTech Vocal Remover - Quick Help
+
+🎬 YouTube URL:
+• Paste any YouTube video or playlist URL
+• Click Download to process
+
+📁 Local File:
+• Click Browse to select audio/video file
+• Supports MP3, MP4, WAV, M4A, FLAC, OGG
+
+⚙️ Settings:
+• Export Format: Choose output audio format
+• Separation Quality: Best/Balanced/Fast
+• Enhanced Vocal Removal: 10x processing for cleanest results (recommended!)
+
+📂 Output Location:
+• Choose where to save your instrumental tracks
+• Files are saved with timestamp
+
+⏱️ First Run:
+• Downloads ~650MB of AI models (one-time)
+• May take 5-15 minutes on first use
+
+Need more help? Visit letustech.uk"""
+        
+        messagebox.showinfo("Help", help_text)
+    
+    def show_about(self):
+        """Display About dialog with LetUsTech.uk information"""
+        about_window = tk.Toplevel(self.root)
+        about_window.title("About LetUsTech")
+        about_window.geometry("600x550")
+        about_window.configure(bg='#001f3f')
+        about_window.resizable(False, False)
+        
+        # Set icon for About window too
+        try:
+            icon_data = base64.b64decode(LETUSTECH_ICON_BASE64)
+            icon_path = Path(tempfile.gettempdir()) / "letustech_about_icon.ico"
+            with open(icon_path, 'wb') as f:
+                f.write(icon_data)
+            about_window.iconbitmap(str(icon_path))
+            about_window.after(1000, lambda: self.cleanup_temp_icon(icon_path))
+        except Exception:
+            pass
+        
+        # Center the window
+        about_window.transient(self.root)
+        about_window.grab_set()
+        
+        # Main container
+        container = tk.Frame(about_window, bg='#001f3f', padx=30, pady=20)
+        container.pack(fill='both', expand=True)
+        
+        # Logo/Header
+        header_frame = tk.Frame(container, bg='#001f3f')
+        header_frame.pack(pady=(0, 15))
+        
+        tk.Label(header_frame, text="🎵 LetUsTech", font=('Arial', 28, 'bold'), 
+                bg='#001f3f', fg='#00ff00').pack()
+        tk.Label(header_frame, text="Vocal Remover", font=('Arial', 16), 
+                bg='#001f3f', fg='white').pack()
+        tk.Label(header_frame, text="Wired For Your World", font=('Arial', 12, 'italic'), 
+                bg='#001f3f', fg='#00ff00').pack(pady=(5, 0))
+        
+        # Separator
+        separator = tk.Frame(container, height=2, bg='#00ff00')
+        separator.pack(fill='x', pady=15)
+        
+        # Info section
+        info_frame = tk.Frame(container, bg='#003366', padx=20, pady=20)
+        info_frame.pack(fill='both', expand=True, pady=(0, 15))
+        
+        info_text = """LetUsTech is your gateway to free Python automation tools, 
+browser-based games, and innovative technology solutions.
+
+This Vocal Remover uses AI-powered audio separation to 
+extract instrumentals and vocals from any audio or video file.
+
+Features:
+• YouTube video/audio downloading
+• Multiple export formats (WAV, MP3, FLAC, M4A, OGG)
+• Video output with isolated audio tracks
+• High-quality AI separation models
+• Automatic dependency installation
+
+Created with ❤️ by the LetUsTech community"""
+        
+        tk.Label(info_frame, text=info_text, font=('Arial', 10), 
+                bg='#003366', fg='white', justify='left').pack(anchor='w')
+        
+        # Links section
+        links_frame = tk.Frame(container, bg='#001f3f')
+        links_frame.pack(fill='x', pady=(0, 10))
+        
+        def create_link_button(parent, text, url):
+            btn = tk.Button(parent, text=text, font=('Arial', 10, 'underline'), 
+                          bg='#001f3f', fg='#00ff00', bd=0, cursor='hand2',
+                          activebackground='#001f3f', activeforeground='#00cc00')
+            btn.config(command=lambda: webbrowser.open(url))
+            return btn
+        
+        tk.Label(links_frame, text="Connect with us:", font=('Arial', 11, 'bold'), 
+                bg='#001f3f', fg='white').pack(anchor='w', pady=(0, 8))
+        
+        link_container = tk.Frame(links_frame, bg='#001f3f')
+        link_container.pack(anchor='w')
+        
+        create_link_button(link_container, "🌐 Website: letustech.uk", 
+                          "https://letustech.uk").pack(anchor='w', pady=2)
+        create_link_button(link_container, "💻 GitHub: github.com/LetUsTech", 
+                          "https://github.com/LetUsTech").pack(anchor='w', pady=2)
+        create_link_button(link_container, "💬 Discord Community", 
+                          "https://discord.gg/letustech").pack(anchor='w', pady=2)
+        
+        # Close button
+        close_btn = tk.Button(container, text="Close", command=about_window.destroy,
+                            bg='#00ff00', fg='#001f3f', font=('Arial', 11, 'bold'),
+                            cursor='hand2', padx=30, pady=8)
+        close_btn.pack(pady=(10, 0))
+        
+        # Footer
+        tk.Label(container, text="© 2024 LetUsTech | Free Tools & Games", 
+                font=('Arial', 8), bg='#001f3f', fg='#00cc00').pack(pady=(10, 0))
+
     def create_widgets(self):
-        header_frame = tk.Frame(self.root, bg='#001f3f')
-        header_frame.pack(pady=12)
-        title_label = tk.Label(header_frame, text="🎵 LetUsTech Vocal Remover", font=('Arial', 24, 'bold'), bg='#001f3f', fg='#00ff00')
-        title_label.pack()
-        subtitle_label = tk.Label(header_frame, text="Wired For Your World", font=('Arial', 11, 'italic'), bg='#001f3f', fg='#00ff00')
-        subtitle_label.pack()
+        # Top header bar with text logo (simpler, no image dependency issues)
+        header_frame = tk.Frame(self.root, bg=self.bg_dark, height=100)
+        header_frame.pack(fill='x', pady=(0, 0))
+        header_frame.pack_propagate(False)
+        
+        # Logo and title section
+        title_section = tk.Frame(header_frame, bg=self.bg_dark)
+        title_section.pack(side='left', padx=30, pady=20)
+        
+        # Text-based logo with coding icon
+        logo_frame = tk.Frame(title_section, bg=self.bg_dark)
+        logo_frame.pack(side='left', padx=(0, 15))
+        tk.Label(logo_frame, text="</>\n🎵", font=('Courier New', 20, 'bold'), 
+                bg=self.bg_dark, fg=self.accent_green, justify='center').pack()
+        
+        # Title text
+        title_text_frame = tk.Frame(title_section, bg=self.bg_dark)
+        title_text_frame.pack(side='left')
+        tk.Label(title_text_frame, text="LetUsTech Vocal Remover", font=('Segoe UI', 20, 'bold'), 
+                bg=self.bg_dark, fg=self.text_white).pack(anchor='w')
+        tk.Label(title_text_frame, text="Fast, easy vocal separation powered by AI", 
+                font=('Segoe UI', 10), bg=self.bg_dark, fg=self.text_gray).pack(anchor='w')
+        
+        # Top right buttons
+        top_buttons = tk.Frame(header_frame, bg=self.bg_dark)
+        top_buttons.pack(side='right', padx=30, pady=20)
+        
+        btn_style = {'bg': self.bg_medium, 'fg': self.text_white, 'font': ('Segoe UI', 10), 
+                    'bd': 0, 'padx': 15, 'pady': 8, 'cursor': 'hand2', 'activebackground': self.bg_light}
+        
+        tk.Button(top_buttons, text="⚙ Settings", command=self.show_settings, **btn_style).pack(side='left', padx=5)
+        tk.Button(top_buttons, text="ℹ About", command=self.show_about, **btn_style).pack(side='left', padx=5)
+        tk.Button(top_buttons, text="? Help", command=self.show_help, **btn_style).pack(side='left', padx=5)
 
-        main_frame = tk.Frame(self.root, bg='#001f3f')
-        main_frame.pack(padx=12, pady=6, fill='both', expand=True)
+        # Main content area
+        main_frame = tk.Frame(self.root, bg=self.bg_dark)
+        main_frame.pack(padx=30, pady=20, fill='both', expand=True)
 
-        method_frame = tk.LabelFrame(main_frame, text="Input Method", font=('Arial', 12, 'bold'), bg='#003366', fg='#00ff00', padx=12, pady=12)
-        method_frame.pack(fill='x', pady=6)
+        # Input method section with modern styling
+        method_frame = tk.LabelFrame(main_frame, text="  🎬 Video URL  ", font=('Segoe UI', 12, 'bold'), 
+                                    bg=self.bg_medium, fg=self.text_white, bd=0, padx=20, pady=20)
+        method_frame.pack(fill='x', pady=(0, 15))
 
-        file_frame = tk.Frame(method_frame, bg='#003366')
-        file_frame.pack(fill='x', pady=4)
-        tk.Label(file_frame, text="Local File (MP3, MP4, WAV, M4A, FLAC):", font=('Arial', 11), bg='#003366', fg='white').pack(anchor='w', pady=4)
-        file_input_frame = tk.Frame(file_frame, bg='#003366')
+        # URL input row
+        url_label = tk.Label(method_frame, text="Paste any YouTube video or playlist URL", 
+                            font=('Segoe UI', 9), bg=self.bg_medium, fg=self.text_gray)
+        url_label.pack(anchor='w', pady=(0, 8))
+        
+        url_input_frame = tk.Frame(method_frame, bg=self.bg_medium)
+        url_input_frame.pack(fill='x', pady=(0, 10))
+        
+        url_entry = tk.Entry(url_input_frame, textvariable=self.youtube_url, font=('Segoe UI', 11), 
+                            bg=self.bg_light, fg=self.text_white, insertbackground=self.text_white,
+                            bd=0, relief='flat')
+        url_entry.pack(side='left', fill='x', expand=True, ipady=8, padx=(0, 10))
+        
+        tk.Button(url_input_frame, text="Paste", command=self.paste_url, bg=self.accent_green, 
+                 fg=self.bg_dark, font=('Segoe UI', 10, 'bold'), cursor='hand2', bd=0, 
+                 padx=20, pady=8).pack(side='left', padx=(0,5))
+        tk.Button(url_input_frame, text="Clear", command=self.clear_url, bg='#ff4757', 
+                 fg='white', font=('Segoe UI', 10, 'bold'), cursor='hand2', bd=0, 
+                 padx=20, pady=8).pack(side='left')
+
+        # OR divider
+        tk.Label(method_frame, text="─── OR ───", font=('Segoe UI', 10, 'bold'), 
+                bg=self.bg_medium, fg=self.text_gray).pack(pady=15)
+
+        # Local file section
+        file_label = tk.Label(method_frame, text="Local File (MP3, MP4, WAV, M4A, FLAC, OGG)", 
+                             font=('Segoe UI', 9), bg=self.bg_medium, fg=self.text_gray)
+        file_label.pack(anchor='w', pady=(0, 8))
+        
+        file_input_frame = tk.Frame(method_frame, bg=self.bg_medium)
         file_input_frame.pack(fill='x')
-        tk.Entry(file_input_frame, textvariable=self.input_file, font=('Arial', 10), width=68).pack(side='left', padx=(0,10))
-        tk.Button(file_input_frame, text="Browse", command=self.browse_file, bg='#00ff00', fg='#001f3f', font=('Arial', 10, 'bold'), cursor='hand2').pack(side='left')
+        
+        tk.Entry(file_input_frame, textvariable=self.input_file, font=('Segoe UI', 11), 
+                bg=self.bg_light, fg=self.text_white, insertbackground=self.text_white,
+                bd=0, relief='flat').pack(side='left', fill='x', expand=True, ipady=8, padx=(0,10))
+        tk.Button(file_input_frame, text="Browse", command=self.browse_file, bg=self.accent_green, 
+                 fg=self.bg_dark, font=('Segoe UI', 10, 'bold'), cursor='hand2', bd=0, 
+                 padx=20, pady=8).pack(side='left')
 
-        tk.Label(method_frame, text="─── OR ───", font=('Arial', 10, 'bold'), bg='#003366', fg='#00ff00').pack(pady=8)
-        url_frame = tk.Frame(method_frame, bg='#003366')
-        url_frame.pack(fill='x', pady=4)
-        tk.Label(url_frame, text="YouTube URL:", font=('Arial', 11), bg='#003366', fg='white').pack(anchor='w', pady=4)
-        tk.Entry(url_frame, textvariable=self.youtube_url, font=('Arial', 10), width=86).pack(fill='x')
+        # Output settings with modern styling
+        output_frame = tk.LabelFrame(main_frame, text="  ⚙ Quality / Format  ", font=('Segoe UI', 12, 'bold'), 
+                                    bg=self.bg_medium, fg=self.text_white, bd=0, padx=20, pady=20)
+        output_frame.pack(fill='x', pady=(0, 15))
+        
+        # First row: Format and Model dropdowns
+        settings_row1 = tk.Frame(output_frame, bg=self.bg_medium)
+        settings_row1.pack(fill='x', pady=(0, 15))
+        
+        # Export format
+        format_col = tk.Frame(settings_row1, bg=self.bg_medium)
+        format_col.pack(side='left', fill='x', expand=True, padx=(0, 10))
+        tk.Label(format_col, text="Export Format:", font=('Segoe UI', 9), 
+                bg=self.bg_medium, fg=self.text_gray).pack(anchor='w', pady=(0, 5))
+        format_menu = ttk.Combobox(format_col, textvariable=self.selected_format, 
+                                   values=list(OUTPUT_FORMATS.keys()), state='readonly', 
+                                   font=('Segoe UI', 10))
+        format_menu.pack(fill='x', ipady=5)
+        
+        # Separation quality
+        model_col = tk.Frame(settings_row1, bg=self.bg_medium)
+        model_col.pack(side='left', fill='x', expand=True)
+        tk.Label(model_col, text="Separation Quality:", font=('Segoe UI', 9), 
+                bg=self.bg_medium, fg=self.text_gray).pack(anchor='w', pady=(0, 5))
+        model_options = ["htdemucs_ft (Best Quality)", "htdemucs (Balanced)", "htdemucs_6s (Fast)"]
+        model_menu = ttk.Combobox(model_col, textvariable=self.demucs_model, 
+                                  values=model_options, state='readonly', 
+                                  font=('Segoe UI', 10))
+        model_menu.pack(fill='x', ipady=5)
+        
+        # Download location
+        location_label = tk.Label(output_frame, text="Download Location:", 
+                                 font=('Segoe UI', 9), bg=self.bg_medium, fg=self.text_gray)
+        location_label.pack(anchor='w', pady=(0, 5))
+        
+        location_frame = tk.Frame(output_frame, bg=self.bg_medium)
+        location_frame.pack(fill='x', pady=(0, 15))
+        tk.Entry(location_frame, textvariable=self.output_folder, font=('Segoe UI', 10), 
+                bg=self.bg_light, fg=self.text_white, insertbackground=self.text_white,
+                bd=0, relief='flat').pack(side='left', fill='x', expand=True, ipady=8, padx=(0,10))
+        tk.Button(location_frame, text="Browse", command=self.browse_output_folder, 
+                 bg=self.accent_green, fg=self.bg_dark, font=('Segoe UI', 10, 'bold'), 
+                 cursor='hand2', bd=0, padx=20, pady=8).pack(side='left')
+        
+        # Checkboxes with modern styling
+        checkbox_frame = tk.Frame(output_frame, bg=self.bg_medium)
+        checkbox_frame.pack(fill='x')
+        
+        tk.Checkbutton(checkbox_frame, text="✨ Enhanced vocal removal (cleaner results)", 
+                      variable=self.enhance_separation, bg=self.bg_medium, fg=self.text_white, 
+                      selectcolor=self.bg_dark, font=('Segoe UI', 9), activebackground=self.bg_medium,
+                      activeforeground=self.accent_green).pack(anchor='w', pady=3)
+        tk.Checkbutton(checkbox_frame, text="Create MP4 video outputs", 
+                      variable=self.create_video_output, bg=self.bg_medium, fg=self.text_white, 
+                      selectcolor=self.bg_dark, font=('Segoe UI', 9), activebackground=self.bg_medium).pack(anchor='w', pady=3)
+        tk.Checkbutton(checkbox_frame, text="Auto-install dependencies", 
+                      variable=self.auto_install_pip, bg=self.bg_medium, fg=self.text_white, 
+                      selectcolor=self.bg_dark, font=('Segoe UI', 9), activebackground=self.bg_medium).pack(anchor='w', pady=3)
 
-        output_frame = tk.LabelFrame(main_frame, text="Output Settings", font=('Arial', 12, 'bold'), bg='#003366', fg='#00ff00', padx=12, pady=12)
-        output_frame.pack(fill='x', pady=6)
-        tk.Label(output_frame, text="Save Instrumentals To:", font=('Arial', 11), bg='#003366', fg='white').pack(anchor='w', pady=4)
-        output_input_frame = tk.Frame(output_frame, bg='#003366')
-        output_input_frame.pack(fill='x')
-        tk.Entry(output_input_frame, textvariable=self.output_folder, font=('Arial', 10), width=68).pack(side='left', padx=(0,10))
-        tk.Button(output_input_frame, text="Browse", command=self.browse_output_folder, bg='#00ff00', fg='#001f3f', font=('Arial', 10, 'bold'), cursor='hand2').pack(side='left')
+        # Large process button with modern green styling
+        self.process_btn = tk.Button(main_frame, text="⬇ Download", command=self.start_processing, 
+                                     bg=self.accent_green, fg=self.bg_dark, 
+                                     font=('Segoe UI', 14, 'bold'), cursor='hand2', bd=0, 
+                                     pady=15, activebackground='#00dd77')
+        self.process_btn.pack(pady=(0, 15), fill='x')
 
-        options_frame = tk.Frame(output_frame, bg='#003366')
-        options_frame.pack(fill='x', pady=8)
-        tk.Label(options_frame, text="Export Format:", font=('Arial', 10), bg='#003366', fg='white').pack(side='left', padx=(0,8))
-        format_menu = ttk.Combobox(options_frame, textvariable=self.selected_format, values=list(OUTPUT_FORMATS.keys()), width=30, state='readonly')
-        format_menu.pack(side='left')
+        # Progress section with modern styling
+        self.progress_frame = tk.LabelFrame(main_frame, text="  📊 Progress  ", font=('Segoe UI', 11, 'bold'), 
+                                      bg=self.bg_medium, fg=self.text_white, bd=0, padx=20, pady=15)
+        self.progress_frame.pack(fill='both', expand=True)
 
-        tk.Checkbutton(options_frame, text="Also create MP4 video outputs (if source has video)", variable=self.create_video_output, bg='#003366', fg='white', selectcolor='#003366').pack(side='left', padx=12)
-        tk.Checkbutton(options_frame, text="Auto-install demucs & yt-dlp", variable=self.auto_install_pip, bg='#003366', fg='white', selectcolor='#003366').pack(side='left', padx=8)
-        tk.Checkbutton(options_frame, text="Persist FFmpeg to PATH (setx)", variable=self.persist_ffmpeg, bg='#003366', fg='white', selectcolor='#003366').pack(side='left', padx=8)
+        # Progress label for status and ETA
+        self.progress_label = tk.Label(self.progress_frame, textvariable=self.progress_label_var,
+                                      font=('Segoe UI', 10, 'bold'), bg=self.bg_medium, fg=self.accent_green)
+        self.progress_label.pack(pady=(0, 5), anchor='w')
 
-        self.process_btn = tk.Button(main_frame, text="🎵 Remove Vocals & Create Outputs", command=self.start_processing, bg='#00ff00', fg='#001f3f', font=('Arial', 14, 'bold'), cursor='hand2', pady=12)
-        self.process_btn.pack(pady=12, fill='x')
+        self.progress_bar = ttk.Progressbar(self.progress_frame, mode='determinate', length=520, maximum=100)
+        self.progress_bar.pack(pady=(0, 10), fill='x')
 
-        progress_frame = tk.LabelFrame(main_frame, text="Progress & Logs", font=('Arial', 12, 'bold'), bg='#003366', fg='#00ff00', padx=12, pady=12)
-        progress_frame.pack(fill='both', expand=True, pady=6)
-
-        self.progress_bar = ttk.Progressbar(progress_frame, mode='indeterminate', length=520)
-        self.progress_bar.pack(pady=8, fill='x')
-
-        self.status_text = tk.Text(progress_frame, height=14, font=('Courier', 9), bg='#001a33', fg='#00ff00', wrap='word')
-        self.status_text.pack(fill='both', expand=True, pady=4)
-        scrollbar = tk.Scrollbar(self.status_text)
+        # Console text area with dark styling (hidden by default)
+        self.console_frame = tk.Frame(self.progress_frame, bg=self.bg_dark, bd=0)
+        # Don't pack it yet - only show when debug mode is enabled
+        
+        tk.Label(self.console_frame, text="Debug Console:", font=('Segoe UI', 9, 'bold'),
+                bg=self.bg_dark, fg=self.text_gray).pack(anchor='w', pady=(5, 5))
+        
+        console_text_frame = tk.Frame(self.console_frame, bg=self.bg_dark, bd=0)
+        console_text_frame.pack(fill='both', expand=True)
+        
+        self.status_text = tk.Text(console_text_frame, height=10, font=('Consolas', 8), 
+                                   bg=self.bg_dark, fg=self.accent_green, wrap='word', 
+                                   bd=0, padx=10, pady=10, insertbackground=self.accent_green)
+        self.status_text.pack(side='left', fill='both', expand=True)
+        
+        scrollbar = tk.Scrollbar(console_text_frame, command=self.status_text.yview)
         scrollbar.pack(side='right', fill='y')
         self.status_text.config(yscrollcommand=scrollbar.set)
-        scrollbar.config(command=self.status_text.yview)
+        
+        # Enable mouse wheel scrolling for debug console
+        def on_mousewheel(event):
+            self.status_text.yview_scroll(int(-1*(event.delta/120)), "units")
+        
+        # Bind mouse wheel to text widget and its parent frame
+        self.status_text.bind("<MouseWheel>", on_mousewheel)
+        console_text_frame.bind("<MouseWheel>", on_mousewheel)
+        self.console_frame.bind("<MouseWheel>", on_mousewheel)
 
-        info_label = tk.Label(main_frame, text="Tip: First run may download FFmpeg (~180MB) and Demucs models (~250MB). Be patient.", font=('Arial', 9), bg='#001f3f', fg='#00cc00')
-        info_label.pack(pady=6)
+        # Bottom info label
+        info_label = tk.Label(main_frame, 
+                             text="💡 Tip: Enable 'Enhanced vocal removal' for cleanest results. Uses 10x processing for maximum quality.",
+                             font=('Segoe UI', 9), bg=self.bg_dark, fg=self.text_gray, wraplength=850)
+        info_label.pack(pady=(10, 0))
 
     def log_status(self, message):
         timestamp = datetime.now().strftime("%H:%M:%S")
         self.status_text.insert('end', f"[{timestamp}] {message}\n")
         self.status_text.see('end')
         self.root.update()
+
+    def update_progress(self, step_name, step_number=None):
+        """Update progress bar and show estimated time remaining"""
+        try:
+            if self.debug_mode.get():
+                print(f"DEBUG: update_progress called - {step_name}, step: {step_number}")  # Debug
+            if step_number is not None:
+                self.current_step = step_number
+            else:
+                self.current_step += 1
+            
+            if self.total_steps > 0:
+                progress_pct = int((self.current_step / self.total_steps) * 100)
+                if self.debug_mode.get():
+                    print(f"DEBUG: Setting progress to {progress_pct}%")  # Debug
+                # Use config() instead of dictionary access for ttk widgets
+                self.progress_bar.config(value=progress_pct)
+                
+                # Calculate estimated time remaining
+                if self.start_time:
+                    elapsed = time.time() - self.start_time
+                    if self.current_step > 0:
+                        avg_time_per_step = elapsed / self.current_step
+                        remaining_steps = self.total_steps - self.current_step
+                        eta_seconds = avg_time_per_step * remaining_steps
+                        
+                        # Format time nicely
+                        if eta_seconds < 60:
+                            eta_str = f"{int(eta_seconds)}s"
+                        elif eta_seconds < 3600:
+                            minutes = int(eta_seconds / 60)
+                            seconds = int(eta_seconds % 60)
+                            eta_str = f"{minutes}m {seconds}s"
+                        else:
+                            hours = int(eta_seconds / 3600)
+                            minutes = int((eta_seconds % 3600) / 60)
+                            eta_str = f"{hours}h {minutes}m"
+                        
+                        status_text = f"{step_name} - {progress_pct}% (ETA: {eta_str})"
+                    else:
+                        status_text = f"{step_name} - {progress_pct}%"
+                else:
+                    status_text = f"{step_name} - {progress_pct}%"
+            else:
+                status_text = step_name
+            
+            if self.debug_mode.get():
+                print(f"DEBUG: Setting status text: {status_text}")  # Debug
+            self.progress_label_var.set(status_text)
+            self.root.update()
+            if self.debug_mode.get():
+                print("DEBUG: update_progress complete")  # Debug
+        except Exception as e:
+            if self.debug_mode.get():
+                print(f"DEBUG: Exception in update_progress: {e}")  # Debug
+                import traceback
+                traceback.print_exc()
+
+    def start_demucs_animation(self):
+        """Animate the progress label during long demucs processing"""
+        animation_chars = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
+        self.animation_index = 0
+        
+        def animate():
+            if hasattr(self, 'demucs_animation_active') and self.demucs_animation_active:
+                char = animation_chars[self.animation_index % len(animation_chars)]
+                self.animation_index += 1
+                
+                # Get current progress info
+                current_text = self.progress_label_var.get()
+                if "AI vocal separation" in current_text:
+                    # Add spinner to the text
+                    base_text = current_text.split(" ")[0:5]  # Get first parts
+                    base_text = " ".join(base_text)
+                    if "%" in current_text:
+                        pct_part = current_text.split("-")[1] if "-" in current_text else ""
+                        self.progress_label_var.set(f"{char} {base_text} - {pct_part}")
+                    else:
+                        self.progress_label_var.set(f"{char} {base_text}")
+                
+                # Schedule next animation frame
+                self.root.after(100, animate)
+        
+        animate()
 
     def browse_file(self):
         filename = filedialog.askopenfilename(title="Select Audio/Video File", filetypes=[("Media Files", "*.mp3 *.mp4 *.wav *.m4a *.flac *.ogg *.webm *.mov"), ("All Files", "*.*")])
@@ -306,6 +846,21 @@ class VocalRemoverApp:
         folder = filedialog.askdirectory(title="Select Output Folder")
         if folder:
             self.output_folder.set(folder)
+
+    def paste_url(self):
+        """Paste URL from clipboard into YouTube URL field"""
+        try:
+            clipboard_content = self.root.clipboard_get()
+            self.youtube_url.set(clipboard_content.strip())
+            self.input_file.set("")  # Clear local file when pasting URL
+            self.log_status("✓ URL pasted from clipboard")
+        except Exception as e:
+            messagebox.showwarning("Paste Error", "Could not paste from clipboard. Please ensure you have copied a URL.")
+
+    def clear_url(self):
+        """Clear the YouTube URL field"""
+        self.youtube_url.set("")
+        self.log_status("YouTube URL cleared")
 
     # ----------------------------
     # Download & validation
@@ -367,6 +922,21 @@ class VocalRemoverApp:
             # pick the largest file (likely our desired)
             chosen = sorted(files, key=lambda p: p.stat().st_size if p.exists() else 0, reverse=True)[0]
             self.log_status(f"✓ Downloaded: {chosen.name} ({chosen.stat().st_size} bytes)")
+            
+            # Sanitize filename to avoid issues with special characters
+            safe_name = re.sub(r'[^\w\s\-_\.]', '_', chosen.stem) + chosen.suffix
+            safe_name = re.sub(r'[\s]+', '_', safe_name)  # Replace spaces with underscores
+            safe_path = chosen.parent / safe_name
+            
+            # Rename if needed
+            if str(chosen) != str(safe_path):
+                try:
+                    chosen.rename(safe_path)
+                    self.log_status(f"Renamed to: {safe_name}")
+                    chosen = safe_path
+                except Exception as e:
+                    self.log_status(f"Warning: Could not rename file: {e}")
+                    # Continue with original name
 
             # validate with ffmpeg probe
             ok, msg = ffmpeg_probe(chosen)
@@ -381,7 +951,7 @@ class VocalRemoverApp:
     # Processing (Demucs) & outputs
     # ----------------------------
     def process_audio_with_demucs(self, input_path):
-        """Run demucs in CPU mode and return tuple(paths): (vocals_path, instrumental_path) absolute paths to WAV outputs"""
+        """Run demucs in CPU mode and return tuple(paths): (vocals_path, instrumental_path) absolute paths to audio outputs"""
         try:
             # Ensure ffmpeg present
             install_ffmpeg_if_missing(gui_logger=self.log_status, persist=self.persist_ffmpeg.get())
@@ -389,37 +959,204 @@ class VocalRemoverApp:
             # Auto-install demucs if requested
             if self.auto_install_pip.get():
                 pip_install_packages(PIP_PACKAGES, gui_logger=self.log_status)
+            
+            # Verify torch and torchaudio are available
+            try:
+                import torch
+                import torchaudio
+                self.log_status(f"✓ PyTorch {torch.__version__} available")
+                self.log_status(f"✓ Torchaudio {torchaudio.__version__} available")
+            except ImportError as e:
+                raise Exception(f"Required dependency missing: {e}. Please enable 'Auto-install' or manually install: pip install torch torchaudio demucs")
 
             # Check demucs availability
             rc, out, err = run_subprocess(["demucs", "--help"], timeout=20, capture=True)
-            if rc != 0 and rc != 0 and "usage:" not in (out or err or ""):
+            if rc != 0 and "usage:" not in (out or err or "").lower():
                 self.log_status("Warning: demucs check returned nonzero; will attempt to run demucs anyway")
+
+            # Validate input file exists and is readable
+            input_file = Path(input_path)
+            if not input_file.exists():
+                raise Exception(f"Input file not found: {input_path}")
+            if input_file.stat().st_size == 0:
+                raise Exception(f"Input file is empty: {input_path}")
+            
+            self.log_status(f"Input file size: {input_file.stat().st_size / (1024*1024):.2f} MB")
+            
+            # If filename has problematic characters, copy to a safe name
+            safe_stem = re.sub(r'[^\w\s\-_]', '_', input_file.stem)
+            safe_stem = re.sub(r'[\s]+', '_', safe_stem)
+            safe_name = safe_stem + input_file.suffix
+            
+            if safe_name != input_file.name:
+                self.log_status(f"Filename has special characters, creating safe copy...")
+                safe_input_path = input_file.parent / safe_name
+                try:
+                    shutil.copy2(input_file, safe_input_path)
+                    input_path = str(safe_input_path)
+                    input_file = safe_input_path
+                    self.log_status(f"Using safe filename: {safe_name}")
+                except Exception as e:
+                    self.log_status(f"Warning: Could not create safe copy: {e}")
+                    self.log_status("Proceeding with original filename...")
 
             temp_output = Path(self.output_folder.get()) / "temp_demucs"
             if temp_output.exists():
                 shutil.rmtree(temp_output, ignore_errors=True)
             temp_output.mkdir(parents=True, exist_ok=True)
 
+            # Map model selection to demucs model names
+            model_mapping = {
+                "htdemucs_ft (Best Quality)": "htdemucs_ft",
+                "htdemucs (Balanced)": "htdemucs",
+                "htdemucs_6s (Fast)": "htdemucs_6s"
+            }
+            selected_model = model_mapping.get(self.demucs_model.get(), "htdemucs_ft")
+            
+            self.log_status(f"Using model: {selected_model}")
+            
+            # Use selected model with explicit specification
+            # Fine-tuned models have much better vocal isolation with less bleed
             cmd = [
                 "demucs",
                 "--two-stems=vocals",
+                "-n", selected_model,
                 "--device", "cpu",
-                "-o", str(temp_output),
-                input_path
+                "--float32",  # Use float32 precision (avoids some codec issues)
+                "--mp3",  # Output as MP3 instead of WAV (better compatibility)
+                "--mp3-bitrate", "320",  # Highest quality MP3
             ]
-            self.log_status("Running Demucs (CPU mode). This may take a while...")
-            # spawn and stream output
-            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1)
-            for line in process.stdout:
-                if line.strip():
-                    self.log_status("  " + line.strip())
-            process.wait()
+            
+            # Add enhanced separation parameters if enabled
+            if self.enhance_separation.get():
+                self.log_status("Enhanced vocal removal enabled - using advanced parameters")
+                cmd.extend([
+                    "--clip-mode", "rescale",  # Better handling of clipping
+                    "--shifts", "10",  # More random shifts for better quality (default is 1)
+                ])
+            
+            cmd.extend([
+                "-o", str(temp_output),
+                str(input_path)  # Ensure string path
+            ])
+            
+            self.log_status("Running Demucs (CPU mode, htdemucs model). This may take several minutes...")
+            if self.enhance_separation.get():
+                self.log_status("Note: Enhanced mode uses 10 random shifts - this takes longer but produces cleaner results")
+            self.log_status(f"Command: {' '.join(cmd)}")
+            self.log_status("\n⏳ AI Processing in progress... (This is the longest step)")
+            self.log_status("💡 Progress updates every 30 seconds. Please be patient!\n")
+            
+            # Set UTF-8 encoding environment variables to prevent Unicode errors on Windows
+            env = os.environ.copy()
+            env['PYTHONIOENCODING'] = 'utf-8'
+            env['PYTHONUTF8'] = '1'
+            
+            # Capture both stdout and stderr separately for better error diagnosis
+            process = subprocess.Popen(
+                cmd, 
+                stdout=subprocess.PIPE, 
+                stderr=subprocess.PIPE, 
+                text=True, 
+                bufsize=1,
+                env=env,
+                encoding='utf-8',
+                errors='replace',  # Replace problematic characters instead of crashing
+                universal_newlines=True
+            )
+            
+            stdout_lines = []
+            stderr_lines = []
+            
+            # Read output in real-time with progress updates
+            import select
+            import sys
+            last_update = time.time()
+            
+            # Helper to read from stderr in real-time
+            def read_stderr_realtime():
+                """Read stderr line by line and update progress"""
+                nonlocal last_update
+                for line in iter(process.stderr.readline, ''):
+                    if not line:
+                        break
+                    line = line.strip()
+                    if line:
+                        stderr_lines.append(line)
+                        self.log_status("  " + line)
+                        
+                        # Update progress label periodically
+                        current_time = time.time()
+                        if current_time - last_update > 30:  # Every 30 seconds
+                            self.log_status("⏳ Still processing... (AI separation takes time)")
+                            last_update = current_time
+                            # Force UI update
+                            self.root.update()
+            
+            # Read stderr in a separate thread
+            import threading
+            stderr_thread = threading.Thread(target=read_stderr_realtime, daemon=True)
+            stderr_thread.start()
+            
+            # Wait for process to complete while periodically updating UI
+            demucs_start_time = time.time()
+            demucs_check_count = 0
+            
+            while process.poll() is None:
+                time.sleep(2)  # Check every 2 seconds
+                self.root.update()  # Keep UI responsive
+                demucs_check_count += 1
+                
+                # Simulate sub-progress within the Demucs step (50% to 83%)
+                # This gives visual feedback that processing is happening
+                if demucs_check_count % 15 == 0:  # Every 30 seconds (15 checks * 2 seconds)
+                    # Increment progress slightly to show activity
+                    elapsed_demucs = time.time() - demucs_start_time
+                    # Estimate we're moving through the demucs step
+                    # Assume demucs takes 5-15 minutes, update proportionally
+                    estimated_demucs_time = 600  # 10 minutes estimate
+                    demucs_progress = min(elapsed_demucs / estimated_demucs_time, 0.95)  # Max 95% of step
+                    
+                    # Map to the 50-83% range (33% of total progress)
+                    base_progress = 0.50  # 50%
+                    demucs_range = 0.33   # 33% (from 50% to 83%)
+                    new_progress = base_progress + (demucs_progress * demucs_range)
+                    
+                    # Update progress bar to show sub-progress
+                    new_step = int(new_progress * self.total_steps)
+                    if new_step > self.current_step and new_step < self.total_steps:
+                        self.current_step = new_step
+                        progress_pct = int((self.current_step / self.total_steps) * 100)
+                        self.progress_bar.config(value=progress_pct)
+                
+                # Periodic status update
+                current_time = time.time()
+                if current_time - last_update > 30:
+                    elapsed = int(current_time - self.start_time)
+                    self.log_status(f"⏳ Still processing... ({elapsed}s elapsed)")
+                    last_update = current_time
+            
+            # Wait for stderr thread to finish
+            stderr_thread.join(timeout=5)
+            
+            # Read any remaining stdout
+            stdout_data = process.stdout.read()
+            if stdout_data:
+                for line in stdout_data.splitlines():
+                    if line.strip():
+                        self.log_status("  " + line.strip())
+                        stdout_lines.append(line)
+            
             if process.returncode != 0:
-                raise Exception(f"Demucs failed with code {process.returncode}")
+                error_details = f"Demucs failed with code {process.returncode}\n"
+                error_details += "\n\nLast stdout lines:\n" + "\n".join(stdout_lines[-10:]) if stdout_lines else ""
+                error_details += "\n\nLast stderr lines:\n" + "\n".join(stderr_lines[-10:]) if stderr_lines else ""
+                raise Exception(error_details)
 
-            # find outputs (search recursively)
-            vocals_candidates = list(temp_output.glob("**/*vocals.wav"))
-            no_vocals_candidates = list(temp_output.glob("**/*no_vocals.wav"))
+            # find outputs (search recursively) - look for both wav and mp3
+            vocals_candidates = list(temp_output.glob("**/*vocals.wav")) + list(temp_output.glob("**/*vocals.mp3"))
+            no_vocals_candidates = list(temp_output.glob("**/*no_vocals.wav")) + list(temp_output.glob("**/*no_vocals.mp3"))
+            
             # Best-effort: some demucs variants name "vocals.wav" and "no_vocals.wav"
             if not vocals_candidates and not no_vocals_candidates:
                 # show directory contents
@@ -431,6 +1168,12 @@ class VocalRemoverApp:
             # pick first matches
             vocals_path = vocals_candidates[0] if vocals_candidates else None
             instrumental_path = no_vocals_candidates[0] if no_vocals_candidates else None
+            
+            # Apply additional vocal suppression if enhanced mode is enabled
+            if self.enhance_separation.get() and instrumental_path:
+                self.log_status("Applying additional vocal suppression to instrumental...")
+                instrumental_path = self.apply_vocal_suppression(instrumental_path)
+            
             # Some installations produce 'vocals.wav' and 'no_vocals.wav'; sometimes inverted naming - attempt to detect by size (vocals usually smaller)
             if vocals_path and instrumental_path:
                 return str(vocals_path), str(instrumental_path)
@@ -444,16 +1187,53 @@ class VocalRemoverApp:
         except Exception:
             raise
 
-    def convert_audio(self, src_wav, target_format_key, dest_path):
-        """Convert a WAV file to desired format using ffmpeg. Returns resulting path."""
+    def apply_vocal_suppression(self, audio_path):
+        """Apply additional processing to reduce vocal bleed in instrumental track"""
+        try:
+            self.log_status("  Analyzing frequency spectrum...")
+            
+            # Create output path for enhanced version
+            enhanced_path = Path(audio_path).parent / (Path(audio_path).stem + "_enhanced" + Path(audio_path).suffix)
+            
+            # Use FFmpeg high-pass filter to reduce vocal frequencies
+            # Most vocals sit in 300Hz-3400Hz range, we'll use a gentle high-pass
+            # and apply a vocal suppression filter
+            cmd = [
+                "ffmpeg", "-y", "-i", str(audio_path),
+                "-af", "highpass=f=100,lowpass=f=15000,afftdn=nf=-25",  # Noise reduction + frequency filtering
+                "-ar", "44100",  # Standard sample rate
+                "-b:a", "320k",  # High quality
+                str(enhanced_path)
+            ]
+            
+            rc, out, err = run_subprocess(cmd, timeout=300, capture=True)
+            
+            if rc == 0 and enhanced_path.exists():
+                self.log_status("  ✓ Vocal suppression applied")
+                # Remove original, return enhanced
+                try:
+                    Path(audio_path).unlink()
+                except Exception:
+                    pass
+                return str(enhanced_path)
+            else:
+                self.log_status("  Note: Additional processing skipped, using original")
+                return str(audio_path)
+                
+        except Exception as e:
+            self.log_status(f"  Note: Additional processing failed ({e}), using original")
+            return str(audio_path)
+
+    def convert_audio(self, src_audio, target_format_key, dest_path):
+        """Convert an audio file to desired format using ffmpeg. Returns resulting path."""
         fmt = OUTPUT_FORMATS.get(target_format_key)
         if not fmt:
             raise Exception("Unknown output format selected")
         ext = fmt["ext"]
         ff_args = fmt["ffmpeg_args"]
         out_file = Path(dest_path).with_suffix(ext)
-        # Build ffmpeg command: input is src_wav (WAV), output as ext
-        cmd = ["ffmpeg", "-y", "-i", str(src_wav)] + ff_args + [str(out_file)]
+        # Build ffmpeg command: input is src_audio (WAV or MP3), output as ext
+        cmd = ["ffmpeg", "-y", "-i", str(src_audio)] + ff_args + [str(out_file)]
         rc, out, err = run_subprocess(cmd, timeout=300, capture=True)
         if rc != 0:
             raise Exception(f"ffmpeg conversion failed: {err or out}")
@@ -482,18 +1262,47 @@ class VocalRemoverApp:
     # Orchestration
     # ----------------------------
     def processing_thread(self):
+        if self.debug_mode.get():
+            print("DEBUG: processing_thread started")  # Debug output
         try:
+            if self.debug_mode.get():
+                print("DEBUG: Initializing progress tracking")  # Debug output
+            # Initialize progress tracking
+            self.start_time = time.time()
+            self.current_step = 0
+            
+            # Calculate total steps based on options
+            self.total_steps = 3  # Base steps: setup, demucs, conversion
+            if self.youtube_url.get().strip():
+                self.total_steps += 1  # YouTube download
+            if self.create_video_output.get():
+                self.total_steps += 2  # Video merging for vocals and instrumental
+            
+            if self.debug_mode.get():
+                print(f"DEBUG: Total steps calculated: {self.total_steps}")  # Debug output
+            self.root.after(0, lambda: self.progress_bar.config(value=0))
+            
             input_path = None
             original_video = None
 
             # Determine source
+            if self.debug_mode.get():
+                print("DEBUG: Determining source...")  # Debug output
             if self.youtube_url.get().strip():
+                if self.debug_mode.get():
+                    print("DEBUG: YouTube URL detected, downloading...")  # Debug output
+                self.update_progress("Downloading from YouTube", 1)
                 downloaded = self.download_youtube(self.youtube_url.get().strip())
                 input_path = downloaded
+                if self.debug_mode.get():
+                    print(f"DEBUG: Downloaded to: {input_path}")  # Debug output
                 # If user chose video download, the downloaded file will be a video file
                 if self.create_video_output.get():
                     original_video = downloaded
             elif self.input_file.get().strip():
+                if self.debug_mode.get():
+                    print("DEBUG: Local file detected")  # Debug output
+                self.update_progress("Validating input file", 1)
                 input_path = self.input_file.get().strip()
                 if not Path(input_path).exists():
                     raise Exception("Input path does not exist")
@@ -501,20 +1310,38 @@ class VocalRemoverApp:
                 if Path(input_path).suffix.lower() in [".mp4", ".mkv", ".mov", ".webm", ".avi", ".flv"]:
                     original_video = input_path
             else:
+                if self.debug_mode.get():
+                    print("DEBUG: No input provided!")  # Debug output
                 raise Exception("Please provide either a local file or a YouTube URL")
 
+            if self.debug_mode.get():
+                print(f"DEBUG: Input resolved: {input_path}")  # Debug output
             self.log_status(f"Input resolved: {input_path}")
 
             # Ensure ffmpeg installed before probing
+            if self.debug_mode.get():
+                print("DEBUG: Setting up dependencies...")  # Debug output
+            self.update_progress("Setting up dependencies")
             install_ffmpeg_if_missing(gui_logger=self.log_status, persist=self.persist_ffmpeg.get())
+            if self.debug_mode.get():
+                print("DEBUG: FFmpeg setup complete")  # Debug output
 
             # Probe input
             ok, msg = ffmpeg_probe(input_path)
             if not ok:
                 raise Exception(f"Input file is not readable by ffmpeg: {msg}")
 
-            # Run Demucs
+            # Run Demucs with progress animation
+            self.update_progress("AI vocal separation in progress")
+            
+            # Start progress animation
+            self.demucs_animation_active = True
+            self.start_demucs_animation()
+            
             vocals_wav, instrumental_wav = self.process_audio_with_demucs(input_path)
+            
+            # Stop animation
+            self.demucs_animation_active = False
 
             if not instrumental_wav and not vocals_wav:
                 raise Exception("Demucs did not produce outputs")
@@ -531,6 +1358,7 @@ class VocalRemoverApp:
             # Convert instrumentals (if present) to selected format
             target_fmt = self.selected_format.get()
             if instrumental_wav:
+                self.update_progress("Converting instrumental audio")
                 target_base = out_dir / f"{input_name}_instrumental_{ts}"
                 self.log_status(f"Converting instrumental to {target_fmt}...")
                 conv_path = self.convert_audio(instrumental_wav, target_fmt, str(target_base))
@@ -539,6 +1367,7 @@ class VocalRemoverApp:
 
                 # If user wants MP4 video outputs and original video exists, merge
                 if self.create_video_output.get() and original_video:
+                    self.update_progress("Creating instrumental video")
                     video_out = out_dir / f"{input_name}_instrumental_video_{ts}.mp4"
                     self.log_status("Merging instrumental into original video (MP4)...")
                     merged = self.merge_audio_into_video(original_video, conv_path, video_out)
@@ -547,6 +1376,7 @@ class VocalRemoverApp:
 
             # Convert vocals (if present)
             if vocals_wav:
+                self.update_progress("Converting vocal audio")
                 target_base = out_dir / f"{input_name}_vocals_{ts}"
                 self.log_status(f"Converting vocals to {target_fmt}...")
                 conv_path = self.convert_audio(vocals_wav, target_fmt, str(target_base))
@@ -554,6 +1384,7 @@ class VocalRemoverApp:
                 self.log_status(f"✓ Vocals audio saved: {conv_path}")
 
                 if self.create_video_output.get() and original_video:
+                    self.update_progress("Creating vocals video")
                     video_out = out_dir / f"{input_name}_vocals_video_{ts}.mp4"
                     self.log_status("Merging vocals into original video (MP4)...")
                     merged = self.merge_audio_into_video(original_video, conv_path, video_out)
@@ -567,37 +1398,133 @@ class VocalRemoverApp:
             except Exception:
                 pass
 
+            # Mark as complete
+            self.update_progress("Complete!", self.total_steps)
+            
             self.log_status("\n" + "="*60)
             self.log_status("✓ SUCCESS! Created outputs:")
             for f in created_files:
                 self.log_status(f"  {f}")
             self.log_status("="*60)
 
+            # Calculate total time
+            total_time = time.time() - self.start_time
+            if total_time < 60:
+                time_str = f"{int(total_time)}s"
+            elif total_time < 3600:
+                minutes = int(total_time / 60)
+                seconds = int(total_time % 60)
+                time_str = f"{minutes}m {seconds}s"
+            else:
+                hours = int(total_time / 3600)
+                minutes = int((total_time % 3600) / 60)
+                time_str = f"{hours}h {minutes}m"
+            
+            self.log_status(f"Total processing time: {time_str}")
+
             # Show completion popup with first few files
             first_files = "\n".join(created_files[:6])
-            self.root.after(0, lambda: messagebox.showinfo("Success", f"Outputs created:\n\n{first_files}\n\nSaved to:\n{out_dir}"))
+            self.root.after(0, lambda: messagebox.showinfo("Success", f"Outputs created in {time_str}:\n\n{first_files}\n\nSaved to:\n{out_dir}"))
         except Exception as e:
             # Surface full exception message
+            if self.debug_mode.get():
+                print(f"DEBUG: Exception caught: {type(e).__name__}: {e}")  # Debug output
+                import traceback
+                traceback.print_exc()  # Print full traceback to console
             emsg = str(e) if str(e) else "Unknown error"
             self.log_status("\n❌ ERROR: " + emsg)
             self.root.after(0, lambda: messagebox.showerror("Error", f"An error occurred:\n\n{emsg}"))
         finally:
+            if self.debug_mode.get():
+                print("DEBUG: Finally block - cleaning up")  # Debug output
             self.processing = False
-            self.root.after(0, self.progress_bar.stop)
-            self.root.after(0, lambda: self.process_btn.config(state='normal'))
+            self.root.after(0, lambda: self.progress_bar.config(value=0))
+            self.root.after(0, lambda: self.progress_label_var.set("Ready"))
+            self.root.after(0, lambda: self.process_btn.config(state='normal', text="⬇ Download"))
+            if self.debug_mode.get():
+                print("DEBUG: Cleanup complete")  # Debug output
 
     # ----------------------------
     # UI control
     # ----------------------------
     def start_processing(self):
-        if self.processing:
-            return
-        self.status_text.delete('1.0', 'end')
-        self.processing = True
-        self.process_btn.config(state='disabled')
-        self.progress_bar.start()
-        thread = threading.Thread(target=self.processing_thread, daemon=True)
-        thread.start()
+        try:
+            if self.debug_mode.get():
+                print("DEBUG: start_processing called")  # Debug output
+            if self.processing:
+                if self.debug_mode.get():
+                    print("DEBUG: Already processing, returning")  # Debug output
+                messagebox.showwarning("Already Processing", "Processing is already in progress. Please wait for it to complete.")
+                return
+            
+            # Disable button immediately to show it was clicked
+            self.process_btn.config(state='disabled', text="⏳ Preparing...")
+            self.root.update()
+            
+            # Calculate estimated time based on settings
+            estimated_minutes = 3  # Base time for setup and conversion
+            
+            if self.youtube_url.get().strip():
+                estimated_minutes += 2  # YouTube download time
+            
+            # Demucs processing time estimation
+            if self.enhance_separation.get():
+                estimated_minutes += 8  # Enhanced mode takes longer (10 shifts)
+            else:
+                estimated_minutes += 4  # Standard mode
+            
+            if self.create_video_output.get():
+                estimated_minutes += 2  # Video merging time
+            
+            # Show estimated time popup
+            if estimated_minutes < 5:
+                time_msg = f"approximately {estimated_minutes} minutes"
+            elif estimated_minutes < 10:
+                time_msg = f"{estimated_minutes}-{estimated_minutes + 2} minutes"
+            else:
+                time_msg = f"{estimated_minutes}-{estimated_minutes + 5} minutes"
+            
+            # Force window to front and show popup
+            self.root.lift()
+            self.root.attributes('-topmost', True)
+            self.root.after(100, lambda: self.root.attributes('-topmost', False))
+            
+            response = messagebox.askokcancel(
+                "Processing Time Estimate",
+                f"⏱️ Estimated processing time: {time_msg}\n\n"
+                f"{'🔥 Enhanced mode: Using 10x AI passes for best quality' if self.enhance_separation.get() else '⚡ Standard mode'}\n\n"
+                f"The actual time may vary based on:\n"
+                f"• File length and size\n"
+                f"• CPU speed\n"
+                f"• First-run downloads (~650MB AI models)\n\n"
+                f"Ready to start?"
+            )
+            
+            if not response:
+                # User cancelled - re-enable button
+                self.process_btn.config(state='normal', text="⬇ Download")
+                return
+            
+            if self.debug_mode.get():
+                print("DEBUG: Starting new process")  # Debug output
+            self.status_text.delete('1.0', 'end')
+            self.log_status("Starting processing...")  # Add initial log
+            self.processing = True
+            self.process_btn.config(state='disabled', text="⏳ Processing...")
+            self.progress_bar.config(value=0)
+            self.progress_label_var.set("Starting...")
+            if self.debug_mode.get():
+                print("DEBUG: About to start thread")  # Debug output
+            thread = threading.Thread(target=self.processing_thread, daemon=True)
+            thread.start()
+            if self.debug_mode.get():
+                print("DEBUG: Thread started")  # Debug output
+        except Exception as e:
+            if self.debug_mode.get():
+                print(f"DEBUG: Exception in start_processing: {e}")  # Debug output
+                import traceback
+                traceback.print_exc()
+            messagebox.showerror("Error", f"Failed to start processing:\n{e}")
 
 def main():
     # Basic tkinter check

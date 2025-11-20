@@ -10,16 +10,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5830581574523106" crossorigin="anonymous"></script>
     <style>
-        body { margin: 0; padding: 0; }
+        body {
+            margin: 0;
+            padding: 0;
+        }
     </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-H548VRKNHW');
-</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-H548VRKNHW');
+    </script>
 
     <script>
         tailwind.config = {
@@ -40,10 +43,10 @@
 </head>
 <body>
     <div id="root"></div>
-    
+
     <script type="text/babel">
         const { useState, useEffect, useCallback } = React;
-        
+
         // Lucide React Icons
         const Cpu = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -59,7 +62,7 @@
                 <line x1="1" y1="14" x2="4" y2="14"></line>
             </svg>
         );
-        
+
         const Server = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
@@ -68,13 +71,13 @@
                 <line x1="6" y1="18" x2="6.01" y2="18"></line>
             </svg>
         );
-        
+
         const Zap = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
             </svg>
         );
-        
+
         const Trophy = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
@@ -85,14 +88,14 @@
                 <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
             </svg>
         );
-        
+
         const TrendingUp = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
                 <polyline points="17 6 23 6 23 12"></polyline>
             </svg>
         );
-        
+
         const Box = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
@@ -100,7 +103,7 @@
                 <line x1="12" y1="22.08" x2="12" y2="12"></line>
             </svg>
         );
-        
+
         const Sparkles = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
@@ -110,14 +113,14 @@
                 <path d="M17 19h4"></path>
             </svg>
         );
-        
+
         const Brain = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"></path>
                 <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"></path>
             </svg>
         );
-        
+
         const Atom = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="1"></circle>
@@ -125,7 +128,7 @@
                 <path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"></path>
             </svg>
         );
-        
+
         const Rocket = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
@@ -134,7 +137,7 @@
                 <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
             </svg>
         );
-        
+
         const BarChart3 = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M3 3v18h18"></path>
@@ -143,21 +146,21 @@
                 <path d="M8 17v-3"></path>
             </svg>
         );
-        
+
         const Settings = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
                 <circle cx="12" cy="12" r="3"></circle>
             </svg>
         );
-        
+
         const Code2 = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="16 18 22 12 16 6"></polyline>
                 <polyline points="8 6 2 12 8 18"></polyline>
             </svg>
         );
-        
+
         const Wifi = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
@@ -166,7 +169,7 @@
                 <line x1="12" y1="20" x2="12.01" y2="20"></line>
             </svg>
         );
-        
+
         const Database = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
@@ -174,13 +177,13 @@
                 <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
             </svg>
         );
-        
+
         const Cloud = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
             </svg>
         );
-        
+
         const GitBranch = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="6" y1="3" x2="6" y2="15"></line>
@@ -189,7 +192,7 @@
                 <path d="M18 9a9 9 0 0 1-9 9"></path>
             </svg>
         );
-        
+
         const Palette = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="13.5" cy="6.5" r=".5"></circle>
@@ -242,30 +245,30 @@
           { id: 'ten_million', name: 'Tech Giant', desc: 'Reach 10,000,000 lines', req: 10000000, icon: '🏢' },
           { id: 'hundred_million', name: 'Global Empire', desc: 'Reach 100,000,000 lines', req: 100000000, icon: '🌍' },
           { id: 'billion', name: 'Tech Titan', desc: 'Reach 1,000,000,000 lines', req: 1000000000, icon: '👑' },
-          
+
           { id: 'first_hire', name: 'Team Player', desc: 'Hire your first team member', req: 'hire', icon: '👥' },
           { id: 'ten_hires', name: 'Growing Team', desc: 'Have 10 total employees', req: 'hires10', icon: '👨‍💼' },
           { id: 'fifty_hires', name: 'Tech Company', desc: 'Have 50 total employees', req: 'hires50', icon: '🏭' },
           { id: 'hundred_hires', name: 'Corporate', desc: 'Have 100 total employees', req: 'hires100', icon: '🏢' },
-          
+
           { id: 'ai_unlock', name: 'AI Revolution', desc: 'Unlock AI Assistant', req: 'ai', icon: '🤖' },
           { id: 'quantum_unlock', name: 'Quantum Leap', desc: 'Build a quantum computer', req: 'quantum', icon: '⚛️' },
           { id: 'agi_unlock', name: 'Singularity', desc: 'Achieve AGI', req: 'agi', icon: '✨' },
-          
+
           { id: 'click_100', name: 'Clicking Away', desc: 'Click 100 times', req: 'clicks100', icon: '👆' },
           { id: 'click_1000', name: 'Click Master', desc: 'Click 1,000 times', req: 'clicks1000', icon: '👆' },
           { id: 'click_10000', name: 'Click Legend', desc: 'Click 10,000 times', req: 'clicks10000', icon: '🖱️' },
-          
+
           { id: 'first_prestige', name: 'New Horizons', desc: 'Complete your first prestige', req: 'prestige1', icon: '🌟' },
           { id: 'three_prestige', name: 'Veteran', desc: 'Complete 3 prestiges', req: 'prestige3', icon: '⭐' },
           { id: 'five_prestige', name: 'Serial Innovator', desc: 'Complete 5 prestiges', req: 'prestige5', icon: '💫' },
           { id: 'ten_prestige', name: 'Prestige Master', desc: 'Complete 10 prestiges', req: 'prestige10', icon: '👑' },
-          
+
           { id: 'cps_100', name: 'Auto Pilot', desc: 'Reach 100 code/sec', req: 'cps100', icon: '⚙️' },
           { id: 'cps_1000', name: 'Fast Track', desc: 'Reach 1,000 code/sec', req: 'cps1000', icon: '⚡' },
           { id: 'cps_10000', name: 'Speed Demon', desc: 'Reach 10,000 code/sec', req: 'cps10000', icon: '🔥' },
           { id: 'cps_100000', name: 'Hyperspeed', desc: 'Reach 100,000 code/sec', req: 'cps100000', icon: '💨' },
-          
+
           { id: 'skin_collector', name: 'Style Icon', desc: 'Unlock 5 skins', req: 'skins5', icon: '🎨' },
           { id: 'skin_master', name: 'Fashionista', desc: 'Unlock 10 skins', req: 'skins10', icon: '👗' },
           { id: 'all_skins', name: 'Complete Collection', desc: 'Unlock all skins', req: 'skinsAll', icon: '🏆' },
@@ -294,13 +297,13 @@
                 setTimeout(() => {
                     setIsLoading(false);
                 }, 1500);
-                
+
             const init = {};
             UPGRADES.forEach(u => {
               init[u.id] = { count: 0, cost: u.baseCost };
             });
             setUpgrades(init);
-            
+
             const saved = localStorage.getItem('letustech_save');
             if (saved) {
               try {
@@ -389,7 +392,7 @@
                 } else if (skin.unlockReq === 'prestige5' && prestige >= 5) {
                   unlock = true;
                 }
-                
+
                 if (unlock) {
                   setUnlockedSkins(prev => new Set([...prev, skin.id]));
                   setShowAchievement({ name: `Skin Unlocked: ${skin.name}`, desc: skin.desc, icon: skin.icon });
@@ -403,7 +406,7 @@
           useEffect(() => {
             const cps = calculateCPS();
             const totalHires = getTotalHires();
-            
+
             ACHIEVEMENTS.forEach(ach => {
               if (!achievements.has(ach.id)) {
                 let unlocked = false;
@@ -452,7 +455,7 @@
                 } else if (ach.req === 'skinsAll' && unlockedSkins.size >= SKINS.length) {
                   unlocked = true;
                 }
-                
+
                 if (unlocked) {
                   setAchievements(prev => new Set([...prev, ach.id]));
                   setShowAchievement(ach);
@@ -484,7 +487,7 @@
           const buyUpgrade = (upgradeId) => {
             const upgrade = UPGRADES.find(u => u.id === upgradeId);
             const current = upgrades[upgradeId];
-            
+
             if (code >= current.cost) {
               setCode(prev => prev - current.cost);
               setUpgrades(prev => ({
@@ -494,7 +497,7 @@
                   cost: Math.floor(current.cost * 1.15)
                 }
               }));
-              
+
               if (upgrade.power) {
                 setClickPower(prev => prev + upgrade.power);
               }
@@ -536,8 +539,8 @@
                             <div className="text-center">
                                 <div className="mb-4 animate-bounce">
                                     <div className="h-40 w-40 mx-auto bg-white rounded-2xl shadow-2xl p-4 flex items-center justify-center">
-                                        <img 
-                                            src="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png" 
+                                        <img
+                                            src="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png"
                                             alt="LetUsTech Logo"
                                             className="max-h-full max-w-full object-contain"
                                         />
@@ -555,7 +558,7 @@
                             </div>
                         </div>
                     )}
-                    
+
 <header className="bg-gradient-to-r from-[#2d4a6e] via-[#1e3a5f] to-[#0f2744] shadow-lg border-b border-slate-700 sticky top-0 z-40">
                 <div className="max-w-7xl mx-auto px-6 py-3">
                   <div className="flex items-center justify-between">
@@ -882,7 +885,7 @@
                             <h3 className="font-bold text-lg mb-2">🎨 Skin Collection</h3>
                             <p className="text-sm opacity-90">Unlock unique button skins by reaching milestones! Customize your clicking experience.</p>
                           </div>
-                          
+
                           <div className="grid md:grid-cols-2 gap-4">
                             {SKINS.map(skin => {
                               const isUnlocked = unlockedSkins.has(skin.id);
@@ -927,7 +930,7 @@
                                       <p className="text-xs text-gray-400 mb-2">{skin.desc}</p>
                                       {!isUnlocked && (
                                         <p className="text-xs text-yellow-400">
-                                          🔒 {typeof skin.unlockReq === 'number' 
+                                          🔒 {typeof skin.unlockReq === 'number'
                                             ? `Reach ${skin.unlockReq.toLocaleString()} lifetime code`
                                             : skin.unlockReq === 'prestige1' ? 'Prestige once'
                                             : skin.unlockReq === 'prestige3' ? 'Prestige 3 times'
@@ -937,7 +940,7 @@
                                       {isUnlocked && !isSelected && (
                                         <button
                                           onClick={() => setSelectedSkin(skin.id)}
-                                          className="mt-2 w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-[#2d5f8d] text-white text-xs font-bold py-2 rounded-lg transition-all"
+                                          className="mt-2 w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white text-xs font-bold py-2 rounded-lg transition-all"
                                         >
                                           Equip
                                         </button>
