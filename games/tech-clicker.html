@@ -9,12 +9,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5830581574523106" crossorigin="anonymous"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
     <script>
@@ -24,17 +19,54 @@
         gtag('config', 'G-H548VRKNHW');
     </script>
 
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5f8d 100%);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(226, 232, 240, 0.2);
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 4px;
+        }
+
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                background: rgba(59, 130, 246, 0.7);
+            }
+    </style>
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'navy-dark': '#0a1128',
-                        'navy-primary': '#1e3a5f',
-                        'navy-light': '#2d5f8d',
-                        'green-primary': '#10b981',
-                        'green-light': '#34d399',
-                        'green-dark': '#059669',
+                        'navy-dark': '#1e3a5f',
+                        'navy-primary': '#2c5f8d',
+                        'blue-accent': '#3b82f6',
                     }
                 }
             }
@@ -154,872 +186,560 @@
             </svg>
         );
 
-        const Code2 = (props) => (
+        const Star = (props) => (
             <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="16 18 22 12 16 6"></polyline>
-                <polyline points="8 6 2 12 8 18"></polyline>
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
             </svg>
         );
 
-        const Wifi = (props) => (
-            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
-                <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
-                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
-                <line x1="12" y1="20" x2="12.01" y2="20"></line>
-            </svg>
-        );
-
-        const Database = (props) => (
-            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-            </svg>
-        );
-
-        const Cloud = (props) => (
-            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
-            </svg>
-        );
-
-        const GitBranch = (props) => (
-            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="6" y1="3" x2="6" y2="15"></line>
-                <circle cx="18" cy="6" r="3"></circle>
-                <circle cx="6" cy="18" r="3"></circle>
-                <path d="M18 9a9 9 0 0 1-9 9"></path>
-            </svg>
-        );
-
-        const Palette = (props) => (
-            <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="13.5" cy="6.5" r=".5"></circle>
-                <circle cx="17.5" cy="10.5" r=".5"></circle>
-                <circle cx="8.5" cy="7.5" r=".5"></circle>
-                <circle cx="6.5" cy="12.5" r=".5"></circle>
-                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path>
-            </svg>
-        );
-
+        // Game Data
         const UPGRADES = [
-          { id: 'click', name: 'Code Optimization', icon: Zap, baseCost: 15, power: 1, color: 'blue', desc: 'Improve your coding efficiency' },
-          { id: 'intern', name: 'Intern', icon: Box, baseCost: 100, cps: 1, color: 'green', desc: 'Fresh graduate eager to learn' },
-          { id: 'junior', name: 'Junior Developer', icon: Code2, baseCost: 500, cps: 5, color: 'cyan', desc: 'Competent coder with 1-2 years exp' },
-          { id: 'senior', name: 'Senior Developer', icon: Cpu, baseCost: 2500, cps: 25, color: 'purple', desc: 'Expert problem solver' },
-          { id: 'architect', name: 'Tech Architect', icon: GitBranch, baseCost: 10000, cps: 100, color: 'indigo', desc: 'Designs entire systems' },
-          { id: 'ai', name: 'AI Assistant', icon: Brain, baseCost: 50000, cps: 500, color: 'pink', desc: 'Smart coding companion' },
-          { id: 'server', name: 'Server Farm', icon: Server, baseCost: 250000, cps: 2500, color: 'red', desc: 'Distributed computing power' },
-          { id: 'cloud', name: 'Cloud Infrastructure', icon: Cloud, baseCost: 1000000, cps: 10000, color: 'sky', desc: 'Infinite scalability' },
-          { id: 'datacenter', name: 'Data Center', icon: Database, baseCost: 5000000, cps: 50000, color: 'violet', desc: 'Enterprise-level processing' },
-          { id: 'quantum', name: 'Quantum Computer', icon: Atom, baseCost: 25000000, cps: 250000, color: 'fuchsia', desc: 'Reality-bending computation' },
-          { id: 'network', name: 'Neural Network', icon: Wifi, baseCost: 100000000, cps: 1000000, color: 'emerald', desc: 'Self-improving AI system' },
-          { id: 'agi', name: 'AGI Singularity', icon: Sparkles, baseCost: 500000000, cps: 5000000, color: 'yellow', desc: 'The ultimate tech achievement' },
-        ];
-
-        const SKINS = [
-          { id: 'default', name: 'Classic CPU', icon: '💻', gradient: 'from-cyan-500 via-blue-600 to-[#2d5f8d]', rarity: 'Common', unlockReq: 0, desc: 'The original tech icon' },
-          { id: 'neon', name: 'Neon Circuit', icon: '⚡', gradient: 'from-pink-500 via-purple-600 to-[#2d5f8d]', rarity: 'Common', unlockReq: 1000, desc: 'Electric vibes' },
-          { id: 'matrix', name: 'Matrix Code', icon: '🟢', gradient: 'from-green-600 via-emerald-700 to-teal-800', rarity: 'Rare', unlockReq: 10000, desc: 'Enter the Matrix' },
-          { id: 'fire', name: 'Firewall', icon: '🔥', gradient: 'from-orange-500 via-red-600 to-rose-700', rarity: 'Rare', unlockReq: 50000, desc: 'Blazing hot security' },
-          { id: 'ice', name: 'Cryo Core', icon: '❄️', gradient: 'from-cyan-400 via-sky-500 to-blue-600', rarity: 'Rare', unlockReq: 100000, desc: 'Keep your cool' },
-          { id: 'golden', name: 'Golden Chip', icon: '🏆', gradient: 'from-yellow-400 via-amber-500 to-orange-600', rarity: 'Epic', unlockReq: 500000, desc: 'Worth its weight in gold' },
-          { id: 'galaxy', name: 'Galaxy Node', icon: '🌌', gradient: 'from-[#1e3a5f] via-indigo-700 to-blue-800', rarity: 'Epic', unlockReq: 1000000, desc: 'Cosmic computing power' },
-          { id: 'rainbow', name: 'RGB Overdrive', icon: '🌈', gradient: 'from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500', rarity: 'Epic', unlockReq: 5000000, desc: 'All the colors!' },
-          { id: 'plasma', name: 'Plasma Core', icon: '⚛️', gradient: 'from-fuchsia-500 via-pink-600 to-rose-700', rarity: 'Legendary', unlockReq: 10000000, desc: 'Pure energy' },
-          { id: 'quantum', name: 'Quantum Flux', icon: '✨', gradient: 'from-violet-600 via-purple-700 to-fuchsia-800', rarity: 'Legendary', unlockReq: 50000000, desc: 'Superposition state' },
-          { id: 'dark', name: 'Dark Matter', icon: '🕳️', gradient: 'from-slate-800 via-gray-900 to-black', rarity: 'Legendary', unlockReq: 100000000, desc: 'Invisible power' },
-          { id: 'hologram', name: 'Holographic', icon: '💎', gradient: 'from-cyan-300 via-blue-400 to-purple-500', rarity: 'Mythic', unlockReq: 'prestige1', desc: 'Requires 1 Prestige' },
-          { id: 'infinity', name: 'Infinity Stone', icon: '♾️', gradient: 'from-[#1e3a5f] via-purple-600 to-pink-600', rarity: 'Mythic', unlockReq: 'prestige3', desc: 'Requires 3 Prestiges' },
-          { id: 'void', name: 'The Void', icon: '🌑', gradient: 'from-purple-900 via-black to-indigo-900', rarity: 'Mythic', unlockReq: 'prestige5', desc: 'Requires 5 Prestiges' },
+            { id: 'click', name: 'Code Faster', icon: '⌨️', baseCost: 10, cps: 0, cpc: 1, multiplier: 1.15 },
+            { id: 'junior', name: 'Junior Dev', icon: '👨‍💻', baseCost: 100, cps: 1, cpc: 0, multiplier: 1.15 },
+            { id: 'senior', name: 'Senior Dev', icon: '🧑‍💼', baseCost: 500, cps: 5, cpc: 0, multiplier: 1.15 },
+            { id: 'architect', name: 'Architect', icon: '👷', baseCost: 2500, cps: 25, cpc: 0, multiplier: 1.15 },
+            { id: 'team', name: 'Dev Team', icon: '👥', baseCost: 10000, cps: 100, cpc: 0, multiplier: 1.15 },
+            { id: 'startup', name: 'Startup', icon: '🚀', baseCost: 50000, cps: 500, cpc: 0, multiplier: 1.15 },
+            { id: 'company', name: 'Tech Company', icon: '🏢', baseCost: 250000, cps: 2500, cpc: 0, multiplier: 1.15 },
+            { id: 'corporation', name: 'Corporation', icon: '🏛️', baseCost: 1000000, cps: 10000, cpc: 0, multiplier: 1.15 },
+            { id: 'ai', name: 'AI Assistant', icon: '🤖', baseCost: 5000000, cps: 50000, cpc: 0, multiplier: 1.15 },
+            { id: 'quantum', name: 'Quantum Computer', icon: '⚛️', baseCost: 25000000, cps: 250000, cpc: 0, multiplier: 1.15 },
         ];
 
         const ACHIEVEMENTS = [
-          { id: 'first_click', name: 'Hello World', desc: 'Write your first line of code', req: 1, icon: '👋' },
-          { id: 'hundred', name: 'Getting Started', desc: 'Reach 100 lines', req: 100, icon: '📝' },
-          { id: 'thousand', name: 'Solid Foundation', desc: 'Reach 1,000 lines', req: 1000, icon: '🏗️' },
-          { id: 'ten_k', name: 'Serious Developer', desc: 'Reach 10,000 lines', req: 10000, icon: '💼' },
-          { id: 'hundred_k', name: 'Production Ready', desc: 'Reach 100,000 lines', req: 100000, icon: '🚀' },
-          { id: 'million', name: 'Tech Unicorn', desc: 'Reach 1,000,000 lines', req: 1000000, icon: '🦄' },
-          { id: 'ten_million', name: 'Tech Giant', desc: 'Reach 10,000,000 lines', req: 10000000, icon: '🏢' },
-          { id: 'hundred_million', name: 'Global Empire', desc: 'Reach 100,000,000 lines', req: 100000000, icon: '🌍' },
-          { id: 'billion', name: 'Tech Titan', desc: 'Reach 1,000,000,000 lines', req: 1000000000, icon: '👑' },
+            { id: 'first_click', name: 'First Line', desc: 'Write your first line of code', icon: '🎯', req: 1 },
+            { id: 'hundred', name: 'Getting Started', desc: 'Write 100 lines of code', icon: '📝', req: 100 },
+            { id: 'thousand', name: 'Code Monkey', desc: 'Write 1,000 lines of code', icon: '🐵', req: 1000 },
+            { id: 'ten_thousand', name: 'Codebase', desc: 'Write 10,000 lines of code', icon: '📚', req: 10000 },
+            { id: 'hundred_thousand', name: 'Code Library', desc: 'Write 100,000 lines of code', icon: '🏛️', req: 100000 },
+            { id: 'million', name: 'Code Empire', desc: 'Write 1,000,000 lines of code', icon: '👑', req: 1000000 },
+            { id: 'first_upgrade', name: 'Upgraded', desc: 'Purchase your first upgrade', icon: '⬆️', req: 'upgrade' },
+            { id: 'ten_upgrades', name: 'Investor', desc: 'Own 10 total upgrades', icon: '💼', req: 'upgrade10' },
+            { id: 'hundred_cps', name: 'Passive Income', desc: 'Reach 100 code per second', icon: '💰', req: 'cps100' },
+            { id: 'first_prestige', name: 'Reset Master', desc: 'Prestige for the first time', icon: '🌟', req: 'prestige1' },
+        ];
 
-          { id: 'first_hire', name: 'Team Player', desc: 'Hire your first team member', req: 'hire', icon: '👥' },
-          { id: 'ten_hires', name: 'Growing Team', desc: 'Have 10 total employees', req: 'hires10', icon: '👨‍💼' },
-          { id: 'fifty_hires', name: 'Tech Company', desc: 'Have 50 total employees', req: 'hires50', icon: '🏭' },
-          { id: 'hundred_hires', name: 'Corporate', desc: 'Have 100 total employees', req: 'hires100', icon: '🏢' },
-
-          { id: 'ai_unlock', name: 'AI Revolution', desc: 'Unlock AI Assistant', req: 'ai', icon: '🤖' },
-          { id: 'quantum_unlock', name: 'Quantum Leap', desc: 'Build a quantum computer', req: 'quantum', icon: '⚛️' },
-          { id: 'agi_unlock', name: 'Singularity', desc: 'Achieve AGI', req: 'agi', icon: '✨' },
-
-          { id: 'click_100', name: 'Clicking Away', desc: 'Click 100 times', req: 'clicks100', icon: '👆' },
-          { id: 'click_1000', name: 'Click Master', desc: 'Click 1,000 times', req: 'clicks1000', icon: '👆' },
-          { id: 'click_10000', name: 'Click Legend', desc: 'Click 10,000 times', req: 'clicks10000', icon: '🖱️' },
-
-          { id: 'first_prestige', name: 'New Horizons', desc: 'Complete your first prestige', req: 'prestige1', icon: '🌟' },
-          { id: 'three_prestige', name: 'Veteran', desc: 'Complete 3 prestiges', req: 'prestige3', icon: '⭐' },
-          { id: 'five_prestige', name: 'Serial Innovator', desc: 'Complete 5 prestiges', req: 'prestige5', icon: '💫' },
-          { id: 'ten_prestige', name: 'Prestige Master', desc: 'Complete 10 prestiges', req: 'prestige10', icon: '👑' },
-
-          { id: 'cps_100', name: 'Auto Pilot', desc: 'Reach 100 code/sec', req: 'cps100', icon: '⚙️' },
-          { id: 'cps_1000', name: 'Fast Track', desc: 'Reach 1,000 code/sec', req: 'cps1000', icon: '⚡' },
-          { id: 'cps_10000', name: 'Speed Demon', desc: 'Reach 10,000 code/sec', req: 'cps10000', icon: '🔥' },
-          { id: 'cps_100000', name: 'Hyperspeed', desc: 'Reach 100,000 code/sec', req: 'cps100000', icon: '💨' },
-
-          { id: 'skin_collector', name: 'Style Icon', desc: 'Unlock 5 skins', req: 'skins5', icon: '🎨' },
-          { id: 'skin_master', name: 'Fashionista', desc: 'Unlock 10 skins', req: 'skins10', icon: '👗' },
-          { id: 'all_skins', name: 'Complete Collection', desc: 'Unlock all skins', req: 'skinsAll', icon: '🏆' },
+        const SKINS = [
+            { id: 'default', name: 'Classic', icon: '💻', rarity: 'Common', gradient: 'from-blue-500 to-blue-600', desc: 'The original look', unlockReq: 0 },
+            { id: 'green', name: 'Matrix', icon: '🟢', rarity: 'Common', gradient: 'from-green-500 to-green-600', desc: 'Follow the white rabbit', unlockReq: 1000 },
+            { id: 'purple', name: 'Cyberpunk', icon: '🟣', rarity: 'Rare', gradient: 'from-purple-500 to-pink-500', desc: 'Welcome to Night City', unlockReq: 10000 },
+            { id: 'gold', name: 'Golden', icon: '⭐', rarity: 'Epic', gradient: 'from-yellow-400 to-orange-500', desc: 'Midas touch', unlockReq: 100000 },
+            { id: 'rainbow', name: 'Rainbow', icon: '🌈', rarity: 'Legendary', gradient: 'from-red-500 via-yellow-500 to-blue-500', desc: 'Taste the rainbow', unlockReq: 'prestige1' },
+            { id: 'fire', name: 'Blazing', icon: '🔥', rarity: 'Epic', gradient: 'from-orange-600 to-red-600', desc: 'Your code is on fire!', unlockReq: 500000 },
+            { id: 'ice', name: 'Frozen', icon: '❄️', rarity: 'Epic', gradient: 'from-cyan-400 to-blue-600', desc: 'Ice cold efficiency', unlockReq: 'prestige3' },
+            { id: 'dark', name: 'Shadow', icon: '🌑', rarity: 'Legendary', gradient: 'from-gray-800 to-black', desc: 'Dark mode master', unlockReq: 1000000 },
+            { id: 'cosmic', name: 'Cosmic', icon: '🌌', rarity: 'Mythic', gradient: 'from-indigo-900 via-purple-800 to-pink-700', desc: 'Touch the stars', unlockReq: 'prestige5' },
         ];
 
         function LetUsTech() {
-          const [code, setCode] = useState(0);
-          const [totalCode, setTotalCode] = useState(0);
-          const [lifetimeCode, setLifetimeCode] = useState(0);
-          const [clickPower, setClickPower] = useState(1);
-          const [upgrades, setUpgrades] = useState({});
-          const [achievements, setAchievements] = useState(new Set());
-          const [unlockedSkins, setUnlockedSkins] = useState(new Set(['default']));
-          const [selectedSkin, setSelectedSkin] = useState('default');
-          const [floatingNumbers, setFloatingNumbers] = useState([]);
-          const [isAnimating, setIsAnimating] = useState(false);
-          const [showAchievement, setShowAchievement] = useState(null);
-          const [selectedTab, setSelectedTab] = useState('upgrades');
-          const [multiplier, setMultiplier] = useState(1);
-          const [prestige, setPrestige] = useState(0);
-          const [showStats, setShowStats] = useState(false);
-          const [clickCount, setClickCount] = useState(0);
+            const [code, setCode] = useState(0);
+            const [lifetimeCode, setLifetimeCode] = useState(0);
+            const [cps, setCps] = useState(0);
+            const [upgrades, setUpgrades] = useState({});
+            const [achievements, setAchievements] = useState(new Set());
+            const [clickPower, setClickPower] = useState(1);
+            const [floatingNumbers, setFloatingNumbers] = useState([]);
+            const [selectedTab, setSelectedTab] = useState('upgrades');
+            const [selectedSkin, setSelectedSkin] = useState('default');
+            const [unlockedSkins, setUnlockedSkins] = useState(new Set(['default']));
+            const [prestigeLevel, setPrestigeLevel] = useState(0);
+            const [prestigeBonus, setPrestigeBonus] = useState(1);
 
-          useEffect(() => {
-                // Remove loading screen after a short delay
+            // Load game state
+            useEffect(() => {
+                const saved = localStorage.getItem('techClickerSave');
+                if (saved) {
+                    try {
+                        const data = JSON.parse(saved);
+                        setCode(data.code || 0);
+                        setLifetimeCode(data.lifetimeCode || 0);
+                        setUpgrades(data.upgrades || {});
+                        setAchievements(new Set(data.achievements || []));
+                        setSelectedSkin(data.selectedSkin || 'default');
+                        setUnlockedSkins(new Set(data.unlockedSkins || ['default']));
+                        setPrestigeLevel(data.prestigeLevel || 0);
+                        setPrestigeBonus(data.prestigeBonus || 1);
+                    } catch (e) {
+                        console.error('Failed to load save:', e);
+                    }
+                }
+            }, []);
+
+            // Save game state
+            useEffect(() => {
+                const saveData = {
+                    code,
+                    lifetimeCode,
+                    upgrades,
+                    achievements: Array.from(achievements),
+                    selectedSkin,
+                    unlockedSkins: Array.from(unlockedSkins),
+                    prestigeLevel,
+                    prestigeBonus,
+                };
+                localStorage.setItem('techClickerSave', JSON.stringify(saveData));
+            }, [code, lifetimeCode, upgrades, achievements, selectedSkin, unlockedSkins, prestigeLevel, prestigeBonus]);
+
+            // Calculate CPS and Click Power
+            useEffect(() => {
+                let totalCps = 0;
+                let totalClickPower = 1;
+
+                UPGRADES.forEach(upgrade => {
+                    const count = upgrades[upgrade.id] || 0;
+                    totalCps += upgrade.cps * count * prestigeBonus;
+                    totalClickPower += upgrade.cpc * count * prestigeBonus;
+                });
+
+                setCps(totalCps);
+                setClickPower(totalClickPower);
+            }, [upgrades, prestigeBonus]);
+
+            // CPS interval
+            useEffect(() => {
+                if (cps > 0) {
+                    const interval = setInterval(() => {
+                        setCode(prev => prev + cps / 10);
+                        setLifetimeCode(prev => prev + cps / 10);
+                    }, 100);
+                    return () => clearInterval(interval);
+                }
+            }, [cps]);
+
+            // Check achievements
+            useEffect(() => {
+                ACHIEVEMENTS.forEach(ach => {
+                    if (!achievements.has(ach.id)) {
+                        let unlocked = false;
+
+                        if (typeof ach.req === 'number') {
+                            unlocked = lifetimeCode >= ach.req;
+                        } else if (ach.req === 'upgrade') {
+                            const totalUpgrades = Object.values(upgrades).reduce((a, b) => a + b, 0);
+                            unlocked = totalUpgrades > 0;
+                        } else if (ach.req === 'upgrade10') {
+                            const totalUpgrades = Object.values(upgrades).reduce((a, b) => a + b, 0);
+                            unlocked = totalUpgrades >= 10;
+                        } else if (ach.req === 'cps100') {
+                            unlocked = cps >= 100;
+                        } else if (ach.req === 'prestige1') {
+                            unlocked = prestigeLevel >= 1;
+                        }
+
+                        if (unlocked) {
+                            setAchievements(prev => new Set([...prev, ach.id]));
+                        }
+                    }
+                });
+            }, [lifetimeCode, upgrades, cps, prestigeLevel, achievements]);
+
+            // Check skin unlocks
+            useEffect(() => {
+                SKINS.forEach(skin => {
+                    if (!unlockedSkins.has(skin.id)) {
+                        let unlocked = false;
+
+                        if (typeof skin.unlockReq === 'number') {
+                            unlocked = lifetimeCode >= skin.unlockReq;
+                        } else if (skin.unlockReq === 'prestige1') {
+                            unlocked = prestigeLevel >= 1;
+                        } else if (skin.unlockReq === 'prestige3') {
+                            unlocked = prestigeLevel >= 3;
+                        } else if (skin.unlockReq === 'prestige5') {
+                            unlocked = prestigeLevel >= 5;
+                        }
+
+                        if (unlocked) {
+                            setUnlockedSkins(prev => new Set([...prev, skin.id]));
+                        }
+                    }
+                });
+            }, [lifetimeCode, prestigeLevel, unlockedSkins]);
+
+            const handleClick = useCallback((e) => {
+                const power = Math.floor(clickPower);
+                setCode(prev => prev + power);
+                setLifetimeCode(prev => prev + power);
+
+                // Floating number
+                const id = Date.now() + Math.random();
+                const rect = e.currentTarget.getBoundingClientRect();
+                setFloatingNumbers(prev => [...prev, {
+                    id,
+                    value: power,
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                }]);
+
                 setTimeout(() => {
-                    setIsLoading(false);
-                }, 1500);
+                    setFloatingNumbers(prev => prev.filter(num => num.id !== id));
+                }, 1000);
+            }, [clickPower]);
 
-            const init = {};
-            UPGRADES.forEach(u => {
-              init[u.id] = { count: 0, cost: u.baseCost };
-            });
-            setUpgrades(init);
+            const buyUpgrade = useCallback((upgradeId) => {
+                const upgrade = UPGRADES.find(u => u.id === upgradeId);
+                const count = upgrades[upgradeId] || 0;
+                const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.multiplier, count));
 
-            const saved = localStorage.getItem('letustech_save');
-            if (saved) {
-              try {
-                const data = JSON.parse(saved);
-                setCode(data.code || 0);
-                setTotalCode(data.totalCode || 0);
-                setLifetimeCode(data.lifetimeCode || 0);
-                setClickPower(data.clickPower || 1);
-                setUpgrades(data.upgrades || init);
-                setAchievements(new Set(data.achievements || []));
-                setUnlockedSkins(new Set(data.unlockedSkins || ['default']));
-                setSelectedSkin(data.selectedSkin || 'default');
-                setMultiplier(data.multiplier || 1);
-                setPrestige(data.prestige || 0);
-                setClickCount(data.clickCount || 0);
-              } catch (e) {
-                console.error('Failed to load save');
-              }
-            }
-          }, []);
-
-          useEffect(() => {
-            const interval = setInterval(() => {
-              const saveData = {
-                code,
-                totalCode,
-                lifetimeCode,
-                clickPower,
-                upgrades,
-                achievements: Array.from(achievements),
-                unlockedSkins: Array.from(unlockedSkins),
-                selectedSkin,
-                multiplier,
-                prestige,
-                clickCount
-              };
-              localStorage.setItem('letustech_save', JSON.stringify(saveData));
-            }, 5000);
-            return () => clearInterval(interval);
-          }, [code, totalCode, lifetimeCode, clickPower, upgrades, achievements, unlockedSkins, selectedSkin, multiplier, prestige, clickCount]);
-
-          const calculateCPS = useCallback(() => {
-            let total = 0;
-            UPGRADES.forEach(upgrade => {
-              if (upgrade.cps && upgrades[upgrade.id]) {
-                total += upgrade.cps * upgrades[upgrade.id].count;
-              }
-            });
-            return total * multiplier;
-          }, [upgrades, multiplier]);
-
-          const getTotalHires = useCallback(() => {
-            let total = 0;
-            UPGRADES.forEach(upgrade => {
-              if (upgrade.cps && upgrades[upgrade.id]) {
-                total += upgrades[upgrade.id].count;
-              }
-            });
-            return total;
-          }, [upgrades]);
-
-          useEffect(() => {
-            const cps = calculateCPS();
-            if (cps > 0) {
-              const interval = setInterval(() => {
-                const amount = cps / 10;
-                setCode(prev => prev + amount);
-                setTotalCode(prev => prev + amount);
-                setLifetimeCode(prev => prev + amount);
-              }, 100);
-              return () => clearInterval(interval);
-            }
-          }, [calculateCPS]);
-
-          // Check for skin unlocks
-          useEffect(() => {
-            SKINS.forEach(skin => {
-              if (!unlockedSkins.has(skin.id)) {
-                let unlock = false;
-                if (typeof skin.unlockReq === 'number' && lifetimeCode >= skin.unlockReq) {
-                  unlock = true;
-                } else if (skin.unlockReq === 'prestige1' && prestige >= 1) {
-                  unlock = true;
-                } else if (skin.unlockReq === 'prestige3' && prestige >= 3) {
-                  unlock = true;
-                } else if (skin.unlockReq === 'prestige5' && prestige >= 5) {
-                  unlock = true;
+                if (code >= cost) {
+                    setCode(prev => prev - cost);
+                    setUpgrades(prev => ({ ...prev, [upgradeId]: count + 1 }));
                 }
+            }, [code, upgrades]);
 
-                if (unlock) {
-                  setUnlockedSkins(prev => new Set([...prev, skin.id]));
-                  setShowAchievement({ name: `Skin Unlocked: ${skin.name}`, desc: skin.desc, icon: skin.icon });
-                  setTimeout(() => setShowAchievement(null), 4000);
+            const canPrestige = lifetimeCode >= 1000000;
+            const prestigeReward = Math.floor(lifetimeCode / 1000000);
+
+            const handlePrestige = useCallback(() => {
+                if (canPrestige) {
+                    const reward = prestigeReward;
+                    setCode(0);
+                    setLifetimeCode(0);
+                    setUpgrades({});
+                    setPrestigeLevel(prev => prev + 1);
+                    setPrestigeBonus(prev => prev + reward * 0.1);
                 }
-              }
-            });
-          }, [lifetimeCode, prestige, unlockedSkins]);
+            }, [canPrestige, prestigeReward]);
 
-          // Check achievements
-          useEffect(() => {
-            const cps = calculateCPS();
-            const totalHires = getTotalHires();
+            const currentSkin = SKINS.find(s => s.id === selectedSkin) || SKINS[0];
 
-            ACHIEVEMENTS.forEach(ach => {
-              if (!achievements.has(ach.id)) {
-                let unlocked = false;
-                if (typeof ach.req === 'number' && totalCode >= ach.req) {
-                  unlocked = true;
-                } else if (ach.req === 'hire' && totalHires > 0) {
-                  unlocked = true;
-                } else if (ach.req === 'hires10' && totalHires >= 10) {
-                  unlocked = true;
-                } else if (ach.req === 'hires50' && totalHires >= 50) {
-                  unlocked = true;
-                } else if (ach.req === 'hires100' && totalHires >= 100) {
-                  unlocked = true;
-                } else if (ach.req === 'ai' && upgrades.ai?.count > 0) {
-                  unlocked = true;
-                } else if (ach.req === 'quantum' && upgrades.quantum?.count > 0) {
-                  unlocked = true;
-                } else if (ach.req === 'agi' && upgrades.agi?.count > 0) {
-                  unlocked = true;
-                } else if (ach.req === 'clicks100' && clickCount >= 100) {
-                  unlocked = true;
-                } else if (ach.req === 'clicks1000' && clickCount >= 1000) {
-                  unlocked = true;
-                } else if (ach.req === 'clicks10000' && clickCount >= 10000) {
-                  unlocked = true;
-                } else if (ach.req === 'prestige1' && prestige >= 1) {
-                  unlocked = true;
-                } else if (ach.req === 'prestige3' && prestige >= 3) {
-                  unlocked = true;
-                } else if (ach.req === 'prestige5' && prestige >= 5) {
-                  unlocked = true;
-                } else if (ach.req === 'prestige10' && prestige >= 10) {
-                  unlocked = true;
-                } else if (ach.req === 'cps100' && cps >= 100) {
-                  unlocked = true;
-                } else if (ach.req === 'cps1000' && cps >= 1000) {
-                  unlocked = true;
-                } else if (ach.req === 'cps10000' && cps >= 10000) {
-                  unlocked = true;
-                } else if (ach.req === 'cps100000' && cps >= 100000) {
-                  unlocked = true;
-                } else if (ach.req === 'skins5' && unlockedSkins.size >= 5) {
-                  unlocked = true;
-                } else if (ach.req === 'skins10' && unlockedSkins.size >= 10) {
-                  unlocked = true;
-                } else if (ach.req === 'skinsAll' && unlockedSkins.size >= SKINS.length) {
-                  unlocked = true;
-                }
-
-                if (unlocked) {
-                  setAchievements(prev => new Set([...prev, ach.id]));
-                  setShowAchievement(ach);
-                  setTimeout(() => setShowAchievement(null), 4000);
-                }
-              }
-            });
-          }, [totalCode, upgrades, achievements, prestige, clickCount, calculateCPS, getTotalHires, unlockedSkins]);
-
-          const handleClick = (e) => {
-            const power = clickPower * multiplier;
-            setCode(prev => prev + power);
-            setTotalCode(prev => prev + power);
-            setLifetimeCode(prev => prev + power);
-            setClickCount(prev => prev + 1);
-            setIsAnimating(true);
-            setTimeout(() => setIsAnimating(false), 100);
-
-            const rect = e.currentTarget.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const id = Date.now() + Math.random();
-            setFloatingNumbers(prev => [...prev, { id, x, y, value: power }]);
-            setTimeout(() => {
-              setFloatingNumbers(prev => prev.filter(num => num.id !== id));
-            }, 1000);
-          };
-
-          const buyUpgrade = (upgradeId) => {
-            const upgrade = UPGRADES.find(u => u.id === upgradeId);
-            const current = upgrades[upgradeId];
-
-            if (code >= current.cost) {
-              setCode(prev => prev - current.cost);
-              setUpgrades(prev => ({
-                ...prev,
-                [upgradeId]: {
-                  count: current.count + 1,
-                  cost: Math.floor(current.cost * 1.15)
-                }
-              }));
-
-              if (upgrade.power) {
-                setClickPower(prev => prev + upgrade.power);
-              }
-            }
-          };
-
-          const doPrestige = () => {
-            if (totalCode >= 1000000) {
-              const newPrestige = prestige + 1;
-              setPrestige(newPrestige);
-              setMultiplier(1 + (newPrestige * 0.5));
-              setCode(0);
-              setTotalCode(0);
-              setClickPower(1);
-              const init = {};
-              UPGRADES.forEach(u => {
-                init[u.id] = { count: 0, cost: u.baseCost };
-              });
-              setUpgrades(init);
-            }
-          };
-
-          const resetGame = () => {
-            if (confirm('Are you sure? This will delete all progress!')) {
-              localStorage.removeItem('letustech_save');
-              window.location.reload();
-            }
-          };
-
-          const currentSkin = SKINS.find(s => s.id === selectedSkin) || SKINS[0];
-          const cps = calculateCPS();
-          const canPrestige = totalCode >= 1000000;
-
-          return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-zinc-900 flex flex-col">
-                                  {/* Loading Screen */}
-                    {isLoading && (
-                        <div className="fixed inset-0 bg-gradient-to-br from-[#1e3a5f] via-[#2d5f8d] to-[#0a1128] z-50 flex items-center justify-center">
-                            <div className="text-center">
-                                <div className="mb-4 animate-bounce">
-                                    <div className="h-40 w-40 mx-auto bg-white rounded-2xl shadow-2xl p-4 flex items-center justify-center">
-                                        <img
-                                            src="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png"
-                                            alt="LetUsTech Logo"
-                                            className="max-h-full max-w-full object-contain"
-                                        />
+            return (
+                <div className="min-h-screen">
+                    {/* Navigation Bar */}
+                    <nav className="bg-navy-dark shadow-lg">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex justify-between items-center h-16">
+                                <div className="flex items-center space-x-3">
+                                    <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                                        <Cpu className="w-6 h-6 text-navy-dark" />
                                     </div>
+                                    <span className="text-white text-xl font-bold">LetUsTech</span>
                                 </div>
-                                <h1 className="text-5xl font-bold text-white mb-2">LetUsTech</h1>
-                                <p className="text-xl text-white/80 mb-1">Tech Empire Clicker</p>
-                                <p className="text-sm text-white/60 italic mb-4">Wired For Your World</p>
-                                <div className="flex justify-center gap-2">
-                                    <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
-                                    <div className="w-3 h-3 bg-white rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                                    <div className="w-3 h-3 bg-white rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
-                                </div>
-                                <p className="text-white/60 text-sm mt-4">Loading your adventure...</p>
-                            </div>
-                        </div>
-                    )}
-
-<header className="bg-gradient-to-r from-[#2d4a6e] via-[#1e3a5f] to-[#0f2744] shadow-lg border-b border-slate-700 sticky top-0 z-40">
-                <div className="max-w-7xl mx-auto px-6 py-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-white rounded flex items-center justify-center p-1.5">
-                        <img src="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png" alt="LetUsTech Logo" className="max-w-full max-h-full object-contain" />
-                      </div>
-                      <span className="text-white font-semibold text-lg">LetUsTech</span>
-                    </div>
-                    <nav className="flex items-center gap-6">
-                      <a href="../index.html#about" className="text-gray-200 hover:text-green-primary transition-colors text-sm font-medium">
-                        About
-                      </a>
-                      <a href="../index.html#programs" className="text-gray-200 hover:text-green-primary transition-colors text-sm font-medium">
-                        Programs
-                      </a>
-                      <a href="../index.html#games" className="text-gray-200 hover:text-green-primary transition-colors text-sm font-medium">
-                        Games
-                      </a>
-                      <a href="../blog/blog.html" className="text-gray-200 hover:text-green-primary transition-colors text-sm font-medium">
-                        Blog
-                      </a>
-                      <a href="../index.html#faq" className="text-gray-200 hover:text-green-primary transition-colors text-sm font-medium">
-                        FAQ
-                      </a>
-                      <a href="../index.html#contact" className="text-gray-200 hover:text-green-primary transition-colors text-sm font-medium">
-                        Contact
-                      </a>
-                      <a href="../index.html#donate" className="bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-red-600 hover:to-red-700 transition-all">
-                        ❤️ Donate
-                      </a>
-                    </nav>
-                  </div>
-                </div>
-              </header>
-
-              {showAchievement && (
-                <div className="fixed top-24 right-4 z-50 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white p-4 rounded-xl shadow-2xl animate-bounce border-4 border-yellow-300">
-                  <div className="flex items-center gap-3">
-                    <div className="text-4xl">{showAchievement.icon || '🎉'}</div>
-                    <div>
-                      <div className="font-bold text-lg">{showAchievement.icon ? 'Achievement' : 'New'} Unlocked!</div>
-                      <div className="text-sm font-semibold">{showAchievement.name}</div>
-                      <div className="text-xs opacity-90">{showAchievement.desc}</div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              <main className="flex-1 p-6">
-                <div className="max-w-7xl mx-auto">
-                  <div className="mb-6 bg-slate-800/50 rounded-xl border border-slate-700 p-4 text-center">
-                    <div className="text-gray-500 text-sm mb-2">Advertisement</div>
-                    <div className="bg-slate-700/30 h-24 rounded flex items-center justify-center text-gray-600">
-                      <span className="text-xs">728x90 AdSense Banner</span>
-                    </div>
-                  </div>
-
-                  {prestige > 0 && (
-                    <div className="mb-6 bg-gradient-to-r from-[#1e3a5f] via-pink-600 to-red-600 text-white p-4 rounded-xl shadow-lg border-2 border-purple-400">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Rocket className="w-8 h-8" />
-                          <div>
-                            <div className="font-bold text-lg">Prestige Level {prestige}</div>
-                            <div className="text-sm opacity-90">All production multiplied by {multiplier}x</div>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold">{(multiplier * 100 - 100).toFixed(0)}%</div>
-                          <div className="text-xs opacity-90">Bonus</div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="grid lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-1">
-                      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 shadow-2xl border border-slate-700">
-                        <div className="text-center mb-4">
-                          <div className="text-6xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-1">
-                            {Math.floor(code).toLocaleString()}
-                          </div>
-                          <div className="text-gray-400 text-sm mb-2">Lines of Code</div>
-                          {cps > 0 && (
-                            <div className="inline-block bg-[#10b981]/20 border border-green-500 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">
-                              <TrendingUp className="w-4 h-4 inline mr-1" />
-                              +{cps >= 1000 ? (cps/1000).toFixed(1) + 'K' : cps.toFixed(1)}/sec
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="relative flex justify-center items-center h-64 mb-6">
-                          <button
-                            onClick={handleClick}
-                            className={`relative w-52 h-52 rounded-2xl bg-gradient-to-br ${currentSkin.gradient} shadow-2xl hover:shadow-cyan-500/50 transition-all duration-100 cursor-pointer border-4 border-cyan-300 overflow-hidden ${
-                              isAnimating ? 'scale-90' : 'scale-100 hover:scale-105'
-                            }`}
-                          >
-                            <div className="absolute inset-0 flex items-center justify-center text-8xl">
-                              {currentSkin.icon}
-                            </div>
-                            <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent"></div>
-                            <div className="absolute inset-0 bg-white/10 rounded-2xl animate-pulse"></div>
-                          </button>
-
-                          {floatingNumbers.map(num => (
-                            <div
-                              key={num.id}
-                              className="absolute text-3xl font-bold text-cyan-400 pointer-events-none drop-shadow-lg"
-                              style={{
-                                left: num.x,
-                                top: num.y,
-                                animation: 'float 1s ease-out forwards'
-                              }}
-                            >
-                              +{num.value >= 1000 ? (num.value/1000).toFixed(1) + 'K' : num.value}
-                            </div>
-                          ))}
-                        </div>
-
-                        <div className="bg-slate-800/80 rounded-xl p-4 space-y-2 text-sm mb-4">
-                          <div className="flex justify-between text-gray-300">
-                            <span>Click Power:</span>
-                            <span className="text-cyan-400 font-bold">{(clickPower * multiplier).toLocaleString()}</span>
-                          </div>
-                          <div className="flex justify-between text-gray-300">
-                            <span>Per Second:</span>
-                            <span className="text-green-400 font-bold">{cps >= 1000 ? (cps/1000).toFixed(1) + 'K' : cps.toFixed(1)}</span>
-                          </div>
-                          <div className="flex justify-between text-gray-300">
-                            <span>Total Lines:</span>
-                            <span className="text-blue-400 font-bold">{Math.floor(totalCode).toLocaleString()}</span>
-                          </div>
-                          <div className="flex justify-between text-gray-300">
-                            <span>Lifetime:</span>
-                            <span className="text-purple-400 font-bold">{Math.floor(lifetimeCode).toLocaleString()}</span>
-                          </div>
-                          <div className="flex justify-between text-gray-300">
-                            <span>Achievements:</span>
-                            <span className="text-yellow-400 font-bold">{achievements.size}/{ACHIEVEMENTS.length}</span>
-                          </div>
-                          <div className="flex justify-between text-gray-300">
-                            <span>Skins Unlocked:</span>
-                            <span className="text-pink-400 font-bold">{unlockedSkins.size}/{SKINS.length}</span>
-                          </div>
-                        </div>
-
-                        <div className="space-y-2">
-                          {canPrestige && (
-                            <button
-                              onClick={doPrestige}
-                              className="w-full bg-gradient-to-r from-[#1e3a5f] to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg hover:shadow-purple-500/50"
-                            >
-                              <Rocket className="w-5 h-5 inline mr-2" />
-                              Prestige for +50% Multiplier
-                            </button>
-                          )}
-                          <div className="grid grid-cols-2 gap-2">
-                            <button
-                              onClick={() => setShowStats(!showStats)}
-                              className="bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-lg text-sm font-semibold transition-all"
-                            >
-                              <BarChart3 className="w-4 h-4 inline mr-1" />
-                              Stats
-                            </button>
-                            <button
-                              onClick={resetGame}
-                              className="bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg text-sm font-semibold transition-all"
-                            >
-                              <Settings className="w-4 h-4 inline mr-1" />
-                              Reset
-                            </button>
-                          </div>
-                        </div>
-
-                        {showStats && (
-                          <div className="mt-4 bg-slate-800/80 rounded-xl p-4 space-y-2 text-xs">
-                            <h4 className="font-bold text-white mb-2">Extended Statistics</h4>
-                            <div className="flex justify-between text-gray-400">
-                              <span>Total Clicks:</span>
-                              <span className="text-white">{clickCount.toLocaleString()}</span>
-                            </div>
-                            <div className="flex justify-between text-gray-400">
-                              <span>Prestige Level:</span>
-                              <span className="text-purple-400">{prestige}</span>
-                            </div>
-                            <div className="flex justify-between text-gray-400">
-                              <span>Multiplier:</span>
-                              <span className="text-pink-400">{multiplier}x</span>
-                            </div>
-                            <div className="flex justify-between text-gray-400">
-                              <span>Current Skin:</span>
-                              <span className="text-cyan-400">{currentSkin.name}</span>
-                            </div>
-                            <div className="flex justify-between text-gray-400">
-                              <span>Auto-save:</span>
-                              <span className="text-green-400">Every 5s</span>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="bg-slate-800/50 rounded-xl border border-slate-700 p-4 text-center mt-4">
-                        <div className="text-gray-500 text-xs mb-2">Advertisement</div>
-                        <div className="bg-slate-700/30 h-64 rounded flex items-center justify-center text-gray-600">
-                          <span className="text-xs">300x250 AdSense</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="lg:col-span-2">
-                      <div className="flex gap-2 mb-4">
-                        <button
-                          onClick={() => setSelectedTab('upgrades')}
-                          className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
-                            selectedTab === 'upgrades'
-                              ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-cyan-500/30'
-                              : 'bg-slate-800 text-gray-400 hover:bg-slate-700 border border-slate-700'
-                          }`}
-                        >
-                          <TrendingUp className="w-5 h-5 inline mr-2" />
-                          Upgrades
-                        </button>
-                        <button
-                          onClick={() => setSelectedTab('skins')}
-                          className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
-                            selectedTab === 'skins'
-                              ? 'bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg shadow-pink-500/30'
-                              : 'bg-slate-800 text-gray-400 hover:bg-slate-700 border border-slate-700'
-                          }`}
-                        >
-                          <Palette className="w-5 h-5 inline mr-2" />
-                          Skins ({unlockedSkins.size})
-                        </button>
-                        <button
-                          onClick={() => setSelectedTab('achievements')}
-                          className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
-                            selectedTab === 'achievements'
-                              ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white shadow-lg shadow-yellow-500/30'
-                              : 'bg-slate-800 text-gray-400 hover:bg-slate-700 border border-slate-700'
-                          }`}
-                        >
-                          <Trophy className="w-5 h-5 inline mr-2" />
-                          Goals ({achievements.size})
-                        </button>
-                      </div>
-
-                      <div className="bg-slate-800/50 rounded-xl border border-slate-700 p-3 text-center mb-4">
-                        <div className="text-gray-500 text-xs mb-2">Advertisement</div>
-                        <div className="bg-slate-700/30 h-20 rounded flex items-center justify-center text-gray-600">
-                          <span className="text-xs">728x90 or 468x60 AdSense</span>
-                        </div>
-                      </div>
-
-                      {selectedTab === 'upgrades' && (
-                        <div className="space-y-3 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar">
-                          {UPGRADES.map(upgrade => {
-                            const current = upgrades[upgrade.id] || { count: 0, cost: upgrade.baseCost };
-                            const canBuy = code >= current.cost;
-                            const Icon = upgrade.icon;
-                            const totalProduction = upgrade.cps ? upgrade.cps * current.count * multiplier : 0;
-
-                            return (
-                              <div
-                                key={upgrade.id}
-                                className={`bg-gradient-to-r from-slate-800 to-slate-900 rounded-xl p-4 border-2 transition-all hover:scale-[1.02] ${
-                                  canBuy ? 'border-cyan-500 shadow-lg shadow-cyan-500/20' : 'border-slate-700'
-                                }`}
-                              >
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center gap-4 flex-1">
-                                    <div className={`w-16 h-16 rounded-xl bg-gradient-to-br from-${upgrade.color}-500 to-${upgrade.color}-700 flex items-center justify-center shadow-xl relative`}>
-                                      <Icon className="w-9 h-9 text-white" />
-                                      {current.count > 0 && (
-                                        <div className="absolute -top-2 -right-2 bg-cyan-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 border-slate-900">
-                                          {current.count > 99 ? '99+' : current.count}
-                                        </div>
-                                      )}
-                                    </div>
-                                    <div className="flex-1">
-                                      <h3 className="text-xl font-bold text-white mb-1">{upgrade.name}</h3>
-                                      <p className="text-gray-400 text-sm mb-2">{upgrade.desc}</p>
-                                      <div className="flex flex-wrap gap-2 text-xs">
-                                        {upgrade.power && (
-                                          <span className="bg-[#2d5f8d]/20 text-blue-400 px-2 py-1 rounded border border-blue-500">
-                                            +{upgrade.power * multiplier} per click
-                                          </span>
-                                        )}
-                                        {upgrade.cps && current.count > 0 && (
-                                          <span className="bg-[#10b981]/20 text-green-400 px-2 py-1 rounded border border-green-500">
-                                            {totalProduction >= 1000 ? (totalProduction/1000).toFixed(1) + 'K' : totalProduction.toFixed(1)}/sec total
-                                          </span>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="text-right ml-4">
-                                    <div className={`text-2xl font-bold mb-2 ${canBuy ? 'text-yellow-400' : 'text-gray-500'}`}>
-                                      {current.cost >= 1000000 ? (current.cost/1000000).toFixed(2) + 'M' : current.cost >= 1000 ? (current.cost/1000).toFixed(1) + 'K' : current.cost.toLocaleString()}
-                                    </div>
-                                    <button
-                                      onClick={() => buyUpgrade(upgrade.id)}
-                                      disabled={!canBuy}
-                                      className={`px-8 py-2.5 rounded-lg font-bold transition-all ${
-                                        canBuy
-                                          ? 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-[#2d5f8d] text-white shadow-lg hover:shadow-cyan-500/30'
-                                          : 'bg-gray-700 text-gray-500 cursor-not-allowed'
-                                      }`}
+                                <div className="hidden md:flex items-center space-x-6">
+                                    <a href="https://letustech.uk" className="text-white hover:text-blue-200 transition-colors">About</a>
+                                    <a href="https://letustech.uk/programs" className="text-white hover:text-blue-200 transition-colors">Programs</a>
+                                    <a href="https://letustech.uk/games" className="text-white hover:text-blue-200 transition-colors">Games</a>
+                                    <a href="https://letustech.uk/blog" className="text-white hover:text-blue-200 transition-colors">Blog</a>
+                                    <a href="https://letustech.uk/faq" className="text-white hover:text-blue-200 transition-colors">FAQ</a>
+                                    <a href="https://letustech.uk/contact" className="text-white hover:text-blue-200 transition-colors">Contact</a>
+                                    <a
+                                        href="https://www.paypal.com/donate/?hosted_button_id=F3JLLZ5N2YCVU"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
                                     >
-                                      Buy
-                                    </button>
-                                  </div>
+                                        Donate
+                                    </a>
                                 </div>
-                              </div>
-                            );
-                          })}
+                            </div>
                         </div>
-                      )}
+                    </nav>
 
-                      {selectedTab === 'skins' && (
-                        <div className="space-y-4 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar">
-                          <div className="bg-gradient-to-r from-pink-600 to-purple-600 text-white p-4 rounded-xl">
-                            <h3 className="font-bold text-lg mb-2">🎨 Skin Collection</h3>
-                            <p className="text-sm opacity-90">Unlock unique button skins by reaching milestones! Customize your clicking experience.</p>
-                          </div>
+                    {/* Main Content */}
+                    <main className="max-w-7xl mx-auto px-4 py-8">
+                        {/* Header */}
+                        <div className="text-center mb-8">
+                            <div className="w-32 h-32 mx-auto mb-4 bg-white rounded-full flex items-center justify-center shadow-xl">
+                                <img
+                                    src="https://letustech.uk/static/img/logo.png"
+                                    alt="LetUsTech"
+                                    className="w-20 h-20"
+                                    onError={(e) => {
+                                        e.target.style.display = 'none';
+                                        e.target.parentElement.innerHTML = '<div class="text-6xl">💻</div>';
+                                    }}
+                                />
+                            </div>
+                            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">Tech Empire Clicker</h1>
+                            <p className="text-xl text-blue-100">Build your coding empire!</p>
+                            <p className="text-sm text-blue-200 italic mt-1">Wired For Your World</p>
+                        </div>
 
-                          <div className="grid md:grid-cols-2 gap-4">
-                            {SKINS.map(skin => {
-                              const isUnlocked = unlockedSkins.has(skin.id);
-                              const isSelected = selectedSkin === skin.id;
-                              const rarityColors = {
-                                'Common': 'text-gray-400',
-                                'Rare': 'text-blue-400',
-                                'Epic': 'text-purple-400',
-                                'Legendary': 'text-orange-400',
-                                'Mythic': 'text-pink-400'
-                              };
-
-                              return (
-                                <div
-                                  key={skin.id}
-                                  className={`rounded-xl p-4 border-2 transition-all ${
-                                    isUnlocked
-                                      ? isSelected
-                                        ? 'bg-gradient-to-br from-pink-500/20 to-purple-500/20 border-pink-500 shadow-lg'
-                                        : 'bg-slate-800 border-slate-600 hover:border-slate-500'
-                                      : 'bg-slate-800/50 border-slate-700 opacity-60'
-                                  }`}
-                                >
-                                  <div className="flex items-start gap-3">
-                                    <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${skin.gradient} flex items-center justify-center text-4xl shadow-lg ${!isUnlocked && 'opacity-50'}`}>
-                                      {isUnlocked ? skin.icon : '🔒'}
-                                    </div>
-                                    <div className="flex-1">
-                                      <div className="flex items-center gap-2 mb-1">
-                                        <h3 className={`font-bold ${isUnlocked ? 'text-white' : 'text-gray-500'}`}>
-                                          {skin.name}
-                                        </h3>
-                                        {isSelected && (
-                                          <span className="bg-pink-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">
-                                            Active
-                                          </span>
+                        {/* Game Container */}
+                        <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-6xl mx-auto">
+                            <div className="grid lg:grid-cols-2 gap-8">
+                                {/* Left Side - Main Click Area */}
+                                <div className="space-y-6">
+                                    {/* Stats */}
+                                    <div className="bg-gradient-to-r from-navy-dark to-navy-primary text-white rounded-2xl p-6 shadow-lg">
+                                        <div className="text-center mb-4">
+                                            <div className="text-5xl font-bold mb-1">{Math.floor(code).toLocaleString()}</div>
+                                            <div className="text-blue-200 text-lg">Lines of Code</div>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-4 text-sm">
+                                            <div>
+                                                <div className="text-blue-200">Per Second</div>
+                                                <div className="text-2xl font-bold">{Math.floor(cps).toLocaleString()}</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-blue-200">Per Click</div>
+                                                <div className="text-2xl font-bold">{Math.floor(clickPower).toLocaleString()}</div>
+                                            </div>
+                                        </div>
+                                        {prestigeLevel > 0 && (
+                                            <div className="mt-4 pt-4 border-t border-blue-400/30 text-center">
+                                                <div className="text-yellow-300">⭐ Prestige Level {prestigeLevel}</div>
+                                                <div className="text-sm text-blue-200">+{Math.floor((prestigeBonus - 1) * 100)}% Production</div>
+                                            </div>
                                         )}
-                                      </div>
-                                      <p className={`text-xs mb-2 ${rarityColors[skin.rarity]}`}>
-                                        {skin.rarity}
-                                      </p>
-                                      <p className="text-xs text-gray-400 mb-2">{skin.desc}</p>
-                                      {!isUnlocked && (
-                                        <p className="text-xs text-yellow-400">
-                                          🔒 {typeof skin.unlockReq === 'number'
-                                            ? `Reach ${skin.unlockReq.toLocaleString()} lifetime code`
-                                            : skin.unlockReq === 'prestige1' ? 'Prestige once'
-                                            : skin.unlockReq === 'prestige3' ? 'Prestige 3 times'
-                                            : 'Prestige 5 times'}
-                                        </p>
-                                      )}
-                                      {isUnlocked && !isSelected && (
-                                        <button
-                                          onClick={() => setSelectedSkin(skin.id)}
-                                          className="mt-2 w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white text-xs font-bold py-2 rounded-lg transition-all"
-                                        >
-                                          Equip
-                                        </button>
-                                      )}
                                     </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      )}
 
-                      {selectedTab === 'achievements' && (
-                        <div className="grid md:grid-cols-2 gap-4 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar">
-                          {ACHIEVEMENTS.map(ach => {
-                            const unlocked = achievements.has(ach.id);
-                            return (
-                              <div
-                                key={ach.id}
-                                className={`rounded-xl p-5 border-2 transition-all ${
-                                  unlocked
-                                    ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500 shadow-lg shadow-yellow-500/20'
-                                    : 'bg-slate-800 border-slate-700 opacity-60'
-                                }`}
-                              >
-                                <div className="flex items-start gap-4">
-                                  <div className="text-4xl">{unlocked ? ach.icon : '🔒'}</div>
-                                  <div>
-                                    <h3 className={`font-bold text-lg mb-1 ${unlocked ? 'text-white' : 'text-gray-500'}`}>
-                                      {ach.name}
-                                    </h3>
-                                    <p className="text-sm text-gray-400">{ach.desc}</p>
-                                    {unlocked && (
-                                      <div className="mt-2 text-xs text-yellow-400 font-semibold">
-                                        ✓ Unlocked
-                                      </div>
+                                    {/* Click Button */}
+                                    <div className="relative">
+                                        <button
+                                            onClick={handleClick}
+                                            className={`w-full aspect-square rounded-3xl shadow-2xl text-9xl flex items-center justify-center
+                                                transition-all duration-150 hover:scale-105 active:scale-95
+                                                bg-gradient-to-br ${currentSkin.gradient}`}
+                                        >
+                                            {currentSkin.icon}
+                                        </button>
+                                        {floatingNumbers.map(num => (
+                                            <div
+                                                key={num.id}
+                                                className="absolute text-3xl font-bold text-white pointer-events-none"
+                                                style={{
+                                                    left: num.x,
+                                                    top: num.y,
+                                                    animation: 'float 1s ease-out forwards'
+                                                }}
+                                            >
+                                                +{num.value}
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Prestige Button */}
+                                    {canPrestige && (
+                                        <button
+                                            onClick={handlePrestige}
+                                            className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600
+                                                text-white font-bold py-4 rounded-2xl shadow-lg transition-all hover:scale-105"
+                                        >
+                                            <div className="flex items-center justify-center gap-2">
+                                                <Star className="w-6 h-6" />
+                                                <span>PRESTIGE (+{prestigeReward * 10}% Production)</span>
+                                                <Star className="w-6 h-6" />
+                                            </div>
+                                        </button>
                                     )}
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </main>
 
-              <style>{`
-                @keyframes float {
-                  0% {
-                    opacity: 1;
-                    transform: translateY(0);
-                  }
-                  100% {
-                    opacity: 0;
-                    transform: translateY(-100px);
-                  }
-                }
-                .custom-scrollbar::-webkit-scrollbar {
-                  width: 8px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-track {
-                  background: rgba(51, 65, 85, 0.3);
-                  border-radius: 4px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-thumb {
-                  background: rgba(6, 182, 212, 0.5);
-                  border-radius: 4px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                  background: rgba(6, 182, 212, 0.7);
-                }
-              `}</style>
-            </div>
-          );
+                                    {/* AdSense */}
+                                    <div className="bg-gray-50 rounded-2xl p-4">
+                                        <ins className="adsbygoogle"
+                                            style={{ display: 'block' }}
+                                            data-ad-client="ca-pub-5830581574523106"
+                                            data-ad-slot="1234567890"
+                                            data-ad-format="auto"
+                                            data-full-width-responsive="true"></ins>
+                                    </div>
+                                </div>
+
+                                {/* Right Side - Tabs */}
+                                <div className="space-y-4">
+                                    {/* Tab Navigation */}
+                                    <div className="flex space-x-2 bg-gray-100 rounded-2xl p-2">
+                                        <button
+                                            onClick={() => setSelectedTab('upgrades')}
+                                            className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
+                                                selectedTab === 'upgrades'
+                                                    ? 'bg-navy-dark text-white shadow-lg'
+                                                    : 'text-gray-600 hover:bg-gray-200'
+                                            }`}
+                                        >
+                                            Upgrades
+                                        </button>
+                                        <button
+                                            onClick={() => setSelectedTab('skins')}
+                                            className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
+                                                selectedTab === 'skins'
+                                                    ? 'bg-navy-dark text-white shadow-lg'
+                                                    : 'text-gray-600 hover:bg-gray-200'
+                                            }`}
+                                        >
+                                            Skins
+                                        </button>
+                                        <button
+                                            onClick={() => setSelectedTab('achievements')}
+                                            className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
+                                                selectedTab === 'achievements'
+                                                    ? 'bg-navy-dark text-white shadow-lg'
+                                                    : 'text-gray-600 hover:bg-gray-200'
+                                            }`}
+                                        >
+                                            Achievements
+                                        </button>
+                                    </div>
+
+                                    {/* Tab Content */}
+                                    <div className="bg-gray-50 rounded-2xl p-6 min-h-[600px]">
+                                        {selectedTab === 'upgrades' && (
+                                            <div className="space-y-3 max-h-[650px] overflow-y-auto custom-scrollbar pr-2">
+                                                {UPGRADES.map(upgrade => {
+                                                    const count = upgrades[upgrade.id] || 0;
+                                                    const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.multiplier, count));
+                                                    const canBuy = code >= cost;
+
+                                                    return (
+                                                        <button
+                                                            key={upgrade.id}
+                                                            onClick={() => buyUpgrade(upgrade.id)}
+                                                            disabled={!canBuy}
+                                                            className={`w-full rounded-xl p-4 transition-all text-left ${
+                                                                canBuy
+                                                                    ? 'bg-white hover:bg-gray-100 border-2 border-navy-dark shadow-md hover:shadow-lg'
+                                                                    : 'bg-gray-200 border-2 border-gray-300 opacity-60 cursor-not-allowed'
+                                                            }`}
+                                                        >
+                                                            <div className="flex items-center gap-3">
+                                                                <div className="text-4xl">{upgrade.icon}</div>
+                                                                <div className="flex-1">
+                                                                    <div className="font-bold text-navy-dark text-lg">{upgrade.name}</div>
+                                                                    <div className="text-sm text-gray-600">
+                                                                        {upgrade.cps > 0 && `+${(upgrade.cps * prestigeBonus).toFixed(1)} code/sec`}
+                                                                        {upgrade.cpc > 0 && `+${upgrade.cpc * prestigeBonus} per click`}
+                                                                    </div>
+                                                                    <div className="text-sm font-semibold text-blue-600 mt-1">
+                                                                        Cost: {cost.toLocaleString()} code
+                                                                    </div>
+                                                                </div>
+                                                                {count > 0 && (
+                                                                    <div className="bg-navy-dark text-white px-3 py-1 rounded-full font-bold">
+                                                                        {count}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+
+                                        {selectedTab === 'skins' && (
+                                            <div className="space-y-4 max-h-[650px] overflow-y-auto custom-scrollbar pr-2">
+                                                <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-xl">
+                                                    <h3 className="font-bold text-lg mb-2">🎨 Skin Collection</h3>
+                                                    <p className="text-sm opacity-90">Unlock unique button skins by reaching milestones!</p>
+                                                </div>
+
+                                                <div className="grid gap-4">
+                                                    {SKINS.map(skin => {
+                                                        const isUnlocked = unlockedSkins.has(skin.id);
+                                                        const isSelected = selectedSkin === skin.id;
+
+                                                        return (
+                                                            <div
+                                                                key={skin.id}
+                                                                className={`rounded-xl p-4 border-2 transition-all ${
+                                                                    isUnlocked
+                                                                        ? isSelected
+                                                                            ? 'bg-gradient-to-br from-purple-100 to-pink-100 border-purple-500 shadow-lg'
+                                                                            : 'bg-white border-gray-300 hover:border-gray-400'
+                                                                        : 'bg-gray-100 border-gray-300 opacity-60'
+                                                                }`}
+                                                            >
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${skin.gradient} flex items-center justify-center text-4xl shadow-lg ${!isUnlocked && 'opacity-50'}`}>
+                                                                        {isUnlocked ? skin.icon : '🔒'}
+                                                                    </div>
+                                                                    <div className="flex-1">
+                                                                        <div className="flex items-center gap-2 mb-1">
+                                                                            <h3 className={`font-bold text-lg ${isUnlocked ? 'text-navy-dark' : 'text-gray-500'}`}>
+                                                                                {skin.name}
+                                                                            </h3>
+                                                                            {isSelected && (
+                                                                                <span className="bg-purple-600 text-white text-xs px-2 py-0.5 rounded-full font-bold">
+                                                                                    Active
+                                                                                </span>
+                                                                            )}
+                                                                        </div>
+                                                                        <p className="text-xs text-purple-600 mb-1">{skin.rarity}</p>
+                                                                        <p className="text-sm text-gray-600">{skin.desc}</p>
+                                                                        {!isUnlocked && (
+                                                                            <p className="text-xs text-orange-600 mt-2 font-semibold">
+                                                                                🔒 {typeof skin.unlockReq === 'number'
+                                                                                    ? `Reach ${skin.unlockReq.toLocaleString()} lifetime code`
+                                                                                    : skin.unlockReq === 'prestige1' ? 'Prestige once'
+                                                                                    : skin.unlockReq === 'prestige3' ? 'Prestige 3 times'
+                                                                                    : 'Prestige 5 times'}
+                                                                            </p>
+                                                                        )}
+                                                                        {isUnlocked && !isSelected && (
+                                                                            <button
+                                                                                onClick={() => setSelectedSkin(skin.id)}
+                                                                                className="mt-2 w-full bg-navy-dark hover:bg-navy-primary text-white text-sm font-bold py-2 rounded-lg transition-all"
+                                                                            >
+                                                                                Equip
+                                                                            </button>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {selectedTab === 'achievements' && (
+                                            <div className="space-y-3 max-h-[650px] overflow-y-auto custom-scrollbar pr-2">
+                                                {ACHIEVEMENTS.map(ach => {
+                                                    const unlocked = achievements.has(ach.id);
+                                                    return (
+                                                        <div
+                                                            key={ach.id}
+                                                            className={`rounded-xl p-5 border-2 transition-all ${
+                                                                unlocked
+                                                                    ? 'bg-gradient-to-br from-yellow-100 to-orange-100 border-yellow-500 shadow-lg'
+                                                                    : 'bg-gray-100 border-gray-300 opacity-60'
+                                                            }`}
+                                                        >
+                                                            <div className="flex items-start gap-4">
+                                                                <div className="text-4xl">{unlocked ? ach.icon : '🔒'}</div>
+                                                                <div>
+                                                                    <h3 className={`font-bold text-lg mb-1 ${unlocked ? 'text-navy-dark' : 'text-gray-500'}`}>
+                                                                        {ach.name}
+                                                                    </h3>
+                                                                    <p className="text-sm text-gray-600">{ach.desc}</p>
+                                                                    {unlocked && (
+                                                                        <div className="mt-2 text-xs text-yellow-600 font-semibold">
+                                                                            ✓ Unlocked
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Footer Ad */}
+                        <div className="mt-8 bg-white rounded-3xl shadow-xl p-4">
+                            <ins className="adsbygoogle"
+                                style={{ display: 'block' }}
+                                data-ad-client="ca-pub-5830581574523106"
+                                data-ad-slot="1234567890"
+                                data-ad-format="auto"
+                                data-full-width-responsive="true"></ins>
+                        </div>
+                    </main>
+                </div>
+            );
         }
+
+        // Initialize AdSense
+        setTimeout(() => {
+            try {
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (e) {
+                console.log('AdSense not loaded');
+            }
+        }, 1000);
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<LetUsTech />);

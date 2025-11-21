@@ -1,12 +1,20 @@
 ﻿#!/usr/bin/env python3
 """
-LetUsTech Vocal Remover - Full featured (FIXED VERSION)
-- Auto-installs FFmpeg (FULL build) to C:\ffmpeg (user-chosen Full build)
+LetUsTech Vocal Remover - Enhanced Version with Stop Button & Error Handling
+- Auto-installs FFmpeg (FULL build) to C:\ffmpeg
 - Auto-installs demucs and yt-dlp via pip if missing
-- Validates downloads
+- ⏹ STOP BUTTON: Cancel processing at any time
+- 🌐 NETWORK ERROR DETECTION: Automatic connection checking
+- ⏱️ TIMEOUT HANDLING: Prevents stuck downloads
+- 📊 BETTER PROGRESS FEEDBACK: Real-time status updates
+- 🧹 GRACEFUL CLEANUP: Proper cleanup on stop/error
 - Runs demucs in CPU mode with better error handling
 - Export options: WAV, MP3, FLAC, M4A (audio in mp4 container), OGG
 - Optional MP4 video outputs (merge isolated audio into original video)
+
+OPTIONAL: For better process management, install psutil:
+    pip install psutil
+    (The app works without it, but process termination is more reliable with it)
 """
 
 import sys
@@ -30,65 +38,60 @@ import re
 # ----------------------------
 # LetUsTech Icon (Base64 encoded .ico file)
 # ----------------------------
-LETUSTECH_ICON_BASE64 = """
-AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAABAAANcNAADXDQAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAgAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAMAAABnAAAAmgAAACMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFAAAANIAAADzAAAAcgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAwwAAAP8AAACYAAoAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAZAAAAACQAAAAAAAAAAAAAACAAAAKQAAAD/AA
-AAuAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkAAAAbAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAB+AAAA3gAAAIAAAAABAAAAAAAAAAAAAACAAAAA/
-wAAANMAAAAVAAAAAAAAAAAAAAAAAAAAAAAAAAEAAACAAAAA3gAAAHAAAAAEAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAGQAAAPIAAAD/AAAApgAAAAQAAAAAAAAAAAAAAGEAAAD/
-AAAA6AAAACkAAAAAAAAAAAAAAAAAAAAAAAAABAAAAKYAAAD/AAAA8gAAAGkAAAACAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAFwAAADuAAAA/wAAAM0AAAAtAAAAAAAAAAAAAAAAAAAAQQAAAP
-YAAAD3AAAARAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALQAAAM0AAAD/AAAA7gAAAF8AAAABAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABWAAAA6gAAAP8AAADUAAAANQAAAAAAAAAAAAAAAAAAAAAAAAAnAAAA
-5wAAAP8AAABjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANQAAANQAAAD/AAAA6gAAAFYAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAE0AAADlAAAA/wAAAN0AAAA9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMAAa
-ADRAAA/wAAAIUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPQAAANsAAAD/AAAA5QAAAE0AAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAEQAAAOGAAAD/AAAA4QAAAEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAA
-ALUAAADwAAAApwAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARQAAAOEAAAD/AAAA4AAAAEQAAA
-AAAAAAAAAAAAAAAAA7AAAA2gAAAP8AAADmAAAATgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlQAA
-AP8AAADFAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATgAAAOYAAAD/AAAA2gAAADsA
-AAAAAAAAOwAAANIAAAD/AAAA6wAAAFcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABzA
-AAA/wAAANwAAAAdAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVwAAAOsAAAD/AAAA0g
-AAADsAAADYAAAA/wAAAPQAAABiAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFIAAAD
-8AAAA8AAAADUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAYgAAAPQAAAD/AAAA2A
-AAA NgAAAD/AAAA9AAAAGIAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAPAAAAD8AAAAU
-gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAABiAAAA9AAAAP8AAADYAAAAOwAAAN
-IAAAD/AAAA6wAAAFcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdAAAA3gAAAP8AAABzA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVwAAAOsAAAD/AAAA0gAAADsAAAAAAAAAAw
-AAANoAAAD/AAAA5gAAAE4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAADFAAAA/wAAAJUAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANgAAADmAAAA/wAAANoAAAA7AAAAAAAAAAAAAAAA
-AARRAAAAOAAAAD/AAAA4QAAAEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAKcAAAD/AAAA
-tQAAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFAAAA4QAAAP8AAADgAAAARAAAAAAAAAAAAAAAAAA
-AAAAAAAAATQAAAOUA AAD/AAAA2wAAAD0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhQAAAP8AAADRAAAAEw
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPQAAANsAAAD/AAAA5QAAAE0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAVgAAAOoAAAD/AAAA1AAAADUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABjAAAA/wAAAOcAAAAnAAAAAA
-AAAAAAAAAAAAAAADUAAADHUAAAD/AAAA6gAAAFYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA
-AF8AAADuAAAA/wAAAM0AAAAtAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEQAAAD3AAAA9gAAAEEAAAAAAAAAAAAA
-AAAtAAAAzQAAAP8AAADuAAAAXwAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAaQ
-AAAPIAAAD/AAAApgAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAKQAAAOgAAAD/AAAAYQAAAAAAAAAAAAAABAAAAKYAAAD
-/AAAA8gAAAGkAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABwA
-AAA3gAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAVAAAA0wAAAP8AAACCAAAAAAAAAAAAAAABAAAAgAAAAN4AA
-ABwAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAGwA
-AAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAC4AAAA/wAAAKQAAAACAAAAAAAAAAAAAAAJAAAAGwAAAA
-QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACYAAAADwAAAwwAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAcgAAAP8AAADSAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjAAAAmgAAAGcAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
-"""
+# Icon removed for cleaner implementation
+
+
+# ----------------------------
+# Stop/Cancel and Error Handling Utilities
+# ----------------------------
+def kill_process_tree(pid):
+    """Kill a process and all its children."""
+    if not psutil:
+        try:
+            if sys.platform == 'win32':
+                subprocess.run(['taskkill', '/F', '/T', '/PID', str(pid)], check=False)
+            else:
+                os.killpg(os.getpgid(pid), signal.SIGTERM)
+        except:
+            pass
+        return
+    
+    try:
+        parent = psutil.Process(pid)
+        children = parent.children(recursive=True)
+        
+        for child in children:
+            try:
+                child.kill()
+            except:
+                pass
+        
+        try:
+            parent.kill()
+        except:
+            pass
+            
+        try:
+            gone, alive = psutil.wait_procs(children + [parent], timeout=3)
+        except:
+            pass
+            
+    except (psutil.NoSuchProcess, AttributeError):
+        pass
+    except Exception as e:
+        print(f"Error killing process tree: {e}")
+
+def check_internet_connection():
+    """Check if internet connection is available."""
+    try:
+        urllib.request.urlopen('https://www.google.com', timeout=5)
+        return True
+    except:
+        return False
+
+# Timeout settings (in seconds)
+DOWNLOAD_TIMEOUT = 600  # 10 minutes for downloads
+NETWORK_CHECK_TIMEOUT = 10  # 10 seconds for network checks
 
 # ----------------------------
 # Configuration (adjust if desired)
@@ -316,6 +319,11 @@ class VocalRemoverApp:
         self.total_steps = 0
         self.current_step = 0
         self.progress_label_var = tk.StringVar(value="Ready")
+        
+        # Stop/Cancel functionality
+        self.should_stop = False
+        self.current_process = None
+        self.current_thread = None
 
         Path(self.output_folder.get()).mkdir(parents=True, exist_ok=True)
         self.create_menu()
@@ -645,12 +653,23 @@ Created with ❤️ by the LetUsTech community"""
                       variable=self.auto_install_pip, bg=self.bg_medium, fg=self.text_white, 
                       selectcolor=self.bg_dark, font=('Segoe UI', 9), activebackground=self.bg_medium).pack(anchor='w', pady=3)
 
+        # Button container for process and stop buttons
+        button_frame = tk.Frame(main_frame, bg=self.bg_medium)
+        button_frame.pack(pady=(0, 15), fill='x')
+        
         # Large process button with modern green styling
-        self.process_btn = tk.Button(main_frame, text="⬇ Download", command=self.start_processing, 
+        self.process_btn = tk.Button(button_frame, text="⬇ Download", command=self.start_processing, 
                                      bg=self.accent_green, fg=self.bg_dark, 
                                      font=('Segoe UI', 14, 'bold'), cursor='hand2', bd=0, 
                                      pady=15, activebackground='#00dd77')
-        self.process_btn.pack(pady=(0, 15), fill='x')
+        self.process_btn.pack(side='left', fill='both', expand=True, padx=(0, 5))
+        
+        # Stop button (initially disabled)
+        self.stop_btn = tk.Button(button_frame, text="⏹ Stop", command=self.stop_processing,
+                                  bg='#ff4444', fg=self.text_white,
+                                  font=('Segoe UI', 14, 'bold'), cursor='hand2', bd=0,
+                                  pady=15, activebackground='#cc0000', state='disabled')
+        self.stop_btn.pack(side='left', padx=(5, 0))
 
         # Progress section with modern styling
         self.progress_frame = tk.LabelFrame(main_frame, text="  📊 Progress  ", font=('Segoe UI', 11, 'bold'), 
@@ -700,6 +719,37 @@ Created with ❤️ by the LetUsTech community"""
         self.status_text.insert('end', f"[{timestamp}] {message}\n")
         self.status_text.see('end')
         self.root.update()
+
+    def check_should_stop(self):
+        """Check if processing should stop."""
+        return self.should_stop
+    
+    def stop_processing(self):
+        """Stop the current processing."""
+        if not self.processing:
+            return
+        
+        response = messagebox.askyesno(
+            "Stop Processing",
+            "Are you sure you want to stop the current process?\n\n"
+            "Any progress will be lost."
+        )
+        
+        if response:
+            self.should_stop = True
+            self.log_status("\n" + "=" * 60)
+            self.log_status("⏹ STOP REQUESTED - Cancelling process...")
+            self.log_status("=" * 60)
+            self.root.after(0, lambda: self.progress_label_var.set("Stopping..."))
+            self.root.after(0, lambda: self.progress_bar.config(value=0))
+            
+            # Kill current process if exists
+            if self.current_process:
+                try:
+                    kill_process_tree(self.current_process.pid)
+                    self.log_status("✓ Process terminated")
+                except Exception as e:
+                    self.log_status(f"⚠ Error terminating process: {e}")
 
     def update_progress(self, step_name, step_number=None):
         """Update progress bar and show estimated time remaining"""
@@ -817,6 +867,16 @@ Created with ❤️ by the LetUsTech community"""
     def download_youtube(self, url):
         """Downloads audio or full video depending on 'create_video_output' flag."""
         try:
+            # Check internet connection first
+            self.log_status("Checking internet connection...")
+            if not check_internet_connection():
+                raise Exception("No internet connection detected. Please check your network and try again.")
+            self.log_status("✓ Internet connection OK")
+            
+            # Check if stop was requested
+            if self.check_should_stop():
+                raise InterruptedError("Download stopped by user")
+            
             self.log_status("📥 Starting YouTube download with yt-dlp...")
             # Ensure yt-dlp present
             if self.auto_install_pip.get():
@@ -853,14 +913,38 @@ Created with ❤️ by the LetUsTech community"""
                 ]
 
             self.log_status("Running yt-dlp...")
-            proc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=900)
+            
+            # Run with Popen so we can track the process
+            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            self.current_process = proc
+            
+            # Wait for completion with periodic stop checks
+            start_time = time.time()
+            while proc.poll() is None:
+                if self.check_should_stop():
+                    kill_process_tree(proc.pid)
+                    raise InterruptedError("Download stopped by user")
+                
+                # Check for timeout (15 minutes)
+                if time.time() - start_time > 900:
+                    kill_process_tree(proc.pid)
+                    raise Exception("Download timeout after 15 minutes")
+                
+                time.sleep(1)
+            
+            stdout, stderr = proc.communicate()
+            self.current_process = None
+            
             # Log relevant lines
-            if proc.stdout:
-                for line in proc.stdout.splitlines():
+            if stdout:
+                for line in stdout.splitlines():
                     if any(k in line for k in ("Destination:", "Downloading", "Merged", "has already been downloaded")):
                         self.log_status("  " + line.strip())
             if proc.returncode != 0:
-                combined = (proc.stderr or proc.stdout or "")[:2000]
+                combined = (stderr or stdout or "")[:2000]
+                # Check if it's a network error
+                if any(err in combined.lower() for err in ["network", "connection", "timeout", "unable to download"]):
+                    raise Exception(f"Network error during download: {combined}")
                 raise Exception(f"yt-dlp failed: {combined}")
 
             # find downloaded file
@@ -1242,6 +1326,11 @@ Created with ❤️ by the LetUsTech community"""
                     print("DEBUG: YouTube URL detected, downloading...")  # Debug output
                 self.update_progress("Downloading from YouTube", 1)
                 downloaded = self.download_youtube(self.youtube_url.get().strip())
+                
+                # Check if stop was requested
+                if self.check_should_stop():
+                    raise InterruptedError("Download stopped by user")
+                
                 input_path = downloaded
                 if self.debug_mode.get():
                     print(f"DEBUG: Downloaded to: {input_path}")  # Debug output
@@ -1374,22 +1463,44 @@ Created with ❤️ by the LetUsTech community"""
             # Show completion popup with first few files
             first_files = "\n".join(created_files[:6])
             self.root.after(0, lambda: messagebox.showinfo("Success", f"Outputs created in {time_str}:\n\n{first_files}\n\nSaved to:\n{out_dir}"))
+        except InterruptedError as e:
+            # User stopped the process
+            self.log_status("\n" + "=" * 60)
+            self.log_status("⏹ STOPPED: Processing cancelled by user")
+            self.log_status("=" * 60)
+            self.root.after(0, lambda: messagebox.showwarning("Stopped", "Processing was stopped by user."))
         except Exception as e:
             # Surface full exception message
             if self.debug_mode.get():
                 print(f"DEBUG: Exception caught: {type(e).__name__}: {e}")  # Debug output
                 import traceback
                 traceback.print_exc()  # Print full traceback to console
+            
             emsg = str(e) if str(e) else "Unknown error"
             self.log_status("\n❌ ERROR: " + emsg)
-            self.root.after(0, lambda: messagebox.showerror("Error", f"An error occurred:\n\n{emsg}"))
+            
+            # Provide context-specific error messages
+            if "network" in emsg.lower() or "connection" in emsg.lower() or "internet" in emsg.lower():
+                error_title = "Network Error"
+                error_details = f"A network error occurred:\n\n{emsg}\n\nPlease check your internet connection and try again."
+            elif "timeout" in emsg.lower():
+                error_title = "Timeout Error"
+                error_details = f"Operation timed out:\n\n{emsg}\n\nThe download or process took too long. Please try again."
+            else:
+                error_title = "Error"
+                error_details = f"An error occurred:\n\n{emsg}\n\nCheck the debug console for more details."
+            
+            self.root.after(0, lambda: messagebox.showerror(error_title, error_details))
         finally:
             if self.debug_mode.get():
                 print("DEBUG: Finally block - cleaning up")  # Debug output
             self.processing = False
+            self.should_stop = False
+            self.current_process = None
             self.root.after(0, lambda: self.progress_bar.config(value=0))
             self.root.after(0, lambda: self.progress_label_var.set("Ready"))
             self.root.after(0, lambda: self.process_btn.config(state='normal', text="⬇ Download"))
+            self.root.after(0, lambda: self.stop_btn.config(state='disabled'))
             if self.debug_mode.get():
                 print("DEBUG: Cleanup complete")  # Debug output
 
@@ -1459,7 +1570,9 @@ Created with ❤️ by the LetUsTech community"""
             self.status_text.delete('1.0', 'end')
             self.log_status("Starting processing...")  # Add initial log
             self.processing = True
+            self.should_stop = False  # Reset stop flag
             self.process_btn.config(state='disabled', text="⏳ Processing...")
+            self.stop_btn.config(state='normal')  # Enable stop button
             self.progress_bar.config(value=0)
             self.progress_label_var.set("Starting...")
             if self.debug_mode.get():
