@@ -34,6 +34,13 @@ import webbrowser
 import base64
 import io
 import re
+import signal
+
+# Optional: psutil for better process management
+try:
+    import psutil
+except ImportError:
+    psutil = None
 
 # ----------------------------
 # LetUsTech Icon (Base64 encoded .ico file)
@@ -298,7 +305,28 @@ class VocalRemoverApp:
         
         self.root.configure(bg=self.bg_dark)
         
-        # Icon removed for cleaner look
+        # Set favicon if available - try multiple methods
+        favicon_loaded = False
+        favicon_paths = ["favicon.ico", "fixed_favicon.ico"]
+        
+        for favicon_path in favicon_paths:
+            try:
+                if os.path.exists(favicon_path):
+                    self.root.iconbitmap(favicon_path)
+                    favicon_loaded = True
+                    break
+            except Exception:
+                continue
+        
+        # Alternative method if iconbitmap fails
+        if not favicon_loaded:
+            try:
+                # Try using PhotoImage as fallback (works with PNG/GIF)
+                if os.path.exists("favicon.ico"):
+                    # Convert ICO to PhotoImage if needed
+                    pass  # ICO files work best with iconbitmap
+            except Exception:
+                pass  # Silently continue if all favicon methods fail
 
         # Variables
         self.input_file = tk.StringVar()
@@ -448,7 +476,7 @@ Need more help? Visit letustech.uk"""
         header_frame = tk.Frame(container, bg='#001f3f')
         header_frame.pack(pady=(0, 15))
         
-        tk.Label(header_frame, text="🎵 LetUsTech", font=('Arial', 28, 'bold'), 
+        tk.Label(header_frame, text="LetUsTech", font=('Arial', 28, 'bold'), 
                 bg='#001f3f', fg='#00ff00').pack()
         tk.Label(header_frame, text="Vocal Remover", font=('Arial', 16), 
                 bg='#001f3f', fg='white').pack()
@@ -528,7 +556,7 @@ Created with ❤️ by the LetUsTech community"""
         # Text-based logo with coding icon
         logo_frame = tk.Frame(title_section, bg=self.bg_dark)
         logo_frame.pack(side='left', padx=(0, 15))
-        tk.Label(logo_frame, text="</>\n🎵", font=('Courier New', 20, 'bold'), 
+        tk.Label(logo_frame, text="</>", font=('Courier New', 20, 'bold'), 
                 bg=self.bg_dark, fg=self.accent_green, justify='center').pack()
         
         # Title text
