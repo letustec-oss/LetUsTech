@@ -3,1302 +3,699 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Analyzer Pro - Enterprise Edition</title>
+    <title>Data Analyzer Pro — LetUsTech</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-H548VRKNHW');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg:       #0b0e14;
+            --bg2:      #111520;
+            --bg3:      #181d2a;
+            --surface:  #1c2233;
+            --border:   rgba(255,255,255,0.07);
+            --green:    #00e676;
+            --green2:   #00c05a;
+            --green-dim:#00e67622;
+            --text:     #e8eaf0;
+            --muted:    #7a839a;
+            --white:    #ffffff;
+            --radius:   12px;
+            --radius-lg:20px;
+            --font-head:'Syne', sans-serif;
+            --font-body:'DM Sans', sans-serif;
         }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
-            line-height: 1.6;
+        .app-wrap { max-width: 1320px; margin: 0 auto; padding: 2rem; }
+
+        /* HEADER */
+        .app-header {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2rem 2.5rem;
+            margin-bottom: 1.5rem;
+            display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
+        .app-header-left { display: flex; align-items: center; gap: 1.25rem; }
+        .app-logo-mark {
+            width: 48px; height: 48px; border-radius: var(--radius);
+            background: var(--green-dim); border: 1px solid rgba(0,230,118,0.25);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; flex-shrink: 0;
         }
+        .app-header h1 { font-family: var(--font-head); font-size: 1.5rem; font-weight: 800; color: var(--white); letter-spacing: -0.02em; }
+        .app-header p { color: var(--muted); font-size: 0.88rem; margin-top: 0.2rem; }
+        .app-header-link { color: var(--muted); font-size: 0.85rem; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
+        .app-header-link:hover { color: var(--green); }
 
-        .header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            padding: 2.5rem 2rem;
-            border-radius: 16px;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        }
-
-            .header h1 {
-                font-size: 2rem;
-                font-weight: 700;
-                color: #ffffff;
-                margin-bottom: 0.5rem;
-                letter-spacing: -0.025em;
-            }
-
-            .header p {
-                color: #94a3b8;
-                font-size: 0.95rem;
-                font-weight: 400;
-            }
-
-        .upload-section {
-            background: white;
-            border-radius: 16px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-        }
-
+        /* UPLOAD */
+        .upload-section { margin-bottom: 1.5rem; }
         .upload-area {
-            border: 2px dashed #cbd5e1;
-            border-radius: 12px;
-            padding: 3rem;
+            border: 1.5px dashed rgba(0,230,118,0.25);
+            border-radius: var(--radius-lg);
+            padding: 3rem 2rem;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            background: #f8fafc;
+            transition: all 0.25s;
+            background: var(--bg2);
         }
-
-            .upload-area:hover {
-                border-color: #3b82f6;
-                background: #eff6ff;
-            }
-
+        .upload-area:hover { border-color: rgba(0,230,118,0.5); background: var(--bg3); }
         .upload-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 28px;
+            width: 60px; height: 60px; margin: 0 auto 1.25rem;
+            background: var(--green-dim); border: 1px solid rgba(0,230,118,0.25);
+            border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
         }
+        .upload-text { color: var(--text); font-size: 1rem; font-weight: 500; margin-bottom: 0.4rem; }
+        .upload-subtext { color: var(--muted); font-size: 0.85rem; }
+        .upload-accent { color: var(--green); }
 
-        .upload-text {
-            color: #475569;
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-
-        .upload-subtext {
-            color: #94a3b8;
-            font-size: 0.875rem;
-        }
-
-        .tabs-container {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-            margin-bottom: 2rem;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 0.25rem;
-            padding: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-            overflow-x: auto;
-        }
-
+        /* TABS */
+        .tabs-container { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1.5rem; overflow: hidden; }
+        .tabs { display: flex; gap: 0.25rem; padding: 0.75rem; border-bottom: 1px solid var(--border); overflow-x: auto; }
         .tab {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            background: transparent;
-            color: #64748b;
-            font-weight: 500;
-            font-size: 0.875rem;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            padding: 0.6rem 1.25rem; border: none; background: transparent;
+            color: var(--muted); font-family: var(--font-body); font-weight: 400; font-size: 0.87rem;
+            cursor: pointer; border-radius: 8px; transition: all 0.2s;
+            white-space: nowrap; display: flex; align-items: center; gap: 0.5rem;
         }
+        .tab:hover { background: var(--surface); color: var(--text); }
+        .tab.active { background: var(--green); color: #000; font-weight: 500; }
 
-            .tab:hover {
-                background: #f1f5f9;
-                color: #1e293b;
-            }
+        /* CONTENT PANEL */
+        .content { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; }
 
-            .tab.active {
-                background: #3b82f6;
-                color: white;
-                box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
-            }
-
-        .content {
-            background: white;
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-        }
-
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
+        /* STAT CARDS */
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
         .stat-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 1.5rem; position: relative; overflow: hidden; transition: border-color 0.2s;
         }
+        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--green); opacity: 0.6; }
+        .stat-card:hover { border-color: rgba(0,230,118,0.25); }
+        .stat-value { font-family: var(--font-head); font-size: 2.2rem; font-weight: 800; color: var(--white); line-height: 1; margin-bottom: 0.4rem; }
+        .stat-label { color: var(--muted); font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+        .stat-sublabel { color: var(--muted); font-size: 0.75rem; margin-top: 0.2rem; opacity: 0.7; }
 
-            .stat-card::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 4px;
-                background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            }
+        /* SECTIONS */
+        .section { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+        .section-title { font-family: var(--font-head); font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.6rem; }
 
-            .stat-card:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-            }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 0.5rem;
-            line-height: 1;
-        }
-
-        .stat-label {
-            color: #64748b;
-            font-size: 0.875rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .stat-sublabel {
-            color: #94a3b8;
-            font-size: 0.75rem;
-            margin-top: 0.25rem;
-        }
-
-        .section {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .section-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #0f172a;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
+        /* BADGE CHIPS */
         .badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #475569;
-            margin: 0.25rem;
-            transition: all 0.2s ease;
+            display: inline-block; padding: 0.35rem 0.85rem;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 999px; font-size: 0.8rem; color: var(--muted);
+            margin: 0.2rem; transition: all 0.2s; cursor: default;
         }
+        .badge:hover { border-color: rgba(0,230,118,0.3); color: var(--green); }
 
-            .badge:hover {
-                border-color: #3b82f6;
-                box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
-            }
+        /* INSIGHT ITEMS */
+        .insight-item { padding: 0.7rem 0; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 0.88rem; display: flex; align-items: flex-start; gap: 0.75rem; }
+        .insight-item:last-child { border-bottom: none; }
+        .insight-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; margin-top: 0.5rem; }
 
-        .btn {
-            padding: 0.875rem 1.75rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+        /* BUTTONS */
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: var(--radius); font-family: var(--font-body); font-weight: 500; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-primary { background: var(--green); color: #000; }
+        .btn-primary:hover { background: var(--green2); transform: translateY(-1px); }
+        .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+        .btn-outline:hover { background: var(--surface); border-color: rgba(255,255,255,0.15); }
 
-        .btn-primary {
-            background: #3b82f6;
-            color: white;
-            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
-        }
-
-            .btn-primary:hover {
-                background: #2563eb;
-                box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.5);
-                transform: translateY(-1px);
-            }
-
+        /* SELECT */
+        .select-label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
         .select {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            color: #1e293b;
-            background: white;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            width: 100%; padding: 0.8rem 1rem;
+            border: 1px solid var(--border); border-radius: var(--radius);
+            font-family: var(--font-body); font-size: 0.9rem; color: var(--text);
+            background: var(--bg3); cursor: pointer; transition: border-color 0.2s; margin-bottom: 1.5rem;
         }
+        .select:focus { outline: none; border-color: rgba(0,230,118,0.4); }
+        .select option { background: var(--bg3); }
 
-            .select:focus {
-                outline: none;
-                border-color: #3b82f6;
-                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-            }
+        /* STATS COLUMN HEADER */
+        .stats-col-header { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+        .stats-col-header .col-name { font-family: var(--font-head); font-size: 1.3rem; font-weight: 700; color: var(--white); }
+        .stats-col-header .col-sub { color: var(--muted); font-size: 0.85rem; margin-top: 0.25rem; }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
+        /* STATS GRID */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; margin-top: 1.25rem; }
+        .stats-item { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem; transition: border-color 0.2s; }
+        .stats-item:hover { border-color: rgba(0,230,118,0.25); }
+        .stats-item-value { font-family: var(--font-head); font-size: 1.5rem; font-weight: 700; color: var(--green); margin-bottom: 0.25rem; }
+        .stats-item-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 500; }
 
-        .stats-item {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1.25rem;
-            transition: all 0.2s ease;
-        }
+        /* CHARTS */
+        .chart-container { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.25rem; }
+        .chart-title { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
 
-            .stats-item:hover {
-                border-color: #3b82f6;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            }
+        /* CORRELATION */
+        .legend { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 1.25rem; }
+        .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--muted); }
+        .legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+        .correlation-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .correlation-table th, .correlation-table td { padding: 0.6rem; text-align: center; font-size: 0.82rem; }
+        .correlation-table th { background: var(--bg3); font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); }
+        .correlation-cell { border-radius: 6px; padding: 0.4rem 0.5rem; font-weight: 600; font-size: 0.82rem; color: #fff; transition: transform 0.15s; cursor: default; }
+        .correlation-cell:hover { transform: scale(1.12); }
 
-        .stats-item-value {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #3b82f6;
-            margin-bottom: 0.25rem;
-        }
+        /* OUTLIERS */
+        .outlier-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem; }
+        .outlier-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.1rem; flex-wrap: wrap; gap: 0.75rem; }
+        .outlier-title { font-family: var(--font-head); font-size: 1rem; font-weight: 600; color: var(--white); }
+        .outlier-badge { padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
+        .outlier-badge.has-outliers { background: rgba(220,38,38,0.12); color: #f87171; border: 1px solid rgba(220,38,38,0.25); }
+        .outlier-badge.no-outliers { background: rgba(0,230,118,0.1); color: var(--green); border: 1px solid rgba(0,230,118,0.25); }
+        .outlier-metrics { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.75rem; }
+        .outlier-metric { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem; }
+        .outlier-metric-label { font-size: 0.72rem; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+        .outlier-metric-value { font-family: var(--font-head); font-size: 1.2rem; font-weight: 700; color: var(--white); }
+        .outlier-samples { margin-top: 1rem; padding: 1rem; background: rgba(220,38,38,0.06); border: 1px solid rgba(220,38,38,0.15); border-radius: 8px; }
+        .outlier-samples-label { font-size: 0.72rem; color: #f87171; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.6rem; }
+        .outlier-sample-tag { display: inline-block; padding: 0.3rem 0.65rem; background: var(--bg2); border: 1px solid rgba(220,38,38,0.2); border-radius: 6px; font-size: 0.82rem; font-weight: 600; color: #f87171; margin: 0.2rem; }
 
-        .stats-item-label {
-            font-size: 0.75rem;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 500;
-        }
+        /* DATA TABLE */
+        .data-table-wrap { overflow-x: auto; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .data-table th { background: var(--bg2); padding: 0.85rem 1rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.06em; white-space: nowrap; }
+        .data-table td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); color: var(--text); }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover td { background: var(--surface); }
+        .row-num { color: var(--muted); font-size: 0.8rem; }
 
-        .chart-container {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
+        /* SEARCH */
+        .search-wrapper { position: relative; margin-bottom: 1.25rem; }
+        .search-input { width: 100%; padding: 0.8rem 1rem 0.8rem 2.75rem; border: 1px solid var(--border); border-radius: var(--radius); font-family: var(--font-body); font-size: 0.9rem; color: var(--text); background: var(--bg3); transition: border-color 0.2s; }
+        .search-input:focus { outline: none; border-color: rgba(0,230,118,0.4); }
+        .search-input::placeholder { color: var(--muted); }
+        .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.95rem; pointer-events: none; }
 
-        .chart-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #0f172a;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+        /* PAGINATION */
+        .pagination { display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 1rem; }
+        .pagination-info { color: var(--muted); font-size: 0.85rem; }
+        .pagination-info strong { color: var(--text); }
+        .pagination-controls { display: flex; gap: 0.5rem; align-items: center; }
+        .pagination-btn { padding: 0.45rem 0.9rem; border: 1px solid var(--border); background: var(--bg3); border-radius: 6px; font-family: var(--font-body); font-size: 0.85rem; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+        .pagination-btn:hover:not(:disabled) { border-color: rgba(0,230,118,0.4); color: var(--green); }
+        .pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .pagination-current { padding: 0.45rem 0.9rem; background: var(--surface); border-radius: 6px; font-size: 0.85rem; color: var(--text); }
 
-        .correlation-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            overflow: hidden;
-        }
+        /* INFO BOX */
+        .info-box { background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-top: 1.5rem; }
+        .info-box-title { font-weight: 600; color: var(--green); margin-bottom: 0.75rem; font-size: 0.9rem; }
+        .info-box-content { color: var(--muted); font-size: 0.87rem; line-height: 1.7; }
+        .info-box-content ul { list-style: none; padding: 0; }
+        .info-box-content li { padding: 0.25rem 0 0.25rem 1.4rem; position: relative; }
+        .info-box-content li::before { content: '→'; position: absolute; left: 0; color: var(--green); font-size: 0.8rem; }
+        .info-box-content strong { color: var(--text); }
+        .info-box-content p { margin-bottom: 0.5rem; }
 
-            .correlation-table th,
-            .correlation-table td {
-                padding: 0.75rem;
-                text-align: center;
-                font-size: 0.875rem;
-            }
-
-            .correlation-table th {
-                background: #f8fafc;
-                font-weight: 600;
-                color: #475569;
-                border-bottom: 2px solid #e2e8f0;
-            }
-
-        .correlation-cell {
-            border-radius: 6px;
-            padding: 0.5rem;
-            font-weight: 600;
-            color: white;
-            transition: all 0.2s ease;
-        }
-
-            .correlation-cell:hover {
-                transform: scale(1.1);
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-            }
-
-        .outlier-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .outlier-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.25rem;
-        }
-
-        .outlier-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #0f172a;
-        }
-
-        .outlier-badge {
-            padding: 0.375rem 0.875rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-            .outlier-badge.has-outliers {
-                background: #fee2e2;
-                color: #dc2626;
-            }
-
-            .outlier-badge.no-outliers {
-                background: #d1fae5;
-                color: #059669;
-            }
-
-        .outlier-metrics {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        .outlier-metric {
-            background: #f8fafc;
-            border-radius: 8px;
-            padding: 1rem;
-        }
-
-        .outlier-metric-label {
-            font-size: 0.75rem;
-            color: #64748b;
-            margin-bottom: 0.25rem;
-            font-weight: 500;
-        }
-
-        .outlier-metric-value {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #0f172a;
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.875rem;
-        }
-
-            .data-table th {
-                background: #f8fafc;
-                padding: 1rem;
-                text-align: left;
-                font-weight: 600;
-                color: #475569;
-                border-bottom: 2px solid #e2e8f0;
-                position: sticky;
-                top: 0;
-                text-transform: uppercase;
-                font-size: 0.75rem;
-                letter-spacing: 0.05em;
-            }
-
-            .data-table td {
-                padding: 1rem;
-                border-bottom: 1px solid #e2e8f0;
-                color: #1e293b;
-            }
-
-            .data-table tr:hover {
-                background: #f8fafc;
-            }
-
-        .pagination {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .pagination-info {
-            color: #64748b;
-            font-size: 0.875rem;
-        }
-
-        .pagination-controls {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .pagination-btn {
-            padding: 0.5rem 1rem;
-            border: 1px solid #e2e8f0;
-            background: white;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: #475569;
-        }
-
-            .pagination-btn:hover:not(:disabled) {
-                border-color: #3b82f6;
-                color: #3b82f6;
-            }
-
-            .pagination-btn:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
-
-        .pagination-current {
-            padding: 0.5rem 1rem;
-            background: #f8fafc;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #1e293b;
-        }
-
-        .info-box {
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-left: 4px solid #3b82f6;
-            border-radius: 8px;
-            padding: 1.25rem;
-            margin-top: 1.5rem;
-        }
-
-        .info-box-title {
-            font-weight: 600;
-            color: #1e40af;
-            margin-bottom: 0.75rem;
-            font-size: 0.95rem;
-        }
-
-        .info-box-content {
-            color: #1e40af;
-            font-size: 0.875rem;
-            line-height: 1.6;
-        }
-
-            .info-box-content ul {
-                list-style: none;
-                padding: 0;
-            }
-
-            .info-box-content li {
-                padding: 0.25rem 0;
-                padding-left: 1.5rem;
-                position: relative;
-            }
-
-                .info-box-content li::before {
-                    content: '?';
-                    position: absolute;
-                    left: 0;
-                    color: #3b82f6;
-                    font-weight: 600;
-                }
-
-        .search-input {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            padding-left: 2.75rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            background: white;
-            transition: all 0.2s ease;
-            margin-bottom: 1.5rem;
-        }
-
-            .search-input:focus {
-                outline: none;
-                border-color: #3b82f6;
-                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-            }
-
-        .search-wrapper {
-            position: relative;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            font-size: 1.1rem;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .insight-item {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #e2e8f0;
-            color: #475569;
-            font-size: 0.875rem;
-        }
-
-            .insight-item:last-child {
-                border-bottom: none;
-            }
+        .hidden { display: none; }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-
-            .stat-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .outlier-metrics {
-                grid-template-columns: 1fr;
-            }
-
-            .header h1 {
-                font-size: 1.5rem;
-            }
+            .app-wrap { padding: 1rem; }
+            .stat-grid { grid-template-columns: 1fr 1fr; }
+            .outlier-metrics { grid-template-columns: 1fr; }
+            .app-header { flex-direction: column; align-items: flex-start; }
         }
     </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-H548VRKNHW');
-</script>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>?? Data Analyzer Pro</h1>
-            <p>Enterprise-grade statistical analysis and data visualization platform</p>
-        </div>
 
-        <div class="upload-section">
-            <label for="fileInput">
-                <div class="upload-area">
-                    <div class="upload-icon">??</div>
-                    <div class="upload-text">Click or drag to upload your dataset</div>
-                    <div class="upload-subtext">Supports CSV files � Maximum precision analysis</div>
-                </div>
-            </label>
-            <input type="file" id="fileInput" style="display: none;" accept=".csv">
-        </div>
+<div class="app-wrap">
 
-        <div id="content" class="hidden">
-            <div class="tabs-container">
-                <div class="tabs" id="tabs"></div>
+    <!-- Header -->
+    <div class="app-header">
+        <div class="app-header-left">
+            <div class="app-logo-mark">📊</div>
+            <div>
+                <h1>Data Analyzer Pro</h1>
+                <p>Statistical analysis and data visualization — by LetUsTech</p>
             </div>
-            <div class="content" id="tabContent"></div>
         </div>
+        <a href="index.html" class="app-header-link">← Back to LetUsTech</a>
     </div>
 
-    <script>
-        let data = null;
-        let headers = [];
-        let statistics = {};
-        let correlations = {};
-        let outliers = {};
-        let activeTab = 'overview';
-        let selectedColumn = '';
-        let searchTerm = '';
-        let currentPage = 1;
-        const rowsPerPage = 25;
+    <!-- Upload -->
+    <div class="upload-section">
+        <label for="fileInput">
+            <div class="upload-area">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">Click or drag to upload your dataset</div>
+                <div class="upload-subtext">Supports CSV files &nbsp;·&nbsp; <span class="upload-accent">Maximum precision analysis</span></div>
+            </div>
+        </label>
+        <input type="file" id="fileInput" style="display:none;" accept=".csv">
+    </div>
 
-        const tabs = [
-            { id: 'overview', icon: '??', label: 'Overview' },
-            { id: 'statistics', icon: '??', label: 'Statistics' },
-            { id: 'visualizations', icon: '??', label: 'Visualizations' },
-            { id: 'correlations', icon: '??', label: 'Correlations' },
-            { id: 'outliers', icon: '??', label: 'Outliers' },
-            { id: 'data', icon: '??', label: 'Data Explorer' }
-        ];
+    <!-- Content (hidden until file loaded) -->
+    <div id="content" class="hidden">
+        <div class="tabs-container">
+            <div class="tabs" id="tabs"></div>
+        </div>
+        <div class="content" id="tabContent"></div>
+    </div>
 
-        document.getElementById('fileInput').addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            if (file) {
-                Papa.parse(file, {
-                    complete: function (results) {
-                        headers = results.data[0];
-                        data = results.data.slice(1).filter(row => row.some(cell => cell !== ''));
-                        selectedColumn = headers[0];
+</div>
 
-                        calculateStatistics();
-                        calculateCorrelations();
-                        detectOutliers();
+<script>
+    let data = null;
+    let headers = [];
+    let statistics = {};
+    let correlations = {};
+    let outliers = {};
+    let activeTab = 'overview';
+    let selectedColumn = '';
+    let searchTerm = '';
+    let currentPage = 1;
+    const rowsPerPage = 25;
 
-                        document.getElementById('content').classList.remove('hidden');
-                        renderTabs();
-                        renderContent();
-                    },
-                    header: false
-                });
+    const tabs = [
+        { id: 'overview',       icon: '🗂',  label: 'Overview' },
+        { id: 'statistics',     icon: '📐',  label: 'Statistics' },
+        { id: 'visualizations', icon: '📈',  label: 'Visualizations' },
+        { id: 'correlations',   icon: '🔗',  label: 'Correlations' },
+        { id: 'outliers',       icon: '⚠',   label: 'Outliers' },
+        { id: 'data',           icon: '🔍',  label: 'Data Explorer' }
+    ];
+
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            Papa.parse(file, {
+                complete: function(results) {
+                    headers = results.data[0];
+                    data = results.data.slice(1).filter(row => row.some(cell => cell !== ''));
+                    selectedColumn = headers[0];
+                    calculateStatistics();
+                    calculateCorrelations();
+                    detectOutliers();
+                    document.getElementById('content').classList.remove('hidden');
+                    renderTabs();
+                    renderContent();
+                },
+                header: false
+            });
+        }
+    });
+
+    function calculateStatistics() {
+        statistics = {};
+        headers.forEach((header, index) => {
+            const values = data.map(row => parseFloat(row[index])).filter(v => !isNaN(v));
+            if (values.length > 0) {
+                const sorted = [...values].sort((a, b) => a - b);
+                const sum = values.reduce((a, b) => a + b, 0);
+                const mean = sum / values.length;
+                const variance = values.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / values.length;
+                const stdDev = Math.sqrt(variance);
+                const q1Index = Math.floor(sorted.length * 0.25);
+                const q3Index = Math.floor(sorted.length * 0.75);
+                const medianIndex = Math.floor(sorted.length / 2);
+                statistics[header] = {
+                    count: values.length,
+                    mean: mean.toFixed(2),
+                    median: (sorted.length % 2 === 0 ? ((sorted[medianIndex-1]+sorted[medianIndex])/2) : sorted[medianIndex]).toFixed(2),
+                    min: Math.min(...values).toFixed(2),
+                    max: Math.max(...values).toFixed(2),
+                    stdDev: stdDev.toFixed(2),
+                    variance: variance.toFixed(2),
+                    q1: sorted[q1Index].toFixed(2),
+                    q3: sorted[q3Index].toFixed(2),
+                    iqr: (sorted[q3Index] - sorted[q1Index]).toFixed(2),
+                    range: (Math.max(...values) - Math.min(...values)).toFixed(2),
+                    sum: sum.toFixed(2)
+                };
             }
         });
+    }
 
-        function calculateStatistics() {
-            statistics = {};
-            headers.forEach((header, index) => {
-                const values = data.map(row => parseFloat(row[index])).filter(v => !isNaN(v));
-
-                if (values.length > 0) {
-                    const sorted = [...values].sort((a, b) => a - b);
-                    const sum = values.reduce((a, b) => a + b, 0);
-                    const mean = sum / values.length;
-                    const variance = values.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / values.length;
-                    const stdDev = Math.sqrt(variance);
-
-                    const q1Index = Math.floor(sorted.length * 0.25);
-                    const q3Index = Math.floor(sorted.length * 0.75);
-                    const medianIndex = Math.floor(sorted.length / 2);
-
-                    statistics[header] = {
-                        count: values.length,
-                        mean: mean.toFixed(2),
-                        median: (sorted.length % 2 === 0
-                            ? ((sorted[medianIndex - 1] + sorted[medianIndex]) / 2)
-                            : sorted[medianIndex]).toFixed(2),
-                        min: Math.min(...values).toFixed(2),
-                        max: Math.max(...values).toFixed(2),
-                        stdDev: stdDev.toFixed(2),
-                        variance: variance.toFixed(2),
-                        q1: sorted[q1Index].toFixed(2),
-                        q3: sorted[q3Index].toFixed(2),
-                        iqr: (sorted[q3Index] - sorted[q1Index]).toFixed(2),
-                        range: (Math.max(...values) - Math.min(...values)).toFixed(2),
-                        sum: sum.toFixed(2)
-                    };
-                }
+    function calculateCorrelations() {
+        correlations = {};
+        const numericColumns = headers.filter((header, index) => data.some(row => !isNaN(parseFloat(row[index]))));
+        numericColumns.forEach(col1 => {
+            correlations[col1] = {};
+            numericColumns.forEach(col2 => {
+                const idx1 = headers.indexOf(col1);
+                const idx2 = headers.indexOf(col2);
+                const values1 = data.map(row => parseFloat(row[idx1])).filter(v => !isNaN(v));
+                const values2 = data.map(row => parseFloat(row[idx2])).filter(v => !isNaN(v));
+                correlations[col1][col2] = calculatePearson(values1, values2);
             });
-        }
+        });
+    }
 
-        function calculateCorrelations() {
-            correlations = {};
-            const numericColumns = headers.filter((header, index) => {
-                return data.some(row => !isNaN(parseFloat(row[index])));
-            });
+    function calculatePearson(x, y) {
+        const n = Math.min(x.length, y.length);
+        if (n === 0) return 0;
+        const sumX = x.slice(0,n).reduce((a,b)=>a+b,0);
+        const sumY = y.slice(0,n).reduce((a,b)=>a+b,0);
+        const sumXY = x.slice(0,n).reduce((sum,xi,i)=>sum+xi*y[i],0);
+        const sumX2 = x.slice(0,n).reduce((sum,xi)=>sum+xi*xi,0);
+        const sumY2 = y.slice(0,n).reduce((sum,yi)=>sum+yi*yi,0);
+        const numerator = n*sumXY - sumX*sumY;
+        const denominator = Math.sqrt((n*sumX2-sumX*sumX)*(n*sumY2-sumY*sumY));
+        return denominator === 0 ? 0 : (numerator/denominator);
+    }
 
-            numericColumns.forEach(col1 => {
-                correlations[col1] = {};
-                numericColumns.forEach(col2 => {
-                    const idx1 = headers.indexOf(col1);
-                    const idx2 = headers.indexOf(col2);
-                    const values1 = data.map(row => parseFloat(row[idx1])).filter(v => !isNaN(v));
-                    const values2 = data.map(row => parseFloat(row[idx2])).filter(v => !isNaN(v));
-
-                    correlations[col1][col2] = calculatePearson(values1, values2);
-                });
-            });
-        }
-
-        function calculatePearson(x, y) {
-            const n = Math.min(x.length, y.length);
-            if (n === 0) return 0;
-
-            const sumX = x.slice(0, n).reduce((a, b) => a + b, 0);
-            const sumY = y.slice(0, n).reduce((a, b) => a + b, 0);
-            const sumXY = x.slice(0, n).reduce((sum, xi, i) => sum + xi * y[i], 0);
-            const sumX2 = x.slice(0, n).reduce((sum, xi) => sum + xi * xi, 0);
-            const sumY2 = y.slice(0, n).reduce((sum, yi) => sum + yi * yi, 0);
-
-            const numerator = n * sumXY - sumX * sumY;
-            const denominator = Math.sqrt((n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY));
-
-            return denominator === 0 ? 0 : (numerator / denominator);
-        }
-
-        function detectOutliers() {
-            outliers = {};
-            headers.forEach((header, index) => {
-                const values = data.map(row => parseFloat(row[index])).filter(v => !isNaN(v));
-
-                if (values.length > 0) {
-                    const sorted = [...values].sort((a, b) => a - b);
-                    const q1Index = Math.floor(sorted.length * 0.25);
-                    const q3Index = Math.floor(sorted.length * 0.75);
-                    const q1 = sorted[q1Index];
-                    const q3 = sorted[q3Index];
-                    const iqr = q3 - q1;
-                    const lowerBound = q1 - 1.5 * iqr;
-                    const upperBound = q3 + 1.5 * iqr;
-
-                    const outlierValues = values.filter(v => v < lowerBound || v > upperBound);
-                    outliers[header] = {
-                        count: outlierValues.length,
-                        percentage: ((outlierValues.length / values.length) * 100).toFixed(1),
-                        values: outlierValues.slice(0, 10),
-                        lowerBound: lowerBound.toFixed(2),
-                        upperBound: upperBound.toFixed(2),
-                        iqr: iqr.toFixed(2)
-                    };
-                }
-            });
-        }
-
-        function renderTabs() {
-            const tabsContainer = document.getElementById('tabs');
-            tabsContainer.innerHTML = tabs.map(tab => `
-                    <button onclick="switchTab('${tab.id}')"
-                        class="tab ${activeTab === tab.id ? 'active' : ''}">
-                        <span>${tab.icon}</span>
-                        <span>${tab.label}</span>
-                    </button>
-                `).join('');
-        }
-
-        function switchTab(tabId) {
-            activeTab = tabId;
-            renderTabs();
-            renderContent();
-        }
-
-        function renderContent() {
-            const content = document.getElementById('tabContent');
-
-            switch (activeTab) {
-                case 'overview':
-                    content.innerHTML = renderOverview();
-                    break;
-                case 'statistics':
-                    content.innerHTML = renderStatistics();
-                    attachStatisticsHandlers();
-                    break;
-                case 'visualizations':
-                    content.innerHTML = renderVisualizationsTab();
-                    attachVisualizationHandlers();
-                    renderCharts();
-                    break;
-                case 'correlations':
-                    content.innerHTML = renderCorrelations();
-                    break;
-                case 'outliers':
-                    content.innerHTML = renderOutliers();
-                    break;
-                case 'data':
-                    content.innerHTML = renderDataView();
-                    attachDataViewHandlers();
-                    break;
+    function detectOutliers() {
+        outliers = {};
+        headers.forEach((header, index) => {
+            const values = data.map(row => parseFloat(row[index])).filter(v => !isNaN(v));
+            if (values.length > 0) {
+                const sorted = [...values].sort((a,b)=>a-b);
+                const q1 = sorted[Math.floor(sorted.length*0.25)];
+                const q3 = sorted[Math.floor(sorted.length*0.75)];
+                const iqr = q3 - q1;
+                const lower = q1 - 1.5*iqr;
+                const upper = q3 + 1.5*iqr;
+                const outlierValues = values.filter(v => v < lower || v > upper);
+                outliers[header] = {
+                    count: outlierValues.length,
+                    percentage: ((outlierValues.length/values.length)*100).toFixed(1),
+                    values: outlierValues.slice(0,10),
+                    lowerBound: lower.toFixed(2),
+                    upperBound: upper.toFixed(2),
+                    iqr: iqr.toFixed(2)
+                };
             }
+        });
+    }
+
+    function renderTabs() {
+        document.getElementById('tabs').innerHTML = tabs.map(t => `
+            <button onclick="switchTab('${t.id}')" class="tab ${activeTab===t.id?'active':''}">
+                <span>${t.icon}</span><span>${t.label}</span>
+            </button>`).join('');
+    }
+
+    function switchTab(tabId) {
+        activeTab = tabId;
+        renderTabs();
+        renderContent();
+    }
+
+    function renderContent() {
+        const el = document.getElementById('tabContent');
+        switch(activeTab) {
+            case 'overview':       el.innerHTML = renderOverview(); break;
+            case 'statistics':     el.innerHTML = renderStatistics(); attachStatisticsHandlers(); break;
+            case 'visualizations': el.innerHTML = renderVisualizationsTab(); attachVisualizationHandlers(); renderCharts(); break;
+            case 'correlations':   el.innerHTML = renderCorrelations(); break;
+            case 'outliers':       el.innerHTML = renderOutliers(); break;
+            case 'data':           el.innerHTML = renderDataView(); attachDataViewHandlers(); break;
         }
+    }
 
-        function renderOverview() {
-            const totalOutliers = Object.values(outliers).reduce((sum, o) => sum + parseInt(o.count), 0);
+    function renderOverview() {
+        const totalOutliers = Object.values(outliers).reduce((sum,o)=>sum+parseInt(o.count),0);
+        return `
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-value">${data.length.toLocaleString()}</div>
+                    <div class="stat-label">Total Records</div>
+                    <div class="stat-sublabel">Rows in dataset</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${headers.length}</div>
+                    <div class="stat-label">Features</div>
+                    <div class="stat-sublabel">Total columns</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${Object.keys(statistics).length}</div>
+                    <div class="stat-label">Numeric Features</div>
+                    <div class="stat-sublabel">Analysable columns</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${totalOutliers}</div>
+                    <div class="stat-label">Outliers Detected</div>
+                    <div class="stat-sublabel">Anomalous values</div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">📋 Dataset Features</div>
+                <div>${headers.map(h=>`<span class="badge">${h}</span>`).join('')}</div>
+            </div>
+            <div class="section">
+                <div class="section-title">📊 Analysis Summary</div>
+                <div class="insight-item"><div class="insight-dot"></div>Dataset contains ${data.length.toLocaleString()} observations across ${headers.length} variables</div>
+                <div class="insight-item"><div class="insight-dot"></div>${Object.keys(statistics).length} numerical features available for comprehensive statistical analysis</div>
+                <div class="insight-item"><div class="insight-dot"></div>Correlation analysis computed for ${Object.keys(correlations).length} numeric variables</div>
+                <div class="insight-item"><div class="insight-dot"></div>${totalOutliers} outliers detected using IQR method across all numeric columns</div>
+            </div>
+            <div style="text-align:right;margin-top:1.5rem;">
+                <button onclick="exportResults()" class="btn btn-primary">📥 Export Analysis</button>
+            </div>`;
+    }
 
-            return `
-                    <div class="stat-grid">
-                        <div class="stat-card">
-                            <div class="stat-value">${data.length.toLocaleString()}</div>
-                            <div class="stat-label">Total Records</div>
-                            <div class="stat-sublabel">Rows in dataset</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">${headers.length}</div>
-                            <div class="stat-label">Features</div>
-                            <div class="stat-sublabel">Total columns</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">${Object.keys(statistics).length}</div>
-                            <div class="stat-label">Numeric Features</div>
-                            <div class="stat-sublabel">Analyzable columns</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">${totalOutliers}</div>
-                            <div class="stat-label">Outliers Detected</div>
-                            <div class="stat-sublabel">Anomalous values</div>
-                        </div>
-                    </div>
+    function renderStatistics() {
+        const statColumns = Object.keys(statistics);
+        if (!statColumns.length) return `<p style="color:var(--muted)">No numeric columns found for analysis.</p>`;
+        const currentCol = selectedColumn && statistics[selectedColumn] ? selectedColumn : statColumns[0];
+        const stats = statistics[currentCol];
+        return `
+            <div style="margin-bottom:1.5rem;">
+                <label class="select-label">Select variable for analysis</label>
+                <select id="statsColumnSelect" class="select">
+                    ${statColumns.map(col=>`<option value="${col}" ${col===currentCol?'selected':''}>${col}</option>`).join('')}
+                </select>
+            </div>
+            <div class="stats-col-header">
+                <div class="col-name">${currentCol}</div>
+                <div class="col-sub">Statistical Distribution Analysis</div>
+            </div>
+            <div class="stats-grid">
+                ${Object.entries(stats).map(([key,value])=>`
+                    <div class="stats-item">
+                        <div class="stats-item-value">${value}</div>
+                        <div class="stats-item-label">${key.replace(/([A-Z])/g,' $1').trim()}</div>
+                    </div>`).join('')}
+            </div>
+            <div class="info-box">
+                <div class="info-box-title">Statistical Metrics Guide</div>
+                <div class="info-box-content"><ul>
+                    <li><strong>Mean:</strong> Central tendency — the average value</li>
+                    <li><strong>Median:</strong> Middle value dividing the distribution in half</li>
+                    <li><strong>Std Dev:</strong> Variability from the mean</li>
+                    <li><strong>IQR:</strong> Spread of the middle 50% of values (Q3 − Q1)</li>
+                    <li><strong>Range:</strong> Difference between max and min values</li>
+                </ul></div>
+            </div>`;
+    }
 
-                    <div class="section">
-                        <div class="section-title">?? Dataset Features</div>
-                        <div>
-                            ${headers.map(header => `<span class="badge">${header}</span>`).join('')}
-                        </div>
-                    </div>
+    function attachStatisticsHandlers() {
+        const sel = document.getElementById('statsColumnSelect');
+        if (sel) sel.addEventListener('change', function() { selectedColumn = this.value; renderContent(); });
+    }
 
-                    <div class="section">
-                        <div class="section-title">?? Analysis Summary</div>
-                        <div class="insight-item">? Dataset contains ${data.length.toLocaleString()} observations across ${headers.length} variables</div>
-                        <div class="insight-item">? ${Object.keys(statistics).length} numerical features are available for comprehensive statistical analysis</div>
-                        <div class="insight-item">? Correlation analysis computed for ${Object.keys(correlations).length} numeric variables</div>
-                        <div class="insight-item">? ${totalOutliers} outliers detected using IQR method across all numeric columns</div>
-                    </div>
+    function renderVisualizationsTab() {
+        return `
+            <div style="margin-bottom:1.5rem;">
+                <label class="select-label">Select variable for visualization</label>
+                <select id="vizColumnSelect" class="select">
+                    ${headers.map(h=>`<option value="${h}" ${h===selectedColumn?'selected':''}>${h}</option>`).join('')}
+                </select>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">📊 Distribution Histogram</div>
+                <div id="histogramChart" style="width:100%;height:420px;"></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">📈 Time Series Trend</div>
+                <div id="lineChart" style="width:100%;height:420px;"></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">📦 Box Plot Analysis</div>
+                <div id="boxPlot" style="width:100%;height:420px;"></div>
+            </div>`;
+    }
 
-                    <div style="text-align: right; margin-top: 2rem;">
-                        <button onclick="exportResults()" class="btn btn-primary">
-                            <span>??</span>
-                            <span>Export Analysis</span>
-                        </button>
-                    </div>
-                `;
-        }
+    function attachVisualizationHandlers() {
+        const sel = document.getElementById('vizColumnSelect');
+        if (sel) sel.addEventListener('change', function() { selectedColumn = this.value; renderCharts(); });
+    }
 
-        function renderStatistics() {
-            const statColumns = Object.keys(statistics);
-            if (statColumns.length === 0) return '<p style="color: #64748b;">No numeric columns found for analysis.</p>';
+    function renderCharts() {
+        const colIndex = headers.indexOf(selectedColumn);
+        const values = data.map(row => parseFloat(row[colIndex])).filter(v => !isNaN(v));
+        const cfg = {
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: '#181d2a',
+            font: { family: 'DM Sans, sans-serif', size: 12, color: '#7a839a' },
+            margin: { t: 20, r: 20, b: 48, l: 64 }
+        };
+        Plotly.newPlot('histogramChart', [{
+            x: values, type: 'histogram',
+            marker: { color: '#00e676', line: { color: '#00c05a', width: 1 } }, nbinsx: 20
+        }], { ...cfg, xaxis: { title: selectedColumn, gridcolor: 'rgba(255,255,255,0.06)', color: '#7a839a' }, yaxis: { title: 'Frequency', gridcolor: 'rgba(255,255,255,0.06)', color: '#7a839a' } }, { responsive: true, displayModeBar: false });
 
-            const currentCol = selectedColumn || statColumns[0];
-            const stats = statistics[currentCol];
+        Plotly.newPlot('lineChart', [{
+            y: values.slice(0,200), type: 'scatter', mode: 'lines',
+            line: { color: '#00e676', width: 2 }, fill: 'tozeroy', fillcolor: 'rgba(0,230,118,0.08)'
+        }], { ...cfg, xaxis: { title: 'Index', gridcolor: 'rgba(255,255,255,0.06)', color: '#7a839a' }, yaxis: { title: selectedColumn, gridcolor: 'rgba(255,255,255,0.06)', color: '#7a839a' } }, { responsive: true, displayModeBar: false });
 
-            return `
-                    <div style="margin-bottom: 2rem;">
-                        <label style="display: block; font-weight: 600; color: #475569; margin-bottom: 0.75rem; font-size: 0.875rem;">
-                            SELECT VARIABLE FOR ANALYSIS
-                        </label>
-                        <select id="statsColumnSelect" class="select">
-                            ${statColumns.map(col => `
-                                <option value="${col}" ${col === currentCol ? 'selected' : ''}>${col}</option>
-                            `).join('')}
-                        </select>
-                    </div>
+        Plotly.newPlot('boxPlot', [{
+            y: values, type: 'box',
+            marker: { color: '#00e676' }, line: { color: '#00c05a' }, boxmean: 'sd', name: selectedColumn
+        }], { ...cfg, yaxis: { title: selectedColumn, gridcolor: 'rgba(255,255,255,0.06)', color: '#7a839a' } }, { responsive: true, displayModeBar: false });
+    }
 
-                    <div class="section" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; border: none;">
-                        <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">${currentCol}</div>
-                        <div style="color: #94a3b8; font-size: 0.95rem;">Statistical Distribution Analysis</div>
-                    </div>
+    function getCorrelationColor(value) {
+        const a = Math.abs(value);
+        if (a > 0.8) return value > 0 ? '#059669' : '#dc2626';
+        if (a > 0.6) return value > 0 ? '#10b981' : '#ef4444';
+        if (a > 0.4) return value > 0 ? '#34d399' : '#f87171';
+        if (a > 0.2) return value > 0 ? '#6ee7b7' : '#fca5a5';
+        return '#374151';
+    }
 
-                    <div class="stats-grid">
-                        ${Object.entries(stats).map(([key, value]) => `
-                            <div class="stats-item">
-                                <div class="stats-item-value">${value}</div>
-                                <div class="stats-item-label">${key.replace(/([A-Z])/g, ' $1').trim()}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-
-                    <div class="info-box">
-                        <div class="info-box-title">?? Statistical Metrics Guide</div>
-                        <div class="info-box-content">
-                            <ul>
-                                <li><strong>Mean:</strong> Central tendency measure representing the average value</li>
-                                <li><strong>Median:</strong> Middle value that divides the distribution in half</li>
-                                <li><strong>Std Dev:</strong> Dispersion measure indicating variability from mean</li>
-                                <li><strong>IQR:</strong> Spread of the middle 50% of values (Q3 - Q1)</li>
-                                <li><strong>Range:</strong> Difference between maximum and minimum values</li>
-                            </ul>
-                        </div>
-                    </div>
-                `;
-        }
-
-        function attachStatisticsHandlers() {
-            const select = document.getElementById('statsColumnSelect');
-            if (select) {
-                select.addEventListener('change', function () {
-                    selectedColumn = this.value;
-                    renderContent();
-                });
-            }
-        }
-
-        function renderVisualizationsTab() {
-            return `
-                    <div style="margin-bottom: 2rem;">
-                        <label style="display: block; font-weight: 600; color: #475569; margin-bottom: 0.75rem; font-size: 0.875rem;">
-                            SELECT VARIABLE FOR VISUALIZATION
-                        </label>
-                        <select id="vizColumnSelect" class="select">
-                            ${headers.map(header => `
-                                <option value="${header}" ${header === selectedColumn ? 'selected' : ''}>${header}</option>
-                            `).join('')}
-                        </select>
-                    </div>
-
-                    <div class="chart-container">
-                        <div class="chart-title">?? Distribution Histogram</div>
-                        <div id="histogramChart" style="width:100%;height:450px;"></div>
-                    </div>
-
-                    <div class="chart-container">
-                        <div class="chart-title">?? Time Series Trend</div>
-                        <div id="lineChart" style="width:100%;height:450px;"></div>
-                    </div>
-
-                    <div class="chart-container">
-                        <div class="chart-title">?? Box Plot Analysis</div>
-                        <div id="boxPlot" style="width:100%;height:450px;"></div>
-                    </div>
-                `;
-        }
-
-        function attachVisualizationHandlers() {
-            const select = document.getElementById('vizColumnSelect');
-            if (select) {
-                select.addEventListener('change', function () {
-                    selectedColumn = this.value;
-                    renderCharts();
-                });
-            }
-        }
-
-        function renderCharts() {
-            const colIndex = headers.indexOf(selectedColumn);
-            const values = data.map(row => parseFloat(row[colIndex])).filter(v => !isNaN(v));
-
-            const chartConfig = {
-                paper_bgcolor: 'rgba(0,0,0,0)',
-                plot_bgcolor: '#f8fafc',
-                font: { family: 'Inter, sans-serif', size: 12, color: '#475569' },
-                margin: { t: 20, r: 20, b: 40, l: 60 }
-            };
-
-            // Histogram
-            Plotly.newPlot('histogramChart', [{
-                x: values,
-                type: 'histogram',
-                marker: { color: '#3b82f6', line: { color: '#2563eb', width: 1 } },
-                nbinsx: 20
-            }], {
-                ...chartConfig,
-                xaxis: { title: selectedColumn, gridcolor: '#e2e8f0' },
-                yaxis: { title: 'Frequency', gridcolor: '#e2e8f0' }
-            }, { responsive: true, displayModeBar: false });
-
-            // Line Chart
-            Plotly.newPlot('lineChart', [{
-                y: values.slice(0, 200),
-                type: 'scatter',
-                mode: 'lines',
-                line: { color: '#8b5cf6', width: 2 },
-                fill: 'tozeroy',
-                fillcolor: 'rgba(139, 92, 246, 0.1)'
-            }], {
-                ...chartConfig,
-                xaxis: { title: 'Index', gridcolor: '#e2e8f0' },
-                yaxis: { title: selectedColumn, gridcolor: '#e2e8f0' }
-            }, { responsive: true, displayModeBar: false });
-
-            // Box Plot
-            Plotly.newPlot('boxPlot', [{
-                y: values,
-                type: 'box',
-                marker: { color: '#10b981' },
-                boxmean: 'sd',
-                name: selectedColumn
-            }], {
-                ...chartConfig,
-                yaxis: { title: selectedColumn, gridcolor: '#e2e8f0' }
-            }, { responsive: true, displayModeBar: false });
-        }
-
-        function getCorrelationColor(value) {
-            const absValue = Math.abs(value);
-            if (absValue > 0.8) return value > 0 ? '#059669' : '#dc2626';
-            if (absValue > 0.6) return value > 0 ? '#10b981' : '#ef4444';
-            if (absValue > 0.4) return value > 0 ? '#34d399' : '#f87171';
-            if (absValue > 0.2) return value > 0 ? '#6ee7b7' : '#fca5a5';
-            return '#cbd5e1';
-        }
-
-        function renderCorrelations() {
-            const corrKeys = Object.keys(correlations);
-            if (corrKeys.length === 0) return '<p style="color: #64748b;">No numeric columns for correlation analysis.</p>';
-
-            return `
-                    <div class="section" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; border: none; margin-bottom: 2rem;">
-                        <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">Correlation Matrix</div>
-                        <div style="color: #94a3b8; font-size: 0.95rem;">Pearson correlation coefficients between variables</div>
-                    </div>
-
-                    <div class="chart-container" style="overflow-x: auto;">
-                        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; font-size: 0.75rem;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <div style="width: 16px; height: 16px; background: #059669; border-radius: 4px;"></div>
-                                <span style="color: #475569;">Strong (+)</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <div style="width: 16px; height: 16px; background: #34d399; border-radius: 4px;"></div>
-                                <span style="color: #475569;">Moderate (+)</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <div style="width: 16px; height: 16px; background: #cbd5e1; border-radius: 4px;"></div>
-                                <span style="color: #475569;">Weak</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <div style="width: 16px; height: 16px; background: #f87171; border-radius: 4px;"></div>
-                                <span style="color: #475569;">Moderate (-)</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <div style="width: 16px; height: 16px; background: #dc2626; border-radius: 4px;"></div>
-                                <span style="color: #475569;">Strong (-)</span>
-                            </div>
-                        </div>
-
-                        <table class="correlation-table">
-                            <thead>
-                                <tr>
-                                    <th style="text-align: left;">Variable</th>
-                                    ${corrKeys.map(col => `
-                                        <th>${col.length > 12 ? col.substring(0, 12) + '...' : col}</th>
-                                    `).join('')}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${corrKeys.map(row => `
-                                    <tr>
-                                        <td style="font-weight: 600; color: #0f172a;">
-                                            ${row.length > 12 ? row.substring(0, 12) + '...' : row}
-                                        </td>
-                                        ${Object.values(correlations[row]).map(corr => `
-                                            <td>
-                                                <div class="correlation-cell" style="background: ${getCorrelationColor(corr)};">
-                                                    ${corr.toFixed(2)}
-                                                </div>
-                                            </td>
-                                        `).join('')}
-                                    </tr>
+    function renderCorrelations() {
+        const corrKeys = Object.keys(correlations);
+        if (!corrKeys.length) return `<p style="color:var(--muted)">No numeric columns for correlation analysis.</p>`;
+        return `
+            <div class="stats-col-header" style="margin-bottom:1.5rem;">
+                <div class="col-name">Correlation Matrix</div>
+                <div class="col-sub">Pearson correlation coefficients between variables</div>
+            </div>
+            <div class="chart-container" style="overflow-x:auto;">
+                <div class="legend">
+                    <div class="legend-item"><div class="legend-dot" style="background:#059669"></div>Strong (+)</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div>Moderate (+)</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:#374151"></div>Weak</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div>Moderate (−)</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div>Strong (−)</div>
+                </div>
+                <table class="correlation-table">
+                    <thead><tr>
+                        <th style="text-align:left;">Variable</th>
+                        ${corrKeys.map(col=>`<th>${col.length>12?col.substring(0,12)+'…':col}</th>`).join('')}
+                    </tr></thead>
+                    <tbody>
+                        ${corrKeys.map(row=>`
+                            <tr>
+                                <td style="font-weight:600;color:var(--text);text-align:left;">${row.length>12?row.substring(0,12)+'…':row}</td>
+                                ${Object.values(correlations[row]).map(corr=>`
+                                    <td><div class="correlation-cell" style="background:${getCorrelationColor(corr)}">${corr.toFixed(2)}</div></td>
                                 `).join('')}
-                            </tbody>
-                        </table>
+                            </tr>`).join('')}
+                    </tbody>
+                </table>
+            </div>
+            <div class="info-box">
+                <div class="info-box-title">Correlation Interpretation</div>
+                <div class="info-box-content"><ul>
+                    <li>Values range from −1 (perfect negative) to +1 (perfect positive)</li>
+                    <li>|r| > 0.8: Strong linear relationship</li>
+                    <li>0.4 < |r| < 0.8: Moderate linear relationship</li>
+                    <li>|r| < 0.4: Weak linear relationship</li>
+                </ul></div>
+            </div>`;
+    }
+
+    function renderOutliers() {
+        return `
+            <div class="stats-col-header" style="margin-bottom:1.5rem;">
+                <div class="col-name">Outlier Detection Report</div>
+                <div class="col-sub">IQR-based anomaly detection (1.5 × IQR threshold)</div>
+            </div>
+            ${Object.entries(outliers).map(([column, d])=>`
+                <div class="outlier-card">
+                    <div class="outlier-header">
+                        <div class="outlier-title">${column}</div>
+                        <div class="outlier-badge ${parseInt(d.count)>0?'has-outliers':'no-outliers'}">${d.count} outliers (${d.percentage}%)</div>
                     </div>
-
-                    <div class="info-box">
-                        <div class="info-box-title">?? Correlation Interpretation</div>
-                        <div class="info-box-content">
-                            <ul>
-                                <li>Values range from -1 (perfect negative) to +1 (perfect positive)</li>
-                                <li>|r| > 0.8: Strong linear relationship</li>
-                                <li>0.4 < |r| < 0.8: Moderate linear relationship</li>
-                                <li>|r| < 0.4: Weak linear relationship</li>
-                                <li>r � 0: No linear relationship</li>
-                            </ul>
-                        </div>
+                    <div class="outlier-metrics">
+                        <div class="outlier-metric"><div class="outlier-metric-label">Lower Bound</div><div class="outlier-metric-value">${d.lowerBound}</div></div>
+                        <div class="outlier-metric"><div class="outlier-metric-label">Upper Bound</div><div class="outlier-metric-value">${d.upperBound}</div></div>
+                        <div class="outlier-metric"><div class="outlier-metric-label">IQR</div><div class="outlier-metric-value">${d.iqr}</div></div>
+                        <div class="outlier-metric"><div class="outlier-metric-label">Total Count</div><div class="outlier-metric-value">${d.count}</div></div>
                     </div>
-                `;
-        }
+                    ${d.values.length>0?`
+                        <div class="outlier-samples">
+                            <div class="outlier-samples-label">Sample Outlier Values</div>
+                            ${d.values.map(val=>`<span class="outlier-sample-tag">${val.toFixed(2)}</span>`).join('')}
+                        </div>`:''
+                    }
+                </div>`).join('')}
+            <div class="info-box">
+                <div class="info-box-title">Methodology</div>
+                <div class="info-box-content">
+                    <p>IQR (Interquartile Range) method for robust outlier detection:</p>
+                    <ul>
+                        <li>Lower Bound = Q1 − 1.5 × IQR</li>
+                        <li>Upper Bound = Q3 + 1.5 × IQR</li>
+                        <li>Values outside these bounds are flagged as outliers</li>
+                        <li>Resistant to extreme values — suitable for non-normal distributions</li>
+                    </ul>
+                </div>
+            </div>`;
+    }
 
-        function renderOutliers() {
-            return `
-                    <div class="section" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; border: none; margin-bottom: 2rem;">
-                        <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">Outlier Detection Report</div>
-                        <div style="color: #94a3b8; font-size: 0.95rem;">IQR-based anomaly detection (1.5 � IQR threshold)</div>
-                    </div>
+    function renderDataView() {
+        const filteredData = data.filter(row => row.some(cell => cell.toString().toLowerCase().includes(searchTerm.toLowerCase())));
+        const totalPages = Math.ceil(filteredData.length/rowsPerPage);
+        const startIdx = (currentPage-1)*rowsPerPage;
+        const pageData = filteredData.slice(startIdx, startIdx+rowsPerPage);
+        return `
+            <div class="stats-col-header" style="margin-bottom:1.5rem;">
+                <div class="col-name">Data Explorer</div>
+                <div class="col-sub">Browse, search, and examine your dataset</div>
+            </div>
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search across all columns…" value="${searchTerm}">
+            </div>
+            <div class="data-table-wrap">
+                <table class="data-table">
+                    <thead><tr>
+                        <th>#</th>
+                        ${headers.map(h=>`<th>${h}</th>`).join('')}
+                    </tr></thead>
+                    <tbody>
+                        ${pageData.map((row,idx)=>`
+                            <tr>
+                                <td class="row-num">${startIdx+idx+1}</td>
+                                ${row.map(cell=>`<td>${cell}</td>`).join('')}
+                            </tr>`).join('')}
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination">
+                <div class="pagination-info">Showing <strong>${startIdx+1}</strong>–<strong>${Math.min(startIdx+rowsPerPage,filteredData.length)}</strong> of <strong>${filteredData.length}</strong> records</div>
+                <div class="pagination-controls">
+                    <button onclick="previousPage()" ${currentPage===1?'disabled':''} class="pagination-btn">← Prev</button>
+                    <span class="pagination-current">Page ${currentPage} of ${totalPages}</span>
+                    <button onclick="nextPage()" ${currentPage===totalPages?'disabled':''} class="pagination-btn">Next →</button>
+                </div>
+            </div>`;
+    }
 
-                    ${Object.entries(outliers).map(([column, data]) => `
-                        <div class="outlier-card">
-                            <div class="outlier-header">
-                                <div class="outlier-title">${column}</div>
-                                <div class="outlier-badge ${parseInt(data.count) > 0 ? 'has-outliers' : 'no-outliers'}">
-                                    ${data.count} outliers (${data.percentage}%)
-                                </div>
-                            </div>
+    function attachDataViewHandlers() {
+        const inp = document.getElementById('searchInput');
+        if (inp) inp.addEventListener('input', function() { searchTerm = this.value; currentPage = 1; renderContent(); });
+    }
 
-                            <div class="outlier-metrics">
-                                <div class="outlier-metric">
-                                    <div class="outlier-metric-label">Lower Bound</div>
-                                    <div class="outlier-metric-value">${data.lowerBound}</div>
-                                </div>
-                                <div class="outlier-metric">
-                                    <div class="outlier-metric-label">Upper Bound</div>
-                                    <div class="outlier-metric-value">${data.upperBound}</div>
-                                </div>
-                                <div class="outlier-metric">
-                                    <div class="outlier-metric-label">IQR</div>
-                                    <div class="outlier-metric-value">${data.iqr}</div>
-                                </div>
-                                <div class="outlier-metric">
-                                    <div class="outlier-metric-label">Total Count</div>
-                                    <div class="outlier-metric-value">${data.count}</div>
-                                </div>
-                            </div>
+    function previousPage() { if (currentPage>1) { currentPage--; renderContent(); } }
+    function nextPage() { currentPage++; renderContent(); }
 
-                            ${data.values.length > 0 ? `
-                                <div style="margin-top: 1.25rem; padding: 1rem; background: #fef2f2; border-radius: 8px;">
-                                    <div style="font-size: 0.75rem; color: #991b1b; font-weight: 600; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">
-                                        Sample Outlier Values
-                                    </div>
-                                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                                        ${data.values.map(val => `
-                                            <span style="padding: 0.375rem 0.75rem; background: white; border: 1px solid #fecaca; border-radius: 6px; font-size: 0.875rem; font-weight: 600; color: #dc2626;">
-                                                ${val.toFixed(2)}
-                                            </span>
-                                        `).join('')}
-                                    </div>
-                                </div>
-                            ` : ''}
-                        </div>
-                    `).join('')}
-
-                    <div class="info-box">
-                        <div class="info-box-title">?? Methodology</div>
-                        <div class="info-box-content">
-                            <p style="margin-bottom: 0.5rem;">
-                                This analysis employs the Interquartile Range (IQR) method for robust outlier detection:
-                            </p>
-                            <ul>
-                                <li>Lower Bound = Q1 - 1.5 � IQR</li>
-                                <li>Upper Bound = Q3 + 1.5 � IQR</li>
-                                <li>Values outside these bounds are flagged as outliers</li>
-                                <li>This method is resistant to extreme values and appropriate for non-normal distributions</li>
-                            </ul>
-                        </div>
-                    </div>
-                `;
-        }
-
-        function renderDataView() {
-            const filteredData = data.filter(row =>
-                row.some(cell => cell.toString().toLowerCase().includes(searchTerm.toLowerCase()))
-            );
-
-            const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-            const startIdx = (currentPage - 1) * rowsPerPage;
-            const paginatedData = filteredData.slice(startIdx, startIdx + rowsPerPage);
-
-            return `
-                    <div class="section" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; border: none; margin-bottom: 2rem;">
-                        <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">Data Explorer</div>
-                        <div style="color: #94a3b8; font-size: 0.95rem;">Browse, search, and examine your dataset</div>
-                    </div>
-
-                    <div class="search-wrapper">
-                        <span class="search-icon">??</span>
-                        <input type="text" id="searchInput" class="search-input"
-                            placeholder="Search across all columns..." value="${searchTerm}">
-                    </div>
-
-                    <div style="overflow-x: auto; background: white; border: 1px solid #e2e8f0; border-radius: 12px;">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    ${headers.map(header => `<th>${header}</th>`).join('')}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${paginatedData.map((row, idx) => `
-                                    <tr>
-                                        <td style="font-weight: 600; color: #64748b;">${startIdx + idx + 1}</td>
-                                        ${row.map(cell => `<td>${cell}</td>`).join('')}
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="pagination">
-                        <div class="pagination-info">
-                            Showing <strong>${startIdx + 1}</strong> to <strong>${Math.min(startIdx + rowsPerPage, filteredData.length)}</strong> of <strong>${filteredData.length}</strong> records
-                        </div>
-                        <div class="pagination-controls">
-                            <button onclick="previousPage()" ${currentPage === 1 ? 'disabled' : ''} class="pagination-btn">
-                                ? Previous
-                            </button>
-                            <span class="pagination-current">Page ${currentPage} of ${totalPages}</span>
-                            <button onclick="nextPage()" ${currentPage === totalPages ? 'disabled' : ''} class="pagination-btn">
-                                Next ?
-                            </button>
-                        </div>
-                    </div>
-                `;
-        }
-
-        function attachDataViewHandlers() {
-            const searchInput = document.getElementById('searchInput');
-            if (searchInput) {
-                searchInput.addEventListener('input', function () {
-                    searchTerm = this.value;
-                    currentPage = 1;
-                    renderContent();
-                });
-            }
-        }
-
-        function previousPage() {
-            if (currentPage > 1) {
-                currentPage--;
-                renderContent();
-            }
-        }
-
-        function nextPage() {
-            currentPage++;
-            renderContent();
-        }
-
-        function exportResults() {
-            const results = {
-                datasetInfo: {
-                    rows: data.length,
-                    columns: headers.length,
-                    columnNames: headers
-                },
-                statistics,
-                correlations,
-                outliers,
-                timestamp: new Date().toISOString()
-            };
-
-            const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'data-analysis-report.json';
-            a.click();
-        }
-    </script>
+    function exportResults() {
+        const results = { datasetInfo: { rows: data.length, columns: headers.length, columnNames: headers }, statistics, correlations, outliers, timestamp: new Date().toISOString() };
+        const blob = new Blob([JSON.stringify(results,null,2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'data-analysis-report.json'; a.click();
+    }
+</script>
 </body>
 </html>

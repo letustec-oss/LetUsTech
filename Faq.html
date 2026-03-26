@@ -4,536 +4,485 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Frequently Asked Questions about LetUsTech programs, downloads, installation, and support.">
-    <title>FAQ - LetUsTech</title>
-    <link rel="stylesheet" href="theme/styles.css">
+    <title>FAQ — LetUsTech</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-H548VRKNHW');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <style>
-        .faq-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
+        :root {
+            --bg:       #0b0e14;
+            --bg2:      #111520;
+            --bg3:      #181d2a;
+            --surface:  #1c2233;
+            --border:   rgba(255,255,255,0.07);
+            --green:    #00e676;
+            --green2:   #00c05a;
+            --green-dim:#00e67622;
+            --text:     #e8eaf0;
+            --muted:    #7a839a;
+            --white:    #ffffff;
+            --radius:   12px;
+            --radius-lg:20px;
+            --font-head:'Syne', sans-serif;
+            --font-body:'DM Sans', sans-serif;
         }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-        .faq-header {
+        .container { max-width: 1160px; margin: 0 auto; padding: 0 2rem; }
+
+        /* NAV */
+        header { position: sticky; top: 0; z-index: 100; background: rgba(11,14,20,0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+        nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+        .logo img { height: 38px; display: block; }
+        .nav-links { list-style: none; display: flex; align-items: center; gap: 0.25rem; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.92rem; padding: 0.4rem 0.85rem; border-radius: 6px; transition: all 0.2s; }
+        .nav-links a:hover { color: var(--text); background: var(--surface); }
+        .nav-links .donate-link { color: var(--green); border: 1px solid rgba(0,230,118,0.3); margin-left: 0.5rem; }
+        .nav-links .donate-link:hover { background: var(--green-dim); }
+
+        /* PAGE HERO */
+        .page-hero {
+            padding: 5rem 0 4rem;
+            background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,230,118,0.06) 0%, transparent 70%);
+            border-bottom: 1px solid var(--border);
             text-align: center;
-            margin-bottom: 3rem;
+        }
+        .page-label { display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 1rem; }
+        .page-hero h1 { font-family: var(--font-head); font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; color: var(--white); letter-spacing: -0.02em; margin-bottom: 1rem; }
+        .page-hero p { color: var(--muted); font-size: 1.05rem; max-width: 500px; margin: 0 auto; }
+
+        /* SEARCH */
+        .search-wrap { max-width: 560px; margin: 2rem auto 0; position: relative; }
+        .search-wrap input {
+            width: 100%; background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); color: var(--text);
+            padding: 0.9rem 1rem 0.9rem 3rem;
+            font-family: var(--font-body); font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+        .search-wrap input:focus { outline: none; border-color: rgba(0,230,118,0.4); }
+        .search-wrap input::placeholder { color: var(--muted); }
+        .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1rem; pointer-events: none; }
+
+        /* MAIN LAYOUT */
+        .faq-wrap { max-width: 900px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+        /* CATEGORY */
+        .faq-category { margin-bottom: 3rem; }
+        .faq-cat-title {
+            display: flex; align-items: center; gap: 0.75rem;
+            font-family: var(--font-head); font-size: 1.2rem; font-weight: 700; color: var(--white);
+            padding-bottom: 1rem; margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .faq-cat-title .cat-icon {
+            width: 32px; height: 32px; border-radius: 8px;
+            background: var(--green-dim); border: 1px solid rgba(0,230,118,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; flex-shrink: 0;
         }
 
-            .faq-header h1 {
-                color: #667eea;
-                font-size: 2.5rem;
-                margin-bottom: 1rem;
-            }
+        /* FAQ ITEMS */
+        .faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 0.75rem; overflow: hidden; background: var(--bg2); transition: border-color 0.2s; }
+        .faq-item:hover { border-color: rgba(255,255,255,0.12); }
+        .faq-item.active { border-color: rgba(0,230,118,0.3); }
+        .faq-question { padding: 1.1rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; transition: background 0.15s; }
+        .faq-question:hover { background: var(--surface); }
+        .faq-question h3 { color: var(--text); font-size: 0.95rem; font-weight: 400; margin: 0; flex: 1; }
+        .faq-toggle { color: var(--green); font-size: 1.2rem; font-weight: 300; line-height: 1; transition: transform 0.25s; flex-shrink: 0; width: 20px; text-align: center; }
+        .faq-item.active .faq-toggle { transform: rotate(45deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .faq-item.active .faq-answer { max-height: 800px; }
+        .faq-answer-inner { padding: 0 1.5rem 1.4rem; border-top: 1px solid var(--border); margin-top: 0; padding-top: 1.1rem; }
+        .faq-answer-inner p { color: var(--muted); font-size: 0.93rem; line-height: 1.8; margin-bottom: 0.75rem; }
+        .faq-answer-inner p:last-child { margin-bottom: 0; }
+        .faq-answer-inner a { color: var(--green); text-decoration: none; }
+        .faq-answer-inner a:hover { text-decoration: underline; }
+        .faq-answer-inner ul { list-style: none; margin: 0.5rem 0; display: flex; flex-direction: column; gap: 0.4rem; }
+        .faq-answer-inner li { color: var(--muted); font-size: 0.9rem; padding: 0.5rem 0.75rem 0.5rem 2rem; position: relative; background: var(--bg3); border-radius: 6px; }
+        .faq-answer-inner li::before { content: '→'; position: absolute; left: 0.75rem; color: var(--green); font-size: 0.8rem; }
+        .faq-answer-inner li strong { color: var(--text); }
+        .note-box { background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid rgba(255,152,0,0.6); border-radius: 8px; padding: 0.9rem 1.1rem; margin-top: 0.75rem; font-size: 0.88rem; color: var(--muted); }
+        .note-box strong { color: #ff9800; }
 
-        .faq-category {
-            margin-bottom: 3rem;
+        /* HIDDEN (for search filter) */
+        .faq-item.hidden { display: none; }
+        .faq-category.all-hidden { display: none; }
+
+        /* CTA */
+        .faq-cta { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 3rem 2rem; text-align: center; margin-top: 1rem; }
+        .faq-cta h2 { font-family: var(--font-head); font-size: 1.8rem; font-weight: 700; color: var(--white); margin-bottom: 0.75rem; }
+        .faq-cta p { color: var(--muted); margin-bottom: 0.5rem; }
+        .faq-cta .email-link { color: var(--green); font-size: 1.05rem; font-weight: 500; text-decoration: none; }
+        .faq-cta .email-link:hover { text-decoration: underline; }
+        .faq-cta .response-note { font-size: 0.85rem; color: var(--muted); margin-top: 0.75rem; }
+
+        /* FOOTER */
+        footer { background: #080b10; border-top: 1px solid var(--border); padding: 3rem 0 2rem; }
+        .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem; }
+        .footer-logo img { height: 30px; opacity: 0.7; }
+        .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--muted); font-size: 0.87rem; text-decoration: none; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--text); }
+        .footer-bottom { text-align: center; color: var(--muted); font-size: 0.83rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .faq-wrap { padding: 3rem 1.25rem 4rem; }
         }
-
-            .faq-category h2 {
-                color: #333;
-                font-size: 1.8rem;
-                margin-bottom: 1.5rem;
-                padding-bottom: 0.5rem;
-                border-bottom: 2px solid #667eea;
-            }
-
-        .faq-item {
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        .faq-question {
-            padding: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.3s ease;
-        }
-
-            .faq-question:hover {
-                background: #f5f7fa;
-            }
-
-            .faq-question h3 {
-                color: #333;
-                font-size: 1.1rem;
-                margin: 0;
-                flex: 1;
-            }
-
-        .faq-toggle {
-            font-size: 1.5rem;
-            color: #667eea;
-            font-weight: bold;
-            transition: transform 0.3s ease;
-        }
-
-        .faq-item.active .faq-toggle {
-            transform: rotate(45deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            padding: 0 1.5rem;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 1000px;
-            padding: 0 1.5rem 1.5rem 1.5rem;
-        }
-
-        .faq-answer p {
-            color: #666;
-            line-height: 1.8;
-            margin-bottom: 1rem;
-        }
-
-        .faq-answer ul {
-            margin-left: 1.5rem;
-            color: #666;
-        }
-
-        .faq-answer li {
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            text-align: center;
-            margin-top: 3rem;
-        }
-
-            .contact-box h2 {
-                margin-bottom: 1rem;
-            }
-
-            .contact-box a {
-                color: #ffd700;
-                text-decoration: underline;
-            }
     </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-H548VRKNHW');
-</script>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <div class="logo">
-                <img src="LetUsTech.png" alt="LetUsTech Logo">
-            </div>
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#programs">Programs</a></li>
-                <li><a href="#games">Games</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="#faq">FAQ</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#donate" class="donate-link">?? Donate</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <div class="faq-container">
-        <div class="faq-header">
-            <h1>Frequently Asked Questions</h1>
-            <p>Find answers to common questions about LetUsTech programs and services</p>
+<header>
+    <nav class="container">
+        <div class="logo"><a href="index.html"><img src="LetUsTech.png" alt="LetUsTech"></a></div>
+        <ul class="nav-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#programs">Programs</a></li>
+            <li><a href="index.html#games">Games</a></li>
+            <li><a href="blog/blog.html">Blog</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="index.html#donate" class="donate-link">❤ Donate</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="page-hero">
+    <div class="container">
+        <div class="page-label">Help</div>
+        <h1>Frequently Asked Questions</h1>
+        <p>Find answers to common questions about LetUsTech programs and services.</p>
+        <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="faqSearch" placeholder="Search questions..." oninput="filterFAQ(this.value)">
+        </div>
+    </div>
+</div>
+
+<div class="faq-wrap">
+
+    <div class="faq-category" id="cat-general">
+        <div class="faq-cat-title"><div class="cat-icon">💬</div> General Questions</div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>What is LetUsTech?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>LetUsTech is a platform providing free Python programs, automation tools, and browser-based games. Our mission is to make professional-grade software accessible to everyone — no expensive licences, no paywalls.</p>
+            </div></div>
         </div>
 
-        <div class="faq-category">
-            <h2>General Questions</h2>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>What is LetUsTech?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>LetUsTech is a platform that provides free Python programs, automation tools, and browser-based games. Our mission is to make professional-grade software accessible to everyone, regardless of their budget or technical background. We believe that powerful automation tools shouldn't be locked behind expensive licenses.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Are all programs really free?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes! All our programs are 100% free, forever. There are no trials, no premium tiers, and no hidden costs. We operate on a donation-based model, supported by users who love what we do and choose to contribute. However, donations are completely optional.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>How do you sustain LetUsTech if everything is free?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>We sustain ourselves through voluntary donations from users and display advertisements on our site. Every contribution helps us cover hosting costs, develop new programs, and maintain existing tools. If our programs have helped you, please consider supporting us!</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Do I need to create an account to use your programs?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>No! You don't need to create an account or provide any personal information to download and use our programs. Simply download what you need and start using it immediately. We respect your privacy and don't collect unnecessary data.</p>
-                </div>
-            </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Are all programs really free?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Yes — 100% free, forever. No trials, no premium tiers, no hidden costs. We operate on a voluntary donation model. Donations are entirely optional.</p>
+            </div></div>
         </div>
 
-        <div class="faq-category">
-            <h2>Technical Questions</h2>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>What is Python and do I need it installed?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Python is a popular programming language known for its simplicity and power. Most of our downloadable programs require Python to be installed on your computer. You can download Python for free from python.org. We recommend Python 3.8 or newer.</p>
-                    <p>Our browser-based games, however, run directly in your web browser and don't require any installation.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>What operating systems are supported?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Our Python programs are cross-platform and work on:</p>
-                    <ul>
-                        <li>Windows 10 and 11</li>
-                        <li>macOS (10.14 and newer)</li>
-                        <li>Linux (most distributions)</li>
-                    </ul>
-                    <p>Our browser-based games work on any device with a modern web browser.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>How do I install and run your programs?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Basic steps to use our programs:</p>
-                    <ul>
-                        <li>Download Python from python.org (if not already installed)</li>
-                        <li>Download the program from our website</li>
-                        <li>Extract the ZIP file to a folder</li>
-                        <li>Open a command prompt/terminal in that folder</li>
-                        <li>Install any required libraries (listed in requirements.txt)</li>
-                        <li>Run the program using: python program_name.py</li>
-                    </ul>
-                    <p>Each program includes a README file with detailed installation instructions.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Are your programs safe? Do they contain viruses?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes, our programs are completely safe! We write clean, auditable Python code with no malware, spyware, or tracking. However, we always recommend scanning any downloaded file with your antivirus software as a best practice. You can also review the source code yourself since it's human-readable.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Can I modify the programs?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes! You're free to modify our programs for your personal use. Python code is human-readable, making it easy to customize the programs to fit your specific needs. However, please do not redistribute modified versions commercially.</p>
-                </div>
-            </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>How do you sustain LetUsTech if everything is free?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Through voluntary donations from users and display advertisements on the site. Every contribution helps cover hosting costs, develop new programs, and maintain existing tools. If our programs have helped you, please consider supporting us!</p>
+            </div></div>
         </div>
 
-        <div class="faq-category">
-            <h2>Program-Specific Questions</h2>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>What does Data Analyzer Pro do?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Data Analyzer Pro helps you analyze CSV files with advanced statistical insights. It can calculate averages, medians, standard deviations, and create visualizations like charts and graphs. Perfect for business analysis, research, or personal data tracking.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Is web scraping legal?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Web scraping itself is legal, but how you use it matters. Our Web Scraper Suite is designed for ethical use only. Always:</p>
-                    <ul>
-                        <li>Check the website's robots.txt file and terms of service</li>
-                        <li>Respect rate limits to avoid overloading servers</li>
-                        <li>Only scrape public data</li>
-                        <li>Don't scrape personal or copyrighted information</li>
-                        <li>Use scraped data responsibly</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>What can I do with the PDF Processor?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Our PDF Processor can:</p>
-                    <ul>
-                        <li>Merge multiple PDFs into one file</li>
-                        <li>Split a PDF into separate pages</li>
-                        <li>Extract text from PDFs</li>
-                        <li>Rotate pages</li>
-                        <li>Add watermarks</li>
-                        <li>Compress large PDFs</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>How does the Email Automation Bot work?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>The Email Automation Bot helps you automate repetitive email tasks. You can create templates, schedule emails, send bulk emails (ethically), and set up automated responses. It works with most email providers including Gmail, Outlook, and Yahoo Mail.</p>
-                    <p><strong>Note:</strong> You'll need to enable "less secure app access" or use app-specific passwords for most email providers.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-category">
-            <h2>Support & Updates</h2>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>How do I get support if I have problems?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>We offer support via email at letustec@gmail.com. We typically respond within 24 hours. When contacting us, please include:</p>
-                    <ul>
-                        <li>Which program you're using</li>
-                        <li>Your operating system</li>
-                        <li>A description of the problem</li>
-                        <li>Any error messages you received</li>
-                        <li>Steps to reproduce the issue</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Do you update the programs regularly?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes! We're constantly improving our programs based on user feedback and fixing bugs. Updates are released monthly or as needed. To get the latest version, simply download the program again from our website. We recommend checking back every few months for updates.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>How can I suggest new features or report bugs?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>We love hearing from our users! Email us at letustec@gmail.com with your suggestions or bug reports. Your feedback directly shapes what we build next. Please be as detailed as possible when reporting bugs.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Will you add more programs in the future?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Absolutely! We're constantly developing new programs based on user needs and feedback. Some upcoming programs we're working on include file converters, social media automation tools, and advanced data visualization tools. Follow us to stay updated on new releases!</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-category">
-            <h2>Games</h2>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Do I need to download the games?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>No! All our games are browser-based, meaning they run directly in your web browser. No downloads, no installations, no hassle. Just click "Play Now" and start playing immediately.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Are the games free too?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes! Just like our programs, all games are completely free to play. No in-app purchases, no pay-to-win mechanics. We create games for fun and education, not profit.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Do you save my game progress?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Most of our games save progress locally in your browser using localStorage. This means your progress is saved on your device. If you clear your browser data, you may lose your progress. We don't store game data on our servers.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-category">
-            <h2>Privacy & Security</h2>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>What data do you collect?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>We collect minimal data. When you visit our website, we may collect:</p>
-                    <ul>
-                        <li>Basic analytics (page views, time on site)</li>
-                        <li>IP address and browser information</li>
-                        <li>Cookies for site functionality and ads</li>
-                    </ul>
-                    <p>We do NOT collect personal information unless you contact us. See our <a href="privacy-policy.html" style="color: #667eea;">Privacy Policy</a> for full details.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Do you sell my data?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>No! We do not sell, rent, or trade your data to third parties. Your privacy is important to us. The only third-party services we use are Google AdSense for ads and PayPal for donations, both of which have their own privacy policies.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Can I use your programs offline?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes! Once downloaded, most of our Python programs work completely offline. They don't require an internet connection unless they specifically need to fetch data from the web (like the Web Scraper Suite or API Integration Tool).</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-category">
-            <h2>Donations</h2>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>How can I support LetUsTech?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>There are several ways to support us:</p>
-                    <ul>
-                        <li>Make a donation via PayPal or bank transfer</li>
-                        <li>Tell your friends and colleagues about us</li>
-                        <li>Provide feedback and suggestions</li>
-                        <li>Report bugs to help us improve</li>
-                        <li>Leave reviews or testimonials</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Are donations tax-deductible?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>No, LetUsTech is not a registered charity or non-profit organization, so donations are not tax-deductible. We're a small team creating free software supported by voluntary contributions from users.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>Can I get a refund on my donation?</h3>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Donations are voluntary and non-refundable. They help us keep our programs free for everyone. Please only donate if you're comfortable with this. Remember, all our programs remain free whether you donate or not.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="contact-box">
-            <h2>Still Have Questions?</h2>
-            <p>Can't find the answer you're looking for? We're here to help!</p>
-            <p style="margin-top: 1.5rem;">
-                <strong>Email us at:</strong> <a href="mailto:letustec@gmail.com">letustec@gmail.com</a>
-            </p>
-            <p style="margin-top: 1rem;">
-                We typically respond within 24 hours!
-            </p>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Do I need to create an account?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>No. Download what you need and use it immediately — no account, no personal information required. We respect your privacy and don't collect unnecessary data.</p>
+            </div></div>
         </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <div style="margin-bottom: 1rem;">
-                <a href="index.html#about" style="color: white; margin: 0 1rem; text-decoration: none;">About</a>
-                <a href="index.html#programs" style="color: white; margin: 0 1rem; text-decoration: none;">Programs</a>
-                <a href="faq.html" style="color: white; margin: 0 1rem; text-decoration: none;">FAQ</a>
-                <a href="privacy-policy.html" style="color: white; margin: 0 1rem; text-decoration: none;">Privacy Policy</a>
-                <a href="terms-of-service.html" style="color: white; margin: 0 1rem; text-decoration: none;">Terms</a>
-                <a href="index.html#contact" style="color: white; margin: 0 1rem; text-decoration: none;">Contact</a>
-            </div>
-            <p>&copy; 2025 LetUsTech - Wired For Your World. All rights reserved.</p>
+    <div class="faq-category" id="cat-technical">
+        <div class="faq-cat-title"><div class="cat-icon">💻</div> Technical Questions</div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>What is Python and do I need it installed?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Python is a popular, free programming language. Most of our downloadable programs require it installed on your computer. Download it free from python.org — we recommend Python 3.8 or newer.</p>
+                <p>Our browser-based games run directly in your web browser and need no installation at all.</p>
+            </div></div>
         </div>
-    </footer>
 
-    <script>
-        function toggleFAQ(element) {
-            const faqItem = element.parentElement;
-            const isActive = faqItem.classList.contains('active');
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>What operating systems are supported?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Our Python programs are cross-platform and work on:</p>
+                <ul>
+                    <li>Windows 10 and 11</li>
+                    <li>macOS (10.14 and newer)</li>
+                    <li>Linux (most distributions)</li>
+                </ul>
+                <p>Browser games work on any device with a modern web browser.</p>
+            </div></div>
+        </div>
 
-            // Close all other FAQ items
-            document.querySelectorAll('.faq-item').forEach(item => {
-                item.classList.remove('active');
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>How do I install and run your programs?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Basic steps:</p>
+                <ul>
+                    <li>Download Python from python.org (if not already installed)</li>
+                    <li>Download the program from our website</li>
+                    <li>Extract the ZIP file to a folder</li>
+                    <li>Open a command prompt/terminal in that folder</li>
+                    <li>Install any required libraries (listed in requirements.txt)</li>
+                    <li>Run with: <code style="background:var(--bg3);padding:0.1rem 0.4rem;border-radius:4px;font-size:0.88rem;color:var(--green);">python program_name.py</code></li>
+                </ul>
+                <p>Each program includes a README with detailed instructions.</p>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Are your programs safe? Do they contain viruses?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Yes — completely safe. Clean, auditable Python code with no malware, spyware, or tracking. We always recommend scanning any downloaded file with your antivirus as best practice. You can also review the source code yourself since it's human-readable.</p>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Can I modify the programs?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Yes — for personal use. Python is human-readable and easy to customise. Please don't redistribute modified versions commercially.</p>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="faq-category" id="cat-programs">
+        <div class="faq-cat-title"><div class="cat-icon">⚙️</div> Program-Specific Questions</div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>What does Data Analyzer Pro do?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Data Analyzer Pro analyzes CSV files with advanced statistical insights — averages, medians, standard deviations — and creates visualizations like charts and graphs. Perfect for business analysis, research, or personal data tracking.</p>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Is web scraping legal?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Web scraping itself is legal, but how you use it matters. Our Web Scraper Suite is designed for ethical use only. Always:</p>
+                <ul>
+                    <li>Check the website's robots.txt and terms of service</li>
+                    <li>Respect rate limits to avoid overloading servers</li>
+                    <li>Only scrape publicly available data</li>
+                    <li>Don't scrape personal or copyrighted information</li>
+                    <li>Use scraped data responsibly</li>
+                </ul>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>What can I do with the PDF Processor?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Our PDF Processor can:</p>
+                <ul>
+                    <li>Merge multiple PDFs into one file</li>
+                    <li>Split a PDF into separate pages</li>
+                    <li>Extract text from PDFs</li>
+                    <li>Rotate pages</li>
+                    <li>Add watermarks</li>
+                    <li>Compress large PDFs</li>
+                </ul>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>How does the Email Automation Bot work?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>It helps you automate repetitive email tasks — create templates, schedule emails, send bulk emails (ethically), and set up automated responses. Works with Gmail, Outlook, Yahoo Mail, and most providers.</p>
+                <div class="note-box"><strong>Note:</strong> You'll need to enable "less secure app access" or use app-specific passwords for most email providers.</div>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="faq-category" id="cat-support">
+        <div class="faq-cat-title"><div class="cat-icon">🔄</div> Support &amp; Updates</div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>How do I get support if I have problems?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Email us at <a href="mailto:letustec@gmail.com">letustec@gmail.com</a> — typically responding within 24 hours. When contacting us, please include:</p>
+                <ul>
+                    <li>Which program you're using</li>
+                    <li>Your operating system</li>
+                    <li>A description of the problem</li>
+                    <li>Any error messages you received</li>
+                    <li>Steps to reproduce the issue</li>
+                </ul>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Do you update the programs regularly?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Yes — constantly improving based on user feedback and fixing bugs. Updates are released monthly or as needed. To get the latest version, simply download the program again from our website.</p>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>How can I suggest new features or report bugs?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Email <a href="mailto:letustec@gmail.com">letustec@gmail.com</a> with your suggestion or bug report. Your feedback directly shapes what we build next — please be as detailed as possible.</p>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Will you add more programs in the future?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Absolutely — constantly developing new programs based on user needs. Upcoming tools include file converters, social media automation, and advanced data visualisation. Stay tuned!</p>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="faq-category" id="cat-games">
+        <div class="faq-cat-title"><div class="cat-icon">🎮</div> Games</div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Do I need to download the games?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>No — all games are browser-based and run directly in your web browser. No downloads, no installations. Just click "Play Now" and go.</p>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Are the games free too?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Yes — just like our programs, all games are completely free. No in-app purchases, no pay-to-win mechanics. Built for fun and education, not profit.</p>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Do you save my game progress?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Most games save progress locally in your browser using localStorage — so it stays on your device. Clearing your browser data may reset progress. We don't store game data on our servers.</p>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="faq-category" id="cat-privacy">
+        <div class="faq-cat-title"><div class="cat-icon">🔐</div> Privacy &amp; Security</div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>What data do you collect?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Minimal data only. When you visit our site we may collect:</p>
+                <ul>
+                    <li>Basic analytics (page views, time on site)</li>
+                    <li>IP address and browser information</li>
+                    <li>Cookies for site functionality and ads</li>
+                </ul>
+                <p>We do NOT collect personal information unless you contact us. See our <a href="privacy-policy.html">Privacy Policy</a> for full details.</p>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Do you sell my data?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Never. We don't sell, rent, or trade your data to third parties. The only third-party services we use are Google AdSense (ads) and PayPal (donations), each with their own privacy policies.</p>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Can I use your programs offline?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Yes — once downloaded, most Python programs work completely offline. They only need internet if they specifically fetch web data (like the Web Scraper Suite or API Integration Tool).</p>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="faq-category" id="cat-donations">
+        <div class="faq-cat-title"><div class="cat-icon">❤️</div> Donations</div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>How can I support LetUsTech?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Several ways to help:</p>
+                <ul>
+                    <li>Donate via PayPal or bank transfer</li>
+                    <li>Tell friends and colleagues about us</li>
+                    <li>Provide feedback and suggestions</li>
+                    <li>Report bugs to help us improve</li>
+                    <li>Leave reviews or testimonials</li>
+                </ul>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Are donations tax-deductible?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>No — LetUsTech is not a registered charity, so donations are not tax-deductible. We're a small team making free software, supported by voluntary contributions.</p>
+            </div></div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)"><h3>Can I get a refund on my donation?</h3><span class="faq-toggle">+</span></div>
+            <div class="faq-answer"><div class="faq-answer-inner">
+                <p>Donations are voluntary and non-refundable. They help us keep programs free for everyone. Only donate if you're comfortable with this — all programs remain free whether you donate or not.</p>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="faq-cta">
+        <h2>Still have questions?</h2>
+        <p>Can't find what you're looking for? We're here to help.</p>
+        <a href="mailto:letustec@gmail.com" class="email-link">letustec@gmail.com</a>
+        <p class="response-note">We typically respond within 24 hours.</p>
+    </div>
+
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <div class="footer-logo"><a href="index.html"><img src="LetUsTech.png" alt="LetUsTech"></a></div>
+            <div class="footer-links">
+                <a href="index.html#about">About</a>
+                <a href="index.html#programs">Programs</a>
+                <a href="faq.html">FAQ</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms-of-service.html">Terms</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 LetUsTech — Wired For Your World. All rights reserved. · Liverpool, Merseyside · letustec@gmail.com</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function toggleFAQ(el) {
+        const item = el.parentElement;
+        const open = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!open) item.classList.add('active');
+    }
+
+    function filterFAQ(term) {
+        const q = term.toLowerCase().trim();
+        document.querySelectorAll('.faq-category').forEach(cat => {
+            let anyVisible = false;
+            cat.querySelectorAll('.faq-item').forEach(item => {
+                const text = item.textContent.toLowerCase();
+                const match = !q || text.includes(q);
+                item.classList.toggle('hidden', !match);
+                if (match) anyVisible = true;
             });
-
-            // Toggle current item
-            if (!isActive) {
-                faqItem.classList.add('active');
-            }
-        }
-    </script>
+            cat.classList.toggle('all-hidden', !anyVisible);
+        });
+    }
+</script>
 </body>
 </html>
