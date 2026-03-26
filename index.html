@@ -271,14 +271,7 @@
         .faq-cta p { color: var(--muted); margin-bottom: 1.5rem; }
 
         /* ── BLOG ── */
-        .blog-section { background: var(--bg); }
-        .blog-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s; }
-        .blog-card:hover { border-color: rgba(0,230,118,0.3); transform: translateY(-2px); }
-        .blog-thumb { height: 130px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; background: var(--bg3); border-bottom: 1px solid var(--border); }
-        .blog-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; gap: 0.75rem; }
-        .blog-tag { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); }
-        .blog-body h3 { font-family: var(--font-head); font-size: 1.1rem; color: var(--white); font-weight: 600; }
-        .blog-body p { font-size: 0.9rem; color: var(--muted); flex: 1; }
+
 
         /* ── DONATE ── */
         .donate-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
@@ -379,7 +372,6 @@
             <li><a href="#about">About</a></li>
             <li><a href="#programs">Programs</a></li>
             <li><a href="#games">Games</a></li>
-            <li><a href="blog/blog.html">Blog</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#contact">Contact</a></li>
             <li><a href="#donate" class="donate-link">❤ Donate</a></li>
@@ -643,7 +635,7 @@
                 </div>
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFAQ(this)"><h3>How do I get support?</h3><span class="faq-toggle">+</span></div>
-                    <div class="faq-answer"><div class="faq-answer-inner"><p>Email letustec@gmail.com — typically responding within 24 hours. Include which program you're using, your OS, and details of the issue.</p></div></div>
+                    <div class="faq-answer"><div class="faq-answer-inner"><p>Email <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="85e9e0f1f0f6f1e0e6c5e2e8e4ece9abe6eae8">[email&#160;protected]</a> — typically responding within 24 hours. Include which program you're using, your OS, and details of the issue.</p></div></div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFAQ(this)"><h3>Do you update programs regularly?</h3><span class="faq-toggle">+</span></div>
@@ -711,50 +703,6 @@
     </div>
 </section>
 
-<!-- Blog -->
-<section id="blog-preview" class="blog-section">
-    <div class="container">
-        <div class="section-head">
-            <div class="section-label">Blog</div>
-            <h2>Latest tutorials</h2>
-            <p>Python automation, web scraping, data analysis and more — all free.</p>
-        </div>
-
-        <div class="programs-grid">
-            <div class="blog-card">
-                <div class="blog-thumb">🐍</div>
-                <div class="blog-body">
-                    <div class="blog-tag">Tutorial</div>
-                    <h3>Getting Started with Python Automation</h3>
-                    <p>Learn the fundamentals of Python automation from scratch. Perfect for beginners.</p>
-                    <a href="blog/blog-python-automation-basics.html" class="btn btn-primary" style="margin-top:0.5rem;">Read Article →</a>
-                </div>
-            </div>
-            <div class="blog-card">
-                <div class="blog-thumb">🌐</div>
-                <div class="blog-body">
-                    <div class="blog-tag">Tutorial</div>
-                    <h3>Web Scraping with Python</h3>
-                    <p>Master web scraping using BeautifulSoup and requests. Ethical scraping best practices included.</p>
-                    <a href="blog/blog-web-scraping-guide.html" class="btn btn-primary" style="margin-top:0.5rem;">Read Article →</a>
-                </div>
-            </div>
-            <div class="blog-card">
-                <div class="blog-thumb">📊</div>
-                <div class="blog-body">
-                    <div class="blog-tag">Guide</div>
-                    <h3>Data Analysis with Pandas</h3>
-                    <p>Analyze CSV files and datasets using Python's powerful Pandas library.</p>
-                    <a href="blog/blog-data-analysis-pandas.html" class="btn btn-primary" style="margin-top:0.5rem;">Read Article →</a>
-                </div>
-            </div>
-        </div>
-
-        <div style="text-align:center;margin-top:2.5rem;">
-            <a href="blog/blog.html" class="btn btn-secondary">View All Posts</a>
-        </div>
-    </div>
-</section>
 
 <!-- Donate -->
 <section id="donate" class="donate-section">
@@ -810,7 +758,7 @@
         <div class="contact-layout">
             <div>
                 <h3 style="font-family:var(--font-head);color:var(--white);margin-bottom:1.5rem;font-size:1.2rem;">Contact Information</h3>
-                <div class="contact-detail"><strong>Email</strong><span>letustec@gmail.com</span></div>
+                <div class="contact-detail"><strong>Email</strong><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="761a1302030502131536111b171f1a5815191b">[email&#160;protected]</a></span></div>
                 <div class="contact-detail"><strong>Based in</strong><span>Liverpool, Merseyside</span></div>
                 <div class="contact-detail"><strong>Response Time</strong><span>Within 24 hours</span></div>
             </div>
@@ -877,7 +825,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2025 LetUsTech — Wired For Your World. All rights reserved. · Liverpool, Merseyside · letustec@gmail.com</p>
+            <p>© 2025 LetUsTech — Wired For Your World. All rights reserved. · Liverpool, Merseyside · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="345851404147405157745359555d581a575b59">[email&#160;protected]</a></p>
         </div>
     </div>
 </footer>
@@ -904,7 +852,7 @@
         <p>Thank you for downloading our free program!</p>
         <div class="ad-space" style="margin:1.25rem 0;">
             <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5830581574523106" data-ad-slot="1122334455" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
         <a id="downloadLink" href="#" download class="btn btn-primary" style="display:block;text-align:center;">Download Now</a>
         <p style="text-align:center;font-size:0.85rem;margin-top:1rem;">Enjoying our tools? <a href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL" target="_blank" style="color:var(--green);">Donate via PayPal</a></p>
@@ -957,17 +905,4 @@
     function handleSubmit(e) {
         e.preventDefault();
         const d = new FormData(e.target);
-        window.location.href = `mailto:letustec@gmail.com?subject=${encodeURIComponent(d.get('subject'))}&body=${encodeURIComponent('From: ' + d.get('name') + '\nEmail: ' + d.get('email') + '\n\n' + d.get('message'))}`;
-        e.target.reset();
-    }
-
-    // FAQ
-    function toggleFAQ(el) {
-        const item = el.parentElement;
-        const open = item.classList.contains('active');
-        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-        if (!open) item.classList.add('active');
-    }
-</script>
-</body>
-</html>
+        window.location.href = `mailto:letustec@gmail.com?subject=${encodeURIComponent(d.
