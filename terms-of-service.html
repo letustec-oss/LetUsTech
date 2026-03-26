@@ -3,116 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Service - LetUsTech</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Terms of Service — LetUsTech</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-H548VRKNHW');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <style>
-        .policy-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            background: white;
+        :root {
+            --bg:       #0b0e14;
+            --bg2:      #111520;
+            --bg3:      #181d2a;
+            --surface:  #1c2233;
+            --border:   rgba(255,255,255,0.07);
+            --green:    #00e676;
+            --green2:   #00c05a;
+            --green-dim:#00e67622;
+            --text:     #e8eaf0;
+            --muted:    #7a839a;
+            --white:    #ffffff;
+            --radius:   12px;
+            --radius-lg:20px;
+            --font-head:'Syne', sans-serif;
+            --font-body:'DM Sans', sans-serif;
         }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-            .policy-container h1 {
-                color: #667eea;
-                margin-bottom: 1rem;
-            }
+        .container { max-width: 1160px; margin: 0 auto; padding: 0 2rem; }
 
-            .policy-container h2 {
-                color: #333;
-                margin-top: 2rem;
-                margin-bottom: 1rem;
-                font-size: 1.5rem;
-            }
+        /* NAV */
+        header { position: sticky; top: 0; z-index: 100; background: rgba(11,14,20,0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+        nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+        .logo img { height: 38px; display: block; }
+        .nav-links { list-style: none; display: flex; align-items: center; gap: 0.25rem; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.92rem; padding: 0.4rem 0.85rem; border-radius: 6px; transition: all 0.2s; }
+        .nav-links a:hover { color: var(--text); background: var(--surface); }
+        .nav-links .donate-link { color: var(--green); border: 1px solid rgba(0,230,118,0.3); margin-left: 0.5rem; }
+        .nav-links .donate-link:hover { background: var(--green-dim); }
 
-            .policy-container h3 {
-                color: #555;
-                margin-top: 1.5rem;
-                margin-bottom: 0.75rem;
-                font-size: 1.2rem;
-            }
+        /* PAGE HERO */
+        .page-hero {
+            padding: 5rem 0 4rem;
+            background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,230,118,0.06) 0%, transparent 70%);
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+        .page-label { display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 1rem; }
+        .page-hero h1 { font-family: var(--font-head); font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; color: var(--white); letter-spacing: -0.02em; margin-bottom: 1rem; }
+        .page-hero p { color: var(--muted); font-size: 1rem; }
+        .last-updated { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 0.35rem 1rem; font-size: 0.82rem; color: var(--muted); margin-top: 1.5rem; }
+        .last-updated span { color: var(--green); font-weight: 500; }
 
-            .policy-container p {
-                line-height: 1.8;
-                margin-bottom: 1rem;
-                color: #666;
-            }
+        /* CONTENT */
+        .policy-wrap { max-width: 800px; margin: 0 auto; padding: 5rem 2rem 6rem; }
 
-            .policy-container ul {
-                margin-left: 2rem;
-                margin-bottom: 1rem;
-            }
+        .policy-intro { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 3rem; color: var(--muted); line-height: 1.8; font-size: 0.97rem; }
 
-            .policy-container li {
-                margin-bottom: 0.5rem;
-                line-height: 1.6;
-            }
+        .policy-section { margin-bottom: 3rem; }
+        .policy-section h2 {
+            font-family: var(--font-head); font-size: 1.3rem; font-weight: 700; color: var(--white);
+            padding-bottom: 0.75rem; margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .policy-section h2 .sec-num {
+            font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+            background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,230,118,0.25);
+            padding: 0.2rem 0.6rem; border-radius: 999px;
+        }
+        .policy-section h3 { font-family: var(--font-head); font-size: 1rem; font-weight: 600; color: var(--text); margin: 1.5rem 0 0.75rem; }
+        .policy-section p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 0.85rem; }
+        .policy-section a { color: var(--green); text-decoration: none; }
+        .policy-section a:hover { text-decoration: underline; }
 
-        .last-updated {
-            background: #f5f7fa;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
+        .policy-list { list-style: none; margin: 0.75rem 0 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+        .policy-list li { color: var(--muted); font-size: 0.93rem; padding: 0.6rem 0.75rem 0.6rem 2.25rem; position: relative; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; }
+        .policy-list li::before { content: '→'; position: absolute; left: 0.75rem; color: var(--green); }
+        .policy-list li strong { color: var(--text); }
+
+        .highlight-box { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+        .highlight-box p { margin: 0; font-size: 0.93rem; color: var(--muted); }
+        .highlight-box strong { color: var(--text); }
+
+        .warning-box { background: rgba(255,152,0,0.06); border: 1px solid rgba(255,152,0,0.2); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin: 1rem 0; }
+        .warning-box p { margin: 0; font-size: 0.9rem; color: var(--muted); font-style: italic; }
+
+        .dates-box { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.75rem; margin-top: 3rem; display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap; text-align: center; }
+        .dates-box div strong { display: block; color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+        .dates-box div span { color: var(--green); font-weight: 600; font-size: 0.95rem; }
+
+        /* FOOTER */
+        footer { background: #080b10; border-top: 1px solid var(--border); padding: 3rem 0 2rem; }
+        .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem; }
+        .footer-logo img { height: 30px; opacity: 0.7; }
+        .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--muted); font-size: 0.87rem; text-decoration: none; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--text); }
+        .footer-bottom { text-align: center; color: var(--muted); font-size: 0.83rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .policy-wrap { padding: 3rem 1.25rem 4rem; }
         }
     </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-H548VRKNHW');
-</script>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <div class="logo">
-                <a href="index.html"><img src="LetUsTech.png" alt="LetUsTech Logo"></a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#programs">Programs</a></li>
-                <li><a href="index.html#games">Games</a></li>
-                <li><a href="index.html#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <div class="policy-container">
+<header>
+    <nav class="container">
+        <div class="logo"><a href="index.html"><img src="LetUsTech.png" alt="LetUsTech"></a></div>
+        <ul class="nav-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#programs">Programs</a></li>
+            <li><a href="index.html#games">Games</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="index.html#donate" class="donate-link">❤ Donate</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="page-hero">
+    <div class="container">
+        <div class="page-label">Legal</div>
         <h1>Terms of Service</h1>
+        <p>The rules of the road for using LetUsTech.</p>
+        <div class="last-updated">Last updated: <span>November 4, 2025</span></div>
+    </div>
+</div>
 
-        <div class="last-updated">
-            <strong>Last Updated:</strong> November 4, 2025
-        </div>
+<div class="policy-wrap">
 
-        <h2>1. Acceptance of Terms</h2>
-        <p>Welcome to LetUsTech. By accessing or using our website at letustech.com (the "Site"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use our Site.</p>
+    <div class="policy-intro">
+        Welcome to LetUsTech. By accessing or using our website at letustech.com (the "Site"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use our Site.
+    </div>
 
-        <h2>2. Description of Service</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">01</span> Description of Service</h2>
         <p>LetUsTech provides free Python programs, automation tools, browser-based games, and educational content. Our services include but are not limited to:</p>
-        <ul>
+        <ul class="policy-list">
             <li>Free downloadable Python programs and automation tools</li>
             <li>Browser-based games and interactive content</li>
             <li>Educational resources and documentation</li>
             <li>Community support and assistance</li>
         </ul>
+    </div>
 
-        <h2>3. Use License</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">02</span> Use License</h2>
         <p>Permission is granted to temporarily download one copy of the materials (programs, games, or documentation) on LetUsTech's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title.</p>
-
         <p>Under this license you may not:</p>
-        <ul>
+        <ul class="policy-list">
             <li>Modify or copy the materials except for personal use</li>
             <li>Use the materials for any commercial purpose or public display</li>
-            <li>Attempt to reverse engineer any software contained on LetUsTech's website</li>
+            <li>Attempt to reverse engineer any software contained on the Site</li>
             <li>Remove any copyright or proprietary notations from the materials</li>
-            <li>Transfer the materials to another person or "mirror" the materials on any other server</li>
+            <li>Transfer the materials to another person or "mirror" them on any other server</li>
         </ul>
+    </div>
 
-        <h2>4. User Responsibilities</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">03</span> User Responsibilities</h2>
         <p>When using our Site and services, you agree to:</p>
-        <ul>
+        <ul class="policy-list">
             <li>Provide accurate and truthful information</li>
             <li>Use our programs and services lawfully and ethically</li>
             <li>Not use our services to harm, harass, or violate the rights of others</li>
@@ -121,122 +180,143 @@
             <li>Not engage in any activity that interferes with or disrupts our services</li>
             <li>Comply with all applicable laws and regulations</li>
         </ul>
+    </div>
 
-        <h2>5. Downloads and Software</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">04</span> Downloads and Software</h2>
         <p>All programs and software provided on our Site are offered "as is" without any warranties. You understand and agree that:</p>
-        <ul>
+        <ul class="policy-list">
             <li>Downloads are provided for free and at your own risk</li>
-            <li>We are not responsible for any damage to your computer or data loss that may result from downloading our programs</li>
+            <li>We are not responsible for any damage to your computer or data loss from downloading our programs</li>
             <li>You should scan all downloads with antivirus software before use</li>
             <li>Programs may require Python or other dependencies to function properly</li>
             <li>We provide documentation and support on a best-effort basis</li>
         </ul>
+    </div>
 
-        <h2>6. Intellectual Property Rights</h2>
-        <p>The content, organization, graphics, design, and other matters related to the Site are protected under applicable copyrights and other proprietary laws. Copying, redistribution, use or publication of any such matters or any part of the Site is prohibited, except as allowed by our use license.</p>
+    <div class="policy-section">
+        <h2><span class="sec-num">05</span> Intellectual Property Rights</h2>
+        <p>The content, organisation, graphics, design, and other matters related to the Site are protected under applicable copyrights and other proprietary laws. Copying, redistribution, use, or publication of any such matters is prohibited, except as allowed by our use license.</p>
+    </div>
 
-        <h2>7. User-Generated Content</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">06</span> User-Generated Content</h2>
         <p>If you submit feedback, suggestions, ideas, or other content to us, you grant us a non-exclusive, worldwide, perpetual, irrevocable, royalty-free license to use, reproduce, modify, and distribute such content.</p>
+    </div>
 
-        <h2>8. Third-Party Links</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">07</span> Third-Party Links</h2>
         <p>Our Site may contain links to third-party websites (such as PayPal for donations). We are not responsible for the content, accuracy, or practices of these third-party sites. Your use of third-party websites is at your own risk.</p>
+    </div>
 
-        <h2>9. Advertising</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">08</span> Advertising</h2>
         <p>We display advertisements on our Site through Google AdSense and potentially other advertising networks. We do not control or endorse the content of these advertisements. Clicking on ads is at your own discretion and risk.</p>
+    </div>
 
-        <h2>10. Donations</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">09</span> Donations</h2>
         <p>Donations to LetUsTech are voluntary and non-refundable. By making a donation, you acknowledge that:</p>
-        <ul>
+        <ul class="policy-list">
             <li>Donations do not grant you any additional rights or privileges</li>
             <li>Donations do not guarantee any specific services or support</li>
             <li>All donations are final and non-refundable</li>
             <li>We reserve the right to use donations at our discretion to support our mission</li>
         </ul>
+    </div>
 
-        <h2>11. Disclaimer of Warranties</h2>
-        <p>THE SITE AND ALL SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:</p>
-        <ul>
+    <div class="policy-section">
+        <h2><span class="sec-num">10</span> Disclaimer of Warranties</h2>
+        <p>The Site and all services are provided "as is" and "as available" without any warranties of any kind, either express or implied, including but not limited to:</p>
+        <ul class="policy-list">
             <li>Warranties of merchantability, fitness for a particular purpose, or non-infringement</li>
             <li>That the Site will be uninterrupted, secure, or error-free</li>
             <li>That the programs or services will meet your requirements</li>
             <li>That any defects will be corrected</li>
         </ul>
+    </div>
 
-        <h2>12. Limitation of Liability</h2>
-        <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, LETUSTECH SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES RESULTING FROM:</p>
-        <ul>
+    <div class="policy-section">
+        <h2><span class="sec-num">11</span> Limitation of Liability</h2>
+        <p>To the maximum extent permitted by law, LetUsTech shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from:</p>
+        <ul class="policy-list">
             <li>Your use or inability to use the Site or services</li>
-            <li>Any unauthorized access to or use of our servers</li>
+            <li>Any unauthorised access to or use of our servers</li>
             <li>Any bugs, viruses, or similar issues transmitted through the Site</li>
             <li>Any errors or omissions in any content</li>
             <li>Any conduct or content of any third party on the Site</li>
         </ul>
+    </div>
 
-        <h2>13. Indemnification</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">12</span> Indemnification</h2>
         <p>You agree to indemnify, defend, and hold harmless LetUsTech and its affiliates from any claims, damages, losses, liabilities, and expenses (including legal fees) arising from:</p>
-        <ul>
+        <ul class="policy-list">
             <li>Your use of the Site or services</li>
             <li>Your violation of these Terms</li>
             <li>Your violation of any rights of another party</li>
         </ul>
+    </div>
 
-        <h2>14. Termination</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">13</span> Termination</h2>
         <p>We may terminate or suspend your access to our Site immediately, without prior notice or liability, for any reason, including if you breach these Terms. Upon termination, your right to use the Site will cease immediately.</p>
+    </div>
 
-        <h2>15. Changes to Terms</h2>
-        <p>We reserve the right to modify these Terms at any time. We will notify users of any changes by posting the new Terms on this page and updating the "Last Updated" date. Your continued use of the Site after any changes constitutes acceptance of the new Terms.</p>
+    <div class="policy-section">
+        <h2><span class="sec-num">14</span> Changes to Terms &amp; Services</h2>
+        <p>We reserve the right to modify these Terms at any time. Your continued use of the Site after any changes constitutes acceptance of the new Terms. We also reserve the right to modify or discontinue any program, game, or service at any time.</p>
+    </div>
 
-        <h2>16. Changes to Services</h2>
-        <p>We reserve the right to:</p>
-        <ul>
-            <li>Modify or discontinue any program, game, or service at any time</li>
-            <li>Change the features or functionality of our programs</li>
-            <li>Remove or update content on the Site</li>
-            <li>Refuse service to anyone for any reason</li>
-        </ul>
+    <div class="policy-section">
+        <h2><span class="sec-num">15</span> Governing Law</h2>
+        <p>These Terms shall be governed by and construed in accordance with the laws of England and Wales. Any disputes arising from these Terms or your use of the Site shall be subject to the exclusive jurisdiction of the courts of England and Wales.</p>
+    </div>
 
-        <h2>17. Governing Law</h2>
-        <p>These Terms shall be governed by and construed in accordance with the laws of England and Wales, without regard to its conflict of law provisions. Any disputes arising from these Terms or your use of the Site shall be subject to the exclusive jurisdiction of the courts of England and Wales.</p>
-
-        <h2>18. Severability</h2>
-        <p>If any provision of these Terms is found to be unenforceable or invalid, that provision will be limited or eliminated to the minimum extent necessary so that these Terms will otherwise remain in full force and effect.</p>
-
-        <h2>19. Entire Agreement</h2>
-        <p>These Terms constitute the entire agreement between you and LetUsTech regarding the use of the Site and supersede all prior agreements and understandings.</p>
-
-        <h2>20. No Waiver</h2>
-        <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights.</p>
-
-        <h2>21. Age Restrictions</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">16</span> Age Restrictions</h2>
         <p>Our Site is intended for users aged 13 and older. If you are under 13, you may only use the Site with the involvement and supervision of a parent or guardian.</p>
+    </div>
 
-        <h2>22. Contact Information</h2>
-        <p>If you have any questions about these Terms, please contact us:</p>
-        <ul>
+    <div class="policy-section">
+        <h2><span class="sec-num">17</span> Contact Information</h2>
+        <ul class="policy-list">
             <li><strong>Email:</strong> letustec@gmail.com</li>
             <li><strong>Website:</strong> letustech.com</li>
         </ul>
+    </div>
 
-        <h2>23. Acknowledgment</h2>
-        <p>BY USING THIS SITE, YOU ACKNOWLEDGE THAT YOU HAVE READ THESE TERMS OF SERVICE AND AGREE TO BE BOUND BY THEM.</p>
-
-        <div style="margin-top: 3rem; padding: 1.5rem; background: #f5f7fa; border-radius: 8px;">
-            <p style="margin: 0;"><strong>Last Reviewed:</strong> November 4, 2025</p>
-            <p style="margin-top: 0.5rem; margin-bottom: 0;"><strong>Effective Date:</strong> November 4, 2025</p>
+    <div class="policy-section">
+        <h2><span class="sec-num">18</span> Acknowledgment</h2>
+        <div class="highlight-box">
+            <p>By using this Site, <strong>you acknowledge that you have read these Terms of Service and agree to be bound by them.</strong></p>
         </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <div style="margin-bottom: 1rem;">
-                <a href="index.html#about" style="color: white; margin: 0 1rem; text-decoration: none;">About</a>
-                <a href="index.html#programs" style="color: white; margin: 0 1rem; text-decoration: none;">Programs</a>
-                <a href="privacy-policy.html" style="color: white; margin: 0 1rem; text-decoration: none;">Privacy Policy</a>
-                <a href="terms-of-service.html" style="color: white; margin: 0 1rem; text-decoration: none;">Terms</a>
-                <a href="index.html#contact" style="color: white; margin: 0 1rem; text-decoration: none;">Contact</a>
+    <div class="dates-box">
+        <div><strong>Last Reviewed</strong><span>November 4, 2025</span></div>
+        <div><strong>Effective Date</strong><span>November 4, 2025</span></div>
+    </div>
+
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <div class="footer-logo"><a href="index.html"><img src="LetUsTech.png" alt="LetUsTech"></a></div>
+            <div class="footer-links">
+                <a href="index.html#about">About</a>
+                <a href="index.html#programs">Programs</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms-of-service.html">Terms</a>
+                <a href="index.html#contact">Contact</a>
             </div>
-            <p>&copy; 2025 LetUsTech - Wired For Your World. All rights reserved.</p>
         </div>
-    </footer>
+        <div class="footer-bottom">
+            <p>© 2025 LetUsTech — Wired For Your World. All rights reserved. · Liverpool, Merseyside · letustec@gmail.com</p>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>

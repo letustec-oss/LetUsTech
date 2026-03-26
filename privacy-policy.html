@@ -3,104 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - LetUsTech</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Privacy Policy — LetUsTech</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-H548VRKNHW');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <style>
-        .policy-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            background: white;
+        :root {
+            --bg:       #0b0e14;
+            --bg2:      #111520;
+            --bg3:      #181d2a;
+            --surface:  #1c2233;
+            --border:   rgba(255,255,255,0.07);
+            --green:    #00e676;
+            --green2:   #00c05a;
+            --green-dim:#00e67622;
+            --text:     #e8eaf0;
+            --muted:    #7a839a;
+            --white:    #ffffff;
+            --radius:   12px;
+            --radius-lg:20px;
+            --font-head:'Syne', sans-serif;
+            --font-body:'DM Sans', sans-serif;
         }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 
-            .policy-container h1 {
-                color: #667eea;
-                margin-bottom: 1rem;
-            }
+        .container { max-width: 1160px; margin: 0 auto; padding: 0 2rem; }
 
-            .policy-container h2 {
-                color: #333;
-                margin-top: 2rem;
-                margin-bottom: 1rem;
-                font-size: 1.5rem;
-            }
+        /* NAV */
+        header { position: sticky; top: 0; z-index: 100; background: rgba(11,14,20,0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+        nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+        .logo img { height: 38px; display: block; }
+        .nav-links { list-style: none; display: flex; align-items: center; gap: 0.25rem; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.92rem; padding: 0.4rem 0.85rem; border-radius: 6px; transition: all 0.2s; }
+        .nav-links a:hover { color: var(--text); background: var(--surface); }
+        .nav-links .donate-link { color: var(--green); border: 1px solid rgba(0,230,118,0.3); margin-left: 0.5rem; }
+        .nav-links .donate-link:hover { background: var(--green-dim); }
 
-            .policy-container h3 {
-                color: #555;
-                margin-top: 1.5rem;
-                margin-bottom: 0.75rem;
-                font-size: 1.2rem;
-            }
+        /* PAGE HERO */
+        .page-hero {
+            padding: 5rem 0 4rem;
+            background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,230,118,0.06) 0%, transparent 70%);
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+        .page-label { display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 1rem; }
+        .page-hero h1 { font-family: var(--font-head); font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; color: var(--white); letter-spacing: -0.02em; margin-bottom: 1rem; }
+        .page-hero p { color: var(--muted); font-size: 1rem; }
+        .last-updated { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 0.35rem 1rem; font-size: 0.82rem; color: var(--muted); margin-top: 1.5rem; }
+        .last-updated span { color: var(--green); font-weight: 500; }
 
-            .policy-container p {
-                line-height: 1.8;
-                margin-bottom: 1rem;
-                color: #666;
-            }
+        /* CONTENT */
+        .policy-wrap { max-width: 800px; margin: 0 auto; padding: 5rem 2rem 6rem; }
 
-            .policy-container ul {
-                margin-left: 2rem;
-                margin-bottom: 1rem;
-            }
+        .policy-intro { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 3rem; color: var(--muted); line-height: 1.8; font-size: 0.97rem; }
 
-            .policy-container li {
-                margin-bottom: 0.5rem;
-                line-height: 1.6;
-            }
+        .policy-section { margin-bottom: 3rem; }
+        .policy-section h2 {
+            font-family: var(--font-head); font-size: 1.3rem; font-weight: 700; color: var(--white);
+            padding-bottom: 0.75rem; margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .policy-section h2 .sec-num {
+            font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+            background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,230,118,0.25);
+            padding: 0.2rem 0.6rem; border-radius: 999px;
+        }
+        .policy-section h3 { font-family: var(--font-head); font-size: 1rem; font-weight: 600; color: var(--text); margin: 1.5rem 0 0.75rem; }
+        .policy-section p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 0.85rem; }
+        .policy-section a { color: var(--green); text-decoration: none; }
+        .policy-section a:hover { text-decoration: underline; }
 
-        .last-updated {
-            background: #f5f7fa;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
+        .policy-list { list-style: none; margin: 0.75rem 0 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+        .policy-list li { color: var(--muted); font-size: 0.93rem; padding: 0.6rem 0.75rem 0.6rem 2.25rem; position: relative; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; }
+        .policy-list li::before { content: '→'; position: absolute; left: 0.75rem; color: var(--green); }
+        .policy-list li strong { color: var(--text); }
+
+        .highlight-box { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+        .highlight-box p { margin: 0; font-size: 0.93rem; color: var(--muted); }
+        .highlight-box strong { color: var(--text); }
+
+        .opt-out-links { display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0; }
+        .opt-out-links a { color: var(--green); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; }
+        .opt-out-links a::before { content: '↗'; font-size: 0.8rem; }
+
+        .consent-box { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.75rem; margin-top: 3rem; text-align: center; }
+        .consent-box p { color: var(--muted); font-size: 0.92rem; }
+        .consent-box strong { color: var(--text); }
+
+        /* FOOTER */
+        footer { background: #080b10; border-top: 1px solid var(--border); padding: 3rem 0 2rem; }
+        .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem; }
+        .footer-logo img { height: 30px; opacity: 0.7; }
+        .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--muted); font-size: 0.87rem; text-decoration: none; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--text); }
+        .footer-bottom { text-align: center; color: var(--muted); font-size: 0.83rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .policy-wrap { padding: 3rem 1.25rem 4rem; }
         }
     </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-H548VRKNHW');
-</script>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <div class="logo">
-                <a href="index.html"><img src="LetUsTech.png" alt="LetUsTech Logo"></a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#programs">Programs</a></li>
-                <li><a href="index.html#games">Games</a></li>
-                <li><a href="index.html#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <div class="policy-container">
+<header>
+    <nav class="container">
+        <div class="logo"><a href="index.html"><img src="LetUsTech.png" alt="LetUsTech"></a></div>
+        <ul class="nav-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#programs">Programs</a></li>
+            <li><a href="index.html#games">Games</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="index.html#donate" class="donate-link">❤ Donate</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="page-hero">
+    <div class="container">
+        <div class="page-label">Legal</div>
         <h1>Privacy Policy</h1>
+        <p>How we collect, use, and protect your information.</p>
+        <div class="last-updated">Last updated: <span>November 4, 2025</span></div>
+    </div>
+</div>
 
-        <div class="last-updated">
-            <strong>Last Updated:</strong> November 4, 2025
-        </div>
+<div class="policy-wrap">
 
-        <p>At LetUsTech ("we," "our," or "us"), we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website letustech.com (the "Site") and use our services.</p>
+    <div class="policy-intro">
+        At LetUsTech ("we," "our," or "us"), we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website letustech.com (the "Site") and use our services.
+    </div>
 
-        <h2>1. Information We Collect</h2>
-
-        <h3>1.1 Information You Provide</h3>
+    <div class="policy-section">
+        <h2><span class="sec-num">01</span> Information We Collect</h2>
+        <h3>Information You Provide</h3>
         <p>We may collect information that you voluntarily provide to us, including:</p>
-        <ul>
+        <ul class="policy-list">
             <li>Name and email address when you contact us</li>
             <li>Any information you provide in correspondence with us</li>
             <li>Feedback, suggestions, or other information you submit</li>
         </ul>
-
-        <h3>1.2 Automatically Collected Information</h3>
+        <h3>Automatically Collected Information</h3>
         <p>When you visit our Site, we automatically collect certain information about your device, including:</p>
-        <ul>
+        <ul class="policy-list">
             <li>IP address</li>
             <li>Browser type and version</li>
             <li>Operating system</li>
@@ -108,18 +164,19 @@
             <li>Referring website addresses</li>
             <li>Device identifiers</li>
         </ul>
-
-        <h3>1.3 Cookies and Tracking Technologies</h3>
+        <h3>Cookies and Tracking Technologies</h3>
         <p>We use cookies and similar tracking technologies to enhance your experience. These may include:</p>
-        <ul>
+        <ul class="policy-list">
             <li><strong>Essential Cookies:</strong> Required for the website to function properly</li>
             <li><strong>Analytics Cookies:</strong> Help us understand how visitors interact with our website</li>
             <li><strong>Advertising Cookies:</strong> Used to deliver relevant advertisements</li>
         </ul>
+    </div>
 
-        <h2>2. How We Use Your Information</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">02</span> How We Use Your Information</h2>
         <p>We use the information we collect for the following purposes:</p>
-        <ul>
+        <ul class="policy-list">
             <li>To provide, maintain, and improve our services</li>
             <li>To respond to your inquiries and provide customer support</li>
             <li>To send you updates, newsletters, and promotional materials (with your consent)</li>
@@ -127,51 +184,57 @@
             <li>To detect, prevent, and address technical issues or fraudulent activity</li>
             <li>To comply with legal obligations</li>
         </ul>
+    </div>
 
-        <h2>3. Google AdSense and Advertising</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">03</span> Google AdSense and Advertising</h2>
         <p>We use Google AdSense to display advertisements on our Site. Google AdSense uses cookies and similar technologies to serve ads based on your prior visits to our website or other websites.</p>
-
-        <h3>3.1 Google's Use of Information</h3>
-        <p>Google's advertising requirements can be summed up by Google's Advertising Principles. They are put in place to provide a positive experience for users. For more information, visit: <a href="https://support.google.com/adspolicy/answer/6008942" target="_blank">https://support.google.com/adspolicy/answer/6008942</a></p>
-
-        <p>Google, as a third-party vendor, uses cookies to serve ads on our Site. Google's use of the DART cookie enables it to serve ads to our users based on previous visits to our Site and other sites on the Internet.</p>
-
-        <h3>3.2 Opting Out of Personalized Advertising</h3>
+        <h3>Google's Use of Information</h3>
+        <p>Google's advertising requirements are put in place to provide a positive experience for users. For more information, visit <a href="https://support.google.com/adspolicy/answer/6008942" target="_blank">Google's Advertising Principles</a>. Google's use of the DART cookie enables it to serve ads based on previous visits to our Site and other sites on the Internet.</p>
+        <h3>Opting Out of Personalized Advertising</h3>
         <p>You can opt out of personalized advertising by visiting:</p>
-        <ul>
-            <li>Google Ads Settings: <a href="https://www.google.com/settings/ads" target="_blank">www.google.com/settings/ads</a></li>
-            <li>Network Advertising Initiative: <a href="http://www.networkadvertising.org/choices/" target="_blank">www.networkadvertising.org/choices/</a></li>
-            <li>Digital Advertising Alliance: <a href="http://www.aboutads.info/choices/" target="_blank">www.aboutads.info/choices/</a></li>
-        </ul>
+        <div class="opt-out-links">
+            <a href="https://www.google.com/settings/ads" target="_blank">Google Ads Settings</a>
+            <a href="http://www.networkadvertising.org/choices/" target="_blank">Network Advertising Initiative</a>
+            <a href="http://www.aboutads.info/choices/" target="_blank">Digital Advertising Alliance</a>
+        </div>
+    </div>
 
-        <h2>4. Third-Party Services</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">04</span> Third-Party Services</h2>
         <p>Our Site may contain links to third-party websites or services. We are not responsible for the privacy practices of these third parties. We encourage you to read their privacy policies.</p>
-
-        <p>Third-party services we use include:</p>
-        <ul>
+        <ul class="policy-list">
             <li><strong>Google AdSense:</strong> For displaying advertisements</li>
             <li><strong>PayPal:</strong> For processing donations (subject to PayPal's privacy policy)</li>
             <li><strong>Email Services:</strong> For communication purposes</li>
         </ul>
+    </div>
 
-        <h2>5. How We Share Your Information</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">05</span> How We Share Your Information</h2>
         <p>We do not sell, trade, or rent your personal information to third parties. We may share your information in the following circumstances:</p>
-        <ul>
-            <li><strong>With Service Providers:</strong> We may share information with third-party service providers who perform services on our behalf</li>
-            <li><strong>For Legal Reasons:</strong> We may disclose information if required by law or in response to valid legal requests</li>
-            <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or sale of assets, your information may be transferred</li>
+        <ul class="policy-list">
+            <li><strong>With Service Providers:</strong> Third-party providers who perform services on our behalf</li>
+            <li><strong>For Legal Reasons:</strong> If required by law or in response to valid legal requests</li>
+            <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or sale of assets</li>
             <li><strong>With Your Consent:</strong> We may share information with your explicit consent</li>
         </ul>
+    </div>
 
-        <h2>6. Data Security</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">06</span> Data Security</h2>
         <p>We implement reasonable security measures to protect your information from unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the Internet or electronic storage is 100% secure.</p>
+    </div>
 
-        <h2>7. Data Retention</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">07</span> Data Retention</h2>
         <p>We retain your personal information only for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law.</p>
+    </div>
 
-        <h2>8. Your Rights</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">08</span> Your Rights</h2>
         <p>Depending on your location, you may have the following rights regarding your personal information:</p>
-        <ul>
+        <ul class="policy-list">
             <li><strong>Access:</strong> Request access to your personal information</li>
             <li><strong>Correction:</strong> Request correction of inaccurate or incomplete information</li>
             <li><strong>Deletion:</strong> Request deletion of your personal information</li>
@@ -179,31 +242,41 @@
             <li><strong>Data Portability:</strong> Request a copy of your data in a structured format</li>
             <li><strong>Withdraw Consent:</strong> Withdraw consent where processing is based on consent</li>
         </ul>
+        <div class="highlight-box"><p>To exercise these rights, please contact us at <strong>letustec@gmail.com</strong></p></div>
+    </div>
 
-        <p>To exercise these rights, please contact us at letustec@gmail.com</p>
-
-        <h2>9. Children's Privacy</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">09</span> Children's Privacy</h2>
         <p>Our Site is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us.</p>
+    </div>
 
-        <h2>10. International Users</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">10</span> International Users</h2>
         <p>Our Site is operated from the United Kingdom. If you are accessing our Site from outside the UK, please be aware that your information may be transferred to, stored, and processed in the UK and other countries where our service providers operate.</p>
+    </div>
 
-        <h2>11. Changes to This Privacy Policy</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">11</span> Changes to This Policy</h2>
         <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date. We encourage you to review this Privacy Policy periodically.</p>
+    </div>
 
-        <h2>12. Do Not Track Signals</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">12</span> Do Not Track Signals</h2>
         <p>Some browsers have a "Do Not Track" feature that lets you tell websites you do not want to have your online activities tracked. We currently do not respond to Do Not Track signals.</p>
+    </div>
 
-        <h2>13. Contact Us</h2>
-        <p>If you have any questions about this Privacy Policy or our privacy practices, please contact us:</p>
-        <ul>
+    <div class="policy-section">
+        <h2><span class="sec-num">13</span> Contact Us</h2>
+        <ul class="policy-list">
             <li><strong>Email:</strong> letustec@gmail.com</li>
             <li><strong>Website:</strong> letustech.com</li>
         </ul>
+    </div>
 
-        <h2>14. GDPR Compliance (For EU Users)</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">14</span> GDPR Compliance (EU Users)</h2>
         <p>If you are located in the European Economic Area (EEA), you have certain rights under the General Data Protection Regulation (GDPR):</p>
-        <ul>
+        <ul class="policy-list">
             <li>The right to be informed about data collection and use</li>
             <li>The right of access to your personal data</li>
             <li>The right to rectification of inaccurate data</li>
@@ -213,33 +286,43 @@
             <li>The right to object to processing</li>
             <li>Rights related to automated decision-making and profiling</li>
         </ul>
+    </div>
 
-        <h2>15. California Privacy Rights</h2>
+    <div class="policy-section">
+        <h2><span class="sec-num">15</span> California Privacy Rights (CCPA)</h2>
         <p>If you are a California resident, you have specific rights under the California Consumer Privacy Act (CCPA):</p>
-        <ul>
+        <ul class="policy-list">
             <li>The right to know what personal information is collected</li>
             <li>The right to know whether personal information is sold or disclosed</li>
             <li>The right to say no to the sale of personal information</li>
             <li>The right to access your personal information</li>
             <li>The right to equal service and price</li>
         </ul>
-
-        <div style="margin-top: 3rem; padding: 1.5rem; background: #f5f7fa; border-radius: 8px;">
-            <p style="margin: 0;"><strong>Consent:</strong> By using our Site, you consent to our Privacy Policy and agree to its terms.</p>
-        </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <div style="margin-bottom: 1rem;">
-                <a href="index.html#about" style="color: white; margin: 0 1rem; text-decoration: none;">About</a>
-                <a href="index.html#programs" style="color: white; margin: 0 1rem; text-decoration: none;">Programs</a>
-                <a href="privacy-policy.html" style="color: white; margin: 0 1rem; text-decoration: none;">Privacy Policy</a>
-                <a href="terms-of-service.html" style="color: white; margin: 0 1rem; text-decoration: none;">Terms</a>
-                <a href="index.html#contact" style="color: white; margin: 0 1rem; text-decoration: none;">Contact</a>
+    <div class="consent-box">
+        <p><strong>Consent:</strong> By using our Site, you consent to our Privacy Policy and agree to its terms.</p>
+    </div>
+
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <div class="footer-logo"><a href="index.html"><img src="LetUsTech.png" alt="LetUsTech"></a></div>
+            <div class="footer-links">
+                <a href="index.html#about">About</a>
+                <a href="index.html#programs">Programs</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms-of-service.html">Terms</a>
+                <a href="index.html#contact">Contact</a>
             </div>
-            <p>&copy; 2025 LetUsTech - Wired For Your World. All rights reserved.</p>
         </div>
-    </footer>
+        <div class="footer-bottom">
+            <p>© 2025 LetUsTech — Wired For Your World. All rights reserved. · Liverpool, Merseyside · letustec@gmail.com</p>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>
