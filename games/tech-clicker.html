@@ -72,6 +72,7 @@
             }
         }
     </script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="root"></div>
@@ -406,34 +407,19 @@
             return (
                 <div className="min-h-screen">
                     {/* Navigation Bar */}
-                    <nav className="bg-navy-dark shadow-lg">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="flex justify-between items-center h-16">
-                                <div className="flex items-center space-x-3">
-                                    <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                                        <Cpu className="w-6 h-6 text-navy-dark" />
-                                    </div>
-                                    <span className="text-white text-xl font-bold">LetUsTech</span>
-                                </div>
-                                <div className="hidden md:flex items-center space-x-6">
-                                    <a href="https://letustech.uk" className="text-white hover:text-blue-200 transition-colors">About</a>
-                                    <a href="https://letustech.uk/programs" className="text-white hover:text-blue-200 transition-colors">Programs</a>
-                                    <a href="https://letustech.uk/games" className="text-white hover:text-blue-200 transition-colors">Games</a>
-                                    <a href="https://letustech.uk/blog" className="text-white hover:text-blue-200 transition-colors">Blog</a>
-                                    <a href="https://letustech.uk/faq" className="text-white hover:text-blue-200 transition-colors">FAQ</a>
-                                    <a href="https://letustech.uk/contact" className="text-white hover:text-blue-200 transition-colors">Contact</a>
-                                    <a
-                                        href="https://www.paypal.com/donate/?hosted_button_id=F3JLLZ5N2YCVU"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
-                                    >
-                                        Donate
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </nav>
+                          <header style={{position:'sticky',top:0,zIndex:1000,background:'rgba(11,14,20,0.95)',backdropFilter:'blur(16px)',WebkitBackdropFilter:'blur(16px)',borderBottom:'1px solid rgba(255,255,255,0.07)',fontFamily:"'DM Sans',sans-serif"}}>
+        <nav style={{maxWidth:'1160px',margin:'0 auto',padding:'0 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:'68px'}}>
+          <a href="../index.html" style={{display:'flex',alignItems:'center',gap:'0.6rem',textDecoration:'none'}}>
+            <img src="../LetUsTech.png" alt="LetUsTech" style={{height:'36px',display:'block'}} onError={(e)=>{e.target.src='https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png'}} />
+          </a>
+          <ul style={{listStyle:'none',display:'flex',alignItems:'center',gap:'0.25rem',margin:0,padding:0}}>
+            {[['About','#about'],['Programs','#programs'],['Games','#games'],['FAQ','#faq'],['Contact','#contact']].map(([label,hash])=>(
+              <li key={label}><a href={`../index.html${hash}`} style={{color:'#7a839a',textDecoration:'none',fontSize:'0.9rem',padding:'0.4rem 0.8rem',borderRadius:'6px',transition:'all 0.2s'}} onMouseEnter={e=>{e.target.style.color='#e8eaf0';e.target.style.background='#1c2233'}} onMouseLeave={e=>{e.target.style.color='#7a839a';e.target.style.background='transparent'}}>{label}</a></li>
+            ))}
+            <li><a href="../index.html#donate" style={{color:'#00e676',border:'1px solid rgba(0,230,118,0.3)',textDecoration:'none',fontSize:'0.9rem',padding:'0.4rem 0.8rem',borderRadius:'6px',marginLeft:'0.5rem',transition:'all 0.2s'}}>❤ Donate</a></li>
+          </ul>
+        </nav>
+      </header>
 
                     {/* Main Content */}
                     <main className="max-w-7xl mx-auto px-4 py-8">

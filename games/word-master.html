@@ -21,435 +21,28 @@
         }
 
         /* Header Styles */
-        header {
-            background: linear-gradient(135deg, #2d4a6e 0%, #1e3a5f 50%, #0f2744 100%);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        /* ── LetUsTech Nav ── */
+        :root {
+            --lt-bg: #0b0e14; --lt-bg2: #111520; --lt-surface: #1c2233;
+            --lt-border: rgba(255,255,255,0.07); --lt-green: #00e676;
+            --lt-green-dim: #00e67622; --lt-text: #e8eaf0; --lt-muted: #7a839a;
         }
-
-        nav {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        .nav-content {
-            display: flex;
-            align-items: center;
-            height: 64px;
-            gap: 1rem;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-shrink: 0;
-        }
-
-        .logo {
-            height: 32px;
-            width: 32px;
-        }
-
-        .logo-fallback {
-            height: 32px;
-            width: 32px;
-            background: #4f46e5;
-            border-radius: 8px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 0.875rem;
-        }
-
-        .nav-links {
-            flex: 1;
-            overflow-x: auto;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-            .nav-links::-webkit-scrollbar {
-                display: none;
-            }
-
-        .nav-items {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.25rem 0;
-            min-width: max-content;
-        }
-
-        .nav-link, .nav-btn {
-            padding: 0.5rem;
-            color: #e5e7eb;
-            text-decoration: none;
-            font-size: 0.875rem;
-            white-space: nowrap;
-            transition: color 0.2s;
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            touch-action: manipulation;
-        }
-
-            .nav-link:hover, .nav-btn:hover {
-                color: #10b981;
-            }
-
-        .divider {
-            height: 24px;
-            width: 1px;
-            background: #d1d5db;
-        }
-
-        .donate-btn {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            padding: 0.375rem 0.75rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-            .donate-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-            }
-
-        /* Main Content */
-        main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem;
-        }
-
-        .game-container {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
-            padding: 1rem;
-            max-width: 512px;
-            width: 100%;
-        }
-
-        .game-header {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #4f46e5;
-            margin-bottom: 0.25rem;
-        }
-
-        .daily-label {
-            font-size: 0.75rem;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-        }
-
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            font-weight: bold;
-        }
-
-        /* Game Board */
-        .status-message {
-            padding: 0.625rem;
-            border-radius: 0.5rem;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-            .status-message.win {
-                background: #d1fae5;
-                border: 1px solid #6ee7b7;
-                color: #065f46;
-            }
-
-            .status-message.lose {
-                background: #fee2e2;
-                border: 1px solid #fca5a5;
-                color: #991b1b;
-            }
-
-        .game-board {
-            margin-bottom: 0.75rem;
-        }
-
-        .word-row {
-            display: flex;
-            gap: 0.25rem;
-            justify-content: center;
-            margin-bottom: 0.375rem;
-        }
-
-        .letter-tile {
-            width: 48px;
-            height: 48px;
-            border: 2px solid #d1d5db;
-            border-radius: 0.375rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
-
-            .letter-tile.correct {
-                background: #22c55e;
-                color: white;
-                border-color: #22c55e;
-            }
-
-            .letter-tile.present {
-                background: #eab308;
-                color: white;
-                border-color: #eab308;
-            }
-
-            .letter-tile.absent {
-                background: #6b7280;
-                color: white;
-                border-color: #6b7280;
-            }
-
-            .letter-tile.hint {
-                border-color: #3b82f6;
-                background: #dbeafe;
-                color: #1e40af;
-            }
-
-        .submit-btn {
-            width: 100%;
-            background: #16a34a;
-            color: white;
-            padding: 0.625rem;
-            border-radius: 0.5rem;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 0.75rem;
-            font-size: 0.875rem;
-            touch-action: manipulation;
-        }
-
-            .submit-btn:hover:not(:disabled) {
-                background: #15803d;
-            }
-
-            .submit-btn:disabled {
-                background: #9ca3af;
-                cursor: not-allowed;
-            }
-
-        /* Keyboard */
-        .keyboard {
-            margin-bottom: 1rem;
-        }
-
-        .keyboard-row {
-            display: flex;
-            gap: 0.25rem;
-            justify-content: center;
-            margin-bottom: 0.25rem;
-        }
-
-        .key {
-            width: 32px;
-            height: 48px;
-            background: #d1d5db;
-            color: white;
-            border: none;
-            border-radius: 0.375rem;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 0.875rem;
-            touch-action: manipulation;
-        }
-
-            .key.special {
-                padding: 0 0.75rem;
-                width: auto;
-                font-size: 0.75rem;
-            }
-
-            .key:hover:not(:disabled) {
-                opacity: 0.8;
-            }
-
-            .key:disabled {
-                opacity: 0.5;
-            }
-
-        .action-btn {
-            width: 100%;
-            padding: 0.625rem;
-            border-radius: 0.5rem;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-            touch-action: manipulation;
-        }
-
-            .action-btn.primary {
-                background: #4f46e5;
-                color: white;
-            }
-
-                .action-btn.primary:hover {
-                    background: #4338ca;
-                }
-
-            .action-btn.secondary {
-                background: #9333ea;
-                color: white;
-            }
-
-                .action-btn.secondary:hover {
-                    background: #7e22ce;
-                }
-
-        .next-word-msg {
-            text-align: center;
-            font-size: 0.75rem;
-            color: #6b7280;
-            margin-top: 0.5rem;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 50;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-            .modal.active {
-                display: flex;
-            }
-
-        .modal-content {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            max-width: 448px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #4f46e5;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            color: #6b7280;
-            cursor: pointer;
-            padding: 0.5rem;
-            font-size: 1.5rem;
-        }
-
-        .shop-item, .achievement-item {
-            border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-        }
-
-            .achievement-item.unlocked {
-                border-color: #fbbf24;
-                background: #fef3c7;
-            }
-
-        .item-content {
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .item-icon {
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        /* Footer */
-        footer {
-            background: #1f2937;
-            color: white;
-            padding: 1.5rem 1rem;
-            margin-top: auto;
-        }
-
-        .footer-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .footer-link {
-            color: #d1d5db;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem;
-        }
-
-            .footer-link:hover {
-                color: white;
-            }
-
-        .footer-text {
-            color: #9ca3af;
-            font-size: 0.75rem;
-            margin-top: 0.75rem;
-        }
+        .lt-header { position: sticky; top: 0; z-index: 1000; background: rgba(11,14,20,0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--lt-border); font-family: 'DM Sans', sans-serif; }
+        .lt-nav { max-width: 1160px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+        .lt-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+        .lt-logo img { height: 36px; display: block; }
+        .lt-links { list-style: none; display: flex; align-items: center; gap: 0.25rem; margin: 0; padding: 0; }
+        .lt-links a { color: var(--lt-muted); text-decoration: none; font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: 6px; transition: all 0.2s; }
+        .lt-links a:hover { color: var(--lt-text); background: var(--lt-surface); }
+        .lt-links .lt-donate { color: var(--lt-green); border: 1px solid rgba(0,230,118,0.3); margin-left: 0.5rem; }
+        .lt-links .lt-donate:hover { background: var(--lt-green-dim); }
+        .lt-footer { background: #080b10; border-top: 1px solid var(--lt-border); padding: 2rem 0; margin-top: auto; font-family: 'DM Sans', sans-serif; }
+        .lt-footer-inner { max-width: 1160px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .lt-footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .lt-footer-links a { color: var(--lt-muted); font-size: 0.85rem; text-decoration: none; transition: color 0.2s; }
+        .lt-footer-links a:hover { color: var(--lt-text); }
+        .lt-footer-copy { color: var(--lt-muted); font-size: 0.8rem; }
+        @media (max-width: 768px) { .lt-links { display: none; } }
 
         @media (min-width: 640px) {
             .game-container {
@@ -621,6 +214,7 @@
             }
         }
     </script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Loading Screen -->
@@ -644,36 +238,19 @@
     </div>
 
     <!-- Header -->
-    <header>
-        <nav>
-            <div class="nav-content">
-                <div class="logo-section">
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <div style="height: 32px; width: 32px; background: white; border-radius: 4px; padding: 4px; display: flex; align-items: center; justify-content: center;">
-                            <img src="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png" alt="LetUsTech Logo" style="max-height: 100%; max-width: 100%; object-fit: contain;">
-                        </div>
-                        <span style="color: white; font-weight: 600; font-size: 1.125rem;">LetUsTech</span>
-                    </div>
-                </div>
-
-                <div class="nav-links">
-                    <div class="nav-items">
-                        <a href="../index.html#about" class="nav-link">About</a>
-                        <a href="../index.html#programs" class="nav-link">Programs</a>
-                        <a href="../index.html#games" class="nav-link">Games</a>
-                        <a href="../blog/blog.html" class="nav-link">Blog</a>
-                        <a href="../index.html#faq" class="nav-link">FAQ</a>
-                        <a href="../index.html#contact" class="nav-link">Contact</a>
-
-                        <div class="divider"></div>
-
-                        <button class="nav-btn" onclick="showAchievements()">
-                            🏆 <span id="achievement-count">0/4</span>
-                        </button>
-                        <a href="../index.html#donate" class="donate-btn">❤️ Donate</a>
-                    </div>
-                </div>
-            </div>
+    <header class="lt-header">
+        <nav class="lt-nav">
+            <a href="../index.html" class="lt-logo">
+                <img src="../LetUsTech.png" alt="LetUsTech" onerror="this.src='https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png'">
+            </a>
+            <ul class="lt-links">
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#programs">Programs</a></li>
+                <li><a href="../index.html#games">Games</a></li>
+                <li><a href="../index.html#faq">FAQ</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+                <li><a href="../index.html#donate" class="lt-donate">❤ Donate</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -719,16 +296,16 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <a href="https://discord.gg/dkebMS5eCX" target="_blank" class="footer-link">
-                💬 Join our Discord
-            </a>
-            <div class="footer-text">
-                <p>&copy; 2025 Word Master. All rights reserved.</p>
-                <p style="margin-top: 0.5rem;">A fun daily word puzzle game</p>
+    <footer class="lt-footer">
+        <div class="lt-footer-inner">
+            <div class="lt-footer-links">
+                <a href="../index.html#about">About</a>
+                <a href="../index.html#games">Games</a>
+                <a href="../privacy-policy.html">Privacy</a>
+                <a href="../terms-of-service.html">Terms</a>
+                <a href="../index.html#contact">Contact</a>
             </div>
+            <span class="lt-footer-copy">© 2025 LetUsTech — Wired For Your World</span>
         </div>
     </footer>
 

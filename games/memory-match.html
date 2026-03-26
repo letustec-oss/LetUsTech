@@ -44,6 +44,7 @@
             }
         }
     </script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="root"></div>
@@ -272,34 +273,19 @@
 
             return (
                 <div className="min-h-screen bg-gradient-to-br from-[#1e3a5f] via-[#2d5f8d] to-[#0a1128] flex flex-col">
-                    <nav className="bg-gradient-to-r from-[#2d4a6e] via-[#1e3a5f] to-[#0f2744] shadow-lg">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="flex justify-between items-center h-16">
-                                <div className="flex items-center gap-2">
-                                    <div className="h-8 w-8 bg-white rounded flex items-center justify-center p-1.5">
-                                        <img
-                                            src="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png"
-                                            alt="LetUsTech"
-                                            className="max-h-full max-w-full object-contain"
-                                        />
-                                    </div>
-                                    <span className="text-white font-semibold text-lg hidden sm:inline">LetUsTech</span>
-                                </div>
-
-                                <ul className="hidden md:flex items-center gap-6 text-sm">
-                                    <li><a href="../index.html#about" className="text-gray-200 hover:text-green-primary transition-colors">About</a></li>
-                                    <li><a href="../index.html#programs" className="text-gray-200 hover:text-green-primary transition-colors">Programs</a></li>
-                                    <li><a href="../index.html#games" className="text-gray-200 hover:text-green-primary transition-colors">Games</a></li>
-                                    <li><a href="../blog/blog.html" className="text-gray-200 hover:text-green-primary transition-colors">Blog</a></li>
-                                    <li><a href="../index.html#faq" className="text-gray-200 hover:text-green-primary transition-colors">FAQ</a></li>
-                                    <li><a href="../index.html#contact" className="text-gray-200 hover:text-green-primary transition-colors">Contact</a></li>
-                                    <li><a href="../index.html#donate" className="bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-red-600 hover:to-red-700 transition-all">❤️ Donate</a></li>
-                                </ul>
-
-                                <a href="../index.html#donate" className="md:hidden bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1.5 rounded text-sm font-semibold">❤️ Donate</a>
-                            </div>
-                        </div>
-                    </nav>
+                          <header style={{position:'sticky',top:0,zIndex:1000,background:'rgba(11,14,20,0.95)',backdropFilter:'blur(16px)',WebkitBackdropFilter:'blur(16px)',borderBottom:'1px solid rgba(255,255,255,0.07)',fontFamily:"'DM Sans',sans-serif"}}>
+        <nav style={{maxWidth:'1160px',margin:'0 auto',padding:'0 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:'68px'}}>
+          <a href="../index.html" style={{display:'flex',alignItems:'center',gap:'0.6rem',textDecoration:'none'}}>
+            <img src="../LetUsTech.png" alt="LetUsTech" style={{height:'36px',display:'block'}} onError={(e)=>{e.target.src='https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png'}} />
+          </a>
+          <ul style={{listStyle:'none',display:'flex',alignItems:'center',gap:'0.25rem',margin:0,padding:0}}>
+            {[['About','#about'],['Programs','#programs'],['Games','#games'],['FAQ','#faq'],['Contact','#contact']].map(([label,hash])=>(
+              <li key={label}><a href={`../index.html${hash}`} style={{color:'#7a839a',textDecoration:'none',fontSize:'0.9rem',padding:'0.4rem 0.8rem',borderRadius:'6px',transition:'all 0.2s'}} onMouseEnter={e=>{e.target.style.color='#e8eaf0';e.target.style.background='#1c2233'}} onMouseLeave={e=>{e.target.style.color='#7a839a';e.target.style.background='transparent'}}>{label}</a></li>
+            ))}
+            <li><a href="../index.html#donate" style={{color:'#00e676',border:'1px solid rgba(0,230,118,0.3)',textDecoration:'none',fontSize:'0.9rem',padding:'0.4rem 0.8rem',borderRadius:'6px',marginLeft:'0.5rem',transition:'all 0.2s'}}>❤ Donate</a></li>
+          </ul>
+        </nav>
+      </header>
 
                     <div className="flex-1 p-3 sm:p-4 md:p-8">
                         <div className="max-w-7xl mx-auto">
@@ -628,11 +614,16 @@
                         </div>
                     </div>
 
-                    <footer className="bg-white border-t border-gray-200 py-4">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-                            <p className="text-xs sm:text-sm text-gray-600">© Copyrighted by LetUsTech</p>
-                        </div>
-                    </footer>
+                          <footer style={{background:'#080b10',borderTop:'1px solid rgba(255,255,255,0.07)',padding:'2rem 0',marginTop:'auto',fontFamily:"'DM Sans',sans-serif"}}>
+        <div style={{maxWidth:'1160px',margin:'0 auto',padding:'0 2rem',display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:'1rem'}}>
+          <div style={{display:'flex',gap:'1.5rem',flexWrap:'wrap'}}>
+            {[['About','#about'],['Games','#games'],['Privacy','../privacy-policy.html'],['Terms','../terms-of-service.html'],['Contact','#contact']].map(([label,href])=>(
+              <a key={label} href={href.startsWith('../')?href:`../index.html${href}`} style={{color:'#7a839a',fontSize:'0.85rem',textDecoration:'none'}}>{label}</a>
+            ))}
+          </div>
+          <span style={{color:'#7a839a',fontSize:'0.8rem'}}>© 2025 LetUsTech — Wired For Your World</span>
+        </div>
+      </footer>
                 </div>
             );
         };

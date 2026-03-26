@@ -26,431 +26,28 @@
         }
 
         /* Header Styles */
-        header {
-            background: linear-gradient(135deg, #2d4a6e 0%, #1e3a5f 50%, #0f2744 100%);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            padding: 15px 20px;
+        /* ── LetUsTech Nav ── */
+        :root {
+            --lt-bg: #0b0e14; --lt-bg2: #111520; --lt-surface: #1c2233;
+            --lt-border: rgba(255,255,255,0.07); --lt-green: #00e676;
+            --lt-green-dim: #00e67622; --lt-text: #e8eaf0; --lt-muted: #7a839a;
         }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo img {
-            height: 40px;
-            width: auto;
-        }
-
-        .logo-text {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: white;
-        }
-
-        nav {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: #e5e7eb;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #10b981;
-        }
-
-        /* Ad Styles */
-        .ad-container {
-            background: white;
-            border-radius: 10px;
-            padding: 10px;
-            margin: 20px auto;
-            max-width: 728px;
-            min-height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        .ad-sidebar {
-            background: white;
-            border-radius: 10px;
-            padding: 10px;
-            width: 160px;
-            min-height: 600px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        /* Main Content */
-        main {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px;
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .content-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex: 1;
-            max-width: 800px;
-        }
-
-        .game-container {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
-            width: 100%;
-        }
-
-        h1 {
-            text-align: center;
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 2em;
-        }
-
-        .instructions {
-            text-align: center;
-            color: #666;
-            margin-bottom: 20px;
-            font-size: 0.9em;
-        }
-
-        .difficulty-selector {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-
-        .difficulty-btn {
-            padding: 10px 20px;
-            border: 2px solid #667eea;
-            background: white;
-            color: #667eea;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .difficulty-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .difficulty-btn.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .secret-code {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        .code-slot {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            border: 3px solid #333;
-            background: #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .code-slot.revealed {
-            background: #667eea;
-            color: white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .number-selector {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .number-option {
-            width: 45px;
-            height: 45px;
-            border-radius: 10px;
-            border: 3px solid #333;
-            background: #667eea;
-            color: white;
-            font-size: 1.3em;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .number-option:hover {
-            transform: scale(1.1);
-        }
-
-        .number-option.selected {
-            border: 4px solid gold;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
-            background: #764ba2;
-        }
-
-        .current-guess {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        .guess-slot {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            border: 3px solid #333;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #333;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .guess-slot:hover {
-            transform: scale(1.05);
-            background: #f8f9fa;
-        }
-
-        .guess-slot.filled {
-            background: #667eea;
-            color: white;
-        }
-
-        .submit-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #1e3a5f 0%, #0a1128 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-            margin-bottom: 30px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .history {
-            margin-top: 30px;
-        }
-
-        .history-title {
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .guess-row {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        .guess-slots {
-            display: flex;
-            gap: 6px;
-        }
-
-        .history-slot {
-            width: 35px;
-            height: 35px;
-            border-radius: 8px;
-            border: 2px solid #333;
-            background: #667eea;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        .feedback {
-            display: flex;
-            gap: 5px;
-            margin-left: auto;
-        }
-
-        .feedback-peg {
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            border: 1px solid #333;
-        }
-
-        .correct-position {
-            background: #2ecc71;
-        }
-
-        .correct-number {
-            background: #f39c12;
-        }
-
-        .message {
-            text-align: center;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
-        .win {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .lose {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .new-game-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: transform 0.2s;
-        }
-
-        .new-game-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .attempts {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.1em;
-            color: #666;
-        }
-
-        /* Footer Styles */
-        footer {
-            background: white;
-            padding: 30px 20px;
-            margin-top: 20px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-
-        .footer-section {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .footer-section h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-
-        .footer-section a {
-            display: block;
-            color: #333;
-            text-decoration: none;
-            margin-bottom: 10px;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: #667eea;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            color: #666;
-            font-size: 0.9em;
-        }
+        .lt-header { position: sticky; top: 0; z-index: 1000; background: rgba(11,14,20,0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--lt-border); font-family: 'DM Sans', sans-serif; }
+        .lt-nav { max-width: 1160px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+        .lt-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+        .lt-logo img { height: 36px; display: block; }
+        .lt-links { list-style: none; display: flex; align-items: center; gap: 0.25rem; margin: 0; padding: 0; }
+        .lt-links a { color: var(--lt-muted); text-decoration: none; font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: 6px; transition: all 0.2s; }
+        .lt-links a:hover { color: var(--lt-text); background: var(--lt-surface); }
+        .lt-links .lt-donate { color: var(--lt-green); border: 1px solid rgba(0,230,118,0.3); margin-left: 0.5rem; }
+        .lt-links .lt-donate:hover { background: var(--lt-green-dim); }
+        .lt-footer { background: #080b10; border-top: 1px solid var(--lt-border); padding: 2rem 0; margin-top: auto; font-family: 'DM Sans', sans-serif; }
+        .lt-footer-inner { max-width: 1160px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .lt-footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .lt-footer-links a { color: var(--lt-muted); font-size: 0.85rem; text-decoration: none; transition: color 0.2s; }
+        .lt-footer-links a:hover { color: var(--lt-text); }
+        .lt-footer-copy { color: var(--lt-muted); font-size: 0.8rem; }
+        @media (max-width: 768px) { .lt-links { display: none; } }
 
         /* Mobile Responsiveness */
         @media (max-width: 1200px) {
@@ -711,22 +308,20 @@
         </div>
     </div>
 
-    <header>
-        <div class="header-content">
-            <div class="logo">
-                <img src="https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png" alt="LetUsTech Logo" onerror="this.style.display='none'">
-                <span class="logo-text">LetUsTech</span>
-            </div>
-            <nav>
-                <a href="../index.html#about">About</a>
-                <a href="../index.html#programs">Programs</a>
-                <a href="../index.html#games">Games</a>
-                <a href="../blog/blog.html">Blog</a>
-                <a href="../index.html#faq">FAQ</a>
-                <a href="../index.html#contact">Contact</a>
-                <a href="../index.html#donate" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600;">❤️ Donate</a>
-            </nav>
-        </div>
+    <header class="lt-header">
+        <nav class="lt-nav">
+            <a href="../index.html" class="lt-logo">
+                <img src="../LetUsTech.png" alt="LetUsTech" onerror="this.src='https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png'">
+            </a>
+            <ul class="lt-links">
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#programs">Programs</a></li>
+                <li><a href="../index.html#games">Games</a></li>
+                <li><a href="../index.html#faq">FAQ</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+                <li><a href="../index.html#donate" class="lt-donate">❤ Donate</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
@@ -813,16 +408,16 @@
         </aside>
     </main>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Support</h3>
-                <a href="https://discord.gg/dkebMS5eCX" target="_blank">Discord Community</a>
-                <a href="https://www.paypal.com/donate/?hosted_button_id=MJNXEL8GRRPSL" target="_blank">Donate</a>
+    <footer class="lt-footer">
+        <div class="lt-footer-inner">
+            <div class="lt-footer-links">
+                <a href="../index.html#about">About</a>
+                <a href="../index.html#games">Games</a>
+                <a href="../privacy-policy.html">Privacy</a>
+                <a href="../terms-of-service.html">Terms</a>
+                <a href="../index.html#contact">Contact</a>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 LetUsTech. All rights reserved.</p>
+            <span class="lt-footer-copy">© 2025 LetUsTech — Wired For Your World</span>
         </div>
     </footer>
 
