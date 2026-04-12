@@ -12,14 +12,20 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        run: npm ci
+        run: npm install
         working-directory: data-analyzer-pro
       - name: Build Windows exe
         run: npx electron-builder --win --x64
         working-directory: data-analyzer-pro
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/upload-artifact@v4
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: windows-installer
-          path: data-analyzer-pro/dist/*.exe
+          tag_name: v1.0.3
+          name: Data Analyzer Pro v1.0.3
+          draft: false
+          prerelease: false
+          files: data-analyzer-pro/dist/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
