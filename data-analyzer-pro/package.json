@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Advanced CSV data analysis with AI insights",
   "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/letustec-oss/LetUsTech.git"
+  },
   "scripts": {
     "start": "electron .",
     "build": "electron-builder --dir",
@@ -18,11 +22,11 @@
     "files": ["main.js", "preload.js", "src/**/*"],
     "win": {
       "target": [{ "target": "nsis", "arch": ["x64"] }],
-      "icon": "src/assets/icon.ico"
+      "icon": "src/assets/icon.png"
     },
     "mac": {
       "target": [{ "target": "dmg", "arch": ["x64", "arm64"] }],
-      "icon": "src/assets/icon.icns"
+      "icon": "src/assets/icon.png"
     },
     "linux": {
       "target": [{ "target": "AppImage", "arch": ["x64"] }],
