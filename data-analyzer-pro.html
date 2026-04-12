@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Analyzer Pro — Free Desktop App | LetUsTech</title>
+<meta name="description" content="Analyze CSV files instantly with statistics, charts, correlation, data quality reports and AI insights. Free desktop app for Windows, Mac & Linux.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0e14;
+    --surface: #111520;
+    --surface2: #161c2a;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --green: #00e676;
+    --green-dim: rgba(0,230,118,0.12);
+    --green-glow: rgba(0,230,118,0.25);
+    --text: #edf2f7;
+    --text2: #8892a4;
+    --text3: #4a5568;
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(11,14,20,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 16px;
+    color: var(--text); text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display: flex; align-items: center; gap: 24px; }
+  .nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-download {
+    background: var(--green); color: #000;
+    font-size: 13px; font-weight: 600;
+    padding: 8px 18px; border-radius: 8px;
+    text-decoration: none; transition: opacity 0.2s;
+  }
+  .nav-download:hover { opacity: 0.85; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 100px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(0,230,118,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--green-dim);
+    border: 1px solid rgba(0,230,118,0.25);
+    border-radius: 20px; padding: 5px 14px;
+    font-size: 12px; font-weight: 500; color: var(--green);
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s ease infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(42px, 7vw, 80px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 860px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 em { font-style: normal; color: var(--green); }
+  .hero p {
+    font-size: clamp(15px, 2vw, 18px);
+    color: var(--text2);
+    max-width: 560px;
+    margin: 20px auto 40px;
+    font-weight: 300;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-actions {
+    display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green); color: #000;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 600;
+    padding: 14px 28px; border-radius: 10px;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(255,255,255,0.15);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  .btn-primary:hover::after { transform: translateX(0); }
+  .btn-primary svg { width: 18px; height: 18px; }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: none; color: var(--text);
+    font-size: 15px; font-weight: 500;
+    padding: 14px 28px; border-radius: 10px;
+    text-decoration: none; border: 1px solid var(--border2);
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { background: var(--surface); border-color: var(--green); color: var(--green); }
+  .hero-meta {
+    margin-top: 20px; font-size: 12px; color: var(--text3);
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+  .hero-meta span { margin: 0 8px; }
+
+  /* APP PREVIEW */
+  .app-preview {
+    margin: 0 auto;
+    max-width: 960px;
+    padding: 0 5%;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+  .app-window {
+    background: #0d1117;
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05), 0 0 60px rgba(0,230,118,0.05);
+  }
+  .app-titlebar {
+    background: #161b22;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 0 14px;
+    height: 36px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .traffic-lights { display: flex; gap: 6px; }
+  .tl { width: 11px; height: 11px; border-radius: 50%; }
+  .tl-r { background: #ff5f57; }
+  .tl-y { background: #febc2e; }
+  .tl-g { background: #28c840; }
+  .app-titlebar-label {
+    flex: 1; text-align: center;
+    font-size: 11px; color: #6e7681;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .app-body { display: flex; height: 340px; }
+  .app-sidebar {
+    width: 160px; background: #161b22;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    padding: 12px 0;
+    flex-shrink: 0;
+  }
+  .app-sidebar-label {
+    font-size: 9px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.1em; color: #4a5568;
+    padding: 10px 12px 5px;
+  }
+  .app-nav { padding: 6px 8px; margin: 1px 4px; border-radius: 5px; font-size: 11px; color: #6e7681; display: flex; align-items: center; gap: 7px; }
+  .app-nav.active { background: rgba(0,230,118,0.1); color: #00e676; }
+  .app-nav-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  .app-content { flex: 1; padding: 14px; overflow: hidden; }
+  .app-metrics { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 12px; }
+  .app-metric { background: #161b22; border: 1px solid rgba(255,255,255,0.06); border-radius: 7px; padding: 10px 12px; }
+  .app-metric-label { font-size: 9px; color: #4a5568; margin-bottom: 4px; }
+  .app-metric-val { font-size: 18px; font-weight: 700; color: #e6edf3; font-family: 'Syne', sans-serif; }
+  .app-metric.hi .app-metric-val { color: #00e676; }
+  .app-chart-area { background: #161b22; border: 1px solid rgba(255,255,255,0.06); border-radius: 7px; padding: 10px; height: 200px; display: flex; align-items: flex-end; gap: 5px; overflow: hidden; }
+  .bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+  .bar { width: 100%; border-radius: 3px 3px 0 0; transition: height 0.3s; }
+  .bar-lbl { font-size: 8px; color: #4a5568; white-space: nowrap; }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+  /* SECTION */
+  section { padding: 100px 5%; }
+  .section-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--green);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800; line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 600px;
+  }
+  .section-title em { font-style: normal; color: var(--green); }
+  .section-sub {
+    font-size: 16px; color: var(--text2);
+    max-width: 520px; margin-top: 14px;
+    font-weight: 300; line-height: 1.7;
+  }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  /* FEATURES GRID */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-top: 60px;
+  }
+  .feature {
+    background: var(--bg);
+    padding: 32px 28px;
+    transition: background 0.2s;
+    position: relative;
+  }
+  .feature:hover { background: var(--surface); }
+  .feature-icon {
+    width: 44px; height: 44px;
+    background: var(--green-dim);
+    border: 1px solid rgba(0,230,118,0.2);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  .feature h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 700;
+    margin-bottom: 8px; color: var(--text);
+  }
+  .feature p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .feature-tag {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 10px; font-weight: 600;
+    background: var(--green-dim); color: var(--green);
+    border: 1px solid rgba(0,230,118,0.2);
+    padding: 2px 8px; border-radius: 20px;
+  }
+
+  /* HOW IT WORKS */
+  .steps { margin-top: 60px; display: grid; gap: 0; }
+  .step {
+    display: grid; grid-template-columns: 60px 1fr;
+    gap: 24px; padding: 32px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    width: 44px; height: 44px;
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 800;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+  .step h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .step p { font-size: 14px; color: var(--text2); line-height: 1.7; }
+  .step-badge {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    background: rgba(56,139,253,0.12); color: #388bfd;
+    border: 1px solid rgba(56,139,253,0.2);
+    padding: 2px 8px; border-radius: 20px; margin-top: 8px;
+  }
+
+  /* PRIVACY STRIP */
+  .privacy-strip {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 5%;
+  }
+  .privacy-strip .container {
+    display: flex; flex-wrap: wrap;
+    align-items: center; justify-content: center;
+    gap: 40px;
+  }
+  .privacy-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--text2);
+  }
+  .privacy-icon {
+    width: 32px; height: 32px;
+    background: var(--green-dim);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+  }
+
+  /* DOWNLOAD SECTION */
+  .download-section {
+    text-align: center;
+    padding: 100px 5%;
+    position: relative;
+  }
+  .download-section::before {
+    content: '';
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 400px;
+    background: radial-gradient(circle, rgba(0,230,118,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .download-cards {
+    display: flex; flex-wrap: wrap;
+    gap: 16px; justify-content: center;
+    margin: 48px auto 0; max-width: 700px;
+  }
+  .download-card {
+    flex: 1; min-width: 180px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-lg);
+    padding: 24px 20px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .download-card:hover {
+    border-color: var(--green);
+    background: var(--surface2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,230,118,0.08);
+  }
+  .download-card-icon { font-size: 28px; }
+  .download-card-os { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); }
+  .download-card-ext { font-size: 11px; color: var(--text3); }
+  .download-card-btn {
+    margin-top: 4px;
+    background: var(--green); color: #000;
+    font-size: 12px; font-weight: 600;
+    padding: 6px 16px; border-radius: 6px;
+    width: 100%; text-align: center;
+  }
+  .download-card.coming { opacity: 0.5; pointer-events: none; }
+  .download-note { font-size: 12px; color: var(--text3); margin-top: 20px; }
+
+  /* COMPARISON TABLE */
+  .compare-table {
+    width: 100%; border-collapse: collapse;
+    margin-top: 48px; font-size: 13px;
+  }
+  .compare-table th {
+    padding: 12px 16px; text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-family: 'Syne', sans-serif; font-size: 12px;
+    font-weight: 700; color: var(--text2);
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .compare-table th:not(:first-child) { text-align: center; }
+  .compare-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: var(--surface); }
+  .compare-table td:not(:first-child) { text-align: center; }
+  .check { color: var(--green); font-size: 16px; }
+  .dash { color: var(--text3); }
+  .col-free { color: var(--text); }
+  .col-ai { color: var(--green); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 5%;
+    display: flex; flex-wrap: wrap;
+    align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 15px;
+    color: var(--text); text-decoration: none;
+  }
+  .footer-logo span { color: var(--green); }
+  footer p { font-size: 12px; color: var(--text3); }
+  footer a { color: var(--text3); text-decoration: none; margin-left: 20px; font-size: 12px; }
+  footer a:hover { color: var(--green); }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .app-metrics { grid-template-columns: repeat(2,1fr); }
+    .step { grid-template-columns: 40px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/index.html" class="nav-logo">Letus<span>Tech</span></a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how-it-works">How it works</a>
+    <a href="#download">Download</a>
+    <a href="/index.html">← Back to site</a>
+  </div>
+  <a href="#download" class="nav-download">↓ Free Download</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Free desktop app · No account needed</div>
+  <h1>Analyze CSV data like a<br><em>data scientist</em></h1>
+  <p>Drop in any CSV file and instantly get statistics, interactive charts, correlation analysis, data quality reports — and optional AI insights powered by Claude.</p>
+  <div class="hero-actions">
+    <a href="#download" class="btn-primary">
+      <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2v10M5 8l4 4 4-4"/><path d="M2 14h14"/></svg>
+      Download Free
+    </a>
+    <a href="#how-it-works" class="btn-secondary">See how it works</a>
+  </div>
+  <div class="hero-meta">
+    <span>✓ Windows · Mac · Linux</span>
+    <span>✓ Works offline</span>
+    <span>✓ No account needed</span>
+    <span>✓ Data stays on your machine</span>
+  </div>
+</section>
+
+<!-- APP PREVIEW MOCKUP -->
+<div class="app-preview">
+  <div class="app-window">
+    <div class="app-titlebar">
+      <div class="traffic-lights">
+        <div class="tl tl-r"></div>
+        <div class="tl tl-y"></div>
+        <div class="tl tl-g"></div>
+      </div>
+      <div class="app-titlebar-label">Data Analyzer Pro — sales_data_2026.csv</div>
+      <div style="width:55px"></div>
+    </div>
+    <div class="app-body">
+      <div class="app-sidebar">
+        <div class="app-sidebar-label">Analysis</div>
+        <div class="app-nav active"><div class="app-nav-dot"></div> Overview</div>
+        <div class="app-nav"><div class="app-nav-dot"></div> Statistics</div>
+        <div class="app-nav"><div class="app-nav-dot"></div> Charts</div>
+        <div class="app-nav"><div class="app-nav-dot"></div> Correlation</div>
+        <div class="app-nav"><div class="app-nav-dot"></div> Data Quality</div>
+        <div class="app-sidebar-label" style="margin-top:8px">AI</div>
+        <div class="app-nav"><div class="app-nav-dot"></div> AI Insights</div>
+      </div>
+      <div class="app-content">
+        <div class="app-metrics">
+          <div class="app-metric hi"><div class="app-metric-label">ROWS</div><div class="app-metric-val">12,847</div></div>
+          <div class="app-metric"><div class="app-metric-label">COLUMNS</div><div class="app-metric-val">9</div></div>
+          <div class="app-metric hi"><div class="app-metric-label">COMPLETENESS</div><div class="app-metric-val">97%</div></div>
+          <div class="app-metric"><div class="app-metric-label">NUMERIC</div><div class="app-metric-val">6</div></div>
+        </div>
+        <div class="app-chart-area" id="mockChart"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRIVACY STRIP -->
+<div class="privacy-strip" style="margin-top:80px">
+  <div class="container">
+    <div class="privacy-item"><div class="privacy-icon">🔒</div>All data processed locally</div>
+    <div class="privacy-item"><div class="privacy-icon">📡</div>No internet required for core features</div>
+    <div class="privacy-item"><div class="privacy-icon">🚫</div>No data uploaded to any server</div>
+    <div class="privacy-item"><div class="privacy-icon">💾</div>Runs entirely on your machine</div>
+    <div class="privacy-item"><div class="privacy-icon">🆓</div>Completely free, forever</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Features</div>
+      <h2 class="section-title">Everything you need to <em>understand your data</em></h2>
+      <p class="section-sub">Built for business analysts, developers, and anyone who works with CSV files.</p>
+    </div>
+    <div class="features-grid reveal">
+      <div class="feature">
+        <div class="feature-icon">📊</div>
+        <h3>Descriptive Statistics</h3>
+        <p>Instantly compute mean, median, standard deviation, min, max, Q1, Q3 and IQR for every numeric column in your dataset.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📈</div>
+        <h3>Interactive Charts</h3>
+        <p>Bar, line, scatter, and pie charts with selectable axes. Histograms for distribution analysis. Category frequency breakdowns for text columns.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔗</div>
+        <h3>Correlation Matrix</h3>
+        <p>Full Pearson correlation heatmap across all numeric columns. Instantly spot which variables move together or inversely.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔍</div>
+        <h3>Data Quality Audit</h3>
+        <p>Per-column missing value counts, coverage percentages, constant column detection, and unique value analysis — before you clean your data.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>Automated Insights</h3>
+        <p>Rule-based outlier detection (2.5σ), skewness warnings, high variation flags, and strong correlation alerts — no setup required.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-tag">Optional</div>
+        <div class="feature-icon">🤖</div>
+        <h3>AI Business Insights</h3>
+        <p>Connect your Anthropic API key and ask Claude natural language questions about your data. Get business summaries, forecasting advice, and more.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📄</div>
+        <h3>Export HTML Reports</h3>
+        <p>One click generates a polished, standalone HTML report with all statistics and insights — ready to share with your team or attach to a presentation.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🖥️</div>
+        <h3>Native Desktop App</h3>
+        <p>Drag & drop CSV files straight onto the app window. Native file dialogs, keyboard shortcuts, and a proper menu bar on every platform.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <h3>Privacy First</h3>
+        <p>Your data never leaves your machine. All analysis runs locally. No telemetry, no tracking, no cloud processing for core features.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">How it works</div>
+      <h2 class="section-title">From CSV to insights in <em>seconds</em></h2>
+    </div>
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>Open your CSV</h3>
+          <p>Drag & drop a CSV file onto the app or use File → Open (Ctrl+O). PapaParse reads it instantly — headers are auto-detected and every column is classified as numeric, categorical, or date automatically.</p>
+          <span class="step-badge">Works with any CSV — no format restrictions</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>Instant analysis</h3>
+          <p>The moment your file loads, the app computes full descriptive statistics, scans for outliers using the 2.5σ rule, checks every column for missing values, and calculates Pearson correlations between all numeric column pairs.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>Explore with charts</h3>
+          <p>Switch to the Charts tab to visualise any combination of columns. Choose bar, line, scatter, or pie. See the distribution of numeric columns with histograms. Rank your categories by frequency.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <h3>Review data quality</h3>
+          <p>The Data Quality tab gives you a full audit — missing percentages, unique counts, zero counts, and a status flag (OK / Some missing / High missing / Constant) for every column.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div>
+          <h3>Ask AI questions (optional)</h3>
+          <p>Add a free Anthropic API key in Settings and the AI Insights tab unlocks. Ask Claude "What story does this data tell?" or "Which columns should I use for forecasting?" — your raw data never leaves your machine, only column-level statistics are sent.</p>
+          <span class="step-badge">Only column statistics sent — not your raw data</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div>
+          <h3>Export your report</h3>
+          <p>Click Export Report (Ctrl+E) to generate a polished standalone HTML file with all your statistics, insights, and quality audit. Open it in any browser, email it, or drop it in a presentation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">What's included</div>
+      <h2 class="section-title">Free features vs <em>AI-powered</em></h2>
+      <p class="section-sub">Everything core is completely free. AI Insights requires an Anthropic API key — typical usage costs pennies per session.</p>
+    </div>
+    <div class="reveal" style="overflow-x:auto">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="col-free">Free</th>
+            <th class="col-ai">With API Key</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${[
+            ['Load & parse CSV files (any size)','✓','✓'],
+            ['Automatic column type detection','✓','✓'],
+            ['Descriptive statistics (mean, median, std dev, Q1/Q3, IQR)','✓','✓'],
+            ['Outlier detection (2.5σ rule)','✓','✓'],
+            ['Interactive charts — bar, line, scatter, pie','✓','✓'],
+            ['Distribution histograms','✓','✓'],
+            ['Pearson correlation heatmap','✓','✓'],
+            ['Data quality audit with status flags','✓','✓'],
+            ['Automated rule-based insights','✓','✓'],
+            ['HTML report export','✓','✓'],
+            ['AI-powered natural language questions','—','✓'],
+            ['Business summary & recommendations','—','✓'],
+            ['Forecasting column suggestions','—','✓'],
+          ].map(([f,a,b]) => `<tr><td>${f}</td><td>${a==='✓'?`<span class="check">✓</span>`:`<span class="dash">—</span>`}</td><td>${b==='✓'?`<span class="check">✓</span>`:`<span class="dash">—</span>`}</td></tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section id="download" class="download-section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Download</div>
+      <h2 class="section-title" style="margin:0 auto;text-align:center">Get Data Analyzer Pro — <em>Free</em></h2>
+      <p class="section-sub" style="margin:14px auto 0;text-align:center">No account. No install wizard (portable option available). Just download and run.</p>
+    </div>
+    <div class="download-cards reveal">
+      <a href="https://github.com/letustec-oss/LetUsTech/releases/latest/download/Data-Analyzer-Pro-Setup-1.0.0.exe" class="download-card">
+        <div class="download-card-icon">🪟</div>
+        <div class="download-card-os">Windows</div>
+        <div class="download-card-ext">.exe installer · x64</div>
+        <div class="download-card-btn">↓ Download</div>
+      </a>
+      <a href="https://github.com/letustec-oss/LetUsTech/releases/latest/download/Data-Analyzer-Pro-1.0.0.dmg" class="download-card coming">
+        <div class="download-card-icon">🍎</div>
+        <div class="download-card-os">macOS</div>
+        <div class="download-card-ext">.dmg · Intel & Apple Silicon</div>
+        <div class="download-card-btn">Coming soon</div>
+      </a>
+      <a href="https://github.com/letustec-oss/LetUsTech/releases/latest/download/Data-Analyzer-Pro-1.0.0.AppImage" class="download-card coming">
+        <div class="download-card-icon">🐧</div>
+        <div class="download-card-os">Linux</div>
+        <div class="download-card-ext">.AppImage · x64</div>
+        <div class="download-card-btn">Coming soon</div>
+      </a>
+    </div>
+    <p class="download-note reveal">v1.0.0 · Free & open source · <a href="https://github.com/letustec-oss/LetUsTech" style="color:var(--green);text-decoration:none">View source on GitHub →</a></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="/index.html" class="footer-logo">Letus<span>Tech</span></a>
+  <p>© 2026 LetUsTech · Free tools, built for everyone</p>
+  <div>
+    <a href="/index.html">Home</a>
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="https://github.com/letustec-oss/LetUsTech">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Animated mock chart bars
+  const data = [
+    {h:55,c:'#00e676',l:'Jan'},{h:72,c:'#00e676',l:'Feb'},{h:48,c:'#388bfd',l:'Mar'},
+    {h:88,c:'#00e676',l:'Apr'},{h:63,c:'#388bfd',l:'May'},{h:95,c:'#00e676',l:'Jun'},
+    {h:70,c:'#388bfd',l:'Jul'},{h:82,c:'#00e676',l:'Aug'},{h:58,c:'#388bfd',l:'Sep'},
+    {h:76,c:'#00e676',l:'Oct'},{h:91,c:'#00e676',l:'Nov'},{h:67,c:'#388bfd',l:'Dec'}
+  ];
+  const chart = document.getElementById('mockChart');
+  data.forEach((d, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'bar-wrap';
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.cssText = `height:0;background:${d.c}55;border:1px solid ${d.c};transition:height 0.6s ${i*0.05}s ease`;
+    const lbl = document.createElement('div');
+    lbl.className = 'bar-lbl'; lbl.textContent = d.l;
+    wrap.appendChild(bar); wrap.appendChild(lbl);
+    chart.appendChild(wrap);
+    setTimeout(() => { bar.style.height = d.h + '%'; }, 300 + i * 50);
+  });
+</script>
+</body>
+</html>
