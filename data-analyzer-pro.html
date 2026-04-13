@@ -632,21 +632,19 @@
           </tr>
         </thead>
         <tbody>
-          ${[
-            ['Load & parse CSV files (any size)','✓','✓'],
-            ['Automatic column type detection','✓','✓'],
-            ['Descriptive statistics (mean, median, std dev, Q1/Q3, IQR)','✓','✓'],
-            ['Outlier detection (2.5σ rule)','✓','✓'],
-            ['Interactive charts — bar, line, scatter, pie','✓','✓'],
-            ['Distribution histograms','✓','✓'],
-            ['Pearson correlation heatmap','✓','✓'],
-            ['Data quality audit with status flags','✓','✓'],
-            ['Automated rule-based insights','✓','✓'],
-            ['HTML report export','✓','✓'],
-            ['AI-powered natural language questions','—','✓'],
-            ['Business summary & recommendations','—','✓'],
-            ['Forecasting column suggestions','—','✓'],
-          ].map(([f,a,b]) => `<tr><td>${f}</td><td>${a==='✓'?`<span class="check">✓</span>`:`<span class="dash">—</span>`}</td><td>${b==='✓'?`<span class="check">✓</span>`:`<span class="dash">—</span>`}</td></tr>`).join('')}
+          <tr><td>Load &amp; parse CSV files (any size)</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Automatic column type detection</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Descriptive statistics (mean, median, std dev, Q1/Q3, IQR)</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Outlier detection (2.5σ rule)</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Interactive charts — bar, line, scatter, pie</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Distribution histograms</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Pearson correlation heatmap</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Data quality audit with status flags</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Automated rule-based insights</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>HTML report export</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>AI-powered natural language questions</td><td><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Business summary &amp; recommendations</td><td><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Forecasting column suggestions</td><td><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
         </tbody>
       </table>
     </div>
