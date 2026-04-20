@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report a Bug | LetUsTech</title>
+<meta name="description" content="Found a bug in a LetUsTech app? Report it here with full details so we can fix it fast.">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5830581574523106" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H548VRKNHW');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0e14;
+    --surface: #111520;
+    --surface2: #161c2a;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --green: #00e676;
+    --green-dim: rgba(0,230,118,0.12);
+    --red: #ff5f57;
+    --red-dim: rgba(255,95,87,0.1);
+    --yellow: #febc2e;
+    --yellow-dim: rgba(254,188,46,0.1);
+    --blue: #388bfd;
+    --blue-dim: rgba(56,139,253,0.1);
+    --text: #edf2f7;
+    --text2: #8892a4;
+    --text3: #4a5568;
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(11,14,20,0.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%; height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; color: var(--text); text-decoration: none; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display: flex; align-items: center; gap: 24px; }
+  .nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-back { background: var(--surface); color: var(--text2); font-size: 13px; font-weight: 500; padding: 8px 16px; border-radius: 8px; text-decoration: none; border: 1px solid var(--border2); transition: all 0.2s; }
+  .nav-back:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+  /* PAGE HERO */
+  .page-hero {
+    padding: 120px 5% 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-hero::before {
+    content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 500px;
+    background: radial-gradient(circle, rgba(255,95,87,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .page-hero-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--red-dim); border: 1px solid rgba(255,95,87,0.2);
+    border-radius: 20px; padding: 5px 14px;
+    font-size: 12px; font-weight: 500; color: var(--red);
+    margin-bottom: 24px;
+  }
+  .page-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 5vw, 56px); font-weight: 800;
+    line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px;
+  }
+  .page-hero h1 em { font-style: normal; color: var(--green); }
+  .page-hero p { font-size: 16px; color: var(--text2); max-width: 500px; margin: 0 auto; font-weight: 300; line-height: 1.7; }
+
+  /* MAIN LAYOUT */
+  .main-wrap { max-width: 900px; margin: 0 auto; padding: 0 5% 80px; display: grid; grid-template-columns: 1fr 300px; gap: 2rem; align-items: start; }
+
+  /* FORM */
+  .form-card {
+    background: var(--surface); border: 1px solid var(--border2);
+    border-radius: var(--radius-lg); padding: 2rem;
+  }
+  .form-card h2 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 1.5rem; }
+
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label {
+    display: block; font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text2); margin-bottom: 6px;
+  }
+  .form-group label .required { color: var(--red); margin-left: 3px; }
+  .form-group label .optional { color: var(--text3); font-weight: 400; text-transform: none; letter-spacing: 0; margin-left: 4px; font-size: 11px; }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(0,230,118,0.08);
+  }
+  .form-group textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+  .form-group select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238892a4' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+
+  /* SEVERITY SELECTOR */
+  .severity-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .severity-option { position: relative; }
+  .severity-option input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .severity-label {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 12px 8px; border-radius: 8px;
+    border: 1px solid var(--border2); cursor: pointer;
+    transition: all 0.2s; text-align: center;
+    background: var(--bg);
+  }
+  .severity-label .sev-icon { font-size: 20px; }
+  .severity-label .sev-name { font-size: 11px; font-weight: 600; }
+  .severity-label .sev-desc { font-size: 10px; color: var(--text3); }
+
+  .severity-option input:checked + .severity-label.low  { border-color: var(--blue); background: var(--blue-dim); }
+  .severity-option input:checked + .severity-label.low .sev-name { color: var(--blue); }
+  .severity-option input:checked + .severity-label.med  { border-color: var(--yellow); background: var(--yellow-dim); }
+  .severity-option input:checked + .severity-label.med .sev-name { color: var(--yellow); }
+  .severity-option input:checked + .severity-label.high { border-color: var(--red); background: var(--red-dim); }
+  .severity-option input:checked + .severity-label.high .sev-name { color: var(--red); }
+
+  /* DATETIME AUTO */
+  .datetime-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .auto-tag {
+    font-size: 10px; color: var(--green); background: var(--green-dim);
+    border: 1px solid rgba(0,230,118,0.2); padding: 2px 8px; border-radius: 20px;
+    display: inline-block; margin-left: 6px; vertical-align: middle;
+  }
+
+  /* SUBMIT BTN */
+  .submit-btn {
+    width: 100%; padding: 14px;
+    background: var(--green); color: #000;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700;
+    border: none; border-radius: var(--radius); cursor: pointer;
+    transition: all 0.2s; margin-top: 0.5rem;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .submit-btn:hover { opacity: 0.88; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,230,118,0.2); }
+
+  /* SUCCESS STATE */
+  .success-msg {
+    display: none;
+    background: var(--green-dim); border: 1px solid rgba(0,230,118,0.25);
+    border-radius: var(--radius); padding: 1rem 1.25rem;
+    font-size: 14px; color: var(--green);
+    margin-top: 1rem; text-align: center; line-height: 1.6;
+  }
+  .success-msg.show { display: block; }
+
+  /* SIDEBAR */
+  .sidebar { display: flex; flex-direction: column; gap: 1rem; }
+
+  .info-card {
+    background: var(--surface); border: 1px solid var(--border2);
+    border-radius: var(--radius-lg); padding: 1.25rem;
+  }
+  .info-card h3 { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 0.75rem; color: var(--text); }
+  .info-card p { font-size: 12px; color: var(--text2); line-height: 1.7; }
+
+  .tip-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .tip-list li { display: flex; gap: 8px; font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .tip-list li::before { content: '✓'; color: var(--green); flex-shrink: 0; font-size: 11px; margin-top: 2px; }
+
+  .app-links { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+  .app-link {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px; border-radius: 8px;
+    background: var(--bg); border: 1px solid var(--border);
+    text-decoration: none; color: var(--text2);
+    font-size: 12px; transition: all 0.2s;
+  }
+  .app-link:hover { border-color: var(--green); color: var(--text); }
+  .app-link-icon { font-size: 16px; }
+  .app-link-name { font-weight: 600; font-size: 12px; color: var(--text); }
+  .app-link-ver { font-size: 10px; color: var(--text3); margin-top: 1px; }
+
+  /* DIVIDER */
+  .form-divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 40px 5%; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: var(--text); text-decoration: none; }
+  .footer-logo span { color: var(--green); }
+  footer p { font-size: 12px; color: var(--text3); }
+  footer a { color: var(--text3); text-decoration: none; margin-left: 20px; font-size: 12px; }
+  footer a:hover { color: var(--green); }
+
+  @media (max-width: 720px) {
+    .main-wrap { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .severity-grid { grid-template-columns: repeat(3,1fr); }
+    .datetime-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/index.html" class="nav-logo">Letus<span>Tech</span></a>
+  <div class="nav-links">
+    <a href="/index.html#programs">Programs</a>
+    <a href="/index.html#games">Games</a>
+    <a href="/index.html#contact">Contact</a>
+  </div>
+  <a href="/index.html" class="nav-back">← Back to site</a>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-badge">🐛 Bug Report</div>
+  <h1>Found a bug? <em>Let us know.</em></h1>
+  <p>We take every report seriously. The more detail you give us, the faster we can fix it — fill in as much as you can.</p>
+</div>
+
+<!-- MAIN -->
+<div class="main-wrap">
+
+  <!-- FORM -->
+  <div class="form-card">
+    <h2>Submit a Bug Report</h2>
+
+    <form id="bugForm" onsubmit="handleSubmit(event)">
+
+      <!-- Application -->
+      <div class="form-group">
+        <label>Application <span class="required">*</span></label>
+        <select name="app" required>
+          <option value="" disabled selected>Select the app…</option>
+          <option value="Data Analyzer Pro">Data Analyzer Pro</option>
+          <option value="Bulk Email Sender">Bulk Email Sender</option>
+          <option value="Email CSV Maker">Email CSV Maker</option>
+          <option value="LetUsTech Website">LetUsTech Website (letustech.uk)</option>
+          <option value="Other">Other / Not listed</option>
+        </select>
+      </div>
+
+      <!-- Version -->
+      <div class="form-group">
+        <label>App Version <span class="optional">(optional — shown in title bar or About menu)</span></label>
+        <input type="text" name="version" placeholder="e.g. v1.0.2">
+      </div>
+
+      <hr class="form-divider">
+
+      <!-- Date & Time -->
+      <div class="form-group">
+        <label>Date & Time of Bug <span class="auto-tag">Auto-filled</span></label>
+        <div class="datetime-row">
+          <input type="date" name="bug_date" id="bugDate" required>
+          <input type="time" name="bug_time" id="bugTime" required>
+        </div>
+      </div>
+
+      <!-- OS -->
+      <div class="form-group">
+        <label>Operating System <span class="required">*</span></label>
+        <select name="os" required>
+          <option value="" disabled selected>Select your OS…</option>
+          <option value="Windows 11">Windows 11</option>
+          <option value="Windows 10">Windows 10</option>
+          <option value="Windows Other">Windows (other)</option>
+          <option value="macOS">macOS</option>
+          <option value="Linux">Linux</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <hr class="form-divider">
+
+      <!-- Severity -->
+      <div class="form-group">
+        <label>Severity <span class="required">*</span></label>
+        <div class="severity-grid">
+          <div class="severity-option">
+            <input type="radio" name="severity" id="sev-low" value="Low">
+            <label for="sev-low" class="severity-label low">
+              <span class="sev-icon">🔵</span>
+              <span class="sev-name">Low</span>
+              <span class="sev-desc">Minor / cosmetic</span>
+            </label>
+          </div>
+          <div class="severity-option">
+            <input type="radio" name="severity" id="sev-med" value="Medium">
+            <label for="sev-med" class="severity-label med">
+              <span class="sev-icon">🟡</span>
+              <span class="sev-name">Medium</span>
+              <span class="sev-desc">Feature broken</span>
+            </label>
+          </div>
+          <div class="severity-option">
+            <input type="radio" name="severity" id="sev-high" value="High">
+            <label for="sev-high" class="severity-label high">
+              <span class="sev-icon">🔴</span>
+              <span class="sev-name">High</span>
+              <span class="sev-desc">App crashes / data loss</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <hr class="form-divider">
+
+      <!-- Error Code -->
+      <div class="form-group">
+        <label>Error Code / Message <span class="optional">(optional — copy the exact text from any error popup)</span></label>
+        <input type="text" name="error_code" placeholder="e.g. Error 0x80070002 — File not found" style="font-family:monospace;font-size:13px;">
+      </div>
+
+      <!-- Bug Title -->
+      <div class="form-group">
+        <label>Bug Title <span class="required">*</span></label>
+        <input type="text" name="title" placeholder="Short summary — e.g. App crashes when loading large CSV" required>
+      </div>
+
+      <!-- What happened -->
+      <div class="form-group">
+        <label>What happened? <span class="required">*</span></label>
+        <textarea name="what_happened" placeholder="Describe what went wrong. What did you see or experience?" required></textarea>
+      </div>
+
+      <!-- Steps to reproduce -->
+      <div class="form-group">
+        <label>Steps to Reproduce <span class="optional">(optional but very helpful)</span></label>
+        <textarea name="steps" placeholder="1. Opened the app&#10;2. Clicked on…&#10;3. Error appeared" style="min-height:90px;"></textarea>
+      </div>
+
+      <!-- Expected vs Actual -->
+      <div class="datetime-row" style="margin-bottom:1.25rem;">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Expected Behaviour <span class="optional"></span></label>
+          <textarea name="expected" placeholder="What should have happened?" style="min-height:75px;"></textarea>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Actual Behaviour <span class="optional"></span></label>
+          <textarea name="actual" placeholder="What actually happened instead?" style="min-height:75px;"></textarea>
+        </div>
+      </div>
+
+      <!-- Additional notes -->
+      <div class="form-group">
+        <label>Additional Notes <span class="optional">(optional)</span></label>
+        <textarea name="notes" placeholder="Anything else that might help — file sizes, frequency of the bug, workarounds you found…"></textarea>
+      </div>
+
+      <hr class="form-divider">
+
+      <!-- Contact -->
+      <div class="form-group">
+        <label>Your Email <span class="optional">(optional — only if you want a reply)</span></label>
+        <input type="email" name="reporter_email" placeholder="you@example.com">
+      </div>
+
+      <button type="submit" class="submit-btn">
+        🐛 Submit Bug Report
+      </button>
+    </form>
+
+    <div class="success-msg" id="successMsg">
+      ✅ Bug report sent — thank you! We'll look into it and get back to you if you left an email address.
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="info-card">
+      <h3>📋 Tips for a good report</h3>
+      <ul class="tip-list">
+        <li>Copy the exact error message text if one appeared</li>
+        <li>Note the exact steps you took before it happened</li>
+        <li>Include the app version — check the title bar or Help → About</li>
+        <li>Mention if it happens every time or just occasionally</li>
+        <li>Say what file or data you were using (no need to share the file itself)</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>🛠️ Our apps</h3>
+      <div class="app-links">
+        <a href="data-analyzer-pro.html" class="app-link">
+          <span class="app-link-icon">📊</span>
+          <div>
+            <div class="app-link-name">Data Analyzer Pro</div>
+            <div class="app-link-ver">v1.0.0 · Windows / Mac / Linux</div>
+          </div>
+        </a>
+        <a href="bulk-email-sender.html" class="app-link">
+          <span class="app-link-icon">📨</span>
+          <div>
+            <div class="app-link-name">Bulk Email Sender</div>
+            <div class="app-link-ver">v1.0.2 · Windows</div>
+          </div>
+        </a>
+        <a href="#" class="app-link">
+          <span class="app-link-icon">📧</span>
+          <div>
+            <div class="app-link-name">Email CSV Maker</div>
+            <div class="app-link-ver">v1.0.2 · Windows</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3>💬 Prefer GitHub?</h3>
+      <p>You can also open an issue directly on our GitHub repo if you prefer — it works the same way.</p>
+      <a href="https://github.com/letustec-oss/LetUsTech/issues" target="_blank" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:12px;color:var(--green);text-decoration:none;">Open an issue on GitHub →</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="/index.html" class="footer-logo">Letus<span>Tech</span></a>
+  <p>© 2026 LetUsTech · Free tools, built for everyone</p>
+  <div>
+    <a href="/index.html">Home</a>
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="https://github.com/letustec-oss/LetUsTech">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  // Auto-fill date/time to now
+  const now = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  document.getElementById('bugDate').value = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+  document.getElementById('bugTime').value = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const f = new FormData(e.target);
+
+    // Build email body with all fields
+    const app       = f.get('app') || 'Not specified';
+    const version   = f.get('version') || 'Not specified';
+    const date      = f.get('bug_date') || '';
+    const time      = f.get('bug_time') || '';
+    const os        = f.get('os') || 'Not specified';
+    const severity  = f.get('severity') || 'Not specified';
+    const errCode   = f.get('error_code') || 'None provided';
+    const title     = f.get('title') || '';
+    const what      = f.get('what_happened') || '';
+    const steps     = f.get('steps') || 'Not provided';
+    const expected  = f.get('expected') || 'Not provided';
+    const actual    = f.get('actual') || 'Not provided';
+    const notes     = f.get('notes') || 'None';
+    const reporter  = f.get('reporter_email') || 'Anonymous';
+
+    const subject = `[Bug Report] ${app} — ${title}`;
+    const body = `BUG REPORT
+===========
+Application:    ${app}
+Version:        ${version}
+Date & Time:    ${date} at ${time}
+OS:             ${os}
+Severity:       ${severity}
+Reporter:       ${reporter}
+
+Error Code / Message:
+${errCode}
+
+What happened:
+${what}
+
+Steps to reproduce:
+${steps}
+
+Expected behaviour:
+${expected}
+
+Actual behaviour:
+${actual}
+
+Additional notes:
+${notes}
+`;
+
+    window.location.href = `mailto:letustec@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    // Show success message
+    document.getElementById('bugForm').style.opacity = '0.4';
+    document.getElementById('bugForm').style.pointerEvents = 'none';
+    document.getElementById('successMsg').classList.add('show');
+  }
+</script>
+</body>
+</html>
