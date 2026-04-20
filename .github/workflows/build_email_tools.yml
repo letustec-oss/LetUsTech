@@ -40,14 +40,6 @@ jobs:
           pyinstaller --onefile --windowed --name "EmailCSVMaker" email_csv_maker.py
         shell: powershell
 
-      - name: Package release files
-        run: |
-          mkdir LetUsTech_Email_Tools
-          copy letustech-email-tools\dist\BulkEmailSender.exe LetUsTech_Email_Tools\
-          copy letustech-email-tools\dist\EmailCSVMaker.exe LetUsTech_Email_Tools\
-          Compress-Archive -Path LetUsTech_Email_Tools\* -DestinationPath LetUsTech_Email_Tools_Windows.zip
-        shell: powershell
-
       - name: Get version
         id: get_version
         run: |
@@ -58,35 +50,70 @@ jobs:
           }
         shell: powershell
 
-      - name: Create GitHub Release
+      - name: Release — Bulk Email Sender
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.get_version.outputs.VERSION }}
-          name: "LetUsTech Email Tools ${{ steps.get_version.outputs.VERSION }}"
+          name: "Bulk Email Sender ${{ steps.get_version.outputs.VERSION }}"
           body: |
-            ## LetUsTech Email Tools ${{ steps.get_version.outputs.VERSION }}
+            ## Bulk Email Sender ${{ steps.get_version.outputs.VERSION }}
+
+            Send personalised bulk emails via your own Gmail or email account.
 
             ### 📦 Download
-            Download **LetUsTech_Email_Tools_Windows.zip** below, extract it, and run either `.exe` — no installation needed.
+            Download **BulkEmailSender.exe** below and run it — no installation needed.
 
-            ### What's included
-            | File | Description |
-            |------|-------------|
-            | `BulkEmailSender.exe` | Bulk email sending tool |
-            | `EmailCSVMaker.exe` | Contact list builder |
+            ### Features
+            - Send to unlimited contacts via Gmail, Outlook or any SMTP provider
+            - Merge tags — personalise every email with `{{first_name}}`, `{{company}}` etc.
+            - 18 pre-built templates
+            - Tag Inspector — preview each contact's email before sending
+            - Rich text editor with spell checker
+            - 6 UI themes
+            - Encrypted credential storage
 
             ### Requirements
             - Windows 10 or 11
             - No Python needed — fully bundled
 
-            ### Quick Start
-            1. Open `BulkEmailSender.exe`
-            2. Click **⚙ Settings → 📧 SMTP** and enter your email + App Password
-            3. Import a CSV or use the CSV Maker to build your contact list
-            4. Write your email using `{{first_name}}` merge tags and send
+            > For Gmail use an [App Password](https://myaccount.google.com/apppasswords) not your normal password.
 
-            > For Gmail you need an [App Password](https://myaccount.google.com/apppasswords) not your normal password.
-          files: LetUsTech_Email_Tools_Windows.zip
+            ---
+            *Works best alongside [Email CSV Maker](https://github.com/letustec-oss/LetUsTech/releases) — build your contact list and launch straight into this tool.*
+          files: letustech-email-tools/dist/BulkEmailSender.exe
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release — Email CSV Maker
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_version.outputs.VERSION }}-csvmaker
+          name: "Email CSV Maker ${{ steps.get_version.outputs.VERSION }}"
+          body: |
+            ## Email CSV Maker ${{ steps.get_version.outputs.VERSION }}
+
+            Build and manage your email contact lists with custom merge tag fields.
+
+            ### 📦 Download
+            Download **EmailCSVMaker.exe** below and run it — no installation needed.
+
+            ### Features
+            - Add contacts manually or paste in bulk
+            - Custom fields — phone, company, or any field you need
+            - Tag reference panel — see exactly which `{{tags}}` match your columns
+            - Email validation — invalid addresses highlighted in red
+            - Import / export CSV
+            - One-click launch into Bulk Email Sender with contacts pre-loaded
+
+            ### Requirements
+            - Windows 10 or 11
+            - No Python needed — fully bundled
+
+            ---
+            *Works best alongside [Bulk Email Sender](https://github.com/letustec-oss/LetUsTech/releases) — build your list here then launch straight into sending.*
+          files: letustech-email-tools/dist/EmailCSVMaker.exe
           draft: false
           prerelease: false
         env:
