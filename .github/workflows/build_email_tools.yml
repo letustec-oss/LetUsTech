@@ -1,7 +1,5 @@
 name: Build & Release — Email Tools
 
-# Only triggers on tags like: email-v1.0.0
-# This keeps it completely separate from the Data Analyzer Pro workflow
 on:
   push:
     tags:
@@ -31,7 +29,7 @@ jobs:
             --onefile `
             --windowed `
             --name "BulkEmailSender" `
-            BulkEmailSender.py
+            letustech-email-tools\BulkEmailSender.py
 
       - name: Build EmailCSVMaker.exe
         run: |
@@ -39,21 +37,21 @@ jobs:
             --onefile `
             --windowed `
             --name "EmailCSVMaker" `
-            email_csv_maker.py
+            letustech-email-tools\email_csv_maker.py
 
       - name: Package release files
         run: |
           mkdir LetUsTech_Email_Tools
           copy dist\BulkEmailSender.exe LetUsTech_Email_Tools\
           copy dist\EmailCSVMaker.exe LetUsTech_Email_Tools\
-          copy README.md LetUsTech_Email_Tools\
+          copy letustech-email-tools\README.md LetUsTech_Email_Tools\
           Compress-Archive -Path LetUsTech_Email_Tools\* -DestinationPath LetUsTech_Email_Tools_Windows.zip
         shell: powershell
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: "Email Tools ${{ github.ref_name }}"
+          name: "LetUsTech Email Tools ${{ github.ref_name }}"
           body: |
             ## LetUsTech Email Tools ${{ github.ref_name }}
 
