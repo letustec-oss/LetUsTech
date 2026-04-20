@@ -40,7 +40,6 @@ jobs:
           mkdir LetUsTech_Email_Tools
           copy letustech-email-tools\dist\BulkEmailSender.exe LetUsTech_Email_Tools\
           copy letustech-email-tools\dist\EmailCSVMaker.exe LetUsTech_Email_Tools\
-          copy letustech-email-tools\README.md LetUsTech_Email_Tools\
           Compress-Archive -Path LetUsTech_Email_Tools\* -DestinationPath LetUsTech_Email_Tools_Windows.zip
         shell: powershell
 
