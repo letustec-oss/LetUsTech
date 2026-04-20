@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email CSV Maker — Free Desktop App | LetUsTech</title>
+<meta name="description" content="Build and export clean email lists to CSV in seconds. Perfect for newsletters, outreach, and bulk imports. Free desktop app for Windows.">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5830581574523106" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H548VRKNHW');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0e14;
+    --surface: #111520;
+    --surface2: #161c2a;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --green: #00e676;
+    --green-dim: rgba(0,230,118,0.12);
+    --green-glow: rgba(0,230,118,0.25);
+    --text: #edf2f7;
+    --text2: #8892a4;
+    --text3: #4a5568;
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(11,14,20,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 16px;
+    color: var(--text); text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display: flex; align-items: center; gap: 24px; }
+  .nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-download {
+    background: var(--green); color: #000;
+    font-size: 13px; font-weight: 600;
+    padding: 8px 18px; border-radius: 8px;
+    text-decoration: none; transition: opacity 0.2s;
+  }
+  .nav-download:hover { opacity: 0.85; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 100px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(0,230,118,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--green-dim);
+    border: 1px solid rgba(0,230,118,0.25);
+    border-radius: 20px; padding: 5px 14px;
+    font-size: 12px; font-weight: 500; color: var(--green);
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s ease infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(42px, 7vw, 80px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 860px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 em { font-style: normal; color: var(--green); }
+  .hero p {
+    font-size: clamp(15px, 2vw, 18px);
+    color: var(--text2);
+    max-width: 560px;
+    margin: 20px auto 40px;
+    font-weight: 300;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-actions {
+    display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green); color: #000;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 600;
+    padding: 14px 28px; border-radius: 10px;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(255,255,255,0.15);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  .btn-primary:hover::after { transform: translateX(0); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: none; color: var(--text);
+    font-size: 15px; font-weight: 500;
+    padding: 14px 28px; border-radius: 10px;
+    text-decoration: none; border: 1px solid var(--border2);
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { background: var(--surface); border-color: var(--green); color: var(--green); }
+  .hero-meta {
+    margin-top: 20px; font-size: 12px; color: var(--text3);
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+  .hero-meta span { margin: 0 8px; }
+
+  /* APP PREVIEW */
+  .app-preview {
+    margin: 0 auto;
+    max-width: 960px;
+    padding: 0 5%;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+  .app-window {
+    background: #0d1117;
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05), 0 0 60px rgba(0,230,118,0.05);
+  }
+  .app-titlebar {
+    background: #161b22;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 0 14px;
+    height: 36px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .traffic-lights { display: flex; gap: 6px; }
+  .tl { width: 11px; height: 11px; border-radius: 50%; }
+  .tl-r { background: #ff5f57; }
+  .tl-y { background: #febc2e; }
+  .tl-g { background: #28c840; }
+  .app-titlebar-label {
+    flex: 1; text-align: center;
+    font-size: 11px; color: #6e7681;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* EMAIL LIST UI MOCKUP */
+  .app-body { display: flex; height: 340px; }
+  .app-sidebar {
+    width: 160px; background: #161b22;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    padding: 12px 0;
+    flex-shrink: 0;
+  }
+  .app-sidebar-label {
+    font-size: 9px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.1em; color: #4a5568;
+    padding: 10px 12px 5px;
+  }
+  .app-nav { padding: 6px 8px; margin: 1px 4px; border-radius: 5px; font-size: 11px; color: #6e7681; display: flex; align-items: center; gap: 7px; }
+  .app-nav.active { background: rgba(0,230,118,0.1); color: #00e676; }
+  .app-nav-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  .app-content { flex: 1; padding: 14px; overflow: hidden; display: flex; flex-direction: column; gap: 10px; }
+
+  .app-toolbar {
+    display: flex; gap: 8px; align-items: center;
+  }
+  .app-input-mock {
+    flex: 1; background: #161b22; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px; height: 28px; padding: 0 10px;
+    font-size: 11px; color: #8892a4; display: flex; align-items: center;
+  }
+  .app-btn-mock {
+    background: #00e676; color: #000;
+    font-size: 10px; font-weight: 700;
+    padding: 0 12px; height: 28px; border-radius: 6px;
+    display: flex; align-items: center; white-space: nowrap;
+  }
+  .app-btn-mock.outline {
+    background: transparent; color: #8892a4;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .app-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+  .app-table th {
+    text-align: left; padding: 5px 8px;
+    color: #4a5568; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em; font-size: 9px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .app-table td {
+    padding: 5px 8px; color: #8892a4;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .app-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .tag-pill {
+    display: inline-block; font-size: 8px; font-weight: 600;
+    padding: 1px 6px; border-radius: 4px;
+  }
+  .tag-green { background: rgba(0,230,118,0.12); color: #00e676; }
+  .tag-blue  { background: rgba(56,139,253,0.12); color: #388bfd; }
+
+  .app-status {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 0; border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 9px; color: #4a5568; margin-top: auto;
+  }
+  .app-status-count { color: #00e676; font-weight: 700; }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+  /* SECTION */
+  section { padding: 100px 5%; }
+  .section-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--green);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800; line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 600px;
+  }
+  .section-title em { font-style: normal; color: var(--green); }
+  .section-sub {
+    font-size: 16px; color: var(--text2);
+    max-width: 520px; margin-top: 14px;
+    font-weight: 300; line-height: 1.7;
+  }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  /* FEATURES GRID */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-top: 60px;
+  }
+  .feature {
+    background: var(--bg);
+    padding: 32px 28px;
+    transition: background 0.2s;
+    position: relative;
+  }
+  .feature:hover { background: var(--surface); }
+  .feature-icon {
+    width: 44px; height: 44px;
+    background: var(--green-dim);
+    border: 1px solid rgba(0,230,118,0.2);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  .feature h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 700;
+    margin-bottom: 8px; color: var(--text);
+  }
+  .feature p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+  /* HOW IT WORKS */
+  .steps { margin-top: 60px; display: grid; gap: 0; }
+  .step {
+    display: grid; grid-template-columns: 60px 1fr;
+    gap: 24px; padding: 32px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    width: 44px; height: 44px;
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 800;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+  .step h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .step p { font-size: 14px; color: var(--text2); line-height: 1.7; }
+  .step-badge {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    background: rgba(56,139,253,0.12); color: #388bfd;
+    border: 1px solid rgba(56,139,253,0.2);
+    padding: 2px 8px; border-radius: 20px; margin-top: 8px;
+  }
+
+  /* PRIVACY STRIP */
+  .privacy-strip {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 5%;
+  }
+  .privacy-strip .container {
+    display: flex; flex-wrap: wrap;
+    align-items: center; justify-content: center;
+    gap: 40px;
+  }
+  .privacy-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--text2);
+  }
+  .privacy-icon {
+    width: 32px; height: 32px;
+    background: var(--green-dim);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+  }
+
+  /* USE CASES */
+  .use-cases {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px; margin-top: 48px;
+  }
+  .use-case {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 20px;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .use-case:hover { border-color: rgba(0,230,118,0.3); transform: translateY(-2px); }
+  .use-case-icon { font-size: 28px; margin-bottom: 12px; }
+  .use-case h4 { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .use-case p { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+  /* DOWNLOAD SECTION */
+  .download-section {
+    text-align: center;
+    padding: 100px 5%;
+    position: relative;
+  }
+  .download-section::before {
+    content: '';
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 400px;
+    background: radial-gradient(circle, rgba(0,230,118,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .download-cards {
+    display: flex; flex-wrap: wrap;
+    gap: 16px; justify-content: center;
+    margin: 48px auto 0; max-width: 500px;
+  }
+  .download-card {
+    flex: 1; min-width: 180px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-lg);
+    padding: 24px 20px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .download-card:hover {
+    border-color: var(--green);
+    background: var(--surface2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,230,118,0.08);
+  }
+  .download-card-icon { font-size: 28px; }
+  .download-card-os { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); }
+  .download-card-ext { font-size: 11px; color: var(--text3); }
+  .download-card-btn {
+    margin-top: 4px;
+    background: var(--green); color: #000;
+    font-size: 12px; font-weight: 600;
+    padding: 6px 16px; border-radius: 6px;
+    width: 100%; text-align: center;
+  }
+  .download-card.coming { opacity: 0.5; pointer-events: none; }
+  .download-note { font-size: 12px; color: var(--text3); margin-top: 20px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 5%;
+    display: flex; flex-wrap: wrap;
+    align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 15px;
+    color: var(--text); text-decoration: none;
+  }
+  .footer-logo span { color: var(--green); }
+  footer p { font-size: 12px; color: var(--text3); }
+  footer a { color: var(--text3); text-decoration: none; margin-left: 20px; font-size: 12px; }
+  footer a:hover { color: var(--green); }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .step { grid-template-columns: 40px 1fr; }
+    .app-body { height: auto; flex-direction: column; }
+    .app-sidebar { width: 100%; display: flex; gap: 4px; flex-wrap: wrap; padding: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/index.html" class="nav-logo">Letus<span>Tech</span></a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how-it-works">How it works</a>
+    <a href="#download">Download</a>
+    <a href="/index.html">← Back to site</a>
+  </div>
+  <a href="#download" class="nav-download">↓ Free Download</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Free desktop app · Windows · No account needed</div>
+  <h1>Build clean email lists in<br><em>seconds</em></h1>
+  <p>Add contacts, assign tags, and export polished CSV files ready for Mailchimp, HubSpot, or any bulk email platform — completely offline.</p>
+  <div class="hero-actions">
+    <a href="https://github.com/letustec-oss/LetUsTech/releases/download/email-v1.0.2-csvmaker/EmailCSVMaker.exe" class="btn-primary">
+      <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 2v10M5 8l4 4 4-4"/><path d="M2 14h14"/></svg>
+      Download Free
+    </a>
+    <a href="#how-it-works" class="btn-secondary">See how it works</a>
+  </div>
+  <div class="hero-meta">
+    <span>✓ Windows</span>
+    <span>✓ Works offline</span>
+    <span>✓ No account needed</span>
+    <span>✓ Data stays on your machine</span>
+  </div>
+</section>
+
+<!-- APP PREVIEW MOCKUP -->
+<div class="app-preview">
+  <div class="app-window">
+    <div class="app-titlebar">
+      <div class="traffic-lights">
+        <div class="tl tl-r"></div>
+        <div class="tl tl-y"></div>
+        <div class="tl tl-g"></div>
+      </div>
+      <div class="app-titlebar-label">Email CSV Maker — my_newsletter_list.csv</div>
+      <div style="width:55px"></div>
+    </div>
+    <div class="app-body">
+      <div class="app-sidebar">
+        <div class="app-sidebar-label">Lists</div>
+        <div class="app-nav active"><div class="app-nav-dot"></div> All Contacts</div>
+        <div class="app-nav"><div class="app-nav-dot"></div> Newsletter</div>
+        <div class="app-nav"><div class="app-nav-dot"></div> Outreach</div>
+        <div class="app-nav"><div class="app-nav-dot"></div> Clients</div>
+        <div class="app-sidebar-label" style="margin-top:8px">Tools</div>
+        <div class="app-nav"><div class="app-nav-dot"></div> Import CSV</div>
+        <div class="app-nav"><div class="app-nav-dot"></div> Export CSV</div>
+        <div class="app-nav"><div class="app-nav-dot"></div> Deduplicator</div>
+      </div>
+      <div class="app-content">
+        <div class="app-toolbar">
+          <div class="app-input-mock">🔍 Search contacts…</div>
+          <div class="app-btn-mock">+ Add Contact</div>
+          <div class="app-btn-mock outline">↓ Export CSV</div>
+        </div>
+        <table class="app-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Tag</th>
+              <th>Added</th>
+            </tr>
+          </thead>
+          <tbody id="mockRows"></tbody>
+        </table>
+        <div class="app-status">
+          <span><span class="app-status-count">247</span> contacts in list</span>
+          <span>Last export: today · contacts.csv</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRIVACY STRIP -->
+<div class="privacy-strip" style="margin-top:80px">
+  <div class="container">
+    <div class="privacy-item"><div class="privacy-icon">🔒</div>All data stored locally</div>
+    <div class="privacy-item"><div class="privacy-icon">📡</div>No internet required</div>
+    <div class="privacy-item"><div class="privacy-icon">🚫</div>No data sent to any server</div>
+    <div class="privacy-item"><div class="privacy-icon">💾</div>Runs entirely on your machine</div>
+    <div class="privacy-item"><div class="privacy-icon">🆓</div>Completely free, forever</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Features</div>
+      <h2 class="section-title">Everything you need to <em>manage email lists</em></h2>
+      <p class="section-sub">Built for marketers, small businesses, and anyone who manages contacts manually.</p>
+    </div>
+    <div class="features-grid reveal">
+      <div class="feature">
+        <div class="feature-icon">➕</div>
+        <h3>Fast Contact Entry</h3>
+        <p>Add name, email, and optional fields in seconds. Tab through fields quickly — designed for rapid data entry without slowing you down.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🏷️</div>
+        <h3>Tags & Segmentation</h3>
+        <p>Assign tags to every contact — Newsletter, Outreach, Client, VIP — and filter your list instantly. Export only the segment you need.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📤</div>
+        <h3>Clean CSV Export</h3>
+        <p>One-click export to a properly formatted CSV, ready to import into Mailchimp, HubSpot, Klaviyo, or any email marketing platform.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📥</div>
+        <h3>CSV Import</h3>
+        <p>Already have a list? Import any existing CSV and the app will map columns automatically, merging duplicates and flagging conflicts.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔍</div>
+        <h3>Deduplication</h3>
+        <p>Built-in duplicate detector highlights and removes repeated email addresses before you export — keeping your lists clean every time.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <h3>Privacy First</h3>
+        <p>Your contact data never leaves your machine. No cloud sync, no analytics, no tracking. Your list is yours — stored only on your PC.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Use cases</div>
+      <h2 class="section-title">Who uses <em>Email CSV Maker</em></h2>
+      <p class="section-sub">Simple enough for anyone, powerful enough for real workflows.</p>
+    </div>
+    <div class="use-cases reveal">
+      <div class="use-case">
+        <div class="use-case-icon">📧</div>
+        <h4>Newsletter Builders</h4>
+        <p>Build and maintain subscriber lists offline, then import into Mailchimp or Substack whenever you're ready.</p>
+      </div>
+      <div class="use-case">
+        <div class="use-case-icon">💼</div>
+        <h4>Sales & Outreach</h4>
+        <p>Organise prospects into tagged segments and export targeted lists for each campaign — no CRM subscription needed.</p>
+      </div>
+      <div class="use-case">
+        <div class="use-case-icon">🏪</div>
+        <h4>Small Businesses</h4>
+        <p>Collect customer emails at the counter or events and keep them organised in one place, ready to export and send.</p>
+      </div>
+      <div class="use-case">
+        <div class="use-case-icon">🎓</div>
+        <h4>Event Organisers</h4>
+        <p>Manage attendee lists with tags per event. Export a clean CSV for each event to handle follow-up emails with ease.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">How it works</div>
+      <h2 class="section-title">From launch to CSV in <em>under a minute</em></h2>
+    </div>
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>Open the app</h3>
+          <p>Double-click EmailCSVMaker.exe — no installer, no setup wizard. It launches instantly and your existing lists load automatically from the last session.</p>
+          <span class="step-badge">Portable — runs from anywhere, even a USB stick</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>Add your contacts</h3>
+          <p>Click Add Contact and fill in the name, email, and any tags. Use the Import CSV button to bulk-load an existing list — columns are mapped automatically.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>Organise with tags</h3>
+          <p>Assign one or more tags to each contact. Filter the list view by tag to see only the segment you care about. Rename or add new tags at any time.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <h3>Remove duplicates</h3>
+          <p>Click Deduplicator to scan the whole list. The app highlights repeated email addresses and lets you review before removing — no accidental deletions.</p>
+          <span class="step-badge">Keeps your first entry, flags the rest for review</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div>
+          <h3>Export your CSV</h3>
+          <p>Hit Export CSV, choose your filename and location, and you're done. The output is a clean, RFC-compliant CSV — ready to drag straight into Mailchimp, HubSpot, Klaviyo, or any platform.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section id="download" class="download-section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Download</div>
+      <h2 class="section-title" style="margin:0 auto;text-align:center">Get Email CSV Maker — <em>Free</em></h2>
+      <p class="section-sub" style="margin:14px auto 0;text-align:center">No account. No install required. Download and run immediately.</p>
+    </div>
+    <div class="download-cards reveal">
+      <a href="https://github.com/letustec-oss/LetUsTech/releases/download/email-v1.0.2-csvmaker/EmailCSVMaker.exe" class="download-card">
+        <div class="download-card-icon">🪟</div>
+        <div class="download-card-os">Windows</div>
+        <div class="download-card-ext">.exe portable · x64</div>
+        <div class="download-card-btn">↓ Download</div>
+      </a>
+      <a class="download-card coming">
+        <div class="download-card-icon">🍎</div>
+        <div class="download-card-os">macOS</div>
+        <div class="download-card-ext">Coming soon</div>
+        <div class="download-card-btn">Coming soon</div>
+      </a>
+    </div>
+    <p class="download-note reveal">v1.0.2 · Free forever · <a href="https://github.com/letustec-oss/LetUsTech" style="color:var(--green);text-decoration:none">View on GitHub →</a></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="/index.html" class="footer-logo">Letus<span>Tech</span></a>
+  <p>© 2026 LetUsTech · Free tools, built for everyone</p>
+  <div>
+    <a href="/index.html">Home</a>
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="https://github.com/letustec-oss/LetUsTech">GitHub</a>
+    <a href="/report-a-bug.html">Report a Bug</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Mock table rows
+  const contacts = [
+    { name: 'Sarah Johnson',   email: 'sarah.j@example.com',    tag: 'Newsletter', added: 'Today' },
+    { name: 'Mike Thompson',   email: 'mike.t@business.co.uk',  tag: 'Outreach',   added: 'Today' },
+    { name: 'Emma Clarke',     email: 'emma.c@studio.io',       tag: 'Client',     added: 'Yesterday' },
+    { name: 'James Roberts',   email: 'jroberts@agency.com',    tag: 'Newsletter', added: 'Yesterday' },
+    { name: 'Priya Sharma',    email: 'p.sharma@mail.com',      tag: 'Outreach',   added: '2 days ago' },
+  ];
+  const tagClass = { Newsletter: 'tag-green', Outreach: 'tag-blue', Client: 'tag-green' };
+  const tbody = document.getElementById('mockRows');
+  contacts.forEach(c => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${c.name}</td><td style="color:#4a5568">${c.email}</td><td><span class="tag-pill ${tagClass[c.tag] || 'tag-blue'}">${c.tag}</span></td><td>${c.added}</td>`;
+    tbody.appendChild(tr);
+  });
+</script>
+</body>
+</html>
