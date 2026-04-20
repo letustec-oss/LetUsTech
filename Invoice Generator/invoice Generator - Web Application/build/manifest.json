@@ -1,0 +1,14 @@
+{
+  "short_name": "Invoices",
+  "name": "Invoice Generator",
+  "description": "Professional invoicing for freelancers and small businesses",
+  "icons": [
+    { "src": "icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any maskable" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any maskable" }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#00e676",
+  "background_color": "#0b0e14",
+  "orientation": "portrait-primary"
+}

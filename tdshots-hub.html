@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>T&DSHOTS — Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d0d0d;
+      --surface:  #161616;
+      --border:   #272727;
+      --orange:   #f06a00;
+      --orange2:  #ff8c2a;
+      --text:     #f0f0f0;
+      --muted:    #7a7a7a;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 3rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 3rem;
+      width: 60px; height: 2px;
+      background: var(--orange);
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.08em;
+      color: var(--text);
+    }
+    .logo span { color: var(--orange); }
+    .tagline {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .live-time {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 4rem;
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      padding-left: 2px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+    /* ── CARDS ── */
+    .card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s, transform 0.15s, background 0.2s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(240,106,0,0.06), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .card:hover {
+      border-color: var(--orange);
+      transform: translateY(-2px);
+      background: #1a1a1a;
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+      width: 42px; height: 42px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .card-info { flex: 1; min-width: 0; }
+    .card-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-desc {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .card-arrow {
+      color: var(--border);
+      font-size: 1rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .card:hover .card-arrow {
+      color: var(--orange);
+      transform: translateX(3px);
+    }
+
+    /* icon bg colours */
+    .ic-gmail   { background: #1e1212; }
+    .ic-drive   { background: #111a14; }
+    .ic-cal     { background: #111520; }
+    .ic-paypal  { background: #111620; }
+    .ic-ig      { background: #1e1020; }
+    .ic-analytics { background: #0f1a14; }
+    .ic-adsense { background: #1a1800; }
+    .ic-site    { background: #1a1100; }
+
+    /* ── HERO CARD (site) ── */
+    .card-hero {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #1a1200 0%, #1a0a00 100%);
+      border-color: #3a2800;
+    }
+    .card-hero .card-icon {
+      width: 52px; height: 52px;
+      font-size: 1.6rem;
+      background: rgba(240,106,0,0.15);
+    }
+    .card-hero .card-name { font-size: 1.05rem; }
+
+    /* ── QUICK NOTES ── */
+    .notes-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+    .notes-box textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 90px;
+    }
+    .notes-box textarea::placeholder { color: var(--muted); }
+    .notes-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .notes-footer span { font-size: 0.7rem; color: var(--muted); }
+    .notes-save {
+      font-size: 0.72rem;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--orange);
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      padding: 0.35rem 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.2s;
+    }
+    .notes-save:hover { background: var(--orange2); }
+    .saved-msg {
+      font-size: 0.7rem;
+      color: #4caf50;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .saved-msg.show { opacity: 1; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.7rem;
+      color: #3a3a3a;
+      letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 1.5rem; flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      main { padding: 2rem 1.25rem 3rem; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">T<span>&</span>DSHOTS</div>
+    <div class="tagline">Business Hub</div>
+  </div>
+  <div class="live-time" id="clock"></div>
+</header>
+
+<main>
+
+  <!-- WEBSITE -->
+  <div class="section-label">Website</div>
+  <div class="grid grid-2" style="margin-bottom:2.5rem">
+    <a class="card card-hero" href="https://tdshots.uk" target="_blank">
+      <div class="card-icon ic-site">📸</div>
+      <div class="card-info">
+        <div class="card-name">tdshots.uk</div>
+        <div class="card-desc">Live website — view as a visitor</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+    <a class="card" href="https://analytics.google.com" target="_blank">
+      <div class="card-icon ic-analytics">📊</div>
+      <div class="card-info">
+        <div class="card-name">Google Analytics</div>
+        <div class="card-desc">Traffic, visitors & page stats</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+  </div>
+
+  <!-- COMMS -->
+  <div class="section-label">Communications</div>
+  <div class="grid grid-3" style="margin-bottom:2.5rem">
+    <a class="card" href="https://mail.google.com/mail/u/0/#inbox" target="_blank">
+      <div class="card-icon ic-gmail">✉️</div>
+      <div class="card-info">
+        <div class="card-name">Gmail</div>
+        <div class="card-desc">dntshoots@gmail.com</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+    <a class="card" href="https://drive.google.com" target="_blank">
+      <div class="card-icon ic-drive">🗂️</div>
+      <div class="card-info">
+        <div class="card-name">Google Drive</div>
+        <div class="card-desc">Photos, files & assets</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+    <a class="card" href="https://calendar.google.com" target="_blank">
+      <div class="card-icon ic-cal">📅</div>
+      <div class="card-info">
+        <div class="card-name">Google Calendar</div>
+        <div class="card-desc">Shoots & bookings</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+  </div>
+
+  <!-- FINANCE & SOCIAL -->
+  <div class="section-label">Finance & Social</div>
+  <div class="grid grid-3" style="margin-bottom:2.5rem">
+    <a class="card" href="https://www.paypal.com/signin" target="_blank">
+      <div class="card-icon ic-paypal">💳</div>
+      <div class="card-info">
+        <div class="card-name">PayPal</div>
+        <div class="card-desc">Payments & invoices</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+    <a class="card" href="https://adsense.google.com" target="_blank">
+      <div class="card-icon ic-adsense">💰</div>
+      <div class="card-info">
+        <div class="card-name">AdSense</div>
+        <div class="card-desc">Ad revenue & earnings</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+    <a class="card" href="https://www.instagram.com/deano31072/" target="_blank">
+      <div class="card-icon ic-ig">📷</div>
+      <div class="card-info">
+        <div class="card-name">Instagram</div>
+        <div class="card-desc">@deano31072</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+  </div>
+
+  <!-- QUICK NOTES -->
+  <div class="section-label">Quick Notes</div>
+  <div class="notes-box">
+    <textarea id="notes" placeholder="Jot down shoot dates, client names, reminders… saved in this browser."></textarea>
+    <div class="notes-footer">
+      <span>Saved locally in browser</span>
+      <div style="display:flex;align-items:center;gap:0.75rem">
+        <span class="saved-msg" id="savedMsg">Saved ✓</span>
+        <button class="notes-save" onclick="saveNotes()">Save</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>T&DSHOTS · LIVERPOOL · INTERNAL USE ONLY</footer>
+
+<script>
+  // Clock
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent =
+      now.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' }) +
+      ' · ' +
+      now.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Notes persistence
+  const notesEl = document.getElementById('notes');
+  notesEl.value = localStorage.getItem('tdshots_notes') || '';
+
+  function saveNotes() {
+    localStorage.setItem('tdshots_notes', notesEl.value);
+    const msg = document.getElementById('savedMsg');
+    msg.classList.add('show');
+    setTimeout(() => msg.classList.remove('show'), 2000);
+  }
+
+  // Auto-save on Ctrl+S
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveNotes(); }
+  });
+</script>
+
+</body>
+</html>
