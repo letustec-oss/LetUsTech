@@ -25,25 +25,21 @@ jobs:
 
       - name: Build BulkEmailSender.exe
         run: |
-          pyinstaller `
-            --onefile `
-            --windowed `
-            --name "BulkEmailSender" `
-            letustech-email-tools\BulkEmailSender.py
+          cd letustech-email-tools
+          pyinstaller --onefile --windowed --name "BulkEmailSender" BulkEmailSender.py
+        shell: powershell
 
       - name: Build EmailCSVMaker.exe
         run: |
-          pyinstaller `
-            --onefile `
-            --windowed `
-            --name "EmailCSVMaker" `
-            letustech-email-tools\email_csv_maker.py
+          cd letustech-email-tools
+          pyinstaller --onefile --windowed --name "EmailCSVMaker" email_csv_maker.py
+        shell: powershell
 
       - name: Package release files
         run: |
           mkdir LetUsTech_Email_Tools
-          copy dist\BulkEmailSender.exe LetUsTech_Email_Tools\
-          copy dist\EmailCSVMaker.exe LetUsTech_Email_Tools\
+          copy letustech-email-tools\dist\BulkEmailSender.exe LetUsTech_Email_Tools\
+          copy letustech-email-tools\dist\EmailCSVMaker.exe LetUsTech_Email_Tools\
           copy letustech-email-tools\README.md LetUsTech_Email_Tools\
           Compress-Archive -Path LetUsTech_Email_Tools\* -DestinationPath LetUsTech_Email_Tools_Windows.zip
         shell: powershell
