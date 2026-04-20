@@ -5,11 +5,16 @@ on:
     tags:
       - 'email-v*'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g. email-v1.0.2)'
+        required: true
+        default: 'email-v1.0.2'
 
 jobs:
   build-windows:
     runs-on: windows-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -43,12 +48,23 @@ jobs:
           Compress-Archive -Path LetUsTech_Email_Tools\* -DestinationPath LetUsTech_Email_Tools_Windows.zip
         shell: powershell
 
+      - name: Get version
+        id: get_version
+        run: |
+          if ("${{ github.ref_type }}" -eq "tag") {
+            echo "VERSION=${{ github.ref_name }}" >> $env:GITHUB_OUTPUT
+          } else {
+            echo "VERSION=${{ github.event.inputs.version }}" >> $env:GITHUB_OUTPUT
+          }
+        shell: powershell
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: "LetUsTech Email Tools ${{ github.ref_name }}"
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
+          name: "LetUsTech Email Tools ${{ steps.get_version.outputs.VERSION }}"
           body: |
-            ## LetUsTech Email Tools ${{ github.ref_name }}
+            ## LetUsTech Email Tools ${{ steps.get_version.outputs.VERSION }}
 
             ### 📦 Download
             Download **LetUsTech_Email_Tools_Windows.zip** below, extract it, and run either `.exe` — no installation needed.
