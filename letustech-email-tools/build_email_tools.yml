@@ -1,0 +1,84 @@
+name: Build & Release — Email Tools
+
+# Only triggers on tags like: email-v1.0.0
+# This keeps it completely separate from the Data Analyzer Pro workflow
+on:
+  push:
+    tags:
+      - 'email-v*'
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller customtkinter pyspellchecker pillow cryptography
+
+      - name: Build BulkEmailSender.exe
+        run: |
+          pyinstaller `
+            --onefile `
+            --windowed `
+            --name "BulkEmailSender" `
+            BulkEmailSender.py
+
+      - name: Build EmailCSVMaker.exe
+        run: |
+          pyinstaller `
+            --onefile `
+            --windowed `
+            --name "EmailCSVMaker" `
+            email_csv_maker.py
+
+      - name: Package release files
+        run: |
+          mkdir LetUsTech_Email_Tools
+          copy dist\BulkEmailSender.exe LetUsTech_Email_Tools\
+          copy dist\EmailCSVMaker.exe LetUsTech_Email_Tools\
+          copy README.md LetUsTech_Email_Tools\
+          Compress-Archive -Path LetUsTech_Email_Tools\* -DestinationPath LetUsTech_Email_Tools_Windows.zip
+        shell: powershell
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Email Tools ${{ github.ref_name }}"
+          body: |
+            ## LetUsTech Email Tools ${{ github.ref_name }}
+
+            ### 📦 Download
+            Download **LetUsTech_Email_Tools_Windows.zip** below, extract it, and run either `.exe` — no installation needed.
+
+            ### What's included
+            | File | Description |
+            |------|-------------|
+            | `BulkEmailSender.exe` | Bulk email sending tool |
+            | `EmailCSVMaker.exe` | Contact list builder |
+
+            ### Requirements
+            - Windows 10 or 11
+            - No Python needed — fully bundled
+
+            ### Quick Start
+            1. Open `BulkEmailSender.exe`
+            2. Click **⚙ Settings → 📧 SMTP** and enter your email + App Password
+            3. Import a CSV or use the CSV Maker to build your contact list
+            4. Write your email using `{{first_name}}` merge tags and send
+
+            > For Gmail you need an [App Password](https://myaccount.google.com/apppasswords) not your normal password.
+          files: LetUsTech_Email_Tools_Windows.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

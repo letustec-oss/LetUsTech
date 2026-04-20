@@ -1,0 +1,22 @@
+# PyInstaller build output
+dist/
+build/
+*.spec
+__pycache__/
+*.pyc
+
+# Encrypted config (personal data — never commit this)
+*.enc
+*.letustech_email_config*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Packaging output
+LetUsTech_Email_Tools/
+*.zip

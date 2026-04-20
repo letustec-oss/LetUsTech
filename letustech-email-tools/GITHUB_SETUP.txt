@@ -1,0 +1,118 @@
+# How to Set Up GitHub Auto-Build
+
+## What this does
+Every time you push a version tag (like `v1.0.0`) to GitHub,
+it automatically:
+  1. Builds BulkEmailSender.exe
+  2. Builds EmailCSVMaker.exe
+  3. Zips them together
+  4. Creates a GitHub Release with a download button
+
+People can then go to your GitHub releases page and download
+the zip without needing Python at all.
+
+---
+
+## Step 1 — Create the GitHub repo
+
+1. Go to github.com and sign in
+2. Click the green "New" button
+3. Name it something like:  letustech-email-tools
+4. Set it to Public (so people can download)
+5. Click "Create repository"
+
+---
+
+## Step 2 — Set up your local folder
+
+Put all these files in ONE folder on your PC:
+
+  your-folder/
+    ├── BulkEmailSender.py
+    ├── email_csv_maker.py
+    ├── README.md
+    ├── .gitignore
+    ├── assets/
+    │   └── icon.ico          ← optional, your app icon
+    └── .github/
+        └── workflows/
+            └── build.yml     ← the auto-build file
+
+---
+
+## Step 3 — Push to GitHub
+
+Open a terminal/command prompt in your folder and run:
+
+  git init
+  git add .
+  git commit -m "Initial release"
+  git branch -M main
+  git remote add origin https://github.com/YOUR_USERNAME/letustech-email-tools.git
+  git push -u origin main
+
+Replace YOUR_USERNAME with your actual GitHub username.
+
+---
+
+## Step 4 — Create a release (this triggers the build)
+
+  git tag v1.0.0
+  git push origin v1.0.0
+
+That's it. GitHub Actions will now:
+  - Automatically install Python and all dependencies
+  - Build both .exe files
+  - Create a Release at:
+    github.com/YOUR_USERNAME/letustech-email-tools/releases
+
+The build takes about 3-5 minutes. You'll see it running
+under the "Actions" tab on your GitHub repo.
+
+---
+
+## Step 5 — Share the download link
+
+Your release download URL will be:
+  https://github.com/YOUR_USERNAME/letustech-email-tools/releases/latest
+
+You can put this link on letustech.uk as the download button.
+
+---
+
+## Updating the app
+
+Whenever you make changes:
+
+  git add .
+  git commit -m "What you changed"
+  git push
+
+To release a new version:
+
+  git tag v1.1.0
+  git push origin v1.1.0
+
+GitHub will automatically build and publish the new version.
+
+---
+
+## If you don't have an icon (.ico file)
+
+The build.yml uses --icon "assets/icon.ico"
+If you don't have one, either:
+  a) Remove the --icon line from build.yml
+  b) Convert a PNG to ICO at: convertio.co/png-ico/
+     and save it as assets/icon.ico
+
+---
+
+## Troubleshooting
+
+Build failed? Check the Actions tab on GitHub — it shows
+the full build log with the exact error.
+
+Common issues:
+  - Missing import: add it to the pip install line in build.yml
+  - Icon not found: remove --icon line or add the file
+  - Syntax error: fix the Python file and push again
