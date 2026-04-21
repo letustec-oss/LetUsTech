@@ -16,6 +16,7 @@
         gtag('config', 'G-H548VRKNHW');
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
@@ -794,10 +795,10 @@
                 <div class="contact-detail"><strong>Response Time</strong><span>Within 24 hours</span></div>
             </div>
             <form id="contactForm" class="contact-form" onsubmit="handleSubmit(event)">
-                <input type="text" name="name" placeholder="Your Name" required>
-                <input type="email" name="email" placeholder="Your Email" required>
-                <input type="text" name="subject" placeholder="Subject" required>
-                <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                <input type="text" name="name" id="name" placeholder="Your Name" required>
+                <input type="email" name="email" id="email" placeholder="Your Email" required>
+                <input type="text" name="subject" id="subject" placeholder="Subject" required>
+                <textarea name="message" id="message" placeholder="Your Message" rows="5" required></textarea>
                 <button type="submit" class="btn btn-primary">Send Message</button>
             </form>
         </div>
@@ -933,8 +934,38 @@
         navigator.clipboard ? navigator.clipboard.writeText(text).then(() => alert('✅ Copied!')) : alert(text);
     }
 
-    // Contact form
+    // Contact form — EmailJS
+    emailjs.init('YOUR_PUBLIC_KEY'); // ← paste your Public Key here
+
     function handleSubmit(e) {
         e.preventDefault();
-        const d = new FormData(e.target);
-        window.location.href = `mailto:letustec@gmail.com?subject=${encodeURIComponent(d.
+        const form = e.target;
+        const btn = form.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+
+        emailjs.send('service_1g7v075', 'YOUR_TEMPLATE_ID', { // ← paste your Template ID
+            from_name:  form.name.value,
+            from_email: form.email.value,
+            subject:    form.subject.value,
+            message:    form.message.value
+        }).then(() => {
+            btn.textContent = '✅ Message Sent!';
+            btn.style.background = '#00c05a';
+            form.reset();
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.textContent = 'Send Message';
+                btn.style.background = '';
+            }, 4000);
+        }).catch(err => {
+            console.error('EmailJS error:', err);
+            btn.disabled = false;
+            btn.textContent = '❌ Failed — Try Again';
+            btn.style.background = '#c0392b';
+            setTimeout(() => {
+                btn.textContent = 'Send Message';
+                btn.style.background = '';
+            }, 4000);
+        });
+    }
