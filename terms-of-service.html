@@ -99,6 +99,94 @@
         .dates-box div strong { display: block; color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
         .dates-box div span { color: var(--green); font-weight: 600; font-size: 0.95rem; }
 
+        /* TL;DR BOX */
+        .tldr-box {
+            background: var(--bg3);
+            border: 1px solid rgba(0,230,118,0.25);
+            border-left: 4px solid var(--green);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem 2rem;
+            margin-bottom: 2.5rem;
+        }
+        .tldr-box h3 {
+            font-family: var(--font-head);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+        .tldr-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+        .tldr-list li {
+            color: var(--text);
+            font-size: 0.93rem;
+            padding-left: 1.6rem;
+            position: relative;
+            line-height: 1.6;
+        }
+        .tldr-list li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+
+        /* TABLE OF CONTENTS */
+        .toc-box {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem 2rem;
+            margin-bottom: 3rem;
+        }
+        .toc-box h3 {
+            font-family: var(--font-head);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.1rem;
+        }
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 0.3rem 2rem;
+        }
+        .toc-grid a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.87rem;
+            padding: 0.25rem 0;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            transition: color 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+        .toc-grid a:hover { color: var(--green); }
+        .toc-num { color: var(--green); font-size: 0.72rem; font-weight: 600; font-family: var(--font-head); flex-shrink: 0; }
+
+        /* PLAIN ENGLISH CALLOUT */
+        .plain-english {
+            background: rgba(0,230,118,0.04);
+            border: 1px solid rgba(0,230,118,0.15);
+            border-radius: var(--radius);
+            padding: 1rem 1.25rem;
+            margin: 1.25rem 0;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+        .pe-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.1rem; }
+        .pe-body { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+        .pe-body strong { color: var(--green); display: block; margin-bottom: 0.2rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; }
+
+        /* VERSION HISTORY TABLE */
+        .version-table-wrap { margin-top: 1.5rem; overflow-x: auto; }
+        .version-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        .version-table th { text-align: left; color: var(--muted); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); font-weight: 600; }
+        .version-table td { padding: 0.75rem 1rem; color: var(--muted); border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+        .version-table tr:last-child td { border-bottom: none; }
+        .version-table td:first-child { color: var(--green); font-weight: 600; white-space: nowrap; }
+        .version-table td:nth-child(2) { color: var(--text); white-space: nowrap; }
+
         /* FOOTER */
         footer { background: #080b10; border-top: 1px solid var(--border); padding: 3rem 0 2rem; }
         .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem; }
@@ -111,6 +199,7 @@
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .policy-wrap { padding: 3rem 1.25rem 4rem; }
+            .toc-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -134,17 +223,56 @@
         <div class="page-label">Legal</div>
         <h1>Terms of Service</h1>
         <p>The rules of the road for using LetUsTech.</p>
-        <div class="last-updated">Last updated: <span>November 4, 2025</span></div>
+        <div class="last-updated">Last updated: <span>June 29, 2026</span></div>
     </div>
 </div>
 
 <div class="policy-wrap">
 
+    <!-- TL;DR -->
+    <div class="tldr-box">
+        <h3>TL;DR — Plain English Summary</h3>
+        <ul class="tldr-list">
+            <li>Everything on LetUsTech is <strong>free</strong> — no accounts, no subscriptions, no hidden costs.</li>
+            <li>You can use and modify our tools for <strong>personal use</strong>, but not sell or redistribute them commercially.</li>
+            <li>We use <strong>Google Analytics and AdSense</strong> cookies — you can decline these via our cookie banner.</li>
+            <li>UK/EU users have <strong>GDPR rights</strong> to access, correct, or delete any data we hold about you.</li>
+            <li>We are not liable for damages from using our tools — always <strong>back up your data</strong> and scan downloads.</li>
+        </ul>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc-box">
+        <h3>Contents</h3>
+        <div class="toc-grid">
+            <a href="#s01"><span class="toc-num">01</span> Description of Service</a>
+            <a href="#s02"><span class="toc-num">02</span> Use License</a>
+            <a href="#s03"><span class="toc-num">03</span> User Responsibilities</a>
+            <a href="#s04"><span class="toc-num">04</span> Downloads &amp; Software</a>
+            <a href="#s05"><span class="toc-num">05</span> Intellectual Property</a>
+            <a href="#s06"><span class="toc-num">06</span> User-Generated Content</a>
+            <a href="#s07"><span class="toc-num">07</span> Third-Party Links</a>
+            <a href="#s08"><span class="toc-num">08</span> Advertising</a>
+            <a href="#s09"><span class="toc-num">09</span> Donations</a>
+            <a href="#s10"><span class="toc-num">10</span> Disclaimer of Warranties</a>
+            <a href="#s11"><span class="toc-num">11</span> Limitation of Liability</a>
+            <a href="#s12"><span class="toc-num">12</span> Indemnification</a>
+            <a href="#s13"><span class="toc-num">13</span> Termination</a>
+            <a href="#s14"><span class="toc-num">14</span> Changes to Terms</a>
+            <a href="#s15"><span class="toc-num">15</span> Governing Law</a>
+            <a href="#s16"><span class="toc-num">16</span> Age Restrictions</a>
+            <a href="#s17"><span class="toc-num">17</span> Contact Information</a>
+            <a href="#s18"><span class="toc-num">18</span> GDPR / UK Data Rights</a>
+            <a href="#s19"><span class="toc-num">19</span> Cookies &amp; Analytics</a>
+            <a href="#s20"><span class="toc-num">20</span> Acknowledgment</a>
+        </div>
+    </div>
+
     <div class="policy-intro">
         Welcome to LetUsTech. By accessing or using our website at letustech.com (the "Site"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use our Site.
     </div>
 
-    <div class="policy-section">
+    <div id="s01" class="policy-section">
         <h2><span class="sec-num">01</span> Description of Service</h2>
         <p>LetUsTech provides free Python programs, automation tools, browser-based games, and educational content. Our services include but are not limited to:</p>
         <ul class="policy-list">
@@ -155,7 +283,7 @@
         </ul>
     </div>
 
-    <div class="policy-section">
+    <div id="s02" class="policy-section">
         <h2><span class="sec-num">02</span> Use License</h2>
         <p>Permission is granted to temporarily download one copy of the materials (programs, games, or documentation) on LetUsTech's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title.</p>
         <p>Under this license you may not:</p>
@@ -168,7 +296,7 @@
         </ul>
     </div>
 
-    <div class="policy-section">
+    <div id="s03" class="policy-section">
         <h2><span class="sec-num">03</span> User Responsibilities</h2>
         <p>When using our Site and services, you agree to:</p>
         <ul class="policy-list">
@@ -182,7 +310,7 @@
         </ul>
     </div>
 
-    <div class="policy-section">
+    <div id="s04" class="policy-section">
         <h2><span class="sec-num">04</span> Downloads and Software</h2>
         <p>All programs and software provided on our Site are offered "as is" without any warranties. You understand and agree that:</p>
         <ul class="policy-list">
@@ -194,27 +322,27 @@
         </ul>
     </div>
 
-    <div class="policy-section">
+    <div id="s05" class="policy-section">
         <h2><span class="sec-num">05</span> Intellectual Property Rights</h2>
         <p>The content, organisation, graphics, design, and other matters related to the Site are protected under applicable copyrights and other proprietary laws. Copying, redistribution, use, or publication of any such matters is prohibited, except as allowed by our use license.</p>
     </div>
 
-    <div class="policy-section">
+    <div id="s06" class="policy-section">
         <h2><span class="sec-num">06</span> User-Generated Content</h2>
         <p>If you submit feedback, suggestions, ideas, or other content to us, you grant us a non-exclusive, worldwide, perpetual, irrevocable, royalty-free license to use, reproduce, modify, and distribute such content.</p>
     </div>
 
-    <div class="policy-section">
+    <div id="s07" class="policy-section">
         <h2><span class="sec-num">07</span> Third-Party Links</h2>
         <p>Our Site may contain links to third-party websites (such as PayPal for donations). We are not responsible for the content, accuracy, or practices of these third-party sites. Your use of third-party websites is at your own risk.</p>
     </div>
 
-    <div class="policy-section">
+    <div id="s08" class="policy-section">
         <h2><span class="sec-num">08</span> Advertising</h2>
         <p>We display advertisements on our Site through Google AdSense and potentially other advertising networks. We do not control or endorse the content of these advertisements. Clicking on ads is at your own discretion and risk.</p>
     </div>
 
-    <div class="policy-section">
+    <div id="s09" class="policy-section">
         <h2><span class="sec-num">09</span> Donations</h2>
         <p>Donations to LetUsTech are voluntary and non-refundable. By making a donation, you acknowledge that:</p>
         <ul class="policy-list">
@@ -225,7 +353,7 @@
         </ul>
     </div>
 
-    <div class="policy-section">
+    <div id="s10" class="policy-section">
         <h2><span class="sec-num">10</span> Disclaimer of Warranties</h2>
         <p>The Site and all services are provided "as is" and "as available" without any warranties of any kind, either express or implied, including but not limited to:</p>
         <ul class="policy-list">
@@ -234,9 +362,16 @@
             <li>That the programs or services will meet your requirements</li>
             <li>That any defects will be corrected</li>
         </ul>
+        <div class="plain-english">
+            <div class="pe-icon">💬</div>
+            <div class="pe-body">
+                <strong>Plain English</strong>
+                Our tools are free and built with care, but we can't make legally binding promises that they'll always work perfectly. Use them, but keep backups of any important data.
+            </div>
+        </div>
     </div>
 
-    <div class="policy-section">
+    <div id="s11" class="policy-section">
         <h2><span class="sec-num">11</span> Limitation of Liability</h2>
         <p>To the maximum extent permitted by law, LetUsTech shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from:</p>
         <ul class="policy-list">
@@ -246,9 +381,16 @@
             <li>Any errors or omissions in any content</li>
             <li>Any conduct or content of any third party on the Site</li>
         </ul>
+        <div class="plain-english">
+            <div class="pe-icon">💬</div>
+            <div class="pe-body">
+                <strong>Plain English</strong>
+                If something goes wrong while using our tools — data loss, a crash, unexpected behaviour — we're not financially responsible. This is standard for free software. We do our best, but you use these tools at your own risk.
+            </div>
+        </div>
     </div>
 
-    <div class="policy-section">
+    <div id="s12" class="policy-section">
         <h2><span class="sec-num">12</span> Indemnification</h2>
         <p>You agree to indemnify, defend, and hold harmless LetUsTech and its affiliates from any claims, damages, losses, liabilities, and expenses (including legal fees) arising from:</p>
         <ul class="policy-list">
@@ -256,29 +398,36 @@
             <li>Your violation of these Terms</li>
             <li>Your violation of any rights of another party</li>
         </ul>
+        <div class="plain-english">
+            <div class="pe-icon">💬</div>
+            <div class="pe-body">
+                <strong>Plain English</strong>
+                If you misuse our tools (e.g. illegal scraping, harassment, breaking other sites' terms) and we get dragged into a legal dispute because of it, you're responsible for our defence costs — not us.
+            </div>
+        </div>
     </div>
 
-    <div class="policy-section">
+    <div id="s13" class="policy-section">
         <h2><span class="sec-num">13</span> Termination</h2>
         <p>We may terminate or suspend your access to our Site immediately, without prior notice or liability, for any reason, including if you breach these Terms. Upon termination, your right to use the Site will cease immediately.</p>
     </div>
 
-    <div class="policy-section">
+    <div id="s14" class="policy-section">
         <h2><span class="sec-num">14</span> Changes to Terms &amp; Services</h2>
         <p>We reserve the right to modify these Terms at any time. Your continued use of the Site after any changes constitutes acceptance of the new Terms. We also reserve the right to modify or discontinue any program, game, or service at any time.</p>
     </div>
 
-    <div class="policy-section">
+    <div id="s15" class="policy-section">
         <h2><span class="sec-num">15</span> Governing Law</h2>
         <p>These Terms shall be governed by and construed in accordance with the laws of England and Wales. Any disputes arising from these Terms or your use of the Site shall be subject to the exclusive jurisdiction of the courts of England and Wales.</p>
     </div>
 
-    <div class="policy-section">
+    <div id="s16" class="policy-section">
         <h2><span class="sec-num">16</span> Age Restrictions</h2>
         <p>Our Site is intended for users aged 13 and older. If you are under 13, you may only use the Site with the involvement and supervision of a parent or guardian.</p>
     </div>
 
-    <div class="policy-section">
+    <div id="s17" class="policy-section">
         <h2><span class="sec-num">17</span> Contact Information</h2>
         <ul class="policy-list">
             <li><strong>Email:</strong> letustec@gmail.com</li>
@@ -286,16 +435,94 @@
         </ul>
     </div>
 
-    <div class="policy-section">
-        <h2><span class="sec-num">18</span> Acknowledgment</h2>
+    <div id="s18" class="policy-section">
+        <h2><span class="sec-num">18</span> GDPR / UK Data Rights</h2>
+        <p>If you are located in the United Kingdom or European Economic Area, you have specific rights under the UK GDPR and Data Protection Act 2018 regarding any personal data we hold about you.</p>
+
+        <h3>Your Rights</h3>
+        <ul class="policy-list">
+            <li><strong>Right of Access:</strong> You can request a copy of any personal data we hold about you.</li>
+            <li><strong>Right to Rectification:</strong> You can ask us to correct inaccurate or incomplete data.</li>
+            <li><strong>Right to Erasure:</strong> You can ask us to delete your personal data ("right to be forgotten"), subject to legal obligations.</li>
+            <li><strong>Right to Portability:</strong> You can request your data in a structured, machine-readable format.</li>
+            <li><strong>Right to Restrict Processing:</strong> You can ask us to limit how we use your data in certain circumstances.</li>
+            <li><strong>Right to Object:</strong> You can object to processing based on legitimate interests, including direct marketing.</li>
+        </ul>
+
+        <h3>How to Exercise Your Rights</h3>
+        <p>To exercise any of these rights, contact us at <a href="mailto:letustec@gmail.com">letustec@gmail.com</a>. We will respond within 30 days as required by UK GDPR.</p>
+
+        <h3>Supervisory Authority</h3>
+        <p>You have the right to lodge a complaint with the UK's Information Commissioner's Office (ICO) if you believe your data rights have been infringed. Visit <a href="https://ico.org.uk" target="_blank" rel="noopener">ico.org.uk</a> for more information.</p>
+
+        <div class="highlight-box">
+            <p><strong>Data we may hold about you:</strong> If you have contacted us via our contact form, we hold your name, email address, and message content. We do not store payment data — donations are processed entirely by PayPal or your bank.</p>
+        </div>
+    </div>
+
+    <div id="s19" class="policy-section">
+        <h2><span class="sec-num">19</span> Cookies &amp; Analytics</h2>
+        <p>We use cookies and similar technologies on this Site. By accepting our cookie banner, you consent to the following:</p>
+
+        <h3>Cookies We Use</h3>
+        <ul class="policy-list">
+            <li><strong>Essential Cookies:</strong> Required for basic site functionality. These cannot be declined.</li>
+            <li><strong>Analytics (Google Analytics — G-H548VRKNHW):</strong> We use Google Analytics to understand how visitors use our Site. This collects anonymised data such as page views, session duration, and browser type. No personally identifiable information is collected.</li>
+            <li><strong>Advertising (Google AdSense — ca-pub-5830581574523106):</strong> We display ads via Google AdSense, which may use cookies to serve relevant ads based on your browsing behaviour. You can opt out via <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google Ad Settings</a>.</li>
+            <li><strong>Contact Form (EmailJS):</strong> Our contact form uses EmailJS to deliver messages. No message data is stored on our servers.</li>
+        </ul>
+
+        <h3>Managing Cookies</h3>
+        <p>You can decline non-essential cookies via our cookie banner when you first visit the Site. You can also manage or delete cookies at any time through your browser settings. Note that declining cookies may affect some Site functionality.</p>
+
+        <div class="plain-english">
+            <div class="pe-icon">💬</div>
+            <div class="pe-body">
+                <strong>Plain English</strong>
+                We use Google Analytics to see how many people visit and what they click on, and Google AdSense to show ads that help keep the site free. You can say no to these via our cookie banner — we won't track you.
+            </div>
+        </div>
+    </div>
+
+    <div id="s20" class="policy-section">
+        <h2><span class="sec-num">20</span> Acknowledgment</h2>
         <div class="highlight-box">
             <p>By using this Site, <strong>you acknowledge that you have read these Terms of Service and agree to be bound by them.</strong></p>
         </div>
     </div>
 
+    <!-- Version History -->
+    <div class="policy-section">
+        <h2>Version History</h2>
+        <div class="version-table-wrap">
+            <table class="version-table">
+                <thead>
+                    <tr>
+                        <th>Version</th>
+                        <th>Date</th>
+                        <th>Changes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>v2.0</td>
+                        <td>June 29, 2026</td>
+                        <td>Added GDPR / UK Data Rights section, Cookies &amp; Analytics disclosure, TL;DR plain-English summary, table of contents, plain-English callouts on liability and indemnification, version history. Updated effective date.</td>
+                    </tr>
+                    <tr>
+                        <td>v1.0</td>
+                        <td>November 4, 2025</td>
+                        <td>Initial Terms of Service published.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <div class="dates-box">
-        <div><strong>Last Reviewed</strong><span>November 4, 2025</span></div>
+        <div><strong>Last Reviewed</strong><span>June 29, 2026</span></div>
         <div><strong>Effective Date</strong><span>November 4, 2025</span></div>
+        <div><strong>Version</strong><span>2.0</span></div>
     </div>
 
 </div>
@@ -314,7 +541,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2025 LetUsTech — Wired For Your World. All rights reserved. · Liverpool, Merseyside · letustec@gmail.com</p>
+            <p>© 2026 LetUsTech — Wired For Your World. All rights reserved. · Liverpool, Merseyside · letustec@gmail.com</p>
         </div>
     </div>
 </footer>
