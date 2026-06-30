@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LetUsTech Support</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --blue:#1D4ED8;--blue-d:#1E40AF;--blue-l:#3B82F6;--blue-pale:#EFF6FF;
+  --navy:#0F172A;--white:#fff;
+  --g50:#F8FAFC;--g100:#F1F5F9;--g200:#E2E8F0;--g400:#94A3B8;--g500:#64748B;--g700:#334155;
+  --green:#16A34A;--green-pale:#F0FDF4;
+  --amber:#D97706;--amber-pale:#FFFBEB;
+  --red:#DC2626;--red-pale:#FEF2F2;
+  --r:8px;--sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+  --shm:0 4px 16px rgba(0,0,0,.08);
+}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--g50);color:var(--navy);font-size:14px;line-height:1.5;display:flex;flex-direction:column;}
+
+/* HEADER */
+#header{background:var(--navy);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.header-brand{display:flex;align-items:center;gap:10px;}
+.header-logo{width:28px;height:28px;background:var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.header-logo svg{width:16px;height:16px;color:#fff;}
+.header-title{font-size:.95rem;font-weight:600;color:#fff;}
+.header-sub{font-size:.75rem;color:rgba(255,255,255,.45);margin-left:4px;}
+.tech-badge{display:none;background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.4);color:var(--blue-l);font-size:.7rem;font-weight:600;padding:2px 9px;border-radius:999px;letter-spacing:.05em;}
+.tech-badge.visible{display:block;}
+.header-hint{font-size:.7rem;color:rgba(255,255,255,.25);}
+
+/* TABS */
+#tabs{background:#fff;border-bottom:1px solid var(--g200);display:flex;flex-shrink:0;}
+.tab{flex:1;padding:12px 8px;font-size:.83rem;font-weight:500;color:var(--g500);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:7px;}
+.tab:hover{color:var(--navy);background:var(--g50);}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);background:#fff;}
+.tab svg{width:16px;height:16px;flex-shrink:0;}
+
+/* PANELS */
+#panels{flex:1;overflow-y:auto;}
+.panel{display:none;padding:20px;max-width:840px;margin:0 auto;}
+.panel.active{display:block;}
+
+/* CARDS */
+.card{background:#fff;border:1px solid var(--g200);border-radius:var(--r);margin-bottom:14px;}
+.card-head{padding:14px 16px;border-bottom:1px solid var(--g200);display:flex;align-items:center;justify-content:space-between;}
+.card-head h3{font-size:.9rem;font-weight:600;color:var(--navy);display:flex;align-items:center;gap:8px;}
+.card-head h3 svg{width:16px;height:16px;color:var(--blue);}
+.card-body{padding:16px;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;font-size:.83rem;font-weight:600;border-radius:6px;border:none;cursor:pointer;transition:all .18s;font-family:inherit;}
+.btn-primary{background:var(--blue);color:#fff;}
+.btn-primary:hover{background:var(--blue-d);}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;}
+.btn-ghost{background:transparent;color:var(--g700);border:1px solid var(--g200);}
+.btn-ghost:hover{border-color:var(--g400);background:var(--g50);}
+.btn-ghost:disabled{opacity:.5;cursor:not-allowed;}
+.btn-red{background:var(--red-pale);color:var(--red);border:1px solid rgba(220,38,38,.2);}
+.btn-red:hover{background:#fee2e2;}
+.btn-green{background:var(--green-pale);color:var(--green);border:1px solid rgba(22,163,74,.2);}
+.btn-green:hover{background:#dcfce7;}
+.btn-sm{padding:5px 11px;font-size:.78rem;}
+.btn-lg{padding:12px 22px;font-size:.9rem;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+
+/* HERO CTA (Remote Support) */
+.remote-hero{background:linear-gradient(135deg,var(--navy) 0%,#1e3a8a 100%);border-radius:var(--r);padding:28px;text-align:center;margin-bottom:14px;color:#fff;}
+.remote-hero h2{font-size:1.2rem;font-weight:700;margin-bottom:8px;}
+.remote-hero p{font-size:.85rem;color:rgba(255,255,255,.65);margin-bottom:20px;line-height:1.6;}
+.remote-hero .btn-white{background:#fff;color:var(--blue);font-size:.9rem;padding:11px 24px;justify-content:center;}
+.remote-hero .btn-white:hover{background:var(--g50);}
+.remote-steps{display:flex;gap:0;margin-top:20px;border-top:1px solid rgba(255,255,255,.1);padding-top:18px;}
+.remote-step{flex:1;text-align:center;padding:0 12px;border-right:1px solid rgba(255,255,255,.1);}
+.remote-step:last-child{border-right:none;}
+.step-num-badge{width:28px;height:28px;background:rgba(255,255,255,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff;margin:0 auto 8px;}
+.remote-step p{font-size:.75rem;color:rgba(255,255,255,.55);line-height:1.5;}
+
+/* STATUS PILLS */
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:600;padding:2px 9px;border-radius:999px;}
+.pill-green{background:var(--green-pale);color:var(--green);}
+.pill-red{background:var(--red-pale);color:var(--red);}
+.pill-amber{background:var(--amber-pale);color:var(--amber);}
+.pill-blue{background:var(--blue-pale);color:var(--blue);}
+.pill-dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+
+/* INFO GRID */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.info-item{background:var(--g50);border:1px solid var(--g200);border-radius:6px;padding:12px;}
+.info-label{font-size:.7rem;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+.info-value{font-size:.875rem;font-weight:600;color:var(--navy);line-height:1.3;}
+.info-sub{font-size:.72rem;color:var(--g500);margin-top:2px;}
+
+/* PROGRESS BAR */
+.progress-wrap{margin-top:5px;}
+.progress-bar{height:5px;background:var(--g200);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:3px;transition:width .5s;}
+.fill-green{background:var(--green);}
+.fill-amber{background:var(--amber);}
+.fill-red{background:var(--red);}
+
+/* LOG OUTPUT */
+.log-box{background:#0F172A;border-radius:6px;padding:12px 14px;font-family:'Cascadia Code','Courier New',monospace;font-size:.78rem;color:#94a3b8;max-height:140px;overflow-y:auto;line-height:1.8;}
+.log-box .log-ok{color:#4ade80;}
+.log-box .log-warn{color:#fbbf24;}
+.log-box .log-err{color:#f87171;}
+
+/* NETWORK STATUS */
+.net-status-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--g100);}
+.net-status-row:last-child{border-bottom:none;}
+.net-label{font-size:.83rem;color:var(--g500);}
+.net-value{font-size:.83rem;font-weight:600;color:var(--navy);}
+
+/* TECH SECTION */
+.tech-section{display:none;}
+.tech-section.visible{display:block;}
+.tech-divider{display:flex;align-items:center;gap:10px;margin:18px 0 14px;}
+.tech-divider::before,.tech-divider::after{content:'';flex:1;height:1px;background:var(--g200);}
+.tech-divider span{font-size:.7rem;font-weight:600;color:var(--blue-l);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;}
+
+/* CONTACT CARD */
+.contact-strip{background:var(--blue-pale);border:1px solid rgba(29,78,216,.15);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.contact-strip p{font-size:.83rem;color:var(--blue-d);}
+.contact-strip strong{display:block;font-size:.875rem;color:var(--navy);}
+
+/* SPINNER */
+@keyframes spin{to{transform:rotate(360deg);}}
+.spinner{width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+.spinner-blue{border-color:rgba(29,78,216,.2);border-top-color:var(--blue);}
+
+/* ALERT */
+.alert{border-radius:6px;padding:10px 14px;font-size:.82rem;margin-bottom:12px;}
+.alert-green{background:var(--green-pale);color:var(--green);border:1px solid rgba(22,163,74,.2);}
+.alert-red{background:var(--red-pale);color:var(--red);border:1px solid rgba(220,38,38,.2);}
+.alert-amber{background:var(--amber-pale);color:var(--amber);border:1px solid rgba(217,119,6,.2);}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;font-size:.8rem;}
+.data-table th{text-align:left;padding:7px 10px;font-size:.7rem;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--g200);}
+.data-table td{padding:8px 10px;border-bottom:1px solid var(--g100);color:var(--g700);word-break:break-word;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:var(--g50);}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div id="header">
+  <div class="header-brand">
+    <div class="header-logo">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+    </div>
+    <span class="header-title">LetUsTech Support</span>
+    <span class="header-sub">v1.0</span>
+    <span class="tech-badge" id="techBadge">TECHNICIAN MODE</span>
+  </div>
+  <span class="header-hint">Ctrl+Shift+T — technician mode</span>
+</div>
+
+<!-- Tabs -->
+<div id="tabs">
+  <button class="tab active" onclick="switchTab('remote',this)">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 18v-6a9 9 0 0118 0v6"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
+    Remote Support
+  </button>
+  <button class="tab" onclick="switchTab('diag',this)">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+    PC Diagnostics
+  </button>
+  <button class="tab" onclick="switchTab('virus',this)">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+    Virus &amp; Malware
+  </button>
+  <button class="tab" onclick="switchTab('network',this)">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg>
+    Wi-Fi &amp; Network
+  </button>
+</div>
+
+<!-- Panels -->
+<div id="panels">
+
+  <!-- REMOTE SUPPORT -->
+  <div class="panel active" id="panel-remote">
+    <div class="remote-hero">
+      <h2>Get remote support from LetUsTech</h2>
+      <p>Click the button below to start a remote session. Our engineer will ask you for the 6-digit code that appears on screen.</p>
+      <button class="btn btn-white btn-lg" onclick="launchQuickAssist()" id="qaBtn" style="margin:0 auto;display:inline-flex;">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        Launch Quick Assist
+      </button>
+      <div class="remote-steps">
+        <div class="remote-step"><div class="step-num-badge">1</div><p>Click the button above to open Quick Assist</p></div>
+        <div class="remote-step"><div class="step-num-badge">2</div><p>Choose "Get assistance" and share your 6-digit code</p></div>
+        <div class="remote-step"><div class="step-num-badge">3</div><p>Our engineer connects and takes a look</p></div>
+      </div>
+    </div>
+
+    <div id="qaStatus"></div>
+
+    <div class="contact-strip">
+      <div><strong>Need to contact us first?</strong><p>Email letustec@gmail.com to arrange a remote support session.</p></div>
+      <button class="btn btn-primary btn-sm" onclick="api.openContact()">Email Us</button>
+    </div>
+  </div>
+
+  <!-- PC DIAGNOSTICS -->
+  <div class="panel" id="panel-diag">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div>
+        <h2 style="font-size:1rem;font-weight:700;color:var(--navy);">PC Diagnostics</h2>
+        <p style="font-size:.8rem;color:var(--g500);">Basic health check of this computer.</p>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="runDiagnostics()" id="diagBtn">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          Run Diagnostics
+        </button>
+        <button class="btn btn-ghost btn-sm" onclick="copyDiagReport()" id="copyBtn" style="display:none;">Copy Report</button>
+      </div>
+    </div>
+
+    <div id="diagResults" style="display:none;">
+      <div class="info-grid" id="diagGrid"></div>
+    </div>
+
+    <div id="diagPlaceholder" class="card" style="padding:32px;text-align:center;">
+      <svg width="36" height="36" fill="none" stroke="#94A3B8" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 10px;"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+      <p style="color:var(--g400);font-size:.85rem;">Click "Run Diagnostics" to check this computer.</p>
+    </div>
+
+    <!-- TECH: Event Log & Startup -->
+    <div class="tech-section" id="techDiag">
+      <div class="tech-divider"><span>Technician Tools</span></div>
+      <div class="card">
+        <div class="card-head">
+          <h3><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg> Recent System Errors (24h)</h3>
+          <div class="btn-row">
+            <button class="btn btn-ghost btn-sm" onclick="loadEventLog()">Load Errors</button>
+            <button class="btn btn-ghost btn-sm" onclick="api.openEventViewer()">Open Event Viewer</button>
+          </div>
+        </div>
+        <div class="card-body" id="eventLogBody">
+          <p style="color:var(--g400);font-size:.82rem;">Click "Load Errors" to fetch recent system errors.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h3><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg> Startup Programs</h3>
+          <div class="btn-row">
+            <button class="btn btn-ghost btn-sm" onclick="loadStartupApps()">Load Startup</button>
+            <button class="btn btn-ghost btn-sm" onclick="api.openDeviceManager()">Device Manager</button>
+          </div>
+        </div>
+        <div class="card-body" id="startupBody">
+          <p style="color:var(--g400);font-size:.82rem;">Click "Load Startup" to see programs that run at boot.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIRUS & MALWARE -->
+  <div class="panel" id="panel-virus">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div>
+        <h2 style="font-size:1rem;font-weight:700;color:var(--navy);">Virus &amp; Malware</h2>
+        <p style="font-size:.8rem;color:var(--g500);">Windows Defender status and scanning tools.</p>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="api.openWindowsSecurity()">Open Windows Security</button>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h3><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg> Windows Defender Status</h3>
+        <button class="btn btn-ghost btn-sm" onclick="loadDefenderStatus()" id="defRefreshBtn">Refresh</button>
+      </div>
+      <div class="card-body" id="defenderBody">
+        <p style="color:var(--g400);font-size:.82rem;">Loading Defender status...</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h3><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg> Quick Scan</h3>
+        <div class="btn-row" id="scanBtnRow">
+          <button class="btn btn-primary" onclick="startQuickScan()" id="scanBtn">Run Quick Scan</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="scanOutput" class="log-box" style="display:none;"></div>
+        <div id="scanPlaceholder" style="color:var(--g400);font-size:.82rem;">A quick scan checks the most common locations for threats. Takes 2–5 minutes.</div>
+      </div>
+    </div>
+
+    <!-- TECH: Hosts File -->
+    <div class="tech-section" id="techVirus">
+      <div class="tech-divider"><span>Technician Tools</span></div>
+      <div class="card">
+        <div class="card-head">
+          <h3><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg> Hosts File Check</h3>
+          <div class="btn-row">
+            <button class="btn btn-ghost btn-sm" onclick="checkHosts()">Check Hosts</button>
+            <button class="btn btn-primary btn-sm" onclick="api.runDefenderFull()">Full Scan (background)</button>
+          </div>
+        </div>
+        <div class="card-body" id="hostsBody">
+          <p style="color:var(--g400);font-size:.82rem;">Click "Check Hosts" to inspect the Windows hosts file for suspicious entries.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NETWORK -->
+  <div class="panel" id="panel-network">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div>
+        <h2 style="font-size:1rem;font-weight:700;color:var(--navy);">Wi-Fi &amp; Network</h2>
+        <p style="font-size:.8rem;color:var(--g500);">Connection details and network repair tools.</p>
+      </div>
+      <button class="btn btn-primary" onclick="loadNetwork()" id="netRefreshBtn">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        Refresh
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg> Connection Status</h3></div>
+      <div class="card-body" id="netStatus"><p style="color:var(--g400);font-size:.82rem;">Loading network information...</p></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h3><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg> Fix Common Issues</h3>
+      </div>
+      <div class="card-body">
+        <div class="btn-row" style="margin-bottom:12px;">
+          <button class="btn btn-ghost" onclick="doFlushDns()" id="dnsBtn">Flush DNS Cache</button>
+          <button class="btn btn-ghost" onclick="doRenewIp()" id="ipBtn">Release &amp; Renew IP</button>
+          <button class="btn btn-ghost" onclick="doPingTest()" id="pingBtn">Test Connection</button>
+        </div>
+        <div id="netFixLog" class="log-box" style="display:none;"></div>
+      </div>
+    </div>
+
+    <!-- TECH: Advanced Network -->
+    <div class="tech-section" id="techNetwork">
+      <div class="tech-divider"><span>Technician Tools</span></div>
+      <div class="card">
+        <div class="card-head">
+          <h3><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Advanced Repair</h3>
+          <div class="btn-row">
+            <button class="btn btn-red btn-sm" onclick="doResetWinsock()">Reset Winsock</button>
+            <button class="btn btn-red btn-sm" onclick="doResetTcpIp()">Reset TCP/IP</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="techNetLog" class="log-box" style="display:none;"></div>
+          <p style="color:var(--g400);font-size:.8rem;" id="techNetPlaceholder">Winsock and TCP/IP resets require a reboot to take effect. Use only when standard fixes have not worked.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h3><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg> Ping Test</h3>
+          <div class="btn-row">
+            <input id="pingHost" type="text" value="8.8.8.8" placeholder="Host or IP" style="padding:5px 10px;border:1px solid var(--g200);border-radius:6px;font-size:.8rem;width:130px;">
+            <button class="btn btn-ghost btn-sm" onclick="doPingTest(document.getElementById('pingHost').value)">Run Ping</button>
+          </div>
+        </div>
+        <div class="card-body" id="pingResults"><p style="color:var(--g400);font-size:.82rem;">Enter a host and click Run Ping.</p></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /panels -->
+
+<script>
+let techMode = false;
+
+// ── Tab switching ─────────────────────────────────────────────────────────────
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+  if (name === 'diag' && !window._diagLoaded) runDiagnostics();
+  if (name === 'virus' && !window._defLoaded) loadDefenderStatus();
+  if (name === 'network' && !window._netLoaded) loadNetwork();
+}
+
+// ── Tech mode ─────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey && e.shiftKey && e.key === 'T') {
+    techMode = !techMode;
+    document.getElementById('techBadge').classList.toggle('visible', techMode);
+    document.querySelectorAll('.tech-section').forEach(s => s.classList.toggle('visible', techMode));
+  }
+});
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function setBusy(btnId, busy, label) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = busy;
+  btn.innerHTML = busy
+    ? `<span class="spinner"></span> ${label || 'Working...'}`
+    : btn.dataset.label || btn.textContent;
+  if (!busy && btn.dataset.label) btn.innerHTML = btn.dataset.label;
+}
+
+function showAlert(container, type, msg) {
+  const el = document.getElementById(container);
+  if (el) el.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+}
+
+function log(boxId, text, type) {
+  const box = document.getElementById(boxId);
+  if (!box) return;
+  box.style.display = 'block';
+  const cls = type === 'ok' ? 'log-ok' : type === 'err' ? 'log-err' : type === 'warn' ? 'log-warn' : '';
+  box.innerHTML += `<div class="${cls}">${text}</div>`;
+  box.scrollTop = box.scrollHeight;
+}
+
+function pct(v) {
+  const c = v >= 90 ? 'fill-red' : v >= 70 ? 'fill-amber' : 'fill-green';
+  return `<div class="progress-wrap"><div class="progress-bar"><div class="progress-fill ${c}" style="width:${v}%"></div></div></div>`;
+}
+
+function pill(ok, yes, no) {
+  return ok
+    ? `<span class="pill pill-green"><span class="pill-dot"></span>${yes}</span>`
+    : `<span class="pill pill-red"><span class="pill-dot"></span>${no}</span>`;
+}
+
+// ── Remote Support ────────────────────────────────────────────────────────────
+async function launchQuickAssist() {
+  const btn = document.getElementById('qaBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Launching...';
+  const r = await api.launchQuickAssist();
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Launch Quick Assist';
+  const s = document.getElementById('qaStatus');
+  if (r.ok) {
+    s.innerHTML = '<div class="alert alert-green">Quick Assist is opening. Wait for the 6-digit code, then share it with your LetUsTech engineer.</div>';
+  } else {
+    s.innerHTML = '<div class="alert alert-amber">Quick Assist could not be launched automatically. Search for "Quick Assist" in the Start menu and open it manually.</div>';
+  }
+}
+
+// ── PC Diagnostics ────────────────────────────────────────────────────────────
+async function runDiagnostics() {
+  const btn = document.getElementById('diagBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Scanning...';
+  document.getElementById('diagPlaceholder').style.display = 'none';
+
+  const d = await api.getSystemInfo();
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Refresh';
+
+  if (d.error) {
+    document.getElementById('diagPlaceholder').style.display = 'block';
+    document.getElementById('diagPlaceholder').innerHTML = `<p style="color:var(--red);font-size:.85rem;">Error: ${d.error}</p>`;
+    return;
+  }
+
+  window._diagLoaded = true;
+  window._diagData = d;
+  document.getElementById('copyBtn').style.display = 'inline-flex';
+
+  const ramColor = d.ramUsed >= 90 ? 'fill-red' : d.ramUsed >= 70 ? 'fill-amber' : 'fill-green';
+  const diskColor = d.diskPct >= 90 ? 'fill-red' : d.diskPct >= 80 ? 'fill-amber' : 'fill-green';
+
+  document.getElementById('diagGrid').innerHTML = `
+    <div class="info-item">
+      <div class="info-label">Operating System</div>
+      <div class="info-value">${d.os}</div>
+      <div class="info-sub">Build ${d.build} &middot; ${d.activated ? '<span style="color:var(--green)">Activated</span>' : '<span style="color:var(--red)">Not Activated</span>'}</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Processor</div>
+      <div class="info-value" style="font-size:.8rem;">${d.cpu}</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Memory (RAM)</div>
+      <div class="info-value">${d.ramUsed}% used &middot; ${d.ramFree} GB free</div>
+      <div class="info-sub">${d.ramTotal} GB total</div>
+      ${pct(d.ramUsed)}
+    </div>
+    <div class="info-item">
+      <div class="info-label">Storage (C:)</div>
+      <div class="info-value">${d.diskPct}% used &middot; ${d.diskFree} GB free</div>
+      <div class="info-sub">${d.diskUsed} GB used of ${(d.diskUsed + d.diskFree).toFixed(0)} GB</div>
+      ${pct(d.diskPct)}
+    </div>
+    <div class="info-item">
+      <div class="info-label">Computer Name</div>
+      <div class="info-value">${d.computer}</div>
+      <div class="info-sub">User: ${d.user}</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Uptime</div>
+      <div class="info-value">${d.uptime} hours</div>
+      <div class="info-sub">Last patch: ${d.lastPatch}</div>
+    </div>
+  `;
+  document.getElementById('diagResults').style.display = 'block';
+}
+
+function copyDiagReport() {
+  const d = window._diagData;
+  if (!d) return;
+  const txt = `LetUsTech Diagnostic Report\n${'─'.repeat(30)}\nOS: ${d.os} (Build ${d.build})\nCPU: ${d.cpu}\nRAM: ${d.ramUsed}% used (${d.ramFree} GB free of ${d.ramTotal} GB)\nDisk C: ${d.diskPct}% used (${d.diskFree} GB free)\nComputer: ${d.computer} | User: ${d.user}\nUptime: ${d.uptime}h | Last patch: ${d.lastPatch}\nActivated: ${d.activated}`;
+  navigator.clipboard.writeText(txt).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy Report', 2000);
+  });
+}
+
+// ── Event Log ─────────────────────────────────────────────────────────────────
+async function loadEventLog() {
+  document.getElementById('eventLogBody').innerHTML = '<span class="spinner spinner-blue"></span> Loading...';
+  const items = await api.getEventErrors();
+  if (!items.length) {
+    document.getElementById('eventLogBody').innerHTML = '<div class="alert alert-green">No critical errors in the last 24 hours.</div>';
+    return;
+  }
+  const rows = items.map(i => `<tr><td>${i}</td></tr>`).join('');
+  document.getElementById('eventLogBody').innerHTML = `<table class="data-table"><thead><tr><th>Time | Source | Message</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+async function loadStartupApps() {
+  document.getElementById('startupBody').innerHTML = '<span class="spinner spinner-blue"></span> Loading...';
+  const items = await api.getStartupApps();
+  if (!items.length) {
+    document.getElementById('startupBody').innerHTML = '<p style="color:var(--g400);font-size:.82rem;">No startup entries found.</p>';
+    return;
+  }
+  const rows = items.map(i => `<tr><td>${i.name}</td><td style="color:var(--g500);font-size:.75rem;word-break:break-all;">${i.path}</td><td>${i.hive}</td></tr>`).join('');
+  document.getElementById('startupBody').innerHTML = `<table class="data-table"><thead><tr><th>Name</th><th>Path</th><th>Hive</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+// ── Defender ──────────────────────────────────────────────────────────────────
+async function loadDefenderStatus() {
+  document.getElementById('defenderBody').innerHTML = '<span class="spinner spinner-blue"></span> Checking Defender status...';
+  const d = await api.getDefenderStatus();
+  window._defLoaded = true;
+  if (d.error) {
+    document.getElementById('defenderBody').innerHTML = `<div class="alert alert-amber">${d.error}</div>`;
+    return;
+  }
+  const sigOk = d.sigAge <= 7;
+  document.getElementById('defenderBody').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div class="info-item" style="text-align:center;">
+        <div class="info-label">Protection</div>
+        ${pill(d.enabled, 'Active', 'Disabled')}
+      </div>
+      <div class="info-item" style="text-align:center;">
+        <div class="info-label">Real-Time</div>
+        ${pill(d.realTime, 'On', 'Off')}
+      </div>
+      <div class="info-item" style="text-align:center;">
+        <div class="info-label">Signatures</div>
+        ${pill(sigOk, 'Up to date', 'Outdated')}
+      </div>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
+      <div class="info-item" style="flex:1;min-width:140px;">
+        <div class="info-label">Last Quick Scan</div>
+        <div class="info-value">${d.lastScan === 0 ? 'Today' : d.lastScan + ' day(s) ago'}</div>
+        <div class="info-sub">${d.lastScanDate ? d.lastScanDate.substring(0,10) : ''}</div>
+      </div>
+      <div class="info-item" style="flex:1;min-width:140px;">
+        <div class="info-label">Quarantined Items</div>
+        <div class="info-value" style="color:${d.threats > 0 ? 'var(--red)' : 'var(--green)'};">${d.threats}</div>
+      </div>
+      <div class="info-item" style="flex:1;min-width:140px;">
+        <div class="info-label">Signature Age</div>
+        <div class="info-value">${d.sigAge} day(s)</div>
+      </div>
+    </div>
+  `;
+}
+
+async function startQuickScan() {
+  const btn = document.getElementById('scanBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Scanning...';
+  document.getElementById('scanPlaceholder').style.display = 'none';
+  document.getElementById('scanOutput').style.display = 'block';
+  document.getElementById('scanOutput').innerHTML = '<div class="log-ok">Starting Windows Defender quick scan...</div>';
+
+  api.onScanOutput(text => {
+    const box = document.getElementById('scanOutput');
+    if (text.startsWith('DONE:')) {
+      const threats = parseInt(text.split(':')[1]) || 0;
+      box.innerHTML += `<div class="log-ok">Scan complete. ${threats === 0 ? 'No threats found.' : threats + ' threat(s) quarantined.'}</div>`;
+      btn.disabled = false;
+      btn.innerHTML = 'Run Quick Scan';
+      loadDefenderStatus();
+    } else if (text) {
+      box.innerHTML += `<div>${text}</div>`;
+      box.scrollTop = box.scrollHeight;
+    }
+  });
+
+  await api.runQuickScan();
+}
+
+async function checkHosts() {
+  document.getElementById('hostsBody').innerHTML = '<span class="spinner spinner-blue"></span> Checking...';
+  const r = await api.checkHostsFile();
+  if (r.suspicious && r.suspicious.length > 0) {
+    const rows = r.suspicious.map(e => `<tr><td style="color:var(--red);">${e}</td></tr>`).join('');
+    document.getElementById('hostsBody').innerHTML = `
+      <div class="alert alert-red" style="margin-bottom:10px;">${r.suspicious.length} suspicious entr${r.suspicious.length === 1 ? 'y' : 'ies'} found in hosts file.</div>
+      <table class="data-table"><thead><tr><th>Suspicious Entries</th></tr></thead><tbody>${rows}</tbody></table>`;
+  } else if (r.count > 0) {
+    const rows = r.entries.map(e => `<tr><td>${e}</td></tr>`).join('');
+    document.getElementById('hostsBody').innerHTML = `
+      <div class="alert alert-green" style="margin-bottom:10px;">No suspicious entries. ${r.count} custom entry/entries found.</div>
+      <table class="data-table"><thead><tr><th>Hosts File Entries</th></tr></thead><tbody>${rows}</tbody></table>`;
+  } else {
+    document.getElementById('hostsBody').innerHTML = '<div class="alert alert-green">Hosts file looks clean. No custom entries found.</div>';
+  }
+}
+
+// ── Network ───────────────────────────────────────────────────────────────────
+async function loadNetwork() {
+  document.getElementById('netStatus').innerHTML = '<span class="spinner spinner-blue"></span> Detecting network...';
+  const d = await api.getNetworkInfo();
+  window._netLoaded = true;
+  if (d.error) {
+    document.getElementById('netStatus').innerHTML = `<div class="alert alert-red">${d.error}</div>`;
+    return;
+  }
+  const onlinePill = d.online
+    ? `<span class="pill pill-green"><span class="pill-dot"></span>Connected</span>`
+    : `<span class="pill pill-red"><span class="pill-dot"></span>No Internet</span>`;
+
+  document.getElementById('netStatus').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+      <div class="info-item">
+        <div class="info-label">Status</div>
+        <div style="margin-top:4px;">${onlinePill}</div>
+        ${d.latency ? `<div class="info-sub">Latency: ${d.latency}ms</div>` : ''}
+      </div>
+      <div class="info-item">
+        <div class="info-label">Network</div>
+        <div class="info-value">${d.network}</div>
+        <div class="info-sub">${d.wifiSig ? 'Signal: ' + d.wifiSig : d.desc}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">IP Address</div>
+        <div class="info-value">${d.ip}</div>
+        <div class="info-sub">Gateway: ${d.gateway}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">DNS Servers</div>
+        <div class="info-value" style="font-size:.8rem;">${d.dns}</div>
+        <div class="info-sub">Adapter: ${d.adapter}</div>
+      </div>
+    </div>
+  `;
+}
+
+async function doFlushDns() {
+  const btn = document.getElementById('dnsBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner spinner-blue"></span> Flushing...';
+  const r = await api.flushDns();
+  btn.disabled = false;
+  btn.innerHTML = 'Flush DNS Cache';
+  log('netFixLog', r.ok ? '✓ DNS cache cleared successfully.' : '✗ Error: ' + r.error, r.ok ? 'ok' : 'err');
+}
+
+async function doRenewIp() {
+  const btn = document.getElementById('ipBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner spinner-blue"></span> Renewing...';
+  const r = await api.renewIp();
+  btn.disabled = false;
+  btn.innerHTML = 'Release & Renew IP';
+  log('netFixLog', r.ok ? '✓ IP address renewed. Click Refresh to see new IP.' : '✗ Error: ' + r.error, r.ok ? 'ok' : 'err');
+  if (r.ok) loadNetwork();
+}
+
+async function doPingTest(host) {
+  const target = host || '8.8.8.8';
+  log('netFixLog', `Pinging ${target}...`, '');
+  const r = await api.runPingTest(target);
+  if (r.ok) {
+    log('netFixLog', `✓ ${target} — Avg: ${r.avg}ms | Min: ${r.min}ms | Max: ${r.max}ms`, 'ok');
+    if (techMode && document.getElementById('pingResults')) {
+      document.getElementById('pingResults').innerHTML = `
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+          <div class="info-item"><div class="info-label">Average</div><div class="info-value">${r.avg}ms</div></div>
+          <div class="info-item"><div class="info-label">Minimum</div><div class="info-value">${r.min}ms</div></div>
+          <div class="info-item"><div class="info-label">Maximum</div><div class="info-value">${r.max}ms</div></div>
+        </div>`;
+    }
+  } else {
+    log('netFixLog', `✗ ${target} — No response. Host may be unreachable.`, 'err');
+  }
+}
+
+async function doResetWinsock() {
+  document.getElementById('techNetPlaceholder').style.display = 'none';
+  log('techNetLog', 'Resetting Winsock...', '');
+  const r = await api.resetWinsock();
+  log('techNetLog', r.ok ? '✓ Winsock reset. A reboot is required.' : '✗ Error: ' + r.error, r.ok ? 'ok' : 'err');
+}
+
+async function doResetTcpIp() {
+  document.getElementById('techNetPlaceholder').style.display = 'none';
+  log('techNetLog', 'Resetting TCP/IP stack...', '');
+  const r = await api.resetTcpIp();
+  log('techNetLog', r.ok ? '✓ TCP/IP reset. A reboot is required.' : '✗ Error: ' + r.error, r.ok ? 'ok' : 'err');
+}
+
+// ── Auto-load on start ────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  loadDefenderStatus();
+  loadNetwork();
+  window._defLoaded = true;
+  window._netLoaded = true;
+});
+</script>
+</body>
+</html>

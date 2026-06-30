@@ -1,0 +1,33 @@
+{
+  "name": "letutech-support-tool",
+  "version": "1.0.0",
+  "description": "LetUsTech Support Tool — Remote support, diagnostics, virus removal and network help",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win"
+  },
+  "build": {
+    "appId": "uk.letustech.support-tool",
+    "productName": "LetUsTech Support",
+    "directories": { "output": "dist" },
+    "files": ["main.js", "preload.js", "src/**/*"],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "LetUsTech Support"
+    }
+  },
+  "author": "LetUsTech <letustec@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  }
+}
