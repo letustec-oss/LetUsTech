@@ -6,8 +6,38 @@
 <meta name="description" content="LetUsTech provides professional IT support and managed services for businesses and homes across the UK. Based in Liverpool, Merseyside.">
 <meta name="keywords" content="IT support Liverpool, managed IT services UK, cyber security, Microsoft 365, cloud solutions, IT consultancy, remote support">
 <title>LetUsTech — Professional IT Support &amp; Managed Services</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="LetUsTech — Professional IT Support &amp; Managed Services">
+<meta property="og:description" content="Professional IT support and managed services for businesses and home users across the UK. Based in Liverpool, Merseyside.">
+<meta property="og:image" content="https://letustec-oss.github.io/LetUsTech/LetUsTechLogo.png">
+<meta property="og:url" content="https://letustec-oss.github.io/LetUsTech/">
+<meta property="og:site_name" content="LetUsTech">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LetUsTech — Professional IT Support &amp; Managed Services">
+<meta name="twitter:description" content="Professional IT support and managed services for businesses and home users across the UK.">
+<meta name="twitter:image" content="https://letustec-oss.github.io/LetUsTech/LetUsTechLogo.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="FaviconLetusTech.png" type="image/png">
+<link rel="apple-touch-icon" href="FaviconLetusTech.png">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LocalBusiness",
+  "name":"LetUsTech",
+  "description":"Professional IT support and managed services for businesses and home users across the UK.",
+  "url":"https://letustec-oss.github.io/LetUsTech/",
+  "email":"letustec@gmail.com",
+  "address":{"@type":"PostalAddress","addressLocality":"Liverpool","addressRegion":"Merseyside","addressCountry":"GB"},
+  "geo":{"@type":"GeoCoordinates","latitude":53.4084,"longitude":-2.9916},
+  "areaServed":[{"@type":"City","name":"Liverpool"},{"@type":"AdministrativeArea","name":"Merseyside"},{"@type":"Country","name":"United Kingdom"}],
+  "serviceType":["IT Support","Managed IT Services","Cyber Security","Microsoft 365","Cloud Services","Web Development"],
+  "priceRange":"££",
+  "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"17:30"}]
+}
+</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied'});</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H548VRKNHW');</script>
+<script>gtag('js',new Date());gtag('config','G-H548VRKNHW');</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5830581574523106" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -344,7 +374,7 @@ footer{background:var(--navy);padding:60px 0 28px;}
 <!-- Cookie -->
 <div id="cookieConsent">
   <div class="ck-in">
-    <p>We use cookies to improve your experience. <a href="privacy-policy.html">Privacy Policy</a> &middot; <a href="terms-of-service.html">Terms of Service</a></p>
+    <p>We use cookies to analyse site traffic. <a href="cookie-policy.html">Cookie Policy</a> &middot; <a href="privacy-policy.html">Privacy</a></p>
     <div class="ck-btns">
       <button class="c-btn c-btn-a" onclick="acceptCookies()">Accept</button>
       <button class="c-btn c-btn-d" onclick="declineCookies()">Decline</button>
@@ -355,7 +385,7 @@ footer{background:var(--navy);padding:60px 0 28px;}
 <!-- Header -->
 <header id="site-header">
   <nav class="container">
-    <div class="logo"><a href="index.html"><img src="LetUsTech.png" alt="LetUsTech"></a></div>
+    <div class="logo"><a href="index.html"><img src="LetUsTechLogo.png" alt="LetUsTech"></a></div>
     <ul class="nav-links">
       <li><a href="#services">Services</a></li>
       <li><a href="#about">About</a></li>
@@ -1013,7 +1043,7 @@ footer{background:var(--navy);padding:60px 0 28px;}
   <div class="container">
     <div class="ft-grid">
       <div class="ft-brand">
-        <div class="ft-logo"><a href="index.html"><img src="LetUsTech.png" alt="LetUsTech"></a></div>
+        <div class="ft-logo"><a href="index.html"><img src="LetUsTechLogo.png" alt="LetUsTech"></a></div>
         <p>Professional IT support and managed services for businesses and homes across the UK. Based in Liverpool, Merseyside.</p>
         <div class="ft-social">
           <a href="#" class="soc" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
@@ -1094,9 +1124,20 @@ footer{background:var(--navy);padding:60px 0 28px;}
 
 <script>
 // Cookie
-window.addEventListener('load',()=>{if(!localStorage.getItem('cookieConsent'))document.getElementById('cookieConsent').classList.add('show');});
-function acceptCookies(){localStorage.setItem('cookieConsent','accepted');document.getElementById('cookieConsent').classList.remove('show');}
-function declineCookies(){localStorage.setItem('cookieConsent','declined');document.getElementById('cookieConsent').classList.remove('show');}
+window.addEventListener('load',()=>{
+  const consent=localStorage.getItem('cookieConsent');
+  if(!consent) document.getElementById('cookieConsent').classList.add('show');
+  if(consent==='accepted') gtag('consent','update',{analytics_storage:'granted'});
+});
+function acceptCookies(){
+  localStorage.setItem('cookieConsent','accepted');
+  gtag('consent','update',{analytics_storage:'granted'});
+  document.getElementById('cookieConsent').classList.remove('show');
+}
+function declineCookies(){
+  localStorage.setItem('cookieConsent','declined');
+  document.getElementById('cookieConsent').classList.remove('show');
+}
 
 // Header scroll
 window.addEventListener('scroll',()=>{document.getElementById('site-header').classList.toggle('scrolled',window.scrollY>20);});

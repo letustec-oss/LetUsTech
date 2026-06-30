@@ -1,14 +1,3 @@
-# robots.txt for letustech.com
-
 User-agent: *
 Allow: /
-
-# Disallow crawling of any admin or private areas (add as needed)
-# Disallow: /admin/
-# Disallow: /private/
-
-# Sitemap location
-Sitemap: https://letustech.com/sitemap.xml
-
-# Crawl-delay (optional, helps prevent server overload)
-Crawl-delay: 10
+Sitemap: https://letustec-oss.github.io/LetUsTech/sitemap.xml
