@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LetUsTech Client Manager</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,'Segoe UI',sans-serif;font-size:13px;background:#f1f5f9;color:#1e293b;-webkit-font-smoothing:antialiased;}
+:root{--blue:#1D4ED8;--blue-d:#1E40AF;--blue-p:#EFF6FF;--navy:#0F172A;--green:#16A34A;--green-p:#f0fdf4;--amber:#D97706;--amber-p:#fffbeb;--red:#DC2626;--red-p:#fef2f2;--g50:#F8FAFC;--g100:#F1F5F9;--g200:#E2E8F0;--g300:#CBD5E1;--g400:#94A3B8;--g500:#64748B;--g700:#334155;--r:6px;}
+
+/* ── Layout ── */
+.app{display:flex;flex-direction:column;height:100vh;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:46px;background:var(--navy);flex-shrink:0;}
+.topbar-brand{font-size:.85rem;font-weight:700;color:#fff;letter-spacing:-.01em;}
+.topbar-stats{display:flex;gap:16px;}
+.topbar-stat{font-size:.75rem;color:rgba(255,255,255,.5);}
+.topbar-stat span{font-weight:700;color:#fff;margin-right:3px;}
+.layout{display:flex;flex:1;overflow:hidden;}
+
+/* ── Sidebar ── */
+.sidebar{width:240px;flex-shrink:0;background:#fff;border-right:1px solid var(--g200);display:flex;flex-direction:column;}
+.sidebar-head{padding:10px;border-bottom:1px solid var(--g200);}
+.search-box{display:flex;align-items:center;gap:6px;background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:6px 8px;margin-bottom:8px;}
+.search-box input{border:none;background:none;font-size:.8rem;outline:none;width:100%;color:var(--navy);}
+.search-box input::placeholder{color:var(--g400);}
+.btn-add-client{width:100%;display:flex;align-items:center;justify-content:center;gap:5px;padding:7px;background:var(--blue);color:#fff;border:none;border-radius:var(--r);font-size:.78rem;font-weight:600;cursor:pointer;transition:background .15s;}
+.btn-add-client:hover{background:var(--blue-d);}
+.client-list{flex:1;overflow-y:auto;padding:6px;}
+.client-item{padding:8px 10px;border-radius:var(--r);cursor:pointer;transition:background .12s;border:1px solid transparent;margin-bottom:2px;}
+.client-item:hover{background:var(--g50);}
+.client-item.active{background:var(--blue-p);border-color:rgba(29,78,216,.2);}
+.client-item-name{font-size:.82rem;font-weight:600;color:var(--navy);}
+.client-item.active .client-item-name{color:var(--blue);}
+.client-item-sub{font-size:.72rem;color:var(--g500);margin-top:1px;}
+.client-item-badge{display:inline-block;font-size:.65rem;font-weight:700;padding:1px 5px;border-radius:99px;background:var(--blue-p);color:var(--blue);margin-top:3px;}
+.no-clients{text-align:center;padding:32px 16px;color:var(--g400);font-size:.8rem;}
+
+/* ── Detail pane ── */
+.detail{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--g50);}
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--g400);gap:8px;}
+.empty-state svg{opacity:.3;}
+.empty-state p{font-size:.9rem;}
+
+/* ── Client card ── */
+.client-detail{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.client-card{background:#fff;border-bottom:1px solid var(--g200);padding:14px 16px;flex-shrink:0;}
+.client-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.client-name{font-size:1rem;font-weight:700;color:var(--navy);}
+.client-company{font-size:.78rem;color:var(--g500);margin-top:1px;}
+.card-actions{display:flex;gap:6px;flex-shrink:0;}
+.client-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
+.meta-item{display:flex;align-items:center;gap:5px;font-size:.75rem;color:var(--g500);}
+.meta-item svg{color:var(--g400);}
+.client-notes{font-size:.75rem;color:var(--g500);margin-top:8px;padding-top:8px;border-top:1px solid var(--g200);}
+
+/* ── Jobs section ── */
+.jobs-section{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:12px 16px 16px;}
+.jobs-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0;}
+.jobs-title{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--g500);}
+.jobs-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:6px;}
+.job-item{background:#fff;border:1px solid var(--g200);border-radius:var(--r);padding:10px 12px;cursor:pointer;transition:border-color .15s,box-shadow .15s;}
+.job-item:hover{border-color:var(--g300);box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.job-item-top{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.job-title{font-size:.82rem;font-weight:600;color:var(--navy);}
+.job-meta{display:flex;align-items:center;gap:6px;margin-top:4px;flex-wrap:wrap;}
+.job-date{font-size:.7rem;color:var(--g400);}
+.no-jobs{text-align:center;padding:32px 0;color:var(--g400);font-size:.8rem;}
+
+/* ── Badges ── */
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:99px;white-space:nowrap;}
+.badge-open{background:var(--blue-p);color:var(--blue);}
+.badge-in-progress{background:var(--amber-p);color:var(--amber);}
+.badge-complete{background:var(--green-p);color:var(--green);}
+.badge-cancelled{background:var(--g100);color:var(--g500);}
+.badge-low{background:var(--g100);color:var(--g500);}
+.badge-normal{background:var(--blue-p);color:var(--blue);}
+.badge-high{background:var(--amber-p);color:var(--amber);}
+.badge-urgent{background:var(--red-p);color:var(--red);}
+.badge-cat{background:var(--g100);color:var(--g700);}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;font-size:.76rem;font-weight:600;border-radius:var(--r);border:none;cursor:pointer;transition:all .14s;font-family:inherit;}
+.btn-primary{background:var(--blue);color:#fff;}
+.btn-primary:hover{background:var(--blue-d);}
+.btn-outline{background:#fff;color:var(--g700);border:1px solid var(--g200);}
+.btn-outline:hover{background:var(--g50);border-color:var(--g300);}
+.btn-danger{background:#fff;color:var(--red);border:1px solid #fecaca;}
+.btn-danger:hover{background:var(--red-p);}
+.btn-green{background:#fff;color:var(--green);border:1px solid #bbf7d0;}
+.btn-green:hover{background:var(--green-p);}
+.btn-sm{padding:4px 8px;font-size:.7rem;}
+.btn-icon{width:28px;height:28px;padding:0;justify-content:center;align-items:center;}
+
+/* ── Modal ── */
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.45);display:flex;align-items:center;justify-content:center;z-index:50;opacity:0;pointer-events:none;transition:opacity .18s;}
+.overlay.open{opacity:1;pointer-events:all;}
+.modal{background:#fff;border-radius:10px;width:480px;max-width:92vw;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.25);transform:translateY(12px);transition:transform .18s;}
+.overlay.open .modal{transform:translateY(0);}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--g200);}
+.modal-head h3{font-size:.9rem;font-weight:700;color:var(--navy);}
+.modal-close{background:none;border:none;cursor:pointer;color:var(--g400);font-size:1.1rem;line-height:1;padding:2px;}
+.modal-close:hover{color:var(--navy);}
+.modal-body{overflow-y:auto;padding:14px 16px;flex:1;}
+.modal-foot{padding:12px 16px;border-top:1px solid var(--g200);display:flex;justify-content:flex-end;gap:8px;}
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:.74rem;font-weight:600;color:var(--g700);margin-bottom:4px;}
+.field input,.field select,.field textarea{width:100%;padding:7px 9px;border:1.5px solid var(--g200);border-radius:var(--r);font-size:.8rem;font-family:inherit;color:var(--navy);background:#fff;outline:none;transition:border-color .15s;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);}
+.field textarea{resize:vertical;min-height:80px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+/* ── Job detail panel (side-sheet) ── */
+.job-sheet{position:fixed;top:46px;right:0;bottom:0;width:380px;background:#fff;border-left:1px solid var(--g200);box-shadow:-4px 0 20px rgba(0,0,0,.08);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .22s;z-index:40;}
+.job-sheet.open{transform:translateX(0);}
+.sheet-head{padding:14px 16px;border-bottom:1px solid var(--g200);display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.sheet-title{font-size:.9rem;font-weight:700;color:var(--navy);}
+.sheet-body{flex:1;overflow-y:auto;padding:14px 16px;}
+.sheet-section{margin-bottom:14px;}
+.sheet-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--g400);margin-bottom:5px;}
+.sheet-value{font-size:.82rem;color:var(--navy);}
+.sheet-text{font-size:.8rem;color:var(--g500);line-height:1.6;}
+.sheet-notes{background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:10px;font-size:.8rem;color:var(--g700);line-height:1.65;white-space:pre-wrap;min-height:60px;}
+.sheet-foot{padding:12px 16px;border-top:1px solid var(--g200);display:flex;gap:7px;flex-wrap:wrap;}
+.status-picker{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
+.status-btn{padding:4px 10px;font-size:.72rem;font-weight:600;border-radius:99px;border:1.5px solid var(--g200);background:#fff;cursor:pointer;transition:all .14s;}
+.status-btn.active-open{background:var(--blue-p);border-color:var(--blue);color:var(--blue);}
+.status-btn.active-in-progress{background:var(--amber-p);border-color:var(--amber);color:var(--amber);}
+.status-btn.active-complete{background:var(--green-p);border-color:var(--green);color:var(--green);}
+.status-btn.active-cancelled{background:var(--g100);border-color:var(--g300);color:var(--g500);}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-brand">LetUsTech &mdash; Client Manager</div>
+    <div class="topbar-stats">
+      <div class="topbar-stat"><span id="s-clients">0</span>clients</div>
+      <div class="topbar-stat"><span id="s-open">0</span>open</div>
+      <div class="topbar-stat"><span id="s-wip">0</span>in progress</div>
+      <div class="topbar-stat"><span id="s-done">0</span>completed this month</div>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-head">
+        <div class="search-box">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="search" placeholder="Search clients…">
+        </div>
+        <button class="btn-add-client" onclick="openClientModal()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          Add Client
+        </button>
+      </div>
+      <div class="client-list" id="client-list"></div>
+    </div>
+
+    <!-- Detail pane -->
+    <div class="detail" id="detail">
+      <div class="empty-state" id="empty-state">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <p>Select a client or add your first one</p>
+      </div>
+      <div class="client-detail" id="client-detail" style="display:none">
+        <div class="client-card" id="client-card"></div>
+        <div class="jobs-section">
+          <div class="jobs-head">
+            <div class="jobs-title" id="jobs-title">Jobs</div>
+            <button class="btn btn-primary btn-sm" onclick="openJobModal()">+ Add Job</button>
+          </div>
+          <div class="jobs-list" id="jobs-list"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Job detail sheet -->
+<div class="job-sheet" id="job-sheet">
+  <div class="sheet-head">
+    <div>
+      <div class="sheet-title" id="sheet-title"></div>
+      <div style="margin-top:5px;display:flex;gap:5px;" id="sheet-badges"></div>
+    </div>
+    <button class="btn btn-icon btn-outline" onclick="closeSheet()">&times;</button>
+  </div>
+  <div class="sheet-body" id="sheet-body"></div>
+  <div class="sheet-foot" id="sheet-foot"></div>
+</div>
+
+<!-- Client modal -->
+<div class="overlay" id="modal-client">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modal-client-title">Add Client</h3>
+      <button class="modal-close" onclick="closeClientModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="field-row">
+        <div class="field"><label>Name *</label><input id="c-name" placeholder="John Smith"></div>
+        <div class="field"><label>Company</label><input id="c-company" placeholder="Acme Ltd"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Email</label><input id="c-email" type="email" placeholder="john@example.com"></div>
+        <div class="field"><label>Phone</label><input id="c-phone" placeholder="07700 000000"></div>
+      </div>
+      <div class="field"><label>Address</label><input id="c-address" placeholder="Liverpool, Merseyside"></div>
+      <div class="field"><label>Devices / OS</label><input id="c-devices" placeholder="Dell Latitude, Windows 11"></div>
+      <div class="field"><label>Notes</label><textarea id="c-notes" placeholder="Any useful notes about this client…"></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeClientModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveClient()">Save Client</button>
+    </div>
+  </div>
+</div>
+
+<!-- Job modal -->
+<div class="overlay" id="modal-job">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modal-job-title">Add Job</h3>
+      <button class="modal-close" onclick="closeJobModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="field"><label>Job title *</label><input id="j-title" placeholder="e.g. Slow PC investigation"></div>
+      <div class="field-row">
+        <div class="field">
+          <label>Category</label>
+          <select id="j-category">
+            <option value="">— select —</option>
+            <option>Remote Support</option>
+            <option>On-site Visit</option>
+            <option>Virus / Malware Removal</option>
+            <option>Microsoft 365</option>
+            <option>Networking</option>
+            <option>Website</option>
+            <option>PC Setup</option>
+            <option>Consultancy</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Priority</label>
+          <select id="j-priority">
+            <option value="low">Low</option>
+            <option value="normal" selected>Normal</option>
+            <option value="high">High</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Description</label><textarea id="j-description" placeholder="What does the client need?"></textarea></div>
+      <div class="field"><label>Work notes</label><textarea id="j-worknotes" placeholder="What has been done so far?"></textarea></div>
+      <div class="field">
+        <label>Status</label>
+        <select id="j-status">
+          <option value="open">Open</option>
+          <option value="in-progress">In Progress</option>
+          <option value="complete">Complete</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeJobModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveJob()">Save Job</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ───────────────────────────────────────────────────────────────────
+let clients = [];
+let jobs    = [];
+let currentClientId = null;
+let editingClientId = null;
+let editingJobId    = null;
+let currentJobId    = null;
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const fmtDate = iso => iso ? new Date(iso).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'}) : '';
+const fmtDateShort = iso => iso ? new Date(iso).toLocaleDateString('en-GB', {day:'numeric',month:'short'}) : '';
+
+function statusBadge(s) {
+  const map = {open:'Open','in-progress':'In Progress',complete:'Complete',cancelled:'Cancelled'};
+  return `<span class="badge badge-${s}">${map[s]||s}</span>`;
+}
+function priorityBadge(p) {
+  if(!p||p==='normal') return '';
+  const map = {low:'Low',high:'High',urgent:'Urgent'};
+  return `<span class="badge badge-${p}">${map[p]||p}</span>`;
+}
+function catBadge(c) {
+  return c ? `<span class="badge badge-cat">${c}</span>` : '';
+}
+
+// ── Refresh ──────────────────────────────────────────────────────────────────
+async function refresh() {
+  clients = await window.api.getClients();
+  await refreshStats();
+  renderClientList();
+  if (currentClientId) {
+    const still = clients.find(c => c.id === currentClientId);
+    if (still) await selectClient(currentClientId, false);
+    else clearDetail();
+  }
+}
+
+async function refreshStats() {
+  const s = await window.api.getStats();
+  $('s-clients').textContent = s.totalClients;
+  $('s-open').textContent = s.openJobs;
+  $('s-wip').textContent = s.inProgressJobs;
+  $('s-done').textContent = s.completedMonth;
+}
+
+function renderClientList(filter='') {
+  const list = $('client-list');
+  const q = filter.toLowerCase();
+  const filtered = q
+    ? clients.filter(c => (c.name+c.company+c.email).toLowerCase().includes(q))
+    : clients;
+  if (!filtered.length) {
+    list.innerHTML = `<div class="no-clients">${q ? 'No results' : 'No clients yet'}</div>`;
+    return;
+  }
+  const clientJobCounts = {};
+  jobs.forEach(j => {
+    if (j.status === 'open' || j.status === 'in-progress') {
+      clientJobCounts[j.clientId] = (clientJobCounts[j.clientId]||0)+1;
+    }
+  });
+  list.innerHTML = filtered.map(c => {
+    const openCount = clientJobCounts[c.id]||0;
+    return `<div class="client-item${c.id===currentClientId?' active':''}" onclick="selectClient('${c.id}')">
+      <div class="client-item-name">${esc(c.name)}</div>
+      <div class="client-item-sub">${esc(c.company||'Home user')}</div>
+      ${openCount ? `<span class="client-item-badge">${openCount} open</span>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// ── Client selection ─────────────────────────────────────────────────────────
+async function selectClient(id, refreshJobs=true) {
+  currentClientId = id;
+  renderClientList($('search').value);
+  const client = clients.find(c => c.id === id);
+  if (!client) return;
+
+  if (refreshJobs) {
+    jobs = await window.api.getJobs(id);
+  } else {
+    jobs = await window.api.getJobs(id);
+  }
+
+  $('empty-state').style.display = 'none';
+  $('client-detail').style.display = 'flex';
+  $('client-detail').style.flexDirection = 'column';
+
+  renderClientCard(client);
+  renderJobs();
+}
+
+function clearDetail() {
+  currentClientId = null;
+  $('empty-state').style.display = '';
+  $('client-detail').style.display = 'none';
+  closeSheet();
+}
+
+function renderClientCard(c) {
+  const card = $('client-card');
+  const metaItems = [
+    c.email   ? `<div class="meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>${esc(c.email)}</div>` : '',
+    c.phone   ? `<div class="meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 12a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 3.3 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.49 5.49l.77-.77a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.05z"/></svg>${esc(c.phone)}</div>` : '',
+    c.address ? `<div class="meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>${esc(c.address)}</div>` : '',
+    c.devices ? `<div class="meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>${esc(c.devices)}</div>` : ''
+  ].filter(Boolean).join('');
+
+  card.innerHTML = `
+    <div class="client-card-top">
+      <div>
+        <div class="client-name">${esc(c.name)}</div>
+        ${c.company ? `<div class="client-company">${esc(c.company)}</div>` : ''}
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-outline btn-sm" onclick="window.api.exportClient('${c.id}')">Export</button>
+        <button class="btn btn-outline btn-sm" onclick="openClientModal('${c.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteClient('${c.id}')">Delete</button>
+      </div>
+    </div>
+    ${metaItems ? `<div class="client-meta">${metaItems}</div>` : ''}
+    ${c.notes ? `<div class="client-notes">${esc(c.notes)}</div>` : ''}`;
+}
+
+function renderJobs() {
+  const list = $('jobs-list');
+  const title = $('jobs-title');
+  const openJobs = jobs.filter(j=>j.status!=='complete'&&j.status!=='cancelled');
+  const doneJobs = jobs.filter(j=>j.status==='complete'||j.status==='cancelled');
+  title.textContent = `Jobs (${jobs.length})`;
+  if (!jobs.length) {
+    list.innerHTML = '<div class="no-jobs">No jobs yet — add one to get started.</div>';
+    return;
+  }
+  const renderJob = j => `
+    <div class="job-item" onclick="openSheet('${j.id}')">
+      <div class="job-item-top">
+        <div class="job-title">${esc(j.title)}</div>
+        ${statusBadge(j.status)}
+      </div>
+      <div class="job-meta">
+        ${catBadge(j.category)}
+        ${priorityBadge(j.priority)}
+        <span class="job-date">${fmtDateShort(j.createdAt)}</span>
+        ${j.completedAt ? `<span class="job-date">&#10003; ${fmtDateShort(j.completedAt)}</span>` : ''}
+      </div>
+    </div>`;
+  list.innerHTML = openJobs.map(renderJob).join('') +
+    (doneJobs.length ? `<div style="font-size:.68rem;color:var(--g400);text-transform:uppercase;letter-spacing:.06em;padding:8px 0 4px;">Completed / Cancelled</div>` + doneJobs.map(renderJob).join('') : '');
+}
+
+// ── Job sheet ─────────────────────────────────────────────────────────────────
+function openSheet(jobId) {
+  currentJobId = jobId;
+  const job = jobs.find(j=>j.id===jobId);
+  if (!job) return;
+  $('sheet-title').textContent = job.title;
+  $('sheet-badges').innerHTML = statusBadge(job.status) + ' ' + catBadge(job.category) + ' ' + priorityBadge(job.priority);
+  $('sheet-body').innerHTML = `
+    <div class="sheet-section">
+      <div class="sheet-label">Status</div>
+      <div class="status-picker">
+        ${['open','in-progress','complete','cancelled'].map(s=>`
+          <button class="status-btn${job.status===s?' active-'+s:''}" onclick="setStatus('${jobId}','${s}')">${{open:'Open','in-progress':'In Progress',complete:'Complete',cancelled:'Cancelled'}[s]}</button>
+        `).join('')}
+      </div>
+    </div>
+    ${job.description ? `<div class="sheet-section"><div class="sheet-label">Description</div><div class="sheet-text">${esc(job.description)}</div></div>` : ''}
+    <div class="sheet-section">
+      <div class="sheet-label">Work Notes</div>
+      <div class="sheet-notes" id="sheet-notes-view">${job.workNotes ? esc(job.workNotes) : '<span style="color:var(--g400)">No notes yet</span>'}</div>
+      <button class="btn btn-outline btn-sm" style="margin-top:6px" onclick="editNotes('${jobId}')">Edit notes</button>
+    </div>
+    <div class="sheet-section">
+      <div class="sheet-label">Details</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <div><div class="sheet-label">Added</div><div class="sheet-value">${fmtDate(job.createdAt)}</div></div>
+        ${job.completedAt ? `<div><div class="sheet-label">Completed</div><div class="sheet-value">${fmtDate(job.completedAt)}</div></div>` : ''}
+      </div>
+    </div>`;
+  $('sheet-foot').innerHTML = `
+    <button class="btn btn-outline btn-sm" onclick="openJobModal('${jobId}')">Edit Job</button>
+    <button class="btn btn-danger btn-sm" onclick="deleteJob('${jobId}')">Delete</button>`;
+  $('job-sheet').classList.add('open');
+}
+
+function closeSheet() {
+  $('job-sheet').classList.remove('open');
+  currentJobId = null;
+}
+
+async function setStatus(jobId, status) {
+  await window.api.updateJob(jobId, { status });
+  jobs = await window.api.getJobs(currentClientId);
+  renderJobs();
+  openSheet(jobId);
+  await refreshStats();
+}
+
+async function editNotes(jobId) {
+  const job = jobs.find(j=>j.id===jobId);
+  if (!job) return;
+  const area = document.createElement('textarea');
+  area.className = 'sheet-notes';
+  area.style.width = '100%';
+  area.value = job.workNotes || '';
+  const view = $('sheet-notes-view');
+  view.replaceWith(area);
+  area.focus();
+  area.addEventListener('blur', async () => {
+    await window.api.updateJob(jobId, { workNotes: area.value });
+    jobs = await window.api.getJobs(currentClientId);
+    openSheet(jobId);
+  });
+}
+
+// ── Client modal ──────────────────────────────────────────────────────────────
+function openClientModal(id) {
+  editingClientId = id || null;
+  $('modal-client-title').textContent = id ? 'Edit Client' : 'Add Client';
+  if (id) {
+    const c = clients.find(x=>x.id===id);
+    $('c-name').value    = c.name    || '';
+    $('c-company').value = c.company || '';
+    $('c-email').value   = c.email   || '';
+    $('c-phone').value   = c.phone   || '';
+    $('c-address').value = c.address || '';
+    $('c-devices').value = c.devices || '';
+    $('c-notes').value   = c.notes   || '';
+  } else {
+    ['c-name','c-company','c-email','c-phone','c-address','c-devices','c-notes'].forEach(id=>$(id).value='');
+  }
+  $('modal-client').classList.add('open');
+  setTimeout(()=>$('c-name').focus(), 50);
+}
+
+function closeClientModal() {
+  $('modal-client').classList.remove('open');
+  editingClientId = null;
+}
+
+async function saveClient() {
+  const name = $('c-name').value.trim();
+  if (!name) { $('c-name').focus(); return; }
+  const data = {
+    name, company:$('c-company').value.trim(), email:$('c-email').value.trim(),
+    phone:$('c-phone').value.trim(), address:$('c-address').value.trim(),
+    devices:$('c-devices').value.trim(), notes:$('c-notes').value.trim()
+  };
+  if (editingClientId) {
+    await window.api.updateClient(editingClientId, data);
+    closeClientModal();
+    await refresh();
+    selectClient(editingClientId);
+  } else {
+    const newClient = await window.api.addClient(data);
+    closeClientModal();
+    await refresh();
+    selectClient(newClient.id);
+  }
+}
+
+async function deleteClient(id) {
+  const c = clients.find(x=>x.id===id);
+  if (!confirm(`Delete ${c?.name}? This will also remove all their jobs.`)) return;
+  await window.api.deleteClient(id);
+  clearDetail();
+  await refresh();
+}
+
+// ── Job modal ─────────────────────────────────────────────────────────────────
+function openJobModal(id) {
+  editingJobId = id || null;
+  $('modal-job-title').textContent = id ? 'Edit Job' : 'Add Job';
+  if (id) {
+    const j = jobs.find(x=>x.id===id);
+    $('j-title').value       = j.title       || '';
+    $('j-category').value    = j.category    || '';
+    $('j-priority').value    = j.priority    || 'normal';
+    $('j-description').value = j.description || '';
+    $('j-worknotes').value   = j.workNotes   || '';
+    $('j-status').value      = j.status      || 'open';
+  } else {
+    $('j-title').value=''; $('j-category').value=''; $('j-priority').value='normal';
+    $('j-description').value=''; $('j-worknotes').value=''; $('j-status').value='open';
+  }
+  $('modal-job').classList.add('open');
+  setTimeout(()=>$('j-title').focus(), 50);
+}
+
+function closeJobModal() {
+  $('modal-job').classList.remove('open');
+  editingJobId = null;
+}
+
+async function saveJob() {
+  const title = $('j-title').value.trim();
+  if (!title) { $('j-title').focus(); return; }
+  const data = {
+    title, category:$('j-category').value, priority:$('j-priority').value,
+    description:$('j-description').value.trim(), workNotes:$('j-worknotes').value.trim(),
+    status:$('j-status').value, clientId: currentClientId
+  };
+  let savedId;
+  if (editingJobId) {
+    await window.api.updateJob(editingJobId, data);
+    savedId = editingJobId;
+  } else {
+    const nj = await window.api.addJob(data);
+    savedId = nj.id;
+  }
+  closeJobModal();
+  jobs = await window.api.getJobs(currentClientId);
+  renderJobs();
+  await refreshStats();
+  renderClientList($('search').value);
+  if (savedId) openSheet(savedId);
+}
+
+async function deleteJob(id) {
+  if (!confirm('Delete this job?')) return;
+  await window.api.deleteJob(id);
+  closeSheet();
+  jobs = await window.api.getJobs(currentClientId);
+  renderJobs();
+  await refreshStats();
+  renderClientList($('search').value);
+}
+
+// ── Escape helper ─────────────────────────────────────────────────────────────
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Event listeners ───────────────────────────────────────────────────────────
+$('search').addEventListener('input', e => renderClientList(e.target.value));
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if ($('modal-client').classList.contains('open')) closeClientModal();
+    else if ($('modal-job').classList.contains('open')) closeJobModal();
+    else if ($('job-sheet').classList.contains('open')) closeSheet();
+  }
+});
+
+// Close modal on overlay click
+['modal-client','modal-job'].forEach(id => {
+  $(id).addEventListener('click', e => { if (e.target === $(id)) { id==='modal-client'?closeClientModal():closeJobModal(); } });
+});
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+(async () => {
+  clients = await window.api.getClients();
+  await refreshStats();
+  renderClientList();
+})();
+</script>
+</body>
+</html>
