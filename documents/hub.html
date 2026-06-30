@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LetUsTech — Business Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--blue:#1D4ED8;--blue-d:#1E40AF;--blue-p:#EFF6FF;--navy:#0F172A;--green:#16A34A;--green-p:#f0fdf4;--amber:#D97706;--amber-p:#fffbeb;--g50:#F8FAFC;--g100:#F1F5F9;--g200:#E2E8F0;--g400:#94A3B8;--g500:#64748B;--g700:#334155;--r:8px;}
+html,body{min-height:100vh;}
+body{font-family:'Inter',sans-serif;background:var(--g50);color:#1e293b;-webkit-font-smoothing:antialiased;font-size:14px;}
+a{text-decoration:none;color:inherit;}
+
+/* Top bar */
+.topbar{background:var(--navy);padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-brand{font-size:.9rem;font-weight:700;color:#fff;letter-spacing:-.01em;}
+.topbar-brand span{color:#3B82F6;}
+.topbar-date{font-size:.75rem;color:rgba(255,255,255,.4);}
+
+/* Layout */
+.layout{max-width:1100px;margin:0 auto;padding:28px 24px;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+@media(max-width:750px){.grid,.grid-3{grid-template-columns:1fr;}}
+
+/* Cards */
+.card{background:#fff;border:1px solid var(--g200);border-radius:10px;overflow:hidden;}
+.card-head{padding:14px 18px;border-bottom:1px solid var(--g200);display:flex;align-items:center;gap:10px;}
+.card-head-icon{width:32px;height:32px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.card-head h2{font-size:.875rem;font-weight:700;color:var(--navy);}
+.card-head p{font-size:.72rem;color:var(--g500);margin-top:1px;}
+.card-body{padding:16px 18px;}
+.span-2{grid-column:span 2;}
+@media(max-width:750px){.span-2{grid-column:span 1;}}
+
+/* Checklist */
+.checklist{display:flex;flex-direction:column;gap:8px;}
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px solid var(--g200);border-radius:var(--r);cursor:pointer;transition:all .15s;user-select:none;}
+.check-item:hover{border-color:var(--g400);background:var(--g50);}
+.check-item.done{background:var(--green-p);border-color:#bbf7d0;}
+.check-item.done .check-text{text-decoration:line-through;color:var(--g400);}
+.check-item.done .check-box{background:var(--green);border-color:var(--green);}
+.check-item.done .check-box svg{display:block;}
+.check-box{width:18px;height:18px;border:2px solid var(--g300);border-radius:4px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.check-box svg{display:none;color:#fff;}
+.check-text{font-size:.82rem;font-weight:500;color:var(--navy);}
+.check-sub{font-size:.72rem;color:var(--g500);margin-top:2px;}
+.step-num{width:20px;height:20px;border-radius:50%;background:var(--blue-p);color:var(--blue);font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.check-item.done .step-num{background:var(--green-p);color:var(--green);}
+
+/* App tiles */
+.app-tile{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--g200);border-radius:var(--r);transition:all .15s;cursor:pointer;}
+.app-tile:hover{border-color:var(--blue);background:var(--blue-p);}
+.app-tile:hover .app-name{color:var(--blue);}
+.app-icon{width:36px;height:36px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem;}
+.app-name{font-size:.82rem;font-weight:600;color:var(--navy);}
+.app-desc{font-size:.72rem;color:var(--g500);margin-top:2px;}
+.app-badge{font-size:.62rem;font-weight:700;padding:2px 6px;border-radius:99px;margin-left:auto;flex-shrink:0;}
+.badge-built{background:var(--blue-p);color:var(--blue);}
+.badge-free{background:var(--green-p);color:var(--green);}
+.badge-paid{background:var(--amber-p);color:var(--amber);}
+
+/* Quick links */
+.qlink{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border:1px solid var(--g200);border-radius:var(--r);margin-bottom:8px;transition:all .15s;}
+.qlink:hover{border-color:var(--blue);background:var(--blue-p);}
+.qlink:last-child{margin-bottom:0;}
+.qlink-label{font-size:.8rem;font-weight:600;color:var(--navy);}
+.qlink-val{font-size:.72rem;color:var(--g500);margin-top:2px;font-family:monospace;}
+.qlink-arrow{color:var(--g400);font-size:.9rem;}
+.copy-btn{font-size:.7rem;font-weight:600;padding:3px 8px;border-radius:4px;border:1px solid var(--g200);background:#fff;cursor:pointer;color:var(--g700);transition:all .12s;font-family:inherit;}
+.copy-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* Notes */
+.note-area{width:100%;min-height:120px;border:1.5px solid var(--g200);border-radius:var(--r);padding:10px 12px;font-size:.8rem;font-family:inherit;color:var(--navy);resize:vertical;outline:none;transition:border-color .15s;}
+.note-area:focus{border-color:var(--blue);}
+.note-save{margin-top:8px;font-size:.75rem;color:var(--g400);}
+
+/* Section label */
+.section-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--g400);margin-bottom:12px;}
+
+/* Reset button */
+.reset-btn{font-size:.72rem;color:var(--g400);background:none;border:none;cursor:pointer;padding:2px;font-family:inherit;margin-left:auto;}
+.reset-btn:hover{color:var(--navy);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">LetUsTech <span>Business Hub</span></div>
+  <div class="topbar-date" id="topbar-date"></div>
+</div>
+
+<div class="layout">
+
+  <div class="grid">
+
+    <!-- Onboarding checklist -->
+    <div class="card span-2">
+      <div class="card-head">
+        <div class="card-head-icon" style="background:#EFF6FF;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <div>
+          <h2>New Client Onboarding — Business Support Plan</h2>
+          <p>Follow these steps in order when someone buys the £299/month plan</p>
+        </div>
+        <button class="reset-btn" onclick="resetChecklist()">Reset</button>
+      </div>
+      <div class="card-body">
+        <div class="checklist" id="checklist">
+          <div class="check-item" onclick="toggle(this)" data-key="step1">
+            <div class="step-num">1</div>
+            <div class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div>
+              <div class="check-text">Send the service agreement</div>
+              <div class="check-sub">Open documents/service-agreement.html → fill in client details → Print to PDF → email it to them</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggle(this)" data-key="step2">
+            <div class="step-num">2</div>
+            <div class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div>
+              <div class="check-text">Client signs the agreement</div>
+              <div class="check-sub">They sign and return a copy — keep it on file before starting any work</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggle(this)" data-key="step3">
+            <div class="step-num">3</div>
+            <div class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div>
+              <div class="check-text">Send the GoCardless payment link</div>
+              <div class="check-sub">https://pay.gocardless.com/BRT01KWCB9XKN299KPQZN5H8ZRNZQ — client sets up Direct Debit (takes 2 mins)</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggle(this)" data-key="step4">
+            <div class="step-num">4</div>
+            <div class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div>
+              <div class="check-text">Add client to Client Manager</div>
+              <div class="check-sub">Open the Client Manager app → Add Client → fill in their name, company, email, phone, devices</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggle(this)" data-key="step5">
+            <div class="step-num">5</div>
+            <div class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div>
+              <div class="check-text">Book onboarding remote session</div>
+              <div class="check-sub">Schedule 30–60 min call — you'll use Quick Assist or Atera to connect to their machine</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggle(this)" data-key="step6">
+            <div class="step-num">6</div>
+            <div class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div>
+              <div class="check-text">Install Atera agent on their machines</div>
+              <div class="check-sub">Log into Atera → Devices → Add Device → run the installer on each client machine. This enables proactive monitoring.</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggle(this)" data-key="step7">
+            <div class="step-num">7</div>
+            <div class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div>
+              <div class="check-text">Get Microsoft 365 delegated admin access</div>
+              <div class="check-sub">Client goes to admin.microsoft.com → Settings → Partner relationships → Add your Microsoft account as admin</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggle(this)" data-key="step8">
+            <div class="step-num">8</div>
+            <div class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div>
+              <div class="check-text">Run initial security check</div>
+              <div class="check-sub">Open Support Tool → PC Diagnostics + Virus & Malware tabs → check Windows Update, Defender status, disk health</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggle(this)" data-key="step9">
+            <div class="step-num">9</div>
+            <div class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div>
+              <div class="check-text">Document everything in Client Manager</div>
+              <div class="check-sub">Add job: "Onboarding" → log device list, admin passwords (in Bitwarden), network details, M365 tenant name</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggle(this)" data-key="step10">
+            <div class="step-num">10</div>
+            <div class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div>
+              <div class="check-text">Confirm setup with client</div>
+              <div class="check-sub">Email them confirming they're live — include your support email, response hours, and how to raise a ticket</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Your built tools -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon" style="background:#f0fdf4;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div>
+          <h2>Your Tools</h2>
+          <p>Built by LetUsTech — open these locally</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section-label">Click to open</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a class="app-tile" href="../documents/service-agreement.html" target="_blank">
+            <div class="app-icon" style="background:#EFF6FF;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div>
+              <div class="app-name">Service Agreement</div>
+              <div class="app-desc">Fill in client details → Print to PDF → Send</div>
+            </div>
+            <span class="app-badge badge-built">Built</span>
+          </a>
+          <div class="app-tile" onclick="showLaunch('client-manager')">
+            <div class="app-icon" style="background:#f0fdf4;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <div class="app-name">Client Manager</div>
+              <div class="app-desc">Add clients, log jobs, track status</div>
+            </div>
+            <span class="app-badge badge-built">Built</span>
+          </div>
+          <div class="app-tile" onclick="showLaunch('support-tool')">
+            <div class="app-icon" style="background:#fffbeb;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <div>
+              <div class="app-name">Support Tool</div>
+              <div class="app-desc">Remote support, diagnostics, virus scan, network</div>
+            </div>
+            <span class="app-badge badge-built">Built</span>
+          </div>
+        </div>
+
+        <div id="launch-client-manager" style="display:none;margin-top:10px;background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:10px 12px;">
+          <div style="font-size:.75rem;font-weight:600;color:var(--navy);margin-bottom:4px;">To launch Client Manager:</div>
+          <code style="font-size:.72rem;color:var(--blue);background:var(--blue-p);padding:4px 8px;border-radius:4px;display:block;">cd client-manager &amp;&amp; npm start</code>
+          <div style="font-size:.7rem;color:var(--g500);margin-top:4px;">Run in terminal from the LetUsTech folder</div>
+        </div>
+        <div id="launch-support-tool" style="display:none;margin-top:10px;background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:10px 12px;">
+          <div style="font-size:.75rem;font-weight:600;color:var(--navy);margin-bottom:4px;">To launch Support Tool:</div>
+          <code style="font-size:.72rem;color:var(--blue);background:var(--blue-p);padding:4px 8px;border-radius:4px;display:block;">cd support-tool &amp;&amp; npm start</code>
+          <div style="font-size:.7rem;color:var(--g500);margin-top:4px;">Run in terminal from the LetUsTech folder</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- External apps -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon" style="background:#fffbeb;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </div>
+        <div>
+          <h2>External Applications</h2>
+          <p>Third-party tools you need to run the plan</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section-label">Click to open</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a class="app-tile" href="https://app.atera.com" target="_blank" rel="noopener">
+            <div class="app-icon" style="background:#faf5ff;font-size:1.1rem;">A</div>
+            <div>
+              <div class="app-name">Atera</div>
+              <div class="app-desc">Monitoring, remote access, patch management</div>
+            </div>
+            <span class="app-badge badge-paid">~£79/mo</span>
+          </a>
+          <a class="app-tile" href="https://manage.gocardless.com" target="_blank" rel="noopener">
+            <div class="app-icon" style="background:#f0fdf4;font-size:1.1rem;">G</div>
+            <div>
+              <div class="app-name">GoCardless</div>
+              <div class="app-desc">View payments, manage Direct Debits</div>
+            </div>
+            <span class="app-badge badge-free">Set up</span>
+          </a>
+          <a class="app-tile" href="https://admin.microsoft.com" target="_blank" rel="noopener">
+            <div class="app-icon" style="background:#EFF6FF;font-size:1.1rem;">M</div>
+            <div>
+              <div class="app-name">Microsoft 365 Admin</div>
+              <div class="app-desc">Manage client M365 tenants</div>
+            </div>
+            <span class="app-badge badge-free">Free</span>
+          </a>
+          <a class="app-tile" href="https://vault.bitwarden.com" target="_blank" rel="noopener">
+            <div class="app-icon" style="background:#eff6ff;font-size:1.1rem;">B</div>
+            <div>
+              <div class="app-name">Bitwarden</div>
+              <div class="app-desc">Store client passwords securely</div>
+            </div>
+            <span class="app-badge badge-free">Free</span>
+          </a>
+          <a class="app-tile" href="https://mail.google.com" target="_blank" rel="noopener">
+            <div class="app-icon" style="background:#fff1f2;font-size:1.1rem;">E</div>
+            <div>
+              <div class="app-name">Email</div>
+              <div class="app-desc">Support requests — respond within 1 hour</div>
+            </div>
+            <span class="app-badge badge-free">Open</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick links -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon" style="background:#f0fdf4;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div>
+          <h2>Quick Links</h2>
+          <p>Copy and send to clients</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="qlink">
+          <div>
+            <div class="qlink-label">Payment link (£299/mo)</div>
+            <div class="qlink-val">pay.gocardless.com/BRT01...</div>
+          </div>
+          <button class="copy-btn" onclick="copy('https://pay.gocardless.com/BRT01KWCB9XKN299KPQZN5H8ZRNZQ', this)">Copy</button>
+        </div>
+        <div class="qlink">
+          <div>
+            <div class="qlink-label">Support page</div>
+            <div class="qlink-val">letustec-oss.github.io/.../report-a-bug.html</div>
+          </div>
+          <button class="copy-btn" onclick="copy('https://letustec-oss.github.io/LetUsTech/report-a-bug.html', this)">Copy</button>
+        </div>
+        <div class="qlink">
+          <div>
+            <div class="qlink-label">Website</div>
+            <div class="qlink-val">letustec-oss.github.io/LetUsTech/</div>
+          </div>
+          <button class="copy-btn" onclick="copy('https://letustec-oss.github.io/LetUsTech/', this)">Copy</button>
+        </div>
+        <div class="qlink">
+          <div>
+            <div class="qlink-label">Support email</div>
+            <div class="qlink-val">letustec@gmail.com</div>
+          </div>
+          <button class="copy-btn" onclick="copy('letustec@gmail.com', this)">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon" style="background:var(--g100);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <div>
+          <h2>Quick Notes</h2>
+          <p>Saved in your browser automatically</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <textarea class="note-area" id="notes" placeholder="Jot down anything — current clients, to-dos, reminders..."></textarea>
+        <div class="note-save" id="note-save">Notes save automatically</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Date
+const now = new Date();
+document.getElementById('topbar-date').textContent = now.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+// Checklist
+function toggle(el){
+  el.classList.toggle('done');
+  save();
+}
+function save(){
+  const state={};
+  document.querySelectorAll('.check-item[data-key]').forEach(el=>{
+    state[el.dataset.key]=el.classList.contains('done');
+  });
+  localStorage.setItem('lut-checklist', JSON.stringify(state));
+}
+function loadChecklist(){
+  const state = JSON.parse(localStorage.getItem('lut-checklist')||'{}');
+  document.querySelectorAll('.check-item[data-key]').forEach(el=>{
+    if(state[el.dataset.key]) el.classList.add('done');
+  });
+}
+function resetChecklist(){
+  if(!confirm('Reset the checklist?')) return;
+  document.querySelectorAll('.check-item').forEach(el=>el.classList.remove('done'));
+  localStorage.removeItem('lut-checklist');
+}
+loadChecklist();
+
+// Launch instructions
+function showLaunch(id){
+  const el = document.getElementById('launch-'+id);
+  if(!el) return;
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+// Copy buttons
+function copy(text, btn){
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.style.background = '#16A34A';
+    btn.style.borderColor = '#16A34A';
+    btn.style.color = '#fff';
+    setTimeout(()=>{
+      btn.textContent = orig;
+      btn.style.background = '';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 1500);
+  });
+}
+
+// Notes — auto save to localStorage
+const notesEl = document.getElementById('notes');
+const noteSave = document.getElementById('note-save');
+notesEl.value = localStorage.getItem('lut-notes') || '';
+let noteTimer;
+notesEl.addEventListener('input', ()=>{
+  noteSave.textContent = 'Saving...';
+  clearTimeout(noteTimer);
+  noteTimer = setTimeout(()=>{
+    localStorage.setItem('lut-notes', notesEl.value);
+    noteSave.textContent = 'Saved';
+    setTimeout(()=>noteSave.textContent='Notes save automatically', 1500);
+  }, 600);
+});
+</script>
+</body>
+</html>
