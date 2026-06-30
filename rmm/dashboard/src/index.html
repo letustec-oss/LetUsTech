@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LetUsTech RMM</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,'Segoe UI',sans-serif;font-size:13px;color:#1e293b;-webkit-font-smoothing:antialiased;}
+:root{--blue:#1D4ED8;--blue-d:#1E40AF;--blue-p:#EFF6FF;--navy:#0F172A;--green:#16A34A;--green-p:#f0fdf4;--amber:#D97706;--amber-p:#fffbeb;--red:#DC2626;--red-p:#fef2f2;--g50:#F8FAFC;--g100:#F1F5F9;--g200:#E2E8F0;--g300:#CBD5E1;--g400:#94A3B8;--g500:#64748B;--g700:#334155;--r:6px;}
+
+/* ── App shell ── */
+.app{display:flex;flex-direction:column;height:100vh;background:var(--g50);}
+
+/* ── Topbar ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:46px;background:var(--navy);flex-shrink:0;}
+.topbar-brand{font-size:.82rem;font-weight:700;color:#fff;}
+.topbar-brand span{color:#3B82F6;}
+.topbar-stats{display:flex;gap:20px;align-items:center;}
+.ts{font-size:.72rem;color:rgba(255,255,255,.45);}
+.ts b{color:#fff;margin-right:3px;}
+.topbar-right{display:flex;gap:8px;}
+.icon-btn{background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.7);border-radius:var(--r);padding:5px 10px;font-size:.72rem;cursor:pointer;font-family:inherit;transition:background .15s;}
+.icon-btn:hover{background:rgba(255,255,255,.18);color:#fff;}
+
+/* ── Layout ── */
+.layout{display:flex;flex:1;overflow:hidden;}
+
+/* ── Sidebar ── */
+.sidebar{width:240px;flex-shrink:0;background:#fff;border-right:1px solid var(--g200);display:flex;flex-direction:column;}
+.sidebar-head{padding:10px;border-bottom:1px solid var(--g200);}
+.search-box{display:flex;align-items:center;gap:6px;background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:6px 8px;}
+.search-box input{border:none;background:none;outline:none;font-size:.78rem;width:100%;color:var(--navy);}
+.search-box input::placeholder{color:var(--g400);}
+.device-list{flex:1;overflow-y:auto;padding:6px;}
+.device-group-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g400);padding:8px 8px 4px;}
+.device-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r);cursor:pointer;transition:background .12s;margin-bottom:2px;border:1px solid transparent;}
+.device-item:hover{background:var(--g50);}
+.device-item.active{background:var(--blue-p);border-color:rgba(29,78,216,.2);}
+.device-item.active .device-item-name{color:var(--blue);}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.dot-online{background:var(--green);}
+.dot-warning{background:var(--amber);}
+.dot-offline{background:var(--g400);}
+.dot-critical{background:var(--red);}
+.device-item-info{flex:1;min-width:0;}
+.device-item-name{font-size:.8rem;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.device-item-client{font-size:.68rem;color:var(--g500);}
+.no-devices{text-align:center;padding:32px 12px;color:var(--g400);font-size:.78rem;}
+
+/* ── Main pane ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+
+/* Setup screen */
+#setup-screen{flex:1;display:flex;align-items:center;justify-content:center;padding:24px;}
+.setup-card{background:#fff;border:1px solid var(--g200);border-radius:12px;padding:32px;width:480px;}
+.setup-card h2{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.setup-card p{font-size:.82rem;color:var(--g500);margin-bottom:20px;line-height:1.6;}
+.setup-steps{background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:14px 16px;margin-bottom:20px;}
+.setup-steps ol{margin-left:16px;}
+.setup-steps li{font-size:.78rem;color:var(--g700);margin-bottom:6px;line-height:1.5;}
+.setup-steps a{color:var(--blue);cursor:pointer;}
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:.72rem;font-weight:600;color:var(--g700);margin-bottom:4px;}
+.field input{width:100%;padding:7px 10px;border:1.5px solid var(--g200);border-radius:var(--r);font-size:.8rem;font-family:inherit;color:var(--navy);outline:none;transition:border-color .15s;}
+.field input:focus{border-color:var(--blue);}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;font-size:.78rem;font-weight:600;border-radius:var(--r);border:none;cursor:pointer;transition:all .14s;font-family:inherit;}
+.btn-primary{background:var(--blue);color:#fff;width:100%;justify-content:center;padding:10px;}
+.btn-primary:hover{background:var(--blue-d);}
+.btn-outline{background:#fff;color:var(--g700);border:1px solid var(--g200);}
+.btn-outline:hover{background:var(--g50);}
+.btn-green{background:var(--green-p);color:var(--green);border:1px solid #bbf7d0;}
+.btn-green:hover{opacity:.85;}
+.btn-amber{background:var(--amber-p);color:var(--amber);border:1px solid #fde68a;}
+.btn-red{background:var(--red-p);color:var(--red);border:1px solid #fecaca;}
+.btn-sm{padding:4px 9px;font-size:.7rem;}
+
+/* Dashboard */
+#dashboard{flex:1;display:flex;flex-direction:column;overflow:hidden;display:none;}
+
+/* Empty / detail state */
+#empty-state{flex:1;display:flex;align-items:center;justify-content:center;color:var(--g400);font-size:.9rem;flex-direction:column;gap:8px;}
+#empty-state svg{opacity:.25;}
+#device-detail{flex:1;display:none;flex-direction:column;overflow-y:auto;}
+
+/* Device header */
+.dev-head{padding:14px 18px;background:#fff;border-bottom:1px solid var(--g200);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;}
+.dev-head-left h2{font-size:.95rem;font-weight:700;color:var(--navy);}
+.dev-head-left .dev-client{font-size:.75rem;color:var(--g500);margin-top:2px;}
+.dev-head-right{display:flex;gap:7px;flex-wrap:wrap;}
+.last-seen{font-size:.7rem;color:var(--g400);margin-top:4px;}
+
+/* Metric grid */
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:14px 18px;flex-shrink:0;}
+.metric-card{background:#fff;border:1px solid var(--g200);border-radius:var(--r);padding:12px 14px;}
+.metric-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g400);margin-bottom:6px;}
+.metric-value{font-size:1.3rem;font-weight:800;color:var(--navy);line-height:1;}
+.metric-sub{font-size:.68rem;color:var(--g500);margin-top:3px;}
+.progress-bar{height:5px;background:var(--g200);border-radius:99px;margin-top:6px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:99px;transition:width .3s;}
+.fill-green{background:var(--green);}
+.fill-amber{background:var(--amber);}
+.fill-red{background:var(--red);}
+
+/* Info sections */
+.info-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 18px 14px;}
+.info-card{background:#fff;border:1px solid var(--g200);border-radius:var(--r);padding:12px 14px;}
+.info-card h4{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g500);margin-bottom:10px;}
+.info-row-item{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--g200);font-size:.78rem;}
+.info-row-item:last-child{border-bottom:none;}
+.info-row-item .label{color:var(--g500);}
+.info-row-item .val{font-weight:600;color:var(--navy);}
+
+/* Alerts panel */
+.alerts-panel{margin:0 18px 14px;background:#fff;border:1px solid var(--g200);border-radius:var(--r);padding:12px 14px;}
+.alerts-panel h4{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g500);margin-bottom:10px;}
+.alert-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--r);margin-bottom:6px;font-size:.78rem;}
+.alert-item:last-child{margin-bottom:0;}
+.alert-warn{background:var(--amber-p);color:var(--amber);border:1px solid #fde68a;}
+.alert-crit{background:var(--red-p);color:var(--red);border:1px solid #fecaca;}
+.alert-ok{background:var(--green-p);color:var(--green);border:1px solid #bbf7d0;}
+
+/* Commands */
+.commands-panel{margin:0 18px 18px;background:#fff;border:1px solid var(--g200);border-radius:var(--r);padding:12px 14px;}
+.commands-panel h4{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g500);margin-bottom:10px;}
+.commands-grid{display:flex;gap:8px;flex-wrap:wrap;}
+.cmd-result{margin-top:10px;padding:8px 10px;background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);font-size:.75rem;color:var(--g700);display:none;}
+
+/* Settings modal */
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;z-index:50;display:none;}
+.overlay.open{display:flex;}
+.modal{background:#fff;border-radius:10px;width:440px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+.modal h3{font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:16px;}
+.modal-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;}
+
+/* Badge */
+.badge{display:inline-flex;align-items:center;font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:99px;}
+.badge-online{background:var(--green-p);color:var(--green);}
+.badge-warning{background:var(--amber-p);color:var(--amber);}
+.badge-offline{background:var(--g100);color:var(--g500);}
+.badge-critical{background:var(--red-p);color:var(--red);}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-brand">LetUsTech <span>RMM</span></div>
+    <div class="topbar-stats">
+      <div class="ts"><b id="s-total">0</b>devices</div>
+      <div class="ts"><b id="s-online" style="color:#4ade80;">0</b>online</div>
+      <div class="ts"><b id="s-warn" style="color:#fbbf24;">0</b>warnings</div>
+      <div class="ts"><b id="s-offline" style="color:#94A3B8;">0</b>offline</div>
+    </div>
+    <div class="topbar-right">
+      <button class="icon-btn" onclick="openSettings()">Settings</button>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-head">
+        <div class="search-box">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="search" placeholder="Search devices...">
+        </div>
+      </div>
+      <div class="device-list" id="device-list">
+        <div class="no-devices">Connecting to Firebase...</div>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+
+      <!-- Setup screen -->
+      <div id="setup-screen">
+        <div class="setup-card">
+          <h2>Connect to Firebase</h2>
+          <p>LetUsTech RMM uses Firebase as a free relay between your client devices and this dashboard. Set it up once and you're done.</p>
+          <div class="setup-steps">
+            <ol>
+              <li>Go to <a onclick="window.api.openExternal('https://console.firebase.google.com')">console.firebase.google.com</a> and sign in with Google</li>
+              <li>Click <strong>Add project</strong> → name it "letutech-rmm" → Create</li>
+              <li>Go to <strong>Build → Realtime Database → Create database</strong> → Start in test mode</li>
+              <li>Go to <strong>Project Settings (gear icon) → General</strong></li>
+              <li>Scroll to <strong>Your apps → Web app (&lt;/&gt;)</strong> → Register app → copy the config below</li>
+            </ol>
+          </div>
+          <div class="field"><label>API Key</label><input id="cfg-apiKey" placeholder="AIzaSy..."></div>
+          <div class="field"><label>Auth Domain</label><input id="cfg-authDomain" placeholder="your-project.firebaseapp.com"></div>
+          <div class="field"><label>Database URL</label><input id="cfg-databaseURL" placeholder="https://your-project-default-rtdb.firebaseio.com"></div>
+          <div class="field"><label>Project ID</label><input id="cfg-projectId" placeholder="your-project-id"></div>
+          <button class="btn btn-primary" onclick="saveConfig()">Connect</button>
+        </div>
+      </div>
+
+      <!-- Dashboard -->
+      <div id="dashboard">
+        <div id="empty-state">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <p>Select a device from the list</p>
+        </div>
+        <div id="device-detail">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Settings overlay -->
+<div class="overlay" id="settings-overlay">
+  <div class="modal">
+    <h3>Firebase Settings</h3>
+    <div class="field"><label>API Key</label><input id="s-apiKey" placeholder="AIzaSy..."></div>
+    <div class="field"><label>Auth Domain</label><input id="s-authDomain" placeholder="your-project.firebaseapp.com"></div>
+    <div class="field"><label>Database URL</label><input id="s-databaseURL" placeholder="https://your-project-default-rtdb.firebaseio.com"></div>
+    <div class="field"><label>Project ID</label><input id="s-projectId" placeholder="your-project-id"></div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeSettings()">Cancel</button>
+      <button class="btn btn-primary" style="width:auto;" onclick="saveSettingsConfig()">Save & Reconnect</button>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+// ── State ────────────────────────────────────────────────────────────────────
+let db = null;
+let devices = {};
+let currentDeviceId = null;
+let unsubscribe = null;
+
+// ── Boot ─────────────────────────────────────────────────────────────────────
+(async () => {
+  const config = await window.api.getFirebaseConfig();
+  if (config) {
+    connectFirebase(config);
+  }
+  // else setup screen is already visible
+})();
+
+function connectFirebase(config) {
+  try {
+    if (firebase.apps.length) firebase.app().delete();
+  } catch {}
+  const app = firebase.initializeApp(config);
+  db = firebase.database(app);
+
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'flex';
+  document.getElementById('dashboard').style.flexDirection = 'column';
+
+  // Listen for device updates
+  db.ref('devices').on('value', snapshot => {
+    devices = snapshot.val() || {};
+    renderDeviceList();
+    updateStats();
+    if (currentDeviceId && devices[currentDeviceId]) {
+      renderDeviceDetail(currentDeviceId);
+    }
+    // Check for state changes (online→offline etc)
+    Object.entries(devices).forEach(([id, d]) => {
+      const status = getStatus(d);
+      window.api.deviceStateChange(id, status, d.deviceName || id);
+    });
+  });
+}
+
+// ── Status logic ──────────────────────────────────────────────────────────────
+function getStatus(d) {
+  const lastSeen = new Date(d.lastSeen);
+  const minsAgo = (Date.now() - lastSeen) / 60000;
+  if (minsAgo > 10) return 'offline';
+  const w = getWarnings(d);
+  if (w.some(x => x.critical)) return 'critical';
+  if (w.length > 0) return 'warning';
+  return 'online';
+}
+
+function getWarnings(d) {
+  const w = [];
+  if (!d.system) return w;
+  if (d.system.diskUsed > 90) w.push({ msg: 'Disk critically full (' + d.system.diskUsed + '%)', critical: true });
+  else if (d.system.diskUsed > 80) w.push({ msg: 'Disk usage high (' + d.system.diskUsed + '%)', critical: false });
+  if (d.system.ramUsed > 92) w.push({ msg: 'RAM usage critical (' + d.system.ramUsed + '%)', critical: true });
+  if (d.defender) {
+    if (!d.defender.enabled) w.push({ msg: 'Windows Defender is disabled', critical: true });
+    else if (!d.defender.realTime) w.push({ msg: 'Real-time protection is off', critical: true });
+    else if (d.defender.sigAge > 7) w.push({ msg: 'Defender signatures are ' + d.defender.sigAge + ' days old', critical: false });
+  }
+  if (d.updates && d.updates.pendingCount > 10) w.push({ msg: d.updates.pendingCount + ' Windows updates pending', critical: false });
+  else if (d.updates && d.updates.pendingCount > 0) w.push({ msg: d.updates.pendingCount + ' Windows updates pending', critical: false });
+  return w;
+}
+
+function fmtAgo(iso) {
+  if (!iso) return 'Never';
+  const mins = Math.round((Date.now() - new Date(iso)) / 60000);
+  if (mins < 1) return 'Just now';
+  if (mins < 60) return mins + 'm ago';
+  if (mins < 1440) return Math.round(mins/60) + 'h ago';
+  return Math.round(mins/1440) + 'd ago';
+}
+
+function barColor(pct) {
+  if (pct > 90) return 'fill-red';
+  if (pct > 75) return 'fill-amber';
+  return 'fill-green';
+}
+
+// ── Stats bar ─────────────────────────────────────────────────────────────────
+function updateStats() {
+  const all = Object.values(devices);
+  document.getElementById('s-total').textContent = all.length;
+  document.getElementById('s-online').textContent = all.filter(d => getStatus(d) === 'online').length;
+  document.getElementById('s-warn').textContent = all.filter(d => ['warning','critical'].includes(getStatus(d))).length;
+  document.getElementById('s-offline').textContent = all.filter(d => getStatus(d) === 'offline').length;
+}
+
+// ── Device list ───────────────────────────────────────────────────────────────
+function renderDeviceList(filter = '') {
+  const list = document.getElementById('device-list');
+  const q = filter.toLowerCase();
+  let entries = Object.entries(devices);
+  if (q) entries = entries.filter(([_, d]) => (d.deviceName + d.clientName).toLowerCase().includes(q));
+
+  if (!entries.length) {
+    list.innerHTML = '<div class="no-devices">' + (q ? 'No results' : 'No devices yet.<br>Install the agent on a client machine.') + '</div>';
+    return;
+  }
+
+  const order = { critical: 0, warning: 1, offline: 2, online: 3 };
+  entries.sort(([, a], [, b]) => order[getStatus(a)] - order[getStatus(b)]);
+
+  list.innerHTML = entries.map(([id, d]) => {
+    const s = getStatus(d);
+    return `<div class="device-item${id === currentDeviceId ? ' active' : ''}" onclick="selectDevice('${id}')">
+      <div class="status-dot dot-${s}"></div>
+      <div class="device-item-info">
+        <div class="device-item-name">${esc(d.deviceName || id)}</div>
+        <div class="device-item-client">${esc(d.clientName || '—')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Device detail ─────────────────────────────────────────────────────────────
+function selectDevice(id) {
+  currentDeviceId = id;
+  renderDeviceList(document.getElementById('search').value);
+  renderDeviceDetail(id);
+}
+
+function renderDeviceDetail(id) {
+  const d = devices[id];
+  if (!d) return;
+  const s = getStatus(d);
+  const warnings = getWarnings(d);
+  const sys = d.system || {};
+  const def = d.defender || {};
+  const upd = d.updates || {};
+
+  document.getElementById('empty-state').style.display = 'none';
+  const det = document.getElementById('device-detail');
+  det.style.display = 'flex';
+  det.style.flexDirection = 'column';
+
+  const statusLabels = { online: 'Online', warning: 'Warning', critical: 'Critical', offline: 'Offline' };
+
+  det.innerHTML = `
+    <div class="dev-head">
+      <div class="dev-head-left">
+        <h2>${esc(d.deviceName || id)}</h2>
+        <div class="dev-client">${esc(d.clientName || '—')} &mdash; ${esc(sys.os || 'Unknown OS')}</div>
+        <div class="last-seen">Last seen: ${fmtAgo(d.lastSeen)}</div>
+      </div>
+      <div class="dev-head-right">
+        <span class="badge badge-${s}">${statusLabels[s]}</span>
+        <button class="btn btn-outline btn-sm" onclick="window.api.openExternal('https://app.rustdesk.com')">Remote Access</button>
+      </div>
+    </div>
+
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-label">CPU</div>
+        <div class="metric-value">${sys.cpu ?? '—'}<span style="font-size:.7rem;font-weight:400;color:var(--g500);">%</span></div>
+        <div class="progress-bar"><div class="progress-fill ${barColor(sys.cpu)}" style="width:${sys.cpu||0}%"></div></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">RAM</div>
+        <div class="metric-value">${sys.ramUsed ?? '—'}<span style="font-size:.7rem;font-weight:400;color:var(--g500);">%</span></div>
+        <div class="progress-bar"><div class="progress-fill ${barColor(sys.ramUsed)}" style="width:${sys.ramUsed||0}%"></div></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Disk (C:)</div>
+        <div class="metric-value">${sys.diskUsed ?? '—'}<span style="font-size:.7rem;font-weight:400;color:var(--g500);">%</span></div>
+        <div class="progress-bar"><div class="progress-fill ${barColor(sys.diskUsed)}" style="width:${sys.diskUsed||0}%"></div></div>
+        <div class="metric-sub">${sys.diskFreeGB ?? '—'} GB free</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Uptime</div>
+        <div class="metric-value" style="font-size:1rem;">${sys.uptime != null ? sys.uptime + 'h' : '—'}</div>
+        <div class="metric-sub">${upd.pendingCount > 0 ? upd.pendingCount + ' updates pending' : 'Updates OK'}</div>
+      </div>
+    </div>
+
+    ${warnings.length ? `
+    <div class="alerts-panel">
+      <h4>Alerts (${warnings.length})</h4>
+      ${warnings.map(w => `<div class="alert-item ${w.critical ? 'alert-crit' : 'alert-warn'}">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        ${esc(w.msg)}
+      </div>`).join('')}
+    </div>` : `
+    <div class="alerts-panel">
+      <h4>Alerts</h4>
+      <div class="alert-item alert-ok">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        All checks passed — no issues found
+      </div>
+    </div>`}
+
+    <div class="info-row">
+      <div class="info-card">
+        <h4>Windows Defender</h4>
+        <div class="info-row-item"><span class="label">Status</span><span class="val" style="color:${def.enabled ? 'var(--green)' : 'var(--red)'}">${def.enabled ? 'Enabled' : 'Disabled'}</span></div>
+        <div class="info-row-item"><span class="label">Real-time protection</span><span class="val" style="color:${def.realTime ? 'var(--green)' : 'var(--red)'}">${def.realTime ? 'On' : 'Off'}</span></div>
+        <div class="info-row-item"><span class="label">Signature age</span><span class="val">${def.sigAge != null ? def.sigAge + ' days' : '—'}</span></div>
+        <div class="info-row-item"><span class="label">Last scan</span><span class="val">${def.lastScan != null ? def.lastScan + ' days ago' : '—'}</span></div>
+      </div>
+      <div class="info-card">
+        <h4>System Info</h4>
+        <div class="info-row-item"><span class="label">Computer name</span><span class="val">${esc(d.deviceName || '—')}</span></div>
+        <div class="info-row-item"><span class="label">User</span><span class="val">${esc(d.userName || '—')}</span></div>
+        <div class="info-row-item"><span class="label">OS</span><span class="val">${esc(sys.os || '—')}</span></div>
+        <div class="info-row-item"><span class="label">Updates pending</span><span class="val" style="color:${(upd.pendingCount||0) > 0 ? 'var(--amber)' : 'var(--green)'}">${upd.pendingCount ?? '—'}</span></div>
+      </div>
+    </div>
+
+    <div class="commands-panel">
+      <h4>Remote Commands</h4>
+      <div class="commands-grid">
+        <button class="btn btn-outline btn-sm" onclick="sendCmd('${id}','run-updates')">Run Windows Update</button>
+        <button class="btn btn-outline btn-sm" onclick="sendCmd('${id}','run-defender')">Run Defender Scan</button>
+        <button class="btn btn-outline btn-sm" onclick="sendCmd('${id}','flush-dns')">Flush DNS</button>
+        <button class="btn btn-red btn-sm" onclick="sendCmd('${id}','restart')">Restart Device</button>
+      </div>
+      <div class="cmd-result" id="cmd-result"></div>
+    </div>`;
+}
+
+// ── Commands ──────────────────────────────────────────────────────────────────
+async function sendCmd(deviceId, cmd) {
+  if (!db) return;
+  if (cmd === 'restart' && !confirm('Are you sure you want to restart this device?')) return;
+  await db.ref('commands/' + deviceId).set({ cmd, timestamp: new Date().toISOString() });
+  const res = document.getElementById('cmd-result');
+  if (res) {
+    res.style.display = 'block';
+    const labels = { 'run-updates': 'Windows Update command sent', 'run-defender': 'Defender scan command sent', 'flush-dns': 'Flush DNS command sent', 'restart': 'Restart command sent' };
+    res.textContent = (labels[cmd] || 'Command sent') + ' — agent will execute on next check-in (up to 5 mins)';
+  }
+}
+
+// ── Config screens ────────────────────────────────────────────────────────────
+async function saveConfig() {
+  const config = {
+    apiKey:      document.getElementById('cfg-apiKey').value.trim(),
+    authDomain:  document.getElementById('cfg-authDomain').value.trim(),
+    databaseURL: document.getElementById('cfg-databaseURL').value.trim(),
+    projectId:   document.getElementById('cfg-projectId').value.trim()
+  };
+  if (!config.apiKey || !config.databaseURL) { alert('Please fill in all fields.'); return; }
+  await window.api.saveFirebaseConfig(config);
+  connectFirebase(config);
+}
+
+function openSettings() {
+  window.api.getFirebaseConfig().then(cfg => {
+    if (cfg) {
+      document.getElementById('s-apiKey').value = cfg.apiKey || '';
+      document.getElementById('s-authDomain').value = cfg.authDomain || '';
+      document.getElementById('s-databaseURL').value = cfg.databaseURL || '';
+      document.getElementById('s-projectId').value = cfg.projectId || '';
+    }
+    document.getElementById('settings-overlay').classList.add('open');
+  });
+}
+
+function closeSettings() { document.getElementById('settings-overlay').classList.remove('open'); }
+
+async function saveSettingsConfig() {
+  const config = {
+    apiKey:      document.getElementById('s-apiKey').value.trim(),
+    authDomain:  document.getElementById('s-authDomain').value.trim(),
+    databaseURL: document.getElementById('s-databaseURL').value.trim(),
+    projectId:   document.getElementById('s-projectId').value.trim()
+  };
+  await window.api.saveFirebaseConfig(config);
+  closeSettings();
+  connectFirebase(config);
+}
+
+// ── Search ────────────────────────────────────────────────────────────────────
+document.getElementById('search').addEventListener('input', e => renderDeviceList(e.target.value));
+
+// ── Escape ────────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeSettings();
+});
+document.getElementById('settings-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('settings-overlay')) closeSettings();
+});
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>

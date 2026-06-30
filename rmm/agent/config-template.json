@@ -1,0 +1,6 @@
+{
+  "firebaseUrl": "https://YOUR-PROJECT-default-rtdb.firebaseio.com",
+  "firebaseSecret": "YOUR_DATABASE_SECRET",
+  "clientName": "Client Company Name",
+  "deviceId": "UNIQUE-DEVICE-ID"
+}

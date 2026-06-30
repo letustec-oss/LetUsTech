@@ -1,0 +1,26 @@
+{
+  "name": "letutech-rmm-dashboard",
+  "version": "1.0.0",
+  "description": "LetUsTech RMM Dashboard — Monitor and manage client devices",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win"
+  },
+  "build": {
+    "appId": "uk.letustech.rmm",
+    "productName": "LetUsTech RMM",
+    "directories": { "output": "dist" },
+    "files": ["main.js", "preload.js", "src/**/*"],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "requestedExecutionLevel": "asInvoker"
+    }
+  },
+  "author": "LetUsTech <letustec@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  }
+}
