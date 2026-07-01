@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Empire Clicker - LetUsTech</title>
+    <title>Tech Empire Clicker — LetUsTech Games</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -57,6 +57,32 @@
             .custom-scrollbar::-webkit-scrollbar-thumb:hover {
                 background: rgba(59, 130, 246, 0.7);
             }
+
+        /* ── LetUsTech Professional Nav & Footer ── */
+        #site-header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #E2E8F0;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;}
+        .lt-nav{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:66px;}
+        .lt-logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
+        .lt-logo img{height:32px;display:block;}
+        .lt-links{list-style:none;display:flex;align-items:center;gap:2px;margin:0;padding:0;}
+        .lt-links a{font-size:.875rem;font-weight:500;color:#334155;padding:6px 11px;border-radius:6px;transition:all .15s;text-decoration:none;}
+        .lt-links a:hover{color:#1D4ED8;background:#EFF6FF;}
+        .lt-nav-right{display:flex;align-items:center;gap:10px;}
+        .lt-btn-primary{background:#1D4ED8;color:#fff;padding:7px 14px;border-radius:8px;font-size:.82rem;font-weight:600;text-decoration:none;white-space:nowrap;border:none;cursor:pointer;font-family:inherit;}
+        .lt-btn-primary:hover{background:#1E40AF;}
+        .lt-hamburger{display:none;flex-direction:column;gap:5px;padding:6px;background:none;border:none;cursor:pointer;}
+        .lt-hamburger span{display:block;width:22px;height:2px;background:#334155;border-radius:2px;}
+        .lt-mobile-nav{display:none;position:absolute;top:66px;left:0;right:0;background:#fff;border-bottom:1px solid #E2E8F0;box-shadow:0 4px 16px rgba(0,0,0,.08);z-index:99;}
+        .lt-mobile-nav.open{display:block;}
+        .lt-mobile-nav ul{padding:10px 20px 18px;display:flex;flex-direction:column;gap:2px;list-style:none;margin:0;}
+        .lt-mobile-nav a{display:block;padding:9px 11px;font-size:.925rem;font-weight:500;color:#334155;border-radius:6px;text-decoration:none;}
+        .lt-mobile-nav a:hover{background:#F8FAFC;color:#1D4ED8;}
+        .lt-footer{background:#0F172A;padding:32px 0 20px;margin-top:auto;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;}
+        .lt-footer-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+        .lt-footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;}
+        .lt-footer-links a{color:rgba(255,255,255,.45);font-size:.85rem;text-decoration:none;transition:color .2s;}
+        .lt-footer-links a:hover{color:rgba(255,255,255,.8);}
+        .lt-footer-copy{color:rgba(255,255,255,.3);font-size:.78rem;}
+        @media(max-width:768px){.lt-links{display:none;}.lt-hamburger{display:flex;}}
     </style>
 
     <script>
@@ -72,7 +98,9 @@
             }
         }
     </script>
+    <link rel="icon" href="../FaviconLetusTech.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="root"></div>
@@ -407,19 +435,31 @@
             return (
                 <div className="min-h-screen">
                     {/* Navigation Bar */}
-                          <header style={{position:'sticky',top:0,zIndex:1000,background:'rgba(11,14,20,0.95)',backdropFilter:'blur(16px)',WebkitBackdropFilter:'blur(16px)',borderBottom:'1px solid rgba(255,255,255,0.07)',fontFamily:"'DM Sans',sans-serif"}}>
-        <nav style={{maxWidth:'1160px',margin:'0 auto',padding:'0 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',height:'68px'}}>
-          <a href="../index.html" style={{display:'flex',alignItems:'center',gap:'0.6rem',textDecoration:'none'}}>
-            <img src="../LetUsTech.png" alt="LetUsTech" style={{height:'36px',display:'block'}} onError={(e)=>{e.target.src='https://raw.githubusercontent.com/letustec-oss/LetUsTech/main/LetUsTech.png'}} />
-          </a>
-          <ul style={{listStyle:'none',display:'flex',alignItems:'center',gap:'0.25rem',margin:0,padding:0}}>
-            {[['About','#about'],['Programs','#programs'],['Games','#games'],['FAQ','#faq'],['Contact','#contact']].map(([label,hash])=>(
-              <li key={label}><a href={`../index.html${hash}`} style={{color:'#7a839a',textDecoration:'none',fontSize:'0.9rem',padding:'0.4rem 0.8rem',borderRadius:'6px',transition:'all 0.2s'}} onMouseEnter={e=>{e.target.style.color='#e8eaf0';e.target.style.background='#1c2233'}} onMouseLeave={e=>{e.target.style.color='#7a839a';e.target.style.background='transparent'}}>{label}</a></li>
-            ))}
-            <li><a href="../index.html#donate" style={{color:'#00e676',border:'1px solid rgba(0,230,118,0.3)',textDecoration:'none',fontSize:'0.9rem',padding:'0.4rem 0.8rem',borderRadius:'6px',marginLeft:'0.5rem',transition:'all 0.2s'}}>❤ Donate</a></li>
-          </ul>
-        </nav>
-      </header>
+                    <header id="site-header">
+  <nav className="lt-nav">
+    <a href="../index.html" className="lt-logo"><img src="../LetUsTechLogo.png" alt="LetUsTech" /></a>
+    <ul className="lt-links">
+      <li><a href="../index.html#services">Services</a></li>
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#pricing">Pricing</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+      <li><a href="../report-a-bug.html">Support</a></li>
+    </ul>
+    <div className="lt-nav-right">
+      <a href="../index.html#contact" className="lt-btn-primary">Get a Quote</a>
+      <button className="lt-hamburger" onClick={(e) => e.currentTarget.closest('header').querySelector('.lt-mobile-nav').classList.toggle('open')} aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div className="lt-mobile-nav">
+    <ul>
+      <li><a href="../index.html#services">Services</a></li>
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#pricing">Pricing</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+      <li><a href="../report-a-bug.html">Support</a></li>
+    </ul>
+  </div>
+</header>
 
                     {/* Main Content */}
                     <main className="max-w-7xl mx-auto px-4 py-8">
@@ -714,6 +754,18 @@
                                 data-full-width-responsive="true"></ins>
                         </div>
                     </main>
+                    <footer className="lt-footer">
+  <div className="lt-footer-inner">
+    <div className="lt-footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#services">Services</a>
+      <a href="../privacy-policy.html">Privacy</a>
+      <a href="../terms-of-service.html">Terms</a>
+      <a href="../report-a-bug.html">Support</a>
+    </div>
+    <p className="lt-footer-copy">&copy; 2026 LetUsTech. All rights reserved.</p>
+  </div>
+</footer>
                 </div>
             );
         }

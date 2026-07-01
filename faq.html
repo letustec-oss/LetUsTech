@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Frequently asked questions about LetUsTech IT support and managed services.">
+<title>FAQ — LetUsTech</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="FAQ — LetUsTech">
+<meta property="og:description" content="Answers to common questions about LetUsTech IT support and managed services.">
+<meta property="og:image" content="https://letustec-oss.github.io/LetUsTech/LetUsTechLogo.png">
+<meta property="og:url" content="https://letustec-oss.github.io/LetUsTech/faq.html">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="FaviconLetusTech.png" type="image/png">
+<link rel="apple-touch-icon" href="FaviconLetusTech.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H548VRKNHW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H548VRKNHW');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',-apple-system,sans-serif;background:#fff;color:#1e293b;line-height:1.6;-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:inherit;}
+:root{--blue:#1D4ED8;--blue-d:#1E40AF;--blue-pale:#EFF6FF;--navy:#0F172A;--g50:#F8FAFC;--g100:#F1F5F9;--g200:#E2E8F0;--g400:#94A3B8;--g500:#64748B;--g700:#334155;--r:8px;--w:1200px;}
+.container{max-width:var(--w);margin:0 auto;padding:0 24px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;font-size:.9rem;font-weight:600;border-radius:var(--r);transition:all .18s;border:none;cursor:pointer;font-family:inherit;}
+.btn-primary{background:var(--blue);color:#fff;}
+.btn-primary:hover{background:var(--blue-d);}
+.btn-outline{background:transparent;color:var(--blue);border:1.5px solid var(--blue);}
+.btn-outline:hover{background:var(--blue-pale);}
+.btn-sm{padding:7px 14px;font-size:.82rem;}
+
+/* NAV */
+header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--g200);}
+nav{display:flex;align-items:center;justify-content:space-between;height:66px;}
+.logo img{height:32px;}
+.nav-links{display:flex;align-items:center;gap:2px;}
+.nav-links a{font-size:.875rem;font-weight:500;color:var(--g700);padding:6px 11px;border-radius:6px;transition:all .15s;}
+.nav-links a:hover{color:var(--blue);background:var(--blue-pale);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+
+/* PAGE HERO */
+.page-hero{background:var(--g50);border-bottom:1px solid var(--g200);padding:56px 0 48px;}
+.page-hero .lbl{display:inline-block;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.6rem;}
+.page-hero h1{font-size:clamp(1.75rem,3.5vw,2.5rem);font-weight:700;color:var(--navy);letter-spacing:-.02em;margin-bottom:.75rem;}
+.page-hero p{font-size:1rem;color:var(--g500);max-width:540px;}
+
+/* CONTENT */
+.content{max-width:800px;margin:0 auto;padding:64px 24px;}
+
+/* FAQ */
+.faq-group{margin-bottom:40px;}
+.faq-group-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--g200);}
+.faq-item{border:1px solid var(--g200);border-radius:var(--r);margin-bottom:8px;background:#fff;overflow:hidden;transition:border-color .18s;}
+.faq-item.open{border-color:rgba(29,78,216,.3);}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;}
+.faq-q:hover{background:var(--g50);}
+.faq-q h3{font-size:.9rem;font-weight:500;color:var(--navy);margin:0;}
+.faq-icon{font-size:1.1rem;color:var(--blue);font-weight:300;transition:transform .22s;flex-shrink:0;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.faq-item.open .faq-a{max-height:400px;}
+.faq-a-inner{padding:0 16px 14px;font-size:.875rem;color:var(--g500);line-height:1.75;}
+.faq-a-inner a{color:var(--blue);}
+
+/* CTA */
+.faq-cta{background:var(--navy);border-radius:12px;padding:36px;text-align:center;margin-top:48px;}
+.faq-cta h3{font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:8px;}
+.faq-cta p{color:rgba(255,255,255,.55);font-size:.9rem;margin-bottom:20px;}
+.btn-white{background:#fff;color:var(--blue);}
+.btn-white:hover{background:var(--g50);}
+
+/* FOOTER */
+footer{background:var(--navy);padding:40px 0 24px;margin-top:0;}
+.ft-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+.ft-bottom p{font-size:.8rem;color:rgba(255,255,255,.3);}
+.ft-links{display:flex;gap:18px;flex-wrap:wrap;}
+.ft-links a{font-size:.8rem;color:rgba(255,255,255,.35);transition:color .18s;}
+.ft-links a:hover{color:rgba(255,255,255,.7);}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="container">
+    <div class="logo"><a href="index.html"><img src="LetUsTechLogo.png" alt="LetUsTech"></a></div>
+    <ul class="nav-links" style="list-style:none;">
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#pricing">Pricing</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="report-a-bug.html">Support</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="index.html#contact" class="btn btn-outline btn-sm">Get a Quote</a>
+    </div>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="lbl">Help Centre</div>
+    <h1>Frequently Asked Questions</h1>
+    <p>Answers to the questions we hear most often. Can't find what you're looking for? Get in touch and we'll help.</p>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="faq-group">
+    <div class="faq-group-title">General</div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>What does LetUsTech do?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">LetUsTech provides IT support and managed services for businesses and home users across the UK. We handle everything from day-to-day helpdesk queries and remote support, through to network management, cyber security, Microsoft 365, and website development.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>Do you work with businesses and home users?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Yes. We support both. For businesses, we offer managed support plans and consultancy. For home users, we offer pay-as-you-go remote and on-site support — perfect for one-off issues without a monthly commitment.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>Where are you based?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">We're based in Liverpool, Merseyside. We offer remote support nationwide and on-site support in the Liverpool and surrounding areas. Remote support means we can help most clients without needing to visit in person.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>How do I get started?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">The easiest way is to use the contact form on our <a href="index.html#contact">homepage</a> or email us at <a href="mailto:letustec@gmail.com">letustec@gmail.com</a>. We offer a free initial consultation — no obligation.</div></div></div>
+  </div>
+
+  <div class="faq-group">
+    <div class="faq-group-title">Remote Support</div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>How does remote support work?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">We use Windows Quick Assist (built into Windows 10 and 11) to connect to your machine securely. You run Quick Assist, select "Get assistance", and share the 6-digit code with us. We can then see and control your screen — with your permission — to diagnose and fix the issue. You can end the session at any time.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>Is remote access safe?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Yes. We use Microsoft's Quick Assist, which is encrypted and built into Windows. You generate a one-time code to share with us — we cannot access your machine without it. You can see everything we do on screen in real time and stop the session instantly if needed.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>What can you fix remotely?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Most software issues can be resolved remotely — this includes slow PCs, virus removal, software installation, printer problems, email setup, Microsoft 365 issues, Wi-Fi troubleshooting, and general Windows problems. Hardware faults that require physical access will need an on-site visit.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>How quickly can you respond?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">We aim to respond to all enquiries within one hour during business hours (Monday–Friday 9am–5:30pm). Managed clients on a support plan receive priority response. Emergency cover is available for managed clients outside of normal hours.</div></div></div>
+  </div>
+
+  <div class="faq-group">
+    <div class="faq-group-title">Pricing &amp; Billing</div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>How much does it cost?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Home support starts from £35 per hour. Business support plans start from £299 per month. Managed IT packages are priced based on your specific requirements. We offer a free initial consultation so we can give you an accurate quote before any work begins. See our <a href="index.html#pricing">pricing page</a> for more detail.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>Are there any hidden charges?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">No. We quote clearly before starting any work. There are no hidden callout fees, no surprise invoices, and no charges for the initial consultation. If anything changes mid-job, we'll let you know before proceeding.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>Do I need to sign a long-term contract?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Home users can use us on a pay-as-you-go basis — no contract. Business support plans are typically month-to-month. Managed IT packages may have a minimum term depending on the scope of work. We'll always be clear about this upfront.</div></div></div>
+  </div>
+
+  <div class="faq-group">
+    <div class="faq-group-title">Security &amp; Privacy</div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>Do you follow GDPR?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Yes. We take data protection seriously. We collect only the information needed to provide our services, handle it securely, and never sell or share it with third parties. You can read our full <a href="privacy-policy.html">Privacy Policy</a> for details.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>What data do you keep after a support session?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">We retain basic records of support sessions (date, nature of issue, resolution) for service continuity. We do not retain copies of your files or screen recordings. Contact us if you want details of what we hold about you.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>Are your programs safe to download?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Yes. Our support tool and desktop software are clean — no malware, no trackers. We still recommend scanning any downloaded file with your antivirus software as good practice.</div></div></div>
+  </div>
+
+  <div class="faq-group">
+    <div class="faq-group-title">Services</div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>Can you set up Microsoft 365 for my business?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Yes. We handle Microsoft 365 setup, migration from older email systems, Teams and SharePoint configuration, licence management, and ongoing support. We also handle email migrations from Gmail, cPanel, and other providers.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>Do you build websites?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Yes. We design and build professional websites — from simple business sites to more complex web applications. All our websites are mobile-friendly, fast-loading, and built with SEO in mind. Get in touch to discuss your requirements.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>What operating systems do you support?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Primarily Windows 10 and Windows 11. We also provide support for macOS. Our remote support tool is Windows-based. For other operating systems, contact us first and we'll advise on the best approach.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggle(this)"><h3>Can you help if I think I have a virus?</h3><span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Yes — this is one of the most common things we deal with. We can run scans, remove malware, check for suspicious processes, and secure your machine. If you suspect you've been compromised, contact us as soon as possible to minimise any impact.</div></div></div>
+  </div>
+
+  <div class="faq-cta">
+    <h3>Still have a question?</h3>
+    <p>We're happy to answer anything not covered here. Get in touch and we'll get back to you within one business day.</p>
+    <a href="index.html#contact" class="btn btn-white">Contact Us</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="ft-bottom">
+      <p>&copy; 2026 LetUsTech. All rights reserved.</p>
+      <div class="ft-links">
+        <a href="index.html">Home</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms-of-service.html">Terms of Service</a>
+        <a href="cookie-policy.html">Cookie Policy</a>
+        <a href="report-a-bug.html">Support</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggle(el){
+  const item=el.parentElement;
+  const open=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!open)item.classList.add('open');
+}
+</script>
+</body>
+</html>

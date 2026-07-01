@@ -1,3 +1,6 @@
 letustech-backend/
 
 node_modules/
+dist/
+.vs/
+.vscode/
