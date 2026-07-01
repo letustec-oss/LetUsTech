@@ -8,7 +8,23 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy-dark': '#0a1128',
+                        'navy-primary': '#1e3a5f',
+                        'navy-light': '#2d5f8d',
+                        'green-primary': '#10b981',
+                        'green-light': '#34d399',
+                        'green-dark': '#059669',
+                    }
+                }
+            }
+        }
+    </script>
+
     <!-- React and ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -78,22 +94,6 @@
   gtag('config', 'G-H548VRKNHW');
 </script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'navy-dark': '#0a1128',
-                        'navy-primary': '#1e3a5f',
-                        'navy-light': '#2d5f8d',
-                        'green-primary': '#10b981',
-                        'green-light': '#34d399',
-                        'green-dark': '#059669',
-                    }
-                }
-            }
-        }
-    </script>
     <link rel="icon" href="../FaviconLetusTech.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
